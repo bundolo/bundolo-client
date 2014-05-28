@@ -1,0 +1,47 @@
+<ul class="nav nav-tabs">
+	{{#tabs}}
+		<li class="{{#active}}active{{/active}} {{id}}_button">
+			<a href="#{{id}}_tab" data-toggle="tab" title="{{title}}">
+				<span class="fa-stack fa-2x">
+					<i class="fa fa-circle fa-stack-2x"></i>
+					<i class="fa fa-{{icon}} fa-stack-1x fa-inverse"></i>
+				</span>
+			</a>
+			<span class="pipe_vb"></span>
+		</li>
+	{{/tabs}}
+</ul>
+<div class="tab-content">
+	{{#tabs}}
+		<div class="tab-pane {{#active}}active{{/active}}" id="{{id}}_tab">
+			<div id="{{id}}-carousel" class="carousel slide" data-ride="carousel" data-interval="0">
+				<div>
+					<ol class="carousel-indicators">
+						{{#slides}}
+							<li data-target="#{{id}}-carousel" data-slide-to="{{index}}" class="{{#active_slide}}active{{/active_slide}}"></li>
+						{{/slides}}
+					</ol>
+					<div class="carousel-inner">
+						{{#slides}}
+							<div class="item content {{#active_slide}}active{{/active_slide}}">
+								slider {{id}} - slide {{index}} - {{content}}
+							</div>
+						{{/slides}}					
+					</div>
+					<a class="left carousel-control pull-left" href="#{{id}}-carousel" data-slide="prev">
+						<span class="fa-stack fa-2x">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+						</span>
+					</a>
+					<a class="right carousel-control pull-right" href="#{{id}}-carousel" data-slide="next">
+						<span class="fa-stack fa-2x">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	{{/tabs}}
+</div>

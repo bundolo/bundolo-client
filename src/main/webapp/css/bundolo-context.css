@@ -1,0 +1,119 @@
+.context-menu {
+    position: absolute;
+    display:none;
+    background-color: #fff;
+    width: 400px;
+    border-radius: 25px;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	padding: 15px;
+	background: #000;
+	z-index: 1030;
+}
+
+.context-menu>div {
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	padding: 13px 0;
+	overflow-x: auto;
+	
+}
+
+.context-menu>div>div {
+	min-height: 50px;
+    max-height: 300px;
+	overflow-y: auto;
+	
+}
+
+.context-menu .panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.context-menu .panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+.context-menu .panel+.panel {
+	margin: 0;
+}
+
+.context-menu .panel-body {
+	padding: 0;
+}
+
+.context-menu .panel-default {
+	border: none;
+}
+
+.context-menu .panel-group {
+	margin: 0;
+	padding-left: 10px;
+}
+
+.context-menu .panel-heading {
+	background: none;
+	padding: 0;
+	border: none;
+}
+
+.panel-group .panel-heading+.panel-collapse .panel-body {
+	border: none;
+}
+
+.context-menu span.accordion-toggle:hover {
+	cursor: pointer;
+}
+
+.content {
+	position:relative;
+}
+.content .comments-button {
+	position:absolute;
+	bottom: 4px;
+	right: 4px;
+	font-size: 10px;
+	color: #000;
+	cursor: pointer;
+}
+.content .comments-button:hover {
+	transform: scale(1.2,1.2);
+	-ms-transform: scale(1.2,1.2);
+	-webkit-transform: scale(1.2,1.2);
+}
+.content.hover, .comment.hover, .context-menu>div>div.hover {
+	outline: 1px dashed;
+	/*outline: 1px invert dashed;*/ /*invert seems to fail in mozilla, if color is not set, it defaults to invert*/
+}
+.show-overflow {
+	overflow: visible;
+}
+
+.comment-button, .root-comment-button {
+	font-size: 10px;
+	color: #000;
+	cursor: pointer;
+	display: inline-block;
+}
+.comment span {
+	/*word-wrap: break-word;*/
+}
+.panel.comment {
+	overflow: visible;
+	width: 100%;
+}
+
+.comment>div>div>div>div>div {
+	width: 100%;
+}
+.context-menu>div>div>span, .context-menu>div>div>div {
+	display: inline-block;
+}

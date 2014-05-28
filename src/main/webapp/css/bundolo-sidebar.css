@@ -1,0 +1,260 @@
+.sidebar {
+	/*max-width: 28.57%;*/
+	width: 29.5%;
+}
+
+.active .sidebar {
+	width: 40%;
+	/*max-width: 40%;*/
+}
+
+.sidebar .panel-default {
+	list-style: none outside none;
+	overflow: visible;
+	border-top: none;
+	border-bottom: none;
+	border-left: 15px solid #000;
+	border-right: 15px solid #000;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0x;
+}
+
+.sidebar .panel-default:first-of-type {
+	border-top-left-radius: 25px;
+	-webkit-border-top-left-radius: 25px;
+	-moz-border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	-webkit-border-top-right-radius: 25px;
+	-moz-border-top-right-radius: 25px;
+	padding-top: 15px;
+	background: black;
+}
+.sidebar .panel-default:first-of-type .panel-heading {
+	background: #f5f5f5;
+	border-top-left-radius: 15px;
+	-webkit-border-top-left-radius: 15px;
+	-moz-border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	-webkit-border-top-right-radius: 15px;
+	-moz-border-top-right-radius: 15px;
+}
+
+.sidebar .panel-default:last-of-type {
+	border-bottom-left-radius: 25px;
+	-webkit-border-bottom-left-radius: 25px;
+	-moz-border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	-webkit-border-bottom-right-radius: 25px;
+	-moz-border-bottom-right-radius: 25px;
+	padding-bottom: 15px;
+	background: #000;
+}
+.sidebar .panel-default:last-of-type:not(.active) .panel-heading, .sidebar .panel-default:last-of-type .panel-collapse.in, .sidebar .panel-default:last-of-type .panel-collapse.collapsing {
+	background: #f5f5f5;
+	border-bottom-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	-moz-border-bottom-right-radius: 15px;
+}
+
+.sidebar .panel-default:last-of-type .panel-heading {
+	border-top-left-radius: 0;
+	-webkit-border-top-left-radius: 0;
+	-moz-border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	-webkit-border-top-right-radius: 0;
+	-moz-border-top-right-radius: 0;
+}
+
+.sidebar .panel-default:last-of-type .panel-collapse {
+	padding-bottom: 6px;
+}
+
+.sidebar .panel-default .panel-collapse {
+	border-bottom: 1px solid #000;
+}
+
+.sidebar .panel-group .panel+.panel {
+	margin: 0;
+}
+
+.sidebar .panel-default>.fa-stack {
+	width: 40px;
+	text-align: center;
+	color: #000;
+	font-size: 24px;
+	
+}
+
+.sidebar .panel-default>.fa-stack>i {
+z-index: 2;
+}
+
+.sidebar .panel-default>.fa-stack:hover {
+	cursor: pointer;
+	transform: scale(1.2,1.2);
+	-ms-transform: scale(1.2,1.2);
+	-webkit-transform: scale(1.2,1.2);
+}
+
+.sidebar .panel-default.active>.fa-stack:hover {
+	transform: none;
+	-ms-transform: none;
+	-webkit-transform: none;
+}
+
+.sidebar .panel-group {
+	padding: 0 0 0 14.62%;
+	margin-left: -3.7%;
+}
+
+.active .sidebar .panel-group {
+}
+
+.sidebar .panel-heading {
+	padding: 12px 8px;
+	border-bottom: 1px solid #000;
+}
+
+.sidebar /*input*/ .input-group {
+	width: 70%;
+	padding-right: 0;
+}
+
+.sidebar .panel-body {
+	padding: 0 2px;
+}
+
+.sidebar .panel-collapse {
+	background-color: #f5f5f5;
+}
+
+.sidebar table {
+	margin: 0;
+}
+
+.sidebar table td, .sidebar table th {
+	width: 25%;
+	word-wrap: break-word;
+	padding: 0 !important;
+}
+
+.sidebar table td:last-child,.sidebar table th:last-child {
+	/*width: 28%;*/
+	text-align: right;
+}
+
+.sidebar .btn, .sidebar input {
+	padding: 0 2px;
+	height: 22px;
+}
+
+.sidebar .panel-heading input {
+	width: 40%;
+	text-align: right;
+}
+
+/*
+.sidebar .bootstrap-select {
+	margin: 0;
+	float: right !important;
+}
+
+.sidebar .bootstrap-select.btn-group .btn .filter-option {
+	left: 0;
+}
+
+.sidebar .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text
+	{
+	margin-right: 20px;
+}
+*/
+
+.sidebar .dropdown-menu>li>a {
+	padding: 3px 4px 3px 10px;
+}
+
+.sidebar .bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a i.check-mark
+	{
+	right: 10px;
+}
+
+.sidebar .panel-default>span.texts_button {
+	margin-left: -62px; /* margin-width=15 */
+	width: 47px;
+}
+
+.sidebar .panel-default>span.authors_button {
+	margin-left: -80px; 
+	width: 65px;
+}
+
+.sidebar .panel-default>span.announcements_button {
+	margin-left: -66px;
+	width: 51px;
+}
+
+.sidebar .panel-default>span.connections_button {
+	margin-left: -72px;
+	width: 57px; 
+}
+
+.sidebar .panel-default>span.contests_button {
+	margin-left: -62px;
+	width: 47px; 
+}
+
+.sidebar .panel-default>span.topics_button {
+	margin-left: -76px; 
+	width: 61px;
+}
+
+.sidebar .panel-default>span.serials_button {
+	margin-left: -80px; 
+	width: 65px;
+}
+
+.pipe_hr {
+	position: absolute;
+    right: 0px;
+    top: 31%;
+    height: 38%;
+    width: 50%;
+    background-color: transparent;
+    z-index: 1;
+}
+
+.active>span>.pipe_hr {
+	background-color: #000;
+}
+
+.sidebar a {
+	color: #444;
+	font-size: 16px;
+}
+
+.sidebar a:hover, .sidebar a:focus {
+	color: #000;
+}
+
+.sidebar .table input {
+	width: 100%;
+}
+
+.sidebar .table thead {
+	display: block;
+}
+
+.sidebar .table tbody {
+display: block;
+height: 162px;
+overflow: auto;
+width: 100%;
+}
+.sidebar .dropdown-menu {
+	left: auto;
+	right: auto;
+}

@@ -1,0 +1,56 @@
+.modal>div {
+    background-color: #fff;
+    border-radius: 25px;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	padding: 15px;
+	background: #000;
+}
+
+.modal>div>div {
+	background: #fff;
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	padding: 13px 0;	
+}
+
+.edit-comment .title, .edit-comment .description, .edit-comment .date {
+	display: none;
+}
+
+.edit-text .date {
+	display: none;
+}
+
+.edit-serial .date, .edit-serial .content {
+	display: none;
+}
+
+.edit-episode .date, .edit-episode .description {
+	display: none;
+}
+
+.edit-topic .date, .edit-topic .description  {
+	display: none;
+}
+
+.edit-post .date, .edit-post .description {
+	display: none;
+}
+
+.edit-announcement .date, .edit-announcement .description {
+	display: none;
+}
+
+.edit-connection .date, .edit-connection .description {
+	display: none;
+}
+
+.edit-contest .description {
+	display: none;
+}
+
+.edit-inquiry .date, .edit-inquiry .description {
+	display: none;
+}
