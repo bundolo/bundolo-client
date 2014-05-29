@@ -6,8 +6,10 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-		<h3>{{descriptionContent.name}}</h3>
-			slider {{id}} - slide {{index}} - {{descriptionContent.text}}
+			<h3>{{authorUsername}}</h3>
+			<h3>{{name}}</h3>
+			<p>{{{text}}}</p>
+			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
 		</div>
 	{{/slides}}
 </div>

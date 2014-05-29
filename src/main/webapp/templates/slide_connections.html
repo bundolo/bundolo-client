@@ -6,8 +6,12 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-		<h3>{{descriptionContent.name}}</h3>
-			slider {{id}} - slide {{index}} - {{descriptionContent.text}}
+			<h3>{{descriptionContent.name}}</h3>
+			<p>{{{descriptionContent.text}}}</p>
+			{{#url}}<h4>url: {{url}}</h4>{{/url}}
+			{{#email}}<h4>email: {{email}}</h4>{{/email}}
+			{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
+			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
 		</div>
 	{{/slides}}
 </div>
