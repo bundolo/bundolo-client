@@ -21,17 +21,17 @@ function displaySlider() {
 	  });
 }
 
-function displaySlide(id) {
-	$.getJSON( "http://localhost/"+id, { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
-		  $.get("templates/slide_"+id+".html", function(template) {
+function displaySlide(type) {
+	$.getJSON( "http://localhost/"+type, { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
+		  $.get("templates/slide_"+type+".html", function(template) {
 			  for (index in data) {
-				  data[index].index = index;
+				  data[index].index = index; //since mustache does not support accessing array index in template, we have to add it manually
 				  if (index == 0) {
 					  data[index].active_slide = true;
 				  }
 			  }
-			  var rendered = Mustache.render(template, { "id": id, "slides": data });
-			  $(".slider #"+id+"-carousel>div").html(rendered);
+			  var rendered = Mustache.render(template, { "id": type, "slides": data });
+			  $(".slider #"+type+"-carousel>div").html(rendered);
 		  });
 	});
 }
