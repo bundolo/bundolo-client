@@ -6,9 +6,7 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h3>{{descriptionContent.name}}</h3>
-			<p>{{{descriptionContent.text}}}</p>
-			{{#expirationDate}}<h4>expires on: {{expirationDate}}</h4>{{/expirationDate}}
+			<h3>{{text}}</h3>
 			{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
 			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
 		</div>

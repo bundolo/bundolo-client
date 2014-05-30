@@ -10,8 +10,8 @@ function displaySlider() {
 			    { "title": "Texts", "id" : "texts", "icon" : "file-text-o" },
 			    { "title": "Serials", "id" : "serials", "icon" : "book" },
 			    { "title": "Authors", "id" : "authors", "icon" : "user" },
-			    { "title": "Announcements", "id" : "announcements", "icon" : "bullhorn", "slides" : [{"content" : "Anemonefish murray cod", "index" : "0"}, {"content" : "Anemonefish murray cod", "index" : "1", "active_slide" : true}, {"content" : "Anemonefish murray cod", "index" : "2"}, {"content" : "Anemonefish murray cod", "index" : "3"} ] },
-			    { "title": "Forum", "id" : "topics", "icon" : "comments-o", "slides" : [{"content" : "Anemonefish murray cod", "index" : "0"}, {"content" : "Anemonefish murray cod", "index" : "1", "active_slide" : true}, {"content" : "Anemonefish murray cod", "index" : "2"}, {"content" : "Anemonefish murray cod", "index" : "3"} ] },
+			    { "title": "Announcements", "id" : "announcements", "icon" : "bullhorn" },
+			    { "title": "Forum", "id" : "topics", "icon" : "comments-o" },
 			    { "title": "Contests", "id" : "contests", "icon" : "eye" },
 			    { "title": "Connections", "id" : "connections", "icon" : "link" },
 			  ]
