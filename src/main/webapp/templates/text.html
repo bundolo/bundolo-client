@@ -1,6 +1,4 @@
-<div class="text">
-	<h1>{{ author }}</h1>
-	<h1>{{ title }}</h1>
-	<h3>{{ description }}</h3>
-	{{{ content }}}
-</div>
+<h3>{{authorUsername}}</h3>
+<h3>{{name}}</h3>
+<p>{{{children.0.text}}}</p>
+{{#creationDate}}added on: {{creationDate}}{{/creationDate}}

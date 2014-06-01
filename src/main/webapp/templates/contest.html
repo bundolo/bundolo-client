@@ -1,5 +1,5 @@
-{{title}}
-{{{content}}}
-date added: {{date}}
-valid until: {{expiration_date}}
-added by: {{author}}
+<h3>{{descriptionContent.name}}</h3>
+<p>{{{descriptionContent.text}}}</p>
+{{#expirationDate}}<h4>expires on: {{expirationDate}}</h4>{{/expirationDate}}
+{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
+{{#creationDate}}added on: {{creationDate}}{{/creationDate}}

@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('body').on('click', '.sidebar #collapse_serials table>tbody>tr', function(e) {
-		displayDummyText();
+		displaySerial($(this).attr('id').substr("serials".length));
 	});
 	$('body').on('click','.main .serial table>tbody>tr', function(e) {
 		displayDummyEpisode();
@@ -15,14 +15,14 @@ function display_serials() {
 	    displayContent(contentElement, rendered);
 	  });
 }
-
-function displaySerial(author, title, description) {
+function displaySerial(id) {
 	$.get('templates/serial.html', function(template) {
-	    var rendered = Mustache.render(template, {"author": author, "title": title, "description": description});
-	    var contentElement = $('.main>.jumbotron>.content');
-	    contentElement.attr('class', 'content serial');
-	    displayContent(contentElement, rendered);
-	  });
+		$.getJSON( "http://localhost/serial/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
+	});
 }
 
 function addEpisode() {

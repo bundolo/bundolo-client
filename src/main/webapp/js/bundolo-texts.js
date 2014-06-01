@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('body').on('click', '.sidebar #collapse_texts table>tbody>tr', function(e) {
-		displayDummyText();
+		displayText($(this).attr('id').substr("texts".length));
 	});
 });
 
@@ -15,12 +15,13 @@ function saveText(title, description, content) {
 	displayText({'author' : 'dummy_user', 'title' : title, 'description' : description, 'content' : content});
 	$('#modal').modal('hide');
 }
-
-function displayText(text) {
+function displayText(id) {
 	$.get('templates/text.html', function(template) {
-	    var rendered = Mustache.render(template, text);
-	    var contentElement = $('.main>.jumbotron>.content');
-	    displayContent(contentElement, rendered);
+		$.getJSON( "http://localhost/text/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
 	});
 }
 function displayDummyText() {

@@ -1,3 +1,11 @@
-{{author}}
-member since: {{date}}
-{{description}}
+<h3>{{username}}</h3>
+{{#descriptionContent.text}}<p>{{{descriptionContent.text}}}</p>{{/descriptionContent.text}}
+{{#showPersonal}}
+	{{#firstName}}First name: {{firstName}}<br/>{{/firstName}}
+	{{#lastName}}Last name: {{lastName}}<br/>{{/lastName}}
+	{{#gender}}Gender: {{gender}}<br/>{{/gender}}
+	{{#birthDate}}Birth date: {{birthDate}}<br/>{{/birthDate}}
+	{{#email}}Email: {{email}}<br/>{{/email}}
+{{/showPersonal}}
+{{#signupDate}}Signup date: {{signupDate}}<br/>{{/signupDate}}
+{{#lastLoginDate}}Last login date: {{lastLoginDate}}{{/lastLoginDate}}

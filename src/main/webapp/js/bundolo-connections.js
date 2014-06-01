@@ -3,7 +3,7 @@ $(document).ready(function() {
 		$('.main .connection').html('');
 	});
 	$('body').on('click', '.sidebar #collapse_connections table>tbody>tr', function(e) {
-		displayDummyConnection();
+		displayConnection($(this).attr('id').substr("connections".length));
 	});
 });
 
@@ -34,11 +34,13 @@ function display_connections() {
 	    displayContent(contentElement, rendered);
 	  });
 }
-function displayConnection(connection) {
+function displayConnection(id) {
 	$.get('templates/connection.html', function(template) {
-	    var rendered = Mustache.render(template, connection);
-	    var contentElement = $('.main>.jumbotron>.content');
-	    displayContent(contentElement, rendered);
+		$.getJSON( "http://localhost/connection/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
 	});
 }
 function displayDummyConnection() {

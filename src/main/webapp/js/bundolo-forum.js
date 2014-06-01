@@ -3,7 +3,7 @@ $(document).ready(function() {
 		$('.main .topic').html('');
 	});
 	$('body').on('click', '.sidebar #collapse_topics table>tbody>tr', function(e) {
-		displayDummyTopic();
+		displayTopic($(this).attr('id').substr("topics".length));
 	});
 });
 
@@ -34,15 +34,14 @@ function display_forum() {
 	    displayContent(contentElement, rendered);
 	  });
 }
-function displayTopic(title) {
-	if (!$('.main>.jumbotron>.forum').length) {
-		//TODO callback might be needed, to wait until forum is shown before showing topic
-		display_forum();
-	}
+function displayTopic(id) {
 	$.get('templates/topic.html', function(template) {
-	    var rendered = Mustache.render(template, {"title": title});
-	    $(".main .forum .topic").html(rendered);
-	  });
+		$.getJSON( "http://localhost/topic/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
+	});
 }
 function addTopic() {
 	$('#modal').addClass("edit-topic");

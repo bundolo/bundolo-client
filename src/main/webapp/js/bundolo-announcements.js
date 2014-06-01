@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('body').on('click', '.sidebar #collapse_announcements table>tbody>tr', function(e) {
-		displayDummyAnnouncement();
+		displayAnnouncement($(this).attr('id').substr("announcements".length));
 	});
 });
 
@@ -16,11 +16,13 @@ function saveAnnouncement(title, content) {
 	$('#modal').modal('hide');
 }
 
-function displayAnnouncement(announcement) {
+function displayAnnouncement(id) {
 	$.get('templates/announcement.html', function(template) {
-	    var rendered = Mustache.render(template, announcement);
-	    var contentElement = $('.main>.jumbotron>.content');
-	    displayContent(contentElement, rendered);
+		$.getJSON( "http://localhost/announcement/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
 	});
 }
 function displayDummyAnnouncement() {

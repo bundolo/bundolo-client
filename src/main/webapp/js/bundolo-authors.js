@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('body').on('click', '.sidebar #collapse_authors table>tbody>tr', function(e) {
-		displayDummyAuthor();
+		displayAuthor($(this).attr('id').substr("authors".length));
 	});
 });
 
@@ -60,13 +60,14 @@ function saveAuthor(author, description) {
 	displayAuthor('dummy_user', date, description);
 	$('#modal').modal('hide');
 }
-
-function displayAuthor(author, date, description) {
+function displayAuthor(id) {
 	$.get('templates/author.html', function(template) {
-	    var rendered = Mustache.render(template, {"author": author, "date": date, "description": description});
-	    var contentElement = $('.main>.jumbotron>.authors>.author');
-	    displayContent(contentElement, rendered);
-	  });
+		$.getJSON( "http://localhost/author/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
+	});
 }
 function displayDummyAuthor() {
 	displayAuthor('kiloster', '04.05.2014.', 'Razorback sucker');

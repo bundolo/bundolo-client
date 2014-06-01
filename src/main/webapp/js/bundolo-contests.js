@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('body').on('click', '.sidebar #collapse_contests table>tbody>tr', function(e) {
-		displayDummyContest();
+		displayContest($(this).attr('id').substr("contests".length));
 	});
 });
 
@@ -15,12 +15,13 @@ function saveContest(title, expiration_date, content) {
 	displayContest({'author' : 'dummy_user', 'title' : title, 'content' : content});
 	$('#modal').modal('hide');
 }
-
-function displayContest(contest) {
+function displayContest(id) {
 	$.get('templates/contest.html', function(template) {
-	    var rendered = Mustache.render(template, contest);
-	    var contentElement = $('.main>.jumbotron>.content');
-	    displayContent(contentElement, rendered);
+		$.getJSON( "http://localhost/contest/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
 	});
 }
 function displayDummyContest() {
