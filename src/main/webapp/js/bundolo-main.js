@@ -92,7 +92,15 @@ function displayContent(parentElement, html) {
 	parentElement.html(html);
 	addContextMenu(parentElement);
 }
-
+function displaySingleItem(type, id) {
+	$.get("templates/"+type+".html", function(template) {
+		$.getJSON( "http://localhost/"+type+"/"+id, function( data ) {
+		    var rendered = Mustache.render(template, data);
+		    var contentElement = $('.main>.jumbotron>.content');
+		    displayContent(contentElement, rendered);
+		});
+	});
+}
 function sanitize(content) {
 	//TODO make this more generic. strip all tags for some content, be selective for other
 	return content.replace(/(<([^>]+)>)/ig,"");

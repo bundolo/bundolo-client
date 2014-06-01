@@ -1,5 +1,11 @@
 $(document).ready(function() {
 	displaySidebar();
+	$('body').on('click', '#sidebarAccordion>li .panel-collapse table>tbody>tr', function(e) {
+		var elementId = $(this).attr('id');
+		var itemType = elementId.substr(0, elementId.indexOf('_'));
+		var itemId = elementId.substr(itemType.length + 1);
+		displaySingleItem(itemType, itemId);
+	});
 });
 
 function preventSidebarToggle(element, event) {
@@ -39,13 +45,10 @@ function displaySidebar() {
 			}
 		});
 		$('#sidebarAccordion').on('hidden.bs.collapse', function(e) {
-			$(this).find('.panel-default').not(
-					$(e.target)).removeClass('active');
-			
+			$(this).find('.panel-default').not($(e.target)).removeClass('active');			
 			if (!$('.panel-default.active').length) {
 				$('.row-offcanvas').removeClass('active');
-			}
-			
+			}			
 		});
 		$('.sidebar input[type="search"]').focus(function(event) {
 			preventSidebarToggle($(this), event);
@@ -53,13 +56,12 @@ function displaySidebar() {
 		$('.sidebar input[type="search"]').click(function(event) {
 			preventSidebarToggle($(this), event);
 		});
-		$('.sidebar .table>tbody>tr').click(function() {
-	    	displayDummyText();
-	    });
 	  });
 }
 
 function displaySidebarAccordion(type) {
+	var table = $('.sidebar #collapse_'+type+' table');
+	table.addClass('hide');
 	var itemCounter = 0;
 	var itemInitial = 25;
 	var itemAdditional = 10;
@@ -68,6 +70,8 @@ function displaySidebarAccordion(type) {
 			var rendered = Mustache.render(template, {"items": data});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');
 			tableBody.append(rendered);
+			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');;
+			table.removeClass('hide');
 			tableBody.bind('scroll', function() {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
@@ -78,7 +82,7 @@ function displaySidebarAccordion(type) {
 		        }
 		    });
 		});		
-	  });
+	});
 }
 
 function generateDummyItem(id, type) {
