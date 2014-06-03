@@ -115,6 +115,9 @@ footer {
 
 .fa-spin .fa-inverse {
 	opacity: 0;
+	font-weight: bolder;
+	font-size: 36px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	-webkit-animation: 2s linear 0s infinite;
 	animation: 2s linear 0s infinite;
 }

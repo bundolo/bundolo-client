@@ -1,3 +1,5 @@
+var rootPath = "http://localhost/";
+//var rootPath = "http://62.113.232.24/";
 var homeHtml = "";
 $(document).ready(function() {
 	$('[data-toggle=offcanvas]').click(function() {
@@ -93,8 +95,8 @@ function displayContent(parentElement, html) {
 	addContextMenu(parentElement);
 }
 function displaySingleItem(type, id) {
-	$.get("templates/"+type+".html", function(template) {
-		$.getJSON( "http://localhost/"+type+"/"+id, function( data ) {
+	$.get("templates/" + type + ".html", function(template) {
+		$.getJSON(rootPath + type + "/"+id, function(data) {
 		    var rendered = Mustache.render(template, data);
 		    var contentElement = $('.main>.jumbotron>.content');
 		    displayContent(contentElement, rendered);

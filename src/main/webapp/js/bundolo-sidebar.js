@@ -66,7 +66,7 @@ function displaySidebarAccordion(type) {
 	var itemInitial = 25;
 	var itemAdditional = 10;
 	$.get('templates/sidebar_'+type+'.html', function(template) {
-		$.getJSON( "http://localhost/"+type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": "date,desc", "filterBy": ""}, function( data ) {
+		$.getJSON(rootPath + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": "date,desc", "filterBy": ""}, function( data ) {
 			var rendered = Mustache.render(template, {"items": data});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');
 			tableBody.append(rendered);
@@ -75,7 +75,7 @@ function displaySidebarAccordion(type) {
 			tableBody.bind('scroll', function() {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
-		    		$.getJSON( "http://localhost/"+type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": "date,desc", "filterBy": ""}, function( additional_data ) {
+		    		$.getJSON(rootPath + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": "date,desc", "filterBy": ""}, function( additional_data ) {
 		    			var rendered_rows = Mustache.render(template, {"items": additional_data});
 		    			tableBody.append(rendered_rows);
 		    		});	    		    
