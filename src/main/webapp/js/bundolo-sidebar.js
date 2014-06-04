@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var elementId = $(this).attr('id');
 		var itemType = elementId.substr(0, elementId.indexOf('_'));
 		var itemId = elementId.substr(itemType.length + 1);
-		displaySingleItem(itemType, itemId);
+		$.address.value(rootFolder+itemType+"/" + itemId);
 	});
 });
 
@@ -48,7 +48,7 @@ function displaySidebar() {
 			$(this).find('.panel-default').not($(e.target)).removeClass('active');			
 			if (!$('.panel-default.active').length) {
 				$('.row-offcanvas').removeClass('active');
-			}			
+			}
 		});
 		$('.sidebar input[type="search"]').focus(function(event) {
 			preventSidebarToggle($(this), event);
@@ -78,7 +78,7 @@ function displaySidebarAccordion(type) {
 		    		$.getJSON(rootPath + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": "date,desc", "filterBy": ""}, function( additional_data ) {
 		    			var rendered_rows = Mustache.render(template, {"items": additional_data});
 		    			tableBody.append(rendered_rows);
-		    		});	    		    
+		    		});
 		        }
 		    });
 		});		

@@ -1,6 +1,20 @@
 var rootPath = "http://localhost/";
 //var rootPath = "http://62.113.232.24/";
+var rootFolder = "bundolo2/";
+//var rootPath = "";
 var homeHtml = "";
+$.address.change(function(event) {
+	//alert("address change: " +  $.address.value());
+	if ($.address.value() != "/" + rootFolder) {
+		var reminder = $.address.value().substr(rootFolder.length + 1);
+		var slashPos = reminder.indexOf('/');
+		if (slashPos > 0) {
+			//alert("address change: " + reminder.substr(0, slashPos) + ", " + reminder.substr(slashPos + 1));
+			displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
+		}
+	}
+});
+
 $(document).ready(function() {
 	$('[data-toggle=offcanvas]').click(function() {
 		$('.row-offcanvas').toggleClass('active');
@@ -22,7 +36,7 @@ $(document).ready(function() {
 	    ['color', ['color']],
 	    ['fontsize', ['fontsize']],
 	    ['height', ['height']],
-	    ['para', ['ul', 'ol', 'paragraph']],	    
+	    ['para', ['ul', 'ol', 'paragraph']],
 	    ['insert', ['picture', 'link']], // no insert buttons
 	    //['table', ['table']], // no table button
 	    //['help', ['help']] //no help button
@@ -49,7 +63,7 @@ $(document).ready(function() {
   	
   	var modalDialog = $('#modal');
   	modalDialog.on('hidden.bs.modal', function(e) {
-  		modalDialog.attr('class', 'modal fade');  		
+  		modalDialog.attr('class', 'modal fade');
   		//modalDialog.removeClass("edit-comment");
   		//modalDialog.removeClass("edit-text");
 	});
@@ -95,7 +109,7 @@ function displayContent(parentElement, html) {
 	addContextMenu(parentElement);
 }
 function displaySingleItem(type, id) {
-	$.get("templates/" + type + ".html", function(template) {
+	$.get("/"+rootFolder+"templates/" + type + ".html", function(template) {
 		$.getJSON(rootPath + type + "/"+id, function(data) {
 		    var rendered = Mustache.render(template, data);
 		    var contentElement = $('.main>.jumbotron>.content');
@@ -115,7 +129,7 @@ function displayHome() {
 }
 
 function displayAbout() {
-	$.get('templates/about.html', function(template) {
+	$.get("/"+rootFolder+'templates/about.html', function(template) {
 	    var rendered = Mustache.render(template, {});
 	    var contentElement = $('.main>.jumbotron>.content');
 	    contentElement.attr('class', 'content about');
@@ -124,7 +138,7 @@ function displayAbout() {
 }
 
 function displayContact() {
-	$.get('templates/contact.html', function(template) {
+	$.get("/"+rootFolder+'templates/contact.html', function(template) {
 	    var rendered = Mustache.render(template, {});
 	    var contentElement = $('.main>.jumbotron>.content');
 	    contentElement.attr('class', 'content contact');
@@ -139,7 +153,7 @@ function addInquiry() {
 }
 
 function saveInquiry(title, content) {
-	//TODO validation	
+	//TODO validation
 	//TODO send email
 	//TODO show some thank you message
 	$('#modal').modal('hide');
