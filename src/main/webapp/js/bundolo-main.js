@@ -1,12 +1,19 @@
-var rootPath = "http://localhost/";
+var rootPath = "http://localhost";
 //var rootPath = "http://62.113.232.24/";
-var rootFolder = "bundolo2/";
-//var rootPath = "";
+var restRoot = "/rest";
+//var rootFolder = "bundolo2/";
+var rootFolder = "/";
 var homeHtml = "";
 $.address.change(function(event) {
 	//alert("address change: " +  $.address.value());
-	if ($.address.value() != "/" + rootFolder) {
-		var reminder = $.address.value().substr(rootFolder.length + 1);
+	if ($.address.value() == rootFolder) {
+		displayHome();
+	} else if ($.address.value() == "/about") {
+		displayAbout();
+	} else if ($.address.value() == "/contact") {
+		displayContact();
+	} else {
+		var reminder = $.address.value().substr(rootFolder.length);
 		var slashPos = reminder.indexOf('/');
 		if (slashPos > 0) {
 			//alert("address change: " + reminder.substr(0, slashPos) + ", " + reminder.substr(slashPos + 1));
@@ -97,10 +104,10 @@ $(document).ready(function() {
         return false;
     });
   	$('body').on('click', '.navbar .about', function(e) {
-		displayAbout();
+  		$.address.value('/about');
 	});
   	$('body').on('click', '.navbar .contact', function(e) {
-		displayContact();
+  		$.address.value('/contact');
 	});
 });
 
@@ -109,8 +116,8 @@ function displayContent(parentElement, html) {
 	addContextMenu(parentElement);
 }
 function displaySingleItem(type, id) {
-	$.get("/"+rootFolder+"templates/" + type + ".html", function(template) {
-		$.getJSON(rootPath + type + "/"+id, function(data) {
+	$.get(rootFolder+"templates/" + type + ".html", function(template) {
+		$.getJSON(rootPath + restRoot + "/" + type + "/"+id, function(data) {
 		    var rendered = Mustache.render(template, data);
 		    var contentElement = $('.main>.jumbotron>.content');
 		    displayContent(contentElement, rendered);
@@ -129,7 +136,7 @@ function displayHome() {
 }
 
 function displayAbout() {
-	$.get("/"+rootFolder+'templates/about.html', function(template) {
+	$.get(rootFolder+'templates/about.html', function(template) {
 	    var rendered = Mustache.render(template, {});
 	    var contentElement = $('.main>.jumbotron>.content');
 	    contentElement.attr('class', 'content about');
@@ -138,7 +145,7 @@ function displayAbout() {
 }
 
 function displayContact() {
-	$.get("/"+rootFolder+'templates/contact.html', function(template) {
+	$.get(rootFolder+'templates/contact.html', function(template) {
 	    var rendered = Mustache.render(template, {});
 	    var contentElement = $('.main>.jumbotron>.content');
 	    contentElement.attr('class', 'content contact');

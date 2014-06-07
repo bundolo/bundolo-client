@@ -25,7 +25,7 @@ function saveSerial(title, description) {
 }
 
 function displayEpisode(author, title, content) {
-	$.get('templates/episode.html', function(template) {
+	$.get('/templates/episode.html', function(template) {
 	    var rendered = Mustache.render(template, {"author": author, "title": title, "content": content});
 	    var contentElement = $('.main>.jumbotron>.content');
 	    contentElement.attr('class', 'content episode');

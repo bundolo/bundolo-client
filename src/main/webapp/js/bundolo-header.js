@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 function displayLogin() {
-	$.get('templates/login.html', function(template) {
+	$.get('/templates/login.html', function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
@@ -11,7 +11,7 @@ function displayLogin() {
 }
 
 function displayRegister() {
-	$.get('templates/register.html', function(template) {
+	$.get('/templates/register.html', function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
@@ -19,7 +19,7 @@ function displayRegister() {
 }
 
 function displayReset() {
-	$.get('templates/reset.html', function(template) {
+	$.get('/templates/reset.html', function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
@@ -27,7 +27,7 @@ function displayReset() {
 }
 
 function displayLoggedIn() {
-	$.get('templates/logged_in.html', function(template) {
+	$.get('/templates/logged_in.html', function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);

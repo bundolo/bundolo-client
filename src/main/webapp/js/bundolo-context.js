@@ -100,7 +100,7 @@ function saveComment(commentContent) {
 }
 
 function displayComment(author, content, parentElement) {
-	$.get('templates/comment.html', function(template) {
+	$.get('/templates/comment.html', function(template) {
 		var rendered = Mustache.render(template, {"author": author, "content": content});
 	    parentElement.append($(rendered));
 	});

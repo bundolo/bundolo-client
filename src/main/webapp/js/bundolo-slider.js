@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 function displaySlider() {
-	$.get('templates/slider.html', function(template) {
+	$.get('/templates/slider.html', function(template) {
 	    var rendered = Mustache.render(template, {
 	    	"tabs": [
 			    { "title": "Overview", "id" : "overview", "icon" : "flag", "active": true },
@@ -22,8 +22,8 @@ function displaySlider() {
 }
 
 function displaySlide(type) {
-	$.getJSON(rootPath + type, { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
-		  $.get("templates/slide_"+type+".html", function(template) {
+	$.getJSON(rootPath + restRoot + "/" + type, { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
+		  $.get("/templates/slide_"+type+".html", function(template) {
 			  for (index in data) {
 				  data[index].index = index; //since mustache does not support accessing array index in template, we have to add it manually
 				  if (index == 0) {
