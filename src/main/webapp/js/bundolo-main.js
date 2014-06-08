@@ -4,6 +4,17 @@ var restRoot = "/rest";
 //var rootFolder = "bundolo2/";
 var rootFolder = "/";
 var homeHtml = "";
+
+var spinner = '<span class="fa-stack fa-2x fa-spin">\
+<i class="fa fa-circle fa-stack-2x"></i>\
+<i class="fa fa-stack-1x fa-inverse char1">b</i>\
+<i class="fa fa-stack-1x fa-inverse char2">u</i>\
+<i class="fa fa-stack-1x fa-inverse char3">n</i>\
+<i class="fa fa-stack-1x fa-inverse char4">d</i>\
+<i class="fa fa-stack-1x fa-inverse char5">o</i>\
+<i class="fa fa-stack-1x fa-inverse char6">l</i>\
+<i class="fa fa-stack-1x fa-inverse char7">o</i>\
+</span>';
 $.address.change(function(event) {
 	//alert("address change: " +  $.address.value());
 	if ($.address.value() == rootFolder) {

@@ -6,7 +6,7 @@ $(document).ready(function() {
 		var targetParents = $(e.target).parents();
 		if ((targetParents.index(modalDialog) == -1) && !modalDialog.hasClass('in') && (targetParents.index(contextMenu) == -1)) {
             if(contextMenu.is(":visible")) {
-            	contextMenu.hide()
+            	contextMenu.hide();
             }
         }
 	});
@@ -76,12 +76,35 @@ function addContextMenu(parentElement) {
 		}
 	);
 	commentsButton.click(function(e) {
-		//TODO display all existing comments
+		var contextRootElement = $('.context-menu>div>div');
+		contextRootElement.html(spinner);
+		$.get(rootFolder+"templates/comments.html", function(template) {
+			$.getJSON(rootPath + restRoot + "/comments/286998", function(data) {
+				sanitizeRecursive(data);
+				var partials = {commentPanel: template};
+			    var rendered = Mustache.render(template, {"comments": data}, partials);
+			    var rootCommentButton = $('<span title="Add comment" class="fa-stack fa-2x pull-right root-comment-button">\
+						<i class="fa fa-circle fa-stack-2x"></i>\
+						<i class="fa fa-plus fa-stack-1x fa-inverse"></i>\
+					</span>');
+			    contextRootElement.html(rootCommentButton);
+			    contextRootElement.append(rendered);
+			});
+		});		
 		setContextMenuPostion(e, $('.context-menu'));
         return false;
     });
 	commentsButton.attr("title", "Comments");
 	parentElement.append(commentsButton);
+}
+
+function sanitizeRecursive(data) {
+	if($.isArray(data) && data.length) {
+		for (index in data) {
+		  data[index].text = sanitize(data[index].text);
+		  sanitizeRecursive(data[index].comments);
+		}
+	}
 }
 
 function addComment(parentElement) {
