@@ -59,8 +59,8 @@ function setContextMenuPostion(event, contextMenu) {
     return menuPostion;
 }
 
-function addContextMenu(parentElement) {
-	var commentsButton = $('<span class="fa-stack fa-2x comments-button">\
+function addContextMenu(parentElement, parentId) {
+	var commentsButton = $('<span class="fa-stack fa-2x comments-button" id="comments_' + parentId + '">\
 			<i class="fa fa-circle fa-stack-2x"></i>\
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
 			</span>');
@@ -79,7 +79,7 @@ function addContextMenu(parentElement) {
 		var contextRootElement = $('.context-menu>div>div');
 		contextRootElement.html(spinner);
 		$.get(rootFolder+"templates/comments.html", function(template) {
-			$.getJSON(rootPath + restRoot + "/comments/286998", function(data) {
+			$.getJSON(rootPath + restRoot + "/comments/" + parentId, function(data) {
 				sanitizeRecursive(data);
 				var partials = {commentPanel: template};
 			    var rendered = Mustache.render(template, {"comments": data}, partials);
@@ -90,7 +90,7 @@ function addContextMenu(parentElement) {
 			    contextRootElement.html(rootCommentButton);
 			    contextRootElement.append(rendered);
 			});
-		});		
+		});
 		setContextMenuPostion(e, $('.context-menu'));
         return false;
     });

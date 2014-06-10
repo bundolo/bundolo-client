@@ -17,6 +17,7 @@ var spinner = '<span class="fa-stack fa-2x fa-spin">\
 </span>';
 $.address.change(function(event) {
 	//alert("address change: " +  $.address.value());
+	//TODO avoid displaying content if it's already displayed
 	if ($.address.value() == rootFolder) {
 		displayHome();
 	} else if ($.address.value() == "/about") {
@@ -45,7 +46,6 @@ $(document).ready(function() {
 	});
   var mainContent = $(".main>.jumbotron>.content");
   homeHtml = mainContent.html();
-  addContextMenu(mainContent);
   $('#edit_content').summernote({
 	  toolbar: [
 	    ['style', ['style']],
@@ -122,16 +122,19 @@ $(document).ready(function() {
 	});
 });
 
-function displayContent(parentElement, html) {
+function displayContent(parentElement, html, contentId) {
 	parentElement.html(html);
-	addContextMenu(parentElement);
+	if (contentId) {
+		addContextMenu(parentElement, contentId);
+	}	
 }
 function displaySingleItem(type, id) {
 	$.get(rootFolder+"templates/" + type + ".html", function(template) {
 		$.getJSON(rootPath + restRoot + "/" + type + "/"+id, function(data) {
 		    var rendered = Mustache.render(template, data);
 		    var contentElement = $('.main>.jumbotron>.content');
-		    displayContent(contentElement, rendered);
+		    //TODO go through all type of content and set appropriate contentId. sometimes it's description id, sometimes it's this item
+		    displayContent(contentElement, rendered, id);
 		});
 	});
 }
@@ -142,26 +145,35 @@ function sanitize(content) {
 
 function displayHome() {
 	var contentElement = $('.main>.jumbotron>.content');
-    contentElement.attr('class', 'content');
-	displayContent(contentElement, homeHtml);
+	contentElement.html(spinner);
+	$.getJSON(rootPath + restRoot + "/page/home", function(data) {
+		//do not use html from db for now
+	    displayContent(contentElement, homeHtml, data.contentId);
+	});
 }
 
 function displayAbout() {
+	var contentElement = $('.main>.jumbotron>.content');
+	contentElement.html(spinner);
 	$.get(rootFolder+'templates/about.html', function(template) {
-	    var rendered = Mustache.render(template, {});
-	    var contentElement = $('.main>.jumbotron>.content');
-	    contentElement.attr('class', 'content about');
-	    displayContent(contentElement, rendered);
-	  });
+		$.getJSON(rootPath + restRoot + "/page/about", function(data) {
+			//do not use html from db for now
+			var rendered = Mustache.render(template, {});
+		    displayContent(contentElement, rendered, data.contentId);
+		});
+	});
 }
 
 function displayContact() {
+	var contentElement = $('.main>.jumbotron>.content');
+	contentElement.html(spinner);
 	$.get(rootFolder+'templates/contact.html', function(template) {
-	    var rendered = Mustache.render(template, {});
-	    var contentElement = $('.main>.jumbotron>.content');
-	    contentElement.attr('class', 'content contact');
-	    displayContent(contentElement, rendered);
-	  });
+		$.getJSON(rootPath + restRoot + "/page/contact", function(data) {
+			//do not use html from db for now
+			var rendered = Mustache.render(template, {});
+		    displayContent(contentElement, rendered, data.contentId);
+		});
+	});
 }
 
 function addInquiry() {
