@@ -46,7 +46,7 @@ $(document).ready(function() {
 	});
   var mainContent = $(".main>.jumbotron>.content");
   homeHtml = mainContent.html();
-  $('#edit_content').summernote({
+  $('#edit_content').summernote(/*{
 	  toolbar: [
 	    ['style', ['style']],
 	    ['font', ['bold', 'italic', 'underline', 'strike', 'clear']],
@@ -59,7 +59,7 @@ $(document).ready(function() {
 	    //['table', ['table']], // no table button
 	    //['help', ['help']] //no help button
 	  ]
-	});
+	}*/);
   	/*$('#edit_date').datepicker({
 	    format: "dd/mm/yyyy",
 	    weekStart: 1
