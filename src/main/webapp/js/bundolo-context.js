@@ -1,4 +1,5 @@
 var commentParentElement;
+var commentParentId;
 $(document).ready(function() {
 	$('body').on('click', function(e) {
 		var modalDialog = $('#modal');
@@ -12,10 +13,14 @@ $(document).ready(function() {
 	});
 	
 	$('body').on('click', '.root-comment-button', function(e) {
-		addComment($('.context-menu>div>div'));
+		var parentElement = $('.context-menu>div>div');
+		var parentId = parentElement.find(">span").attr('id').substr(8);
+		addComment(parentElement, parentId);
 	});
 	$('body').on('click', '.comment-button', function(e) {
-		addComment($(e.target).closest('.comment').find('>.panel-collapse>.panel-body>.panel-group>div>div'));
+		var parentElement = $(e.target).closest('.comment');
+		var parentId = parentElement.find(">span").attr('id').substr(8);
+		addComment(parentElement.find('>.panel-collapse>.panel-body>.panel-group>div>div'), parentId);
 	});
 	
 	/*
@@ -83,7 +88,7 @@ function addContextMenu(parentElement, parentId) {
 				sanitizeRecursive(data);
 				var partials = {commentPanel: template};
 			    var rendered = Mustache.render(template, {"comments": data}, partials);
-			    var rootCommentButton = $('<span title="Add comment" class="fa-stack fa-2x pull-right root-comment-button">\
+			    var rootCommentButton = $('<span title="Add comment" class="fa-stack fa-2x pull-right root-comment-button" id="comment_'+parentId+'">\
 						<i class="fa fa-circle fa-stack-2x"></i>\
 						<i class="fa fa-plus fa-stack-1x fa-inverse"></i>\
 					</span>');
@@ -102,24 +107,53 @@ function sanitizeRecursive(data) {
 	if($.isArray(data) && data.length) {
 		for (index in data) {
 		  data[index].text = sanitize(data[index].text);
+		  if(!$.isArray(data[index].comments)) {
+			  data[index].comments = [];
+		  }
 		  sanitizeRecursive(data[index].comments);
 		}
 	}
 }
 
-function addComment(parentElement) {
+function addComment(parentElement, parentId) {
 	$('#modal').addClass("edit-comment");
 	$('#edit_content').code('');
 	$('#editor_label').html('Add comment');
 	commentParentElement = parentElement;
+	commentParentId = parentId;
 	$('#modal').modal('show');
 }
 
 function saveComment(commentContent) {
 	//TODO validation
 	//TODO actual saving
-	displayComment('dummy_user', sanitize(commentContent), commentParentElement);
-	$('#modal').modal('hide');
+	var comment = {};
+	comment.authorUsername = "a";
+	comment.text = sanitize(commentContent);
+	comment.parentContent = {"contentId" : commentParentId};
+//	var JSONObject= '{"authorUsername":"a","kind":"text_comment","text":sanitize(commentContent),"locale":"sr","contentStatus":"active", "parentContent":{"contentId":"287124"}}';
+//	var JSONObject= {"authorUsername":"a","kind":"text_comment","text":sanitize(commentContent),"locale":"sr","contentStatus":"active", "parentContent":{"contentId":"287124"}};
+	//var JSONObject= '{"authorUsername":"kilopond"}';
+	//var JSONObject= {"authorUsername":"kilopond","kind":"text_comment","text":"gaaa","locale":"sr","contentStatus":"active"};
+	//var jsonData = JSON.parse(JSONObject);    
+
+	//TODO display spinner
+	$.ajax({
+	  url: rootPath + restRoot + "/comment",
+	  type: "POST",
+	  data: JSON.stringify(comment),
+//	  data: comment,
+	  dataType: "json",
+	  headers: { 
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json' 
+	    },
+	  success: function(data) {  
+		  displayComment('a', sanitize(commentContent), commentParentElement);
+		  $('#modal').modal('hide');
+      }  
+	});
+	
 }
 
 function displayComment(author, content, parentElement) {

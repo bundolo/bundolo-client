@@ -133,8 +133,20 @@ function displaySingleItem(type, id) {
 		$.getJSON(rootPath + restRoot + "/" + type + "/"+id, function(data) {
 		    var rendered = Mustache.render(template, data);
 		    var contentElement = $('.main>.jumbotron>.content');
+		    var commentParentId = id;
 		    //TODO go through all type of content and set appropriate contentId. sometimes it's description id, sometimes it's this item
-		    displayContent(contentElement, rendered, id);
+//		    alert("data: " + data);
+		    switch(type) {
+		    case 'text':
+		    	commentParentId = data.description[0].contentId;
+		        break;
+		    case 'author':
+		    	commentParentId = data.descriptionContent.contentId;
+		        break;
+		    default:
+		        commentParentId = id;
+		}
+		    displayContent(contentElement, rendered, commentParentId);
 		});
 	});
 }
