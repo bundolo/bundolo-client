@@ -110,6 +110,9 @@ function sanitizeRecursive(data) {
 		  if(!$.isArray(data[index].comments)) {
 			  data[index].comments = [];
 		  }
+		  if (!data[index].authorUsername) {
+			  data[index].authorUsername = 'gost';
+		  }
 		  sanitizeRecursive(data[index].comments);
 		}
 	}
@@ -128,7 +131,7 @@ function saveComment(commentContent) {
 	//TODO validation
 	//TODO actual saving
 	var comment = {};
-	comment.authorUsername = "a";
+	//comment.authorUsername = "a";
 	comment.text = sanitize(commentContent);
 	comment.parentContent = {"contentId" : commentParentId};
 //	var JSONObject= '{"authorUsername":"a","kind":"text_comment","text":sanitize(commentContent),"locale":"sr","contentStatus":"active", "parentContent":{"contentId":"287124"}}';
@@ -144,16 +147,19 @@ function saveComment(commentContent) {
 	  data: JSON.stringify(comment),
 //	  data: comment,
 	  dataType: "json",
+	  contentType: "application/json; charset=utf-8",
+	  beforeSend: function (xhr) {
+	        xhr.setRequestHeader ("Authorization", token);
+	    },
 	  headers: { 
 	        'Accept': 'application/json',
 	        'Content-Type': 'application/json' 
 	    },
 	  success: function(data) {  
-		  displayComment('a', sanitize(commentContent), commentParentElement);
+		  displayComment(username, sanitize(commentContent), commentParentElement);
 		  $('#modal').modal('hide');
-      }  
+      }
 	});
-	
 }
 
 function displayComment(author, content, parentElement) {

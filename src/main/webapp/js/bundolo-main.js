@@ -4,6 +4,8 @@ var restRoot = "/rest";
 //var rootFolder = "bundolo2/";
 var rootFolder = "/";
 var homeHtml = "";
+var token = "Basic " + btoa(" : ");
+var username = "gost";
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -158,9 +160,21 @@ function sanitize(content) {
 function displayHome() {
 	var contentElement = $('.main>.jumbotron>.content');
 	contentElement.html(spinner);
-	$.getJSON(rootPath + restRoot + "/page/home", function(data) {
-		//do not use html from db for now
-	    displayContent(contentElement, homeHtml, data.contentId);
+	$.ajax({
+	    url: rootPath + restRoot + "/page/home",
+	    type: 'GET',
+	    dataType: "json",
+	    contentType: "application/json; charset=utf-8",
+	    beforeSend: function (xhr) {
+	    	xhr.setRequestHeader ("Authorization", token);
+	    },
+	    success: function(data) {
+			//do not use html from db for now
+		    displayContent(contentElement, homeHtml, data.contentId);
+		},
+		error: function(textStatus, errorThrown) {
+			alert("pic: "+ textStatus + ", mic: " + errorThrown);
+		}
 	});
 }
 
@@ -168,10 +182,23 @@ function displayAbout() {
 	var contentElement = $('.main>.jumbotron>.content');
 	contentElement.html(spinner);
 	$.get(rootFolder+'templates/about.html', function(template) {
-		$.getJSON(rootPath + restRoot + "/page/about", function(data) {
-			//do not use html from db for now
-			var rendered = Mustache.render(template, {});
-		    displayContent(contentElement, rendered, data.contentId);
+		$.ajax({
+		    url: rootPath + restRoot + "/page/about",
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	//do not use html from db for now
+		    	var rendered = Mustache.render(template, {});
+			    displayContent(contentElement, rendered, data.contentId);
+			},
+			error: function(textStatus, errorThrown) {
+				//TODO
+				alert("pic: "+ textStatus + ", mic: " + errorThrown);
+			}
 		});
 	});
 }
