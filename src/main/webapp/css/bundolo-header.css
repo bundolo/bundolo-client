@@ -13,12 +13,6 @@
 	vertical-align:top;
 }
 
-.navbar button:hover {
-	transform: scale(1.2,1.2);
-	-ms-transform: scale(1.2,1.2);
-	-webkit-transform: scale(1.2,1.2);
-}
-
 .navbar button span {
 	color: #000;
 }

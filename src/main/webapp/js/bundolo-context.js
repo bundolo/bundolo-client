@@ -119,17 +119,15 @@ function sanitizeRecursive(data) {
 }
 
 function addComment(parentElement, parentId) {
-	$('#modal').addClass("edit-comment");
-	$('#edit_content').code('');
-	$('#editor_label').html('Add comment');
 	commentParentElement = parentElement;
 	commentParentId = parentId;
-	$('#modal').modal('show');
+	editSingleItem('comment');
 }
 
-function saveComment(commentContent) {
+function saveComment() {
+	
 	//TODO validation
-	//TODO actual saving
+	var commentContent = $('#edit_content').val();
 	var comment = {};
 	//comment.authorUsername = "a";
 	comment.text = sanitize(commentContent);

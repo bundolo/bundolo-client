@@ -84,29 +84,3 @@ function displaySidebarAccordion(type) {
 		});		
 	});
 }
-
-function generateDummyItem(id, type) {
-	switch(type) {
-	case "texts":
-	    return generateDummyText(id);
-	    break;
-	case "serials":
-		return generateDummySerial(id);
-	    break;
-	case "authors":
-		return generateDummyAuthor(id);
-	    break;
-	case "announcements":
-		return generateDummyAnnouncement(id);
-	    break;
-	case "contests":
-		return generateDummyContest(id);
-	    break;
-	case "connections":
-		return generateDummyConnection(id);
-	    break;
-	case "topics":
-		return generateDummyTopic(id);
-	    break;
-	}
-}

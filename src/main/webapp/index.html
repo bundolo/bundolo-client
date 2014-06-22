@@ -13,8 +13,6 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/css/summernote.css" />
 
-
-
 <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/bundolo.css">
 
@@ -53,14 +51,14 @@ b::::::b                                                          d::::::d      
  bbbbbbbbbbbbbbbb       uuuuuuuu  uuuunnnnnn    nnnnnn   ddddddddd   ddddd   ooooooooooo   llllllll   ooooooooooo   </pre>
 				</a>
 				<span class="pipe_h"></span>
-				<button type="button" class="btn btn-default about" title="About">
+				<button type="button" class="btn btn-default about" title="About" onClick="$.address.value('/about');">
 					<span class="fa-stack fa-2x">
 						<i class="fa fa-circle fa-stack-2x"></i>
 						<i class="fa fa-info fa-stack-1x fa-inverse"></i>
 					</span>
 				</button>
 				<span class="pipe_h"></span>
-				<button type="button" class="btn btn-default contact" title="Contact">
+				<button type="button" class="btn btn-default contact" title="Contact" onClick="$.address.value('/contact');">
 					<span class="fa-stack fa-2x">
 						<i class="fa fa-circle fa-stack-2x"></i>
 						<i class="fa fa-question fa-stack-1x fa-inverse"></i>
@@ -118,44 +116,12 @@ b::::::b                                                          d::::::d      
 	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="editor_label" aria-hidden="true" data-backdrop="static">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="editor_label">Modal title</h4>
-	      </div>
-	      <div class="modal-body">
-	      	<form role="form">
-			  <div class="form-group title">
-			    <label for="edit_title">Title</label>
-			    <input type="text" class="form-control" id="edit_title" placeholder="Enter title">
-			  </div>
-			  <div class="form-group description">
-			    <label for="edit_description">Short description</label>
-			    <textarea cols="45" rows="4" class="form-control" id="edit_description" placeholder="Short description"></textarea>
-			  </div>
-			  <div class="form-group content">
-			    <label for="edit_content">Content</label>
-			    <div id="edit_content"></div>
-			  </div>
-			  <div class="form-group date">
-			  	<label for="edit_date">Date</label>
-			  	<input type="text" class="form-control" id="edit_date" placeholder="Enter date">
-			  </div>
-			</form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save</button>
-	      </div>
 	    </div>
 	  </div>
 	</div>
 	<div class="context-menu panel-group">
 		<div>
 			<div>
-				<span title="Add comment" class="fa-stack fa-2x pull-right root-comment-button">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-plus fa-stack-1x fa-inverse"></i>
-				</span>
 			</div>
 		</div>
 	</div>
@@ -164,7 +130,7 @@ b::::::b                                                          d::::::d      
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="/js/summernote.min.js"></script>
-<script src="/js/mustache.js"></script>
+	<script src="/js/mustache.js"></script>
 	<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>-->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js?state=/"></script>
@@ -180,7 +146,6 @@ b::::::b                                                          d::::::d      
 	<script src="/js/bundolo-forum.js"></script>
 	<script src="/js/bundolo-slider.js"></script>
 	<script src="/js/bundolo-announcements.js"></script>
-	<script src="/js/bundolo-authors.js"></script>
 	<script src="/js/bundolo-connections.js"></script>
 	<script src="/js/bundolo-contests.js"></script>
 </body>

@@ -4,8 +4,7 @@ var restRoot = "/rest";
 //var rootFolder = "bundolo2/";
 var rootFolder = "/";
 var homeHtml = "";
-var token = "Basic " + btoa(" : ");
-var username = "gost";
+
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -26,6 +25,12 @@ $.address.change(function(event) {
 		displayAbout();
 	} else if ($.address.value() == "/contact") {
 		displayContact();
+	} else if ($.address.value() == "/profile" && username != 'gost') {
+		displayProfile();
+	} else if ($.address.value() == "/statistics" && username != 'gost') {
+		displayStatistics();
+	} else if ($.address.value().match("^/validate")) {
+		validateEmail();
 	} else {
 		var reminder = $.address.value().substr(rootFolder.length);
 		var slashPos = reminder.indexOf('/');
@@ -48,7 +53,10 @@ $(document).ready(function() {
 	});
   var mainContent = $(".main>.jumbotron>.content");
   homeHtml = mainContent.html();
-  $('#edit_content').summernote(/*{
+
+  //TODO all toolbar options disabled temporarily, probably during ie8 fixes
+  //TODO summernote will have to be initialised when form is loaded 
+  /*$('#edit_content').summernote({
 	  toolbar: [
 	    ['style', ['style']],
 	    ['font', ['bold', 'italic', 'underline', 'strike', 'clear']],
@@ -61,12 +69,13 @@ $(document).ready(function() {
 	    //['table', ['table']], // no table button
 	    //['help', ['help']] //no help button
 	  ]
-	}*/);
+	});*/
   	/*$('#edit_date').datepicker({
 	    format: "dd/mm/yyyy",
 	    weekStart: 1
 	});*/
-  	$('#edit_date').datepicker({
+  //TODO datepicker will have to be initialised when form is loaded 
+  	/*$('#edit_date').datepicker({
 	    format: "dd/mm/yyyy",
 	    weekStart: 1
 	}).on('show', function() {
@@ -79,8 +88,9 @@ $(document).ready(function() {
   		}
   		var zIndexModal = $(modal).css('z-index');
   		$(datePicker).css('z-index', zIndexModal + 1);
-  	});
+  	});*/
   	
+  	/*
   	var modalDialog = $('#modal');
   	modalDialog.on('hidden.bs.modal', function(e) {
   		modalDialog.attr('class', 'modal fade');
@@ -115,13 +125,7 @@ $(document).ready(function() {
   		}
   		
         return false;
-    });
-  	$('body').on('click', '.navbar .about', function(e) {
-  		$.address.value('/about');
-	});
-  	$('body').on('click', '.navbar .contact', function(e) {
-  		$.address.value('/contact');
-	});
+    });*/
 });
 
 function displayContent(parentElement, html, contentId) {
@@ -152,6 +156,40 @@ function displaySingleItem(type, id) {
 		});
 	});
 }
+
+function editSingleItem(type, id) {	
+	var contentElement = $('#modal .modal-content');
+	contentElement.html(spinner);
+	$('#modal').modal('show');
+	$.get(rootFolder+'templates/edit_'+type+'.html', function(template) {
+		if (id) {
+			$.ajax({
+			    url: rootPath + restRoot + "/"+type+"/" + id,
+			    type: 'GET',
+			    dataType: "json",
+			    contentType: "application/json; charset=utf-8",
+			    beforeSend: function (xhr) {
+			        xhr.setRequestHeader ("Authorization", token);
+			    },
+			    success: function(data) {
+			    	var rendered = Mustache.render(template, data);
+			    	contentElement.html(rendered);
+				},
+				error: function(textStatus, errorThrown) {
+					//TODO
+					//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+				}
+			});
+		} else {
+			var rendered = Mustache.render(template, {});
+	    	contentElement.html(rendered);
+		}
+		
+	});
+}
+
+
+
 function sanitize(content) {
 	//TODO make this more generic. strip all tags for some content, be selective for other
 	return content.replace(/(<([^>]+)>)/ig,"");
@@ -215,15 +253,117 @@ function displayContact() {
 	});
 }
 
-function addInquiry() {
-	$('#modal').addClass("edit-inquiry");
-	$('#editor_label').html('Send us a message');
-	$('#modal').modal('show');
+function displayProfile() {
+	var contentElement = $('.main>.jumbotron>.content');
+	contentElement.html(spinner);
+	$.get(rootFolder+'templates/profile.html', function(template) {
+		$.ajax({
+		    url: rootPath + restRoot + "/author/" + username,
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	//do not use html from db for now
+		    	var rendered = Mustache.render(template, data);
+			    displayContent(contentElement, rendered);
+			},
+			error: function(textStatus, errorThrown) {
+				//TODO
+				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+			}
+		});
+	});
 }
 
-function saveInquiry(title, content) {
+function displayStatistics() {
+	var contentElement = $('.main>.jumbotron>.content');
+	contentElement.html(spinner);
+	$.get(rootFolder+'templates/statistics.html', function(template) {
+		$.ajax({
+		    url: rootPath + restRoot + "/statistics/" + username,
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	//do not use html from db for now
+		    	var rendered = Mustache.render(template, data);
+			    displayContent(contentElement, rendered);
+			},
+			error: function(textStatus, errorThrown) {
+				//TODO
+				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+			}
+		});
+	});
+}
+
+function saveInquiry() {
 	//TODO validation
 	//TODO send email
 	//TODO show some thank you message
 	$('#modal').modal('hide');
+}
+
+function isFormValid(formElement) {
+	var result = true;
+	formElement.find('.help-inline').remove();
+	formElement.find('.form-group').removeClass("has-error");
+	formElement.find('[validators]').each(function() {
+		var validators = $(this).attr('validators');
+		var value = $(this).val();
+		if (validators.indexOf("required") >= 0 && !value) {
+			$(this).parent().addClass("has-error");
+			$(this).after("<div class='help-inline'>required</div>");
+			result = false;
+			return true;
+		}
+		if (validators.indexOf("length") >= 0 && value && value.length < 3) {
+			$(this).parent().addClass("has-error");
+			$(this).after("<div class='help-inline'>not long enough</div>");
+			result = false;
+			return true;
+		}
+		if (validators.indexOf("email") >= 0 && value && !isValidEmailAddress(value)) {
+			$(this).parent().addClass("has-error");
+			$(this).after("<div class='help-inline'>not valid email address</div>");
+			result = false;
+			return true;
+		}
+		if (validators.indexOf("same1") >= 0) {
+			var sibling = $(this).siblings("[validators*='same2']");
+			if (sibling) {
+				var siblingValue = sibling.val();
+				if (value != siblingValue) {
+					$(this).parent().addClass("has-error");
+					$(this).after("<div class='help-inline'>values must match</div>");
+					result = false;
+					return true;
+				}
+			}
+		}
+		if (validators.indexOf("different1") >= 0 && value) {
+			var sibling = $(this).siblings("[validators*='different2']");
+			if (sibling) {
+				var siblingValue = sibling.val();
+				if (!siblingValue || value == siblingValue) {
+					$(this).parent().addClass("has-error");
+					$(this).after("<div class='help-inline'>values must not be same</div>");
+					result = false;
+					return true;
+				}
+			}
+		}
+	});
+	return result;
+}
+
+function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    return pattern.test(emailAddress);
 }
