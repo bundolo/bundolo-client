@@ -136,7 +136,7 @@ function displayContent(parentElement, html, contentId) {
 }
 function displaySingleItem(type, id) {
 	$.get(rootFolder+"templates/" + type + ".html", function(template) {
-		$.getJSON(rootPath + restRoot + "/" + type + "/"+id, function(data) {
+		$.getJSON(rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '), function(data) {
 		    var rendered = Mustache.render(template, data);
 		    var contentElement = $('.main>.jumbotron>.content');
 		    var commentParentId = id;

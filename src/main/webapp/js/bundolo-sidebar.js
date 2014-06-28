@@ -67,7 +67,13 @@ function displaySidebarAccordion(type) {
 	var itemAdditional = 10;
 	$.get('/templates/sidebar_'+type+'.html', function(template) {
 		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": "date,desc", "filterBy": ""}, function( data ) {
-			var rendered = Mustache.render(template, {"items": data});
+			escapeUrl = function () {
+				return function(val, render) {
+				    return render(val).replace(/ /g, '~');
+				};
+			};
+			//console.log(JSON.stringify(data));
+			var rendered = Mustache.render(template, {"items": data, "escapeUrl": escapeUrl});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');
 			tableBody.append(rendered);
 			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');;
