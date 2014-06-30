@@ -1,5 +1,5 @@
 {{#items}}
-	<tr id="topic_{{contentId}}">
+	<tr id="topic_{{#escapeUrl}}{{text}}{{/escapeUrl}}">
 		<td>{{text}}</td>
 		<td>{{authorUsername}}</td>
 		<td>{{creationDate}}</td>

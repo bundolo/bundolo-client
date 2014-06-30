@@ -1,5 +1,5 @@
 {{#items}}
-	<tr id="text_{{contentId}}">		
+	<tr id="text_{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}">		
 		<td>{{authorUsername}}</td>
 		<td>{{{name}}}</td>
 		<td>{{{description.0.text}}}</td>		

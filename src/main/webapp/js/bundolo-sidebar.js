@@ -82,7 +82,7 @@ function displaySidebarAccordion(type) {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
 		    		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": "date,desc", "filterBy": ""}, function( additional_data ) {
-		    			var rendered_rows = Mustache.render(template, {"items": additional_data});
+		    			var rendered_rows = Mustache.render(template, {"items": additional_data, "escapeUrl": escapeUrl});
 		    			tableBody.append(rendered_rows);
 		    		});
 		        }

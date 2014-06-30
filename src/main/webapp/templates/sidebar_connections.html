@@ -1,5 +1,5 @@
 {{#items}}
-	<tr id="connection_{{connectionId}}">
+	<tr id="connection_{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}">
 		<td>{{descriptionContent.name}}</td>
 		<td>{{{descriptionContent.text}}}</td>
 		<td>{{authorUsername}}</td>
