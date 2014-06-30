@@ -124,8 +124,7 @@ function addComment(parentElement, parentId) {
 	editSingleItem('comment');
 }
 
-function saveComment() {
-	
+function saveComment() {	
 	//TODO validation
 	var commentContent = $('#edit_content').val();
 	var comment = {};

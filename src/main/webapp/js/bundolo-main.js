@@ -185,8 +185,7 @@ function editSingleItem(type, id) {
 		} else {
 			var rendered = Mustache.render(template, {});
 	    	contentElement.html(rendered);
-		}
-		
+		}		
 	});
 }
 
