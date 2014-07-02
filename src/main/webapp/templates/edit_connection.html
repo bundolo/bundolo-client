@@ -5,16 +5,52 @@
 <div class="modal-body">
 	<form role="form">
 		<div class="form-group">
+			<label for="edit_group">Category</label>
+			<select class="form-control" id="edit_group">
+				{{#connectionGroups}}
+					<option value="{{contentId}}">{{name}}</option>
+				{{/connectionGroups}}
+			</select>
+			<script type='text/javascript'>
+				//$("#edit_gender").val('{{gender}}');
+				//TODO set connection group if this is update
+			</script>
+		</div>
+		<div class="form-group">
 		  <label for="edit_title">Title</label>
 		  <input type="text" class="form-control" id="edit_title" placeholder="Enter title">
 		</div>
 		<div class="form-group">
-		  <label for="edit_content">Content</label>
-		  <div id="edit_content"></div>
+		  <label for="edit_description">Description</label>
+		  <div id="edit_description"></div>
+		  <script type='text/javascript'>
+		  $('#edit_description').summernote({
+			  toolbar: [
+			    //['style', ['style']],
+			    //['font', ['bold', 'italic', 'underline', 'strike', 'clear']],
+			   // ['fontname', ['fontname']],
+			   // ['color', ['color']],
+			    //['fontsize', ['fontsize']],
+			   // ['height', ['height']],
+			  //  ['para', ['ul', 'ol', 'paragraph']],
+			  //  ['insert', ['picture', 'link']], // no insert buttons
+			    //['table', ['table']], // no table button
+			    //['help', ['help']] //no help button
+			  ]
+			});
+		  </script>
+		</div>
+		<div class="form-group">
+		  <label for="edit_url">URL</label>
+		  <input type="text" class="form-control" id="edit_url" placeholder="Enter url">
+		</div>
+		<div class="form-group">
+		  <label for="edit_email">Email</label>
+		  <input type="text" class="form-control" id="edit_email" placeholder="Enter email">
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal" onClick="$('#edit_description').destroy();">Close</button>
   <button type="button" class="btn btn-primary" onClick="saveConnection();">Save</button>
 </div>

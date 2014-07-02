@@ -164,9 +164,9 @@ function editSingleItem(type, id) {
 	contentElement.html(spinner);
 	$('#modal').modal('show');
 	$.get(rootFolder+'templates/edit_'+type+'.html', function(template) {
-		if (id) {
+		if (type == 'connection') {
 			$.ajax({
-			    url: rootPath + restRoot + "/"+type+"/" + id,
+			    url: rootPath + restRoot + "/connection_groups",
 			    type: 'GET',
 			    dataType: "json",
 			    contentType: "application/json; charset=utf-8",
@@ -174,22 +174,49 @@ function editSingleItem(type, id) {
 			        xhr.setRequestHeader ("Authorization", token);
 			    },
 			    success: function(data) {
-			    	var rendered = Mustache.render(template, data);
-			    	contentElement.html(rendered);
+			    	editSingleItemHelper(type, id, contentElement, template, data);
 				},
 				error: function(textStatus, errorThrown) {
 					//TODO
-					//alert("pic: "+ textStatus + ", mic: " + errorThrown);
 				}
 			});
 		} else {
-			var rendered = Mustache.render(template, {});
-	    	contentElement.html(rendered);
-		}		
+			editSingleItemHelper(type, id, contentElement, template);
+		}
 	});
 }
 
-
+function editSingleItemHelper(type, id, contentElement, template, connectionGroups) {
+	if (id) {
+		$.ajax({
+		    url: rootPath + restRoot + "/"+type+"/" + id,
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	if (connectionGroups) {
+		    		data.connectionGroups = connectionGroups;
+		    	}		    	
+		    	var rendered = Mustache.render(template, data);
+		    	contentElement.html(rendered);
+			},
+			error: function(textStatus, errorThrown) {
+				//TODO
+				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+			}
+		});
+	} else {
+		var data = {};
+		if (connectionGroups) {
+    		data.connectionGroups = connectionGroups;
+    	}
+		var rendered = Mustache.render(template, data);
+    	contentElement.html(rendered);
+	}
+}
 
 function sanitize(content) {
 	//TODO make this more generic. strip all tags for some content, be selective for other
