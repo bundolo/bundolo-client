@@ -1,14 +1,48 @@
 $(document).ready(function() {
 });
 
-function addText() {
-	$('#modal').addClass("edit-text");
-	$('#editor_label').html('Add text');
-	$('#modal').modal('show');
-}
-
-function saveText(title, description, content) {
+function saveText() {
 	//TODO validation
-	displayText({'author' : 'dummy_user', 'title' : title, 'description' : description, 'content' : content});
-	$('#modal').modal('hide');
+	if (!isFormValid($('#modal form'))) {
+		return;
+	}
+	var text = {};
+	text.description = [];
+	var description = {};
+	description.text = $("#edit_description").val();
+	text.description.push(description);
+	text.text = $("#edit_content").code();
+	text.name = $("#edit_title").val();
+
+	console.log(JSON.stringify(text));
+	$.ajax({
+		  url: rootPath + restRoot + "/text/" + username + "/" + text.name,
+		  type: "PUT",
+		  data: JSON.stringify(text),
+		  dataType: "json",
+		  contentType: "application/json; charset=utf-8",
+		  beforeSend: function (xhr) {
+			  xhr.setRequestHeader ("Authorization", token);
+		  },
+		  headers: { 
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json' 
+		  },		  
+		  success: function(data) {  
+			  if (data) {
+				  console.log("success: " + JSON.stringify(data));
+				  $('#modal').modal('hide');
+				  $('#edit_content').destroy();
+				  displaySingleItem('text', username + "/" + text.name.replace(/ /g, '~'));
+			  } else {
+				  alert("saving failed");
+			  }
+	      },
+	      error: function(data) {
+	    	  alert("saving failed");
+	      },
+	      complete: function(data) {
+//	    	  console.log("complete: " + JSON.stringify(data));
+	      }
+		});
 }

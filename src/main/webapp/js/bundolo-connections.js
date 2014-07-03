@@ -1,7 +1,7 @@
 $(document).ready(function() {
 });
 
-function saveConnection(title, content) {
+function saveConnection() {
 	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
