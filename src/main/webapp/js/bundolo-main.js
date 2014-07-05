@@ -53,79 +53,6 @@ $(document).ready(function() {
 	});
   var mainContent = $(".main>.jumbotron>.content");
   homeHtml = mainContent.html();
-
-  //TODO all toolbar options disabled temporarily, probably during ie8 fixes
-  //TODO summernote will have to be initialised when form is loaded 
-  /*$('#edit_content').summernote({
-	  toolbar: [
-	    ['style', ['style']],
-	    ['font', ['bold', 'italic', 'underline', 'strike', 'clear']],
-	    ['fontname', ['fontname']],
-	    ['color', ['color']],
-	    ['fontsize', ['fontsize']],
-	    ['height', ['height']],
-	    ['para', ['ul', 'ol', 'paragraph']],
-	    ['insert', ['picture', 'link']], // no insert buttons
-	    //['table', ['table']], // no table button
-	    //['help', ['help']] //no help button
-	  ]
-	});*/
-  	/*$('#edit_date').datepicker({
-	    format: "dd/mm/yyyy",
-	    weekStart: 1
-	});*/
-  //TODO datepicker will have to be initialised when form is loaded 
-  	/*$('#edit_date').datepicker({
-	    format: "dd/mm/yyyy",
-	    weekStart: 1
-	}).on('show', function() {
-		//this is a fix for datepicker not showing when it's opened from modal dialog
-  		var modal = $('#edit_date').closest('.modal');
-  		var datePicker = $('body').find('.datepicker');
-  		if(!modal.length) {
-  			$(datePicker).css('z-index', 'auto');
-  			return;
-  		}
-  		var zIndexModal = $(modal).css('z-index');
-  		$(datePicker).css('z-index', zIndexModal + 1);
-  	});*/
-  	
-  	/*
-  	var modalDialog = $('#modal');
-  	modalDialog.on('hidden.bs.modal', function(e) {
-  		modalDialog.attr('class', 'modal fade');
-  		//modalDialog.removeClass("edit-comment");
-  		//modalDialog.removeClass("edit-text");
-	});
-  	modalDialog.on('shown.bs.modal', function(e) {
-  		//TODO for comments editor should be focused, but for some other content, maybe some other field
-  		$('.note-editable').focus();
-	});
-  	modalDialog.find('.btn-primary').click(function(e) {
-  		if (modalDialog.hasClass('edit-comment')) {
-  			saveComment($('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-text')) {
-  			saveText($('#edit_title').val(), $('#edit_description').val(), $('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-serial')) {
-			saveSerial($('#edit_title').val(), $('#edit_description').val());
-  		} else if (modalDialog.hasClass('edit-episode')) {
-			saveEpisode($('#edit_title').val(), $('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-topic')) {
-			saveTopic($('#edit_title').val(), $('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-post')) {
-			savePost($('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-announcement')) {
-			saveAnnouncement($('#edit_title').val(), $('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-connection')) {
-			saveConnection($('#edit_title').val(), $('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-contest')) {
-			saveContest($('#edit_title').val(), $('#edit_date').val(), $('#edit_content').code());
-  		} else if (modalDialog.hasClass('edit-inquiry')) {
-  			saveInquiry($('#edit_title').val(), $('#edit_content').code());
-  		}
-  		
-        return false;
-    });*/
 });
 
 function displayContent(parentElement, html, contentId) {
@@ -180,13 +107,29 @@ function editSingleItem(type, id) {
 					//TODO
 				}
 			});
+		} else if (type == 'topic') {
+			$.ajax({
+			    url: rootPath + restRoot + "/topic_groups",
+			    type: 'GET',
+			    dataType: "json",
+			    contentType: "application/json; charset=utf-8",
+			    beforeSend: function (xhr) {
+			        xhr.setRequestHeader ("Authorization", token);
+			    },
+			    success: function(data) {
+			    	editSingleItemHelper(type, id, contentElement, template, data);
+				},
+				error: function(textStatus, errorThrown) {
+					//TODO
+				}
+			});		
 		} else {
 			editSingleItemHelper(type, id, contentElement, template);
 		}
 	});
 }
 
-function editSingleItemHelper(type, id, contentElement, template, connectionGroups) {
+function editSingleItemHelper(type, id, contentElement, template, formData) {
 	if (id) {
 		$.ajax({
 		    url: rootPath + restRoot + "/"+type+"/" + id,
@@ -197,9 +140,13 @@ function editSingleItemHelper(type, id, contentElement, template, connectionGrou
 		        xhr.setRequestHeader ("Authorization", token);
 		    },
 		    success: function(data) {
-		    	if (connectionGroups) {
-		    		data.connectionGroups = connectionGroups;
-		    	}		    	
+		    	if (formData) {
+		    		if (type == 'connection') {
+		    			data.connectionGroups = formData;
+		    		} else if (type == 'topic') {
+		    			data.topicGroups = formData;
+		    		}		    		
+		    	}
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
 			},
@@ -210,8 +157,12 @@ function editSingleItemHelper(type, id, contentElement, template, connectionGrou
 		});
 	} else {
 		var data = {};
-		if (connectionGroups) {
-    		data.connectionGroups = connectionGroups;
+		if (formData) {
+    		if (type == 'connection') {
+    			data.connectionGroups = formData;
+    		} else if (type == 'topic') {
+    			data.topicGroups = formData;
+    		}		    		
     	}
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);

@@ -12,16 +12,45 @@ function saveEpisode(title, content) {
 	$('#modal').modal('hide');
 }
 
-function addSerial() {
-	$('#modal').addClass("edit-serial");
-	$('#editor_label').html('Add serial');
-	$('#modal').modal('show');
-}
-
 function saveSerial(title, description) {
 	//TODO validation
-	displaySerial('dummy_user', title, description);
-	$('#modal').modal('hide');
+	if (!isFormValid($('#modal form'))) {
+		return;
+	}
+	var serial = {};
+	serial.text = $("#edit_description").val();
+	serial.name = $("#edit_title").val();
+
+	console.log(JSON.stringify(serial));
+	$.ajax({
+		  url: rootPath + restRoot + "/serial/" + serial.name,
+		  type: "PUT",
+		  data: JSON.stringify(serial),
+		  dataType: "json",
+		  contentType: "application/json; charset=utf-8",
+		  beforeSend: function (xhr) {
+			  xhr.setRequestHeader ("Authorization", token);
+		  },
+		  headers: { 
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json' 
+		  },		  
+		  success: function(data) {  
+			  if (data) {
+				  console.log("success: " + JSON.stringify(data));
+				  $('#modal').modal('hide');
+				  displaySingleItem('serial', serial.name.replace(/ /g, '~'));
+			  } else {
+				  alert("saving failed");
+			  }
+	      },
+	      error: function(data) {
+	    	  alert("saving failed");
+	      },
+	      complete: function(data) {
+//	    	  console.log("complete: " + JSON.stringify(data));
+	      }
+		});
 }
 
 function displayEpisode(author, title, content) {
