@@ -65,28 +65,46 @@ function displaySingleItem(type, id) {
 	$.get(rootFolder+"templates/" + type + ".html", function(template) {
 		//console.log('id: ' + id);
 		//console.log('path: ' + rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '));
-		$.getJSON(rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '), function(data) {
-		    var rendered = Mustache.render(template, data);
+		$.getJSON(rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '), function(data) {		    
 		    var contentElement = $('.main>.jumbotron>.content');
 		    var commentParentId = id;
 		    //TODO go through all type of content and set appropriate contentId. sometimes it's description id, sometimes it's this item
 //		    alert("data: " + data);
 		    switch(type) {
-		    case 'text':
-		    	commentParentId = data.description[0].contentId;
-		        break;
-		    case 'author':
-		    	commentParentId = data.descriptionContent.contentId;
-		        break;
-		    default:
-		        commentParentId = id;
-		}
+			    case 'text':
+			    	commentParentId = data.description[0].contentId;
+			        break;
+			    case 'author':
+			    	commentParentId = data.descriptionContent.contentId;
+			        break;
+			    case 'topic':
+			    	commentParentId = data.contentId;
+			        break;
+			    default:
+			        commentParentId = id;
+		    }
+		    var rendered = Mustache.render(template, data);
 		    displayContent(contentElement, rendered, commentParentId);
+		    if (type == 'topic') {
+		    	$.get(rootFolder+"templates/posts.html", function(templatePosts) {
+		    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(posts) {
+		    			var renderedPosts = Mustache.render(templatePosts, {"posts": posts});
+		    			contentElement.find('tbody').append(renderedPosts);
+		    		});
+		    	});
+		    } else if (type == 'serial') {
+		    	$.get(rootFolder+"templates/episodes.html", function(templateEpisodes) {
+		    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
+		    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes});
+		    			contentElement.append(renderedEpisodes);
+		    		});
+		    	});
+		    }
 		});
 	});
 }
 
-function editSingleItem(type, id) {	
+function editSingleItem(type, id) {
 	var contentElement = $('#modal .modal-content');
 	contentElement.html(spinner);
 	$('#modal').modal('show');

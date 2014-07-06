@@ -31,7 +31,7 @@ function saveContest() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  displaySingleItem('contest', contest.descriptionContent.name.replace(/ /g, '~'));
+				  $.address.value(rootFolder+"contest"+"/" + contest.descriptionContent.name.replace(/ /g, '~'));
 			  } else {
 				  alert("saving failed");
 			  }

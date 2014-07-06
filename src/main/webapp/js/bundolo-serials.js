@@ -1,15 +1,55 @@
+var episodeParentId;
+var episodeParentName;
 $(document).ready(function() {
 });
-function addEpisode() {
-	$('#modal').addClass("edit-episode");
-	$('#editor_label').html('Add episode');
-	$('#modal').modal('show');
+
+function addEpisode(parentId, parentName) {
+	episodeParentId = parentId;
+	episodeParentName = parentName;
+	editSingleItem('episode');
 }
 
 function saveEpisode(title, content) {
 	//TODO validation
-	displayEpisode('dummy_user', title, content);
-	$('#modal').modal('hide');
+	if (!isFormValid($('#modal form'))) {
+		return;
+	}
+	var episodeName = episodeParentName + "/" + $("#edit_title").val();
+	var episode = {};
+	episode.text = $("#edit_content").code();
+	episode.parentContent = {"contentId" : episodeParentId};
+
+	console.log(JSON.stringify(episode));
+	$.ajax({
+		  url: rootPath + restRoot + "/episode/" + episodeName,
+		  type: "PUT",
+		  data: JSON.stringify(episode),
+		  dataType: "json",
+		  contentType: "application/json; charset=utf-8",
+		  beforeSend: function (xhr) {
+			  xhr.setRequestHeader ("Authorization", token);
+		  },
+		  headers: { 
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json' 
+		  },		  
+		  success: function(data) {  
+			  if (data) {
+				  console.log("success: " + JSON.stringify(data));
+				  $('#modal').modal('hide');
+				  $('#edit_content').destroy();
+				  $.address.value(rootFolder+"episode"+"/" + episodeName.replace(/ /g, '~'));
+			  } else {
+				  alert("saving failed");
+			  }
+	      },
+	      error: function(data) {
+	    	  alert("saving failed");
+	      },
+	      complete: function(data) {
+//	    	  console.log("complete: " + JSON.stringify(data));
+	      }
+		});
 }
 
 function saveSerial(title, description) {
@@ -17,13 +57,13 @@ function saveSerial(title, description) {
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
+	var serialName = $("#edit_title").val();
 	var serial = {};
 	serial.text = $("#edit_description").val();
-	serial.name = $("#edit_title").val();
 
 	console.log(JSON.stringify(serial));
 	$.ajax({
-		  url: rootPath + restRoot + "/serial/" + serial.name,
+		  url: rootPath + restRoot + "/serial/" + serialName,
 		  type: "PUT",
 		  data: JSON.stringify(serial),
 		  dataType: "json",
@@ -39,7 +79,7 @@ function saveSerial(title, description) {
 			  if (data) {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
-				  displaySingleItem('serial', serial.name.replace(/ /g, '~'));
+				  $.address.value(rootFolder+"serial"+"/" + serialName.replace(/ /g, '~'));
 			  } else {
 				  alert("saving failed");
 			  }
@@ -53,37 +93,6 @@ function saveSerial(title, description) {
 		});
 }
 
-function displayEpisode(author, title, content) {
-	$.get('/templates/episode.html', function(template) {
-	    var rendered = Mustache.render(template, {"author": author, "title": title, "content": content});
-	    var contentElement = $('.main>.jumbotron>.content');
-	    contentElement.attr('class', 'content episode');
-	    displayContent(contentElement, rendered);
-	  });
-}
-function displayDummyEpisode() {
-	displayEpisode('kiloster', 'Razorback sucker', '<p>Combtooth blenny houndshark clown triggerfish paperbone,\
-			"European eel tilapia sea snail tilapia waryfish," Bitterling\
-			crocodile shark. Flagblenny Hammerjaw stonecat freshwater herring\
-			false brotula false moray; kanyu Atlantic eel blue triggerfish\
-			weeverfish Rainbowfish leaffish. Rudderfish alligatorfish,\
-			Billfish gray reef shark Razorback sucker flounder quillback;\
-			clownfish medusafish Atlantic trout? Gouramie bichir frilled shark\
-			dragonet spiny dogfish cuckoo wrasse. kanyu Atlantic eel blue triggerfish\
-			weeverfish Rainbowfish leaffish. Rudderfish alligatorfish,\
-			Billfish gray reef shark Razorback sucker flounder quillback;\
-			clownfish medusafish Atlantic trout? Gouramie bichir frilled shark\
-			dragonet spiny dogfish cuckoo wrasse.</p>\
-		<p>Combtooth blenny houndshark clown triggerfish paperbone,\
-			"European eel tilapia sea snail tilapia waryfish," Bitterling\
-			crocodile shark. Flagblenny Hammerjaw stonecat freshwater herring\
-			false brotula false moray; kanyu Atlantic eel blue triggerfish\
-			weeverfish Rainbowfish leaffish. Rudderfish alligatorfish,\
-			Billfish gray reef shark Razorback sucker flounder quillback;\
-			clownfish medusafish Atlantic trout? Gouramie bichir frilled shark\
-			dragonet spiny dogfish cuckoo wrasse. kanyu Atlantic eel blue triggerfish\
-			weeverfish Rainbowfish leaffish. Rudderfish alligatorfish,\
-			Billfish gray reef shark Razorback sucker flounder quillback;\
-			clownfish medusafish Atlantic trout? Gouramie bichir frilled shark\
-			dragonet spiny dogfish cuckoo wrasse.</p>');
+function displayEpisode(id) {
+	$.address.value(rootFolder+"episode"+"/" + id.replace(/ /g, '~'));
 }

@@ -12,11 +12,11 @@ function saveText() {
 	description.text = $("#edit_description").val();
 	text.description.push(description);
 	text.text = $("#edit_content").code();
-	text.name = $("#edit_title").val();
+	var name = username + "/" + $("#edit_title").val();
 
 	console.log(JSON.stringify(text));
 	$.ajax({
-		  url: rootPath + restRoot + "/text/" + username + "/" + text.name,
+		  url: rootPath + restRoot + "/text/" + name,
 		  type: "PUT",
 		  data: JSON.stringify(text),
 		  dataType: "json",
@@ -33,7 +33,7 @@ function saveText() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  displaySingleItem('text', username + "/" + text.name.replace(/ /g, '~'));
+				  $.address.value(rootFolder+"text"+"/" + name.replace(/ /g, '~'));
 			  } else {
 				  alert("saving failed");
 			  }

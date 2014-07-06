@@ -1,0 +1,22 @@
+{{#episodes.length}}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Author</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#episodes}}
+			<tr onclick="displayEpisode('{{serial.name}}/{{name}}');">
+				<td>{{authorUsername}}</td>
+				<td>{{{name}}}</td>
+				<td>{{{description.0.text}}}</td>
+				<td>{{creationDate}}</td>
+			</tr>
+		{{/episodes}}
+	</tbody>
+</table>
+{{/episodes.length}}

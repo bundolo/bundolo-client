@@ -8,11 +8,11 @@ function saveAnnouncement() {
 	}
 	var announcement = {};
 	announcement.text = $("#edit_content").code();
-	announcement.name = $("#edit_title").val();
+	var name = $("#edit_title").val();
 
 	console.log(JSON.stringify(announcement));
 	$.ajax({
-		  url: rootPath + restRoot + "/announcement/" + announcement.name,
+		  url: rootPath + restRoot + "/announcement/" + name,
 		  type: "PUT",
 		  data: JSON.stringify(announcement),
 		  dataType: "json",
@@ -29,7 +29,7 @@ function saveAnnouncement() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  displaySingleItem('announcement', announcement.name.replace(/ /g, '~'));
+				  $.address.value(rootFolder+"announcement"+"/" + name.replace(/ /g, '~'));
 			  } else {
 				  alert("saving failed");
 			  }
