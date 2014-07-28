@@ -63,8 +63,8 @@ footer {
 }
 
 .main .jumbotron pre {
-	font-size: 10px;
-	float: left;
+	font: 20px/10px monospace;
+	float: right;
 	margin-right: 10px;
 	background-color: #fff;
 	border: none;
@@ -73,6 +73,8 @@ footer {
 .main .jumbotron p {
 	padding-left: 10px;
 	padding-right: 10px;
+	font-size: 14px;
+	text-transform: lowercase;
 }
 
 /*.main */.slider {
@@ -335,4 +337,12 @@ footer {
 
 .has-error .help-inline {
 	color: #a94442;
+}
+
+.content h3 {
+	font-weight: 700;
+}
+
+.content h4 {
+	text-transform:lowercase;
 }

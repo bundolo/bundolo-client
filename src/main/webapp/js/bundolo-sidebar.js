@@ -75,12 +75,14 @@ function displaySidebarAccordion(type) {
 			//console.log(JSON.stringify(data));
 			var rendered = Mustache.render(template, {"items": data, "escapeUrl": escapeUrl});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');
-			tableBody.append(rendered);
+			tableBody.html(rendered);
 			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');;
 			table.removeClass('hide');
 			tableBody.bind('scroll', function() {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
+		    		console.log("start: " + itemCounter);
+		    		console.log("end: " + (itemCounter + itemAdditional -1));
 		    		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": "date,desc", "filterBy": ""}, function( additional_data ) {
 		    			var rendered_rows = Mustache.render(template, {"items": additional_data, "escapeUrl": escapeUrl});
 		    			tableBody.append(rendered_rows);

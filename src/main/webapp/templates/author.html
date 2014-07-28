@@ -1,4 +1,4 @@
-<pre style="font: 20px/10px monospace;">                 
+<pre>                 
                  
       '@@@@      
      @@@@@@@     
@@ -21,7 +21,37 @@
                  
                  
 </pre>
-<h3>{{username}}</h3>
+
+<div class="btn-group pull-left">
+  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#">po korisničkom imenu</a></li>
+    <li><a href="#">po datumu</a></li>
+    <li><a href="#">po poslednjem komentaru</a></li>
+  </ul>
+</div>
+
+<div class="btn-group pull-right">
+  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#">po korisničkom imenu</a></li>
+    <li><a href="#">po datumu</a></li>
+    <li><a href="#">po poslednjem komentaru</a></li>
+  </ul>
+</div>
+
+<h3 class="text-center">{{username}}</h3>
+<h3 class="text-center">{{signupDate}}</h3>
 {{#descriptionContent.text}}<p>{{{descriptionContent.text}}}</p>{{/descriptionContent.text}}
 {{#showPersonal}}
 	{{#firstName}}First name: {{firstName}}<br/>{{/firstName}}
@@ -30,5 +60,6 @@
 	{{#birthDate}}Birth date: {{birthDate}}<br/>{{/birthDate}}
 	{{#email}}Email: {{email}}<br/>{{/email}}
 {{/showPersonal}}
-{{#signupDate}}Signup date: {{signupDate}}<br/>{{/signupDate}}
 {{#lastLoginDate}}Last login date: {{lastLoginDate}}{{/lastLoginDate}}
+
+todo neki spisak tekstova, linkovi, statistika
