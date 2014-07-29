@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs pull-left">
 	{{#tabs}}
 		<li class="{{#active}}active{{/active}} {{id}}_button">
 			<a href="#{{id}}_tab" data-toggle="tab" title="{{title}}" onClick="displaySlide('{{id}}');">
@@ -11,6 +11,7 @@
 		</li>
 	{{/tabs}}
 </ul>
+<h3 class="pull-right">poslednjih pet</h3>
 <div class="tab-content">
 	{{#tabs}}
 		<div class="tab-pane {{#active}}active{{/active}}" id="{{id}}_tab">

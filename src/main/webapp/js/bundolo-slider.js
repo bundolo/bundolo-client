@@ -1,19 +1,30 @@
 $(document).ready(function() {
 	displaySlider();
+	
+	//this solves a problem of carousel not showing active item after slide has been shown, hidden and shown again. some event hangs.
+	//on tab show we are finding previous tab, its carousel, and cleaning it up.
+	$('body').on('show.bs.tab', 'a[data-toggle="tab"]', function(e) {
+		var $carousel = $($(e.relatedTarget).attr('href') + ' .carousel');
+		if ($carousel) {
+			$carousel.carousel("pause").removeData();
+		}
+	});
+		  
+		  
 });
 
 function displaySlider() {
 	$.get('/templates/slider.html', function(template) {
 	    var rendered = Mustache.render(template, {
 	    	"tabs": [
-			    { "title": "Overview", "id" : "overview", "icon" : "flag", "active": true },
-			    { "title": "Texts", "id" : "texts", "icon" : "file-text-o" },
-			    { "title": "Serials", "id" : "serials", "icon" : "book" },
-			    { "title": "Authors", "id" : "authors", "icon" : "user" },
-			    { "title": "Announcements", "id" : "announcements", "icon" : "bullhorn" },
-			    { "title": "Forum", "id" : "topics", "icon" : "comments-o" },
-			    { "title": "Contests", "id" : "contests", "icon" : "eye" },
-			    { "title": "Connections", "id" : "connections", "icon" : "link" },
+			    { "title": "komentari", "id" : "overview", "icon" : "comment-o", "active": true },
+			    { "title": "tekstovi", "id" : "texts", "icon" : "file-text-o" },
+			    { "title": "serije", "id" : "serials", "icon" : "book" },
+			    { "title": "autori", "id" : "authors", "icon" : "user" },
+			    { "title": "vesti", "id" : "announcements", "icon" : "bullhorn" },
+			    { "title": "diskusije", "id" : "topics", "icon" : "comments-o" },
+			    { "title": "konkursi", "id" : "contests", "icon" : "eye" },
+			    { "title": "linkovi", "id" : "connections", "icon" : "link" },
 			  ]
 		});
 	    $(".slider").html(rendered);
