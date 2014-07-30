@@ -35,7 +35,7 @@
 						<thead>
 							<tr>
 								{{#columns}}
-									<th>{{.}}</th>
+									<th id="{{id}}_column_{{column_name}}" {{#column_order}}class="{{column_order}}"{{/column_order}}>{{column_title}}</th>
 								{{/columns}}
 							</tr>
 							<tr>

@@ -108,16 +108,16 @@ footer {
 	-webkit-transform: scale(1.2,1.2);
 }
 
-.main .table>thead>tr>th, .sidebar .table>thead>tr>th {
+.main .table>thead>tr>th {
 	border: 0;
 	cursor: pointer;
 }
 
-.main .table>tbody>tr:hover, .sidebar .table>tbody>tr:hover {
+.main .table>tbody>tr:hover {
 	cursor: pointer;
 }
 
-.main .table>tbody>tr:hover>td, .sidebar .table>tbody>tr:hover>td {
+.main .table>tbody>tr:hover>td {
 	/*TODO color*/
 	background-color: red;	
 }

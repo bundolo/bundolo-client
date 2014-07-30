@@ -138,8 +138,38 @@ z-index: 2;
 
 .sidebar table td, .sidebar table th {
 	width: 25%;
-	word-wrap: break-word;
+-ms-word-break: break-all;
+     word-break: break-all;
+
+     /* Non standard for webkit */
+     word-break: break-word;
+
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+    -ms-hyphens: auto;
+        hyphens: auto;
 	padding: 0 !important;
+	
+	background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+    border: 0;
+    position: relative;
+}
+
+.sidebar table th:after {
+	position: absolute;
+	font-family: FontAwesome;
+	top:0;
+	right: 4px;
+}
+
+.sidebar table th.asc:after {
+	content: "\f0d7";
+}
+
+.sidebar table th.desc:after {
+	content: "\f0d8";
 }
 
 .sidebar table td:last-child,.sidebar table th:last-child {
