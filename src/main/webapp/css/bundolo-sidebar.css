@@ -154,14 +154,15 @@ z-index: 2;
     background-position: center right;
     cursor: pointer;
     border: 0;
-    position: relative;
+    /*position: relative;*/
 }
 
-.sidebar table th:after {
-	position: absolute;
+.sidebar table th:after {	
 	font-family: FontAwesome;
+	padding-left: 4px;
+	/*position: absolute; to right align the caret, might need if we fix column width
 	top:0;
-	right: 4px;
+	right: 4px;*/
 }
 
 .sidebar table th.asc:after {

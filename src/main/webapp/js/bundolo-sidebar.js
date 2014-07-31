@@ -18,10 +18,53 @@ $(document).ready(function() {
 			$('#sidebarAccordion>li #collapse_'+itemType+' table>thead>tr>th').removeClass("asc desc");
 			$(this).toggleClass("asc");
 		}
-		//TODO filtering
-		displaySidebarAccordion(itemType, columnName,  $(this).attr('class'), '', '');
+		displaySidebarAccordion(itemType, columnName + ',' + $(this).attr('class'), getFilterString(itemType));
+	});
+	//changing text in filter input fields
+	$('body').on('input', '#sidebarAccordion>li .panel-collapse table>thead>tr>td>input', function(e) {
+		window.clearTimeout($(this).data("timeout"));
+		var thiz = $(this);
+	    $(this).data("timeout", setTimeout(function () {
+	    	var collapseId = thiz.closest('.panel-collapse').attr('id');
+			var itemType = collapseId.substr(9);
+			displaySidebarAccordion(itemType, getOrderString(itemType), getFilterString(itemType));
+	    }, 500));
+		
 	});
 });
+
+function getOrderString(type) {
+	var result = '';
+	$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').each(function() {
+		if ($(this).attr('class')) {
+			var elementId = $(this).attr('id');
+			var columnName = elementId.substr(type.length + 8);
+			if (result != '') {
+				result += ',';
+			}
+			result += columnName + ',' + $(this).attr('class');
+		}
+	});
+	return result;
+}
+
+function getFilterString(type) {
+	var result = '';
+	$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').each(function() {
+		var tr = $(this).parent();
+		var columnIndex = tr.children().index($(this));
+		var filterValue = tr.next().children().eq(columnIndex).find('input').val();
+		if (filterValue) {
+			var elementId = $(this).attr('id');
+			var columnName = elementId.substr(type.length + 8);
+			if (result != '') {
+				result += ',';
+			}
+			result += columnName + ',' + filterValue;
+		}
+	});
+	return result;
+}
 
 function preventSidebarToggle(element, event) {
 	var thisAccordion = element.closest('.panel');
@@ -34,13 +77,13 @@ function displaySidebar() {
 	$.get('/templates/sidebar.html', function(template) {
 	    var rendered = Mustache.render(template, {
 			  "collapsibles": [
-			 			    { "title": "tekstovi", "id" : "texts", "icon" : "file-text-o", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}] },
-			 			    { "title": "serije", "id" : "serials", "icon" : "book", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}] },
-			 			    { "title": "autori", "id" : "authors", "icon" : "user", "columns" : [{"column_title" : "korisničko ime", "column_name" : "author"}, {"column_title" : "opis", "column_name" : "description"}, {"column_title" : "registracija", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}] },
-			 			    { "title": "vesti", "id" : "announcements", "icon" : "bullhorn", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}] },
-			 			    { "title": "diskusije", "id" : "topics", "icon" : "comments-o", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}], "categories" : [{"title" : "književnost", "id" : "literature"}, {"title" : "bundolo", "id" : "bundolo"}, {"title" : "razno", "id" : "various"}, {"title" : "predlozi", "id" : "suggestions"}, {"title" : "arhiva", "id" : "archive"} ] },
-			 			    { "title": "konkursi", "id" : "contests", "icon" : "eye", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}] },
-			 			    { "title": "linkovi", "id" : "connections", "icon" : "link", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "last_activity"}], "categories" : [{"title" : "književnost", "id" : "literature"}, {"title" : "kultura", "id" : "art"}, {"title" : "alternativni strip", "id" : "comics"}, {"title" : "online magazini", "id" : "magazines"}, {"title" : "alternativna kultura", "id" : "underground"} ] },
+			 			    { "title": "tekstovi", "id" : "texts", "icon" : "file-text-o", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
+			 			    { "title": "serije", "id" : "serials", "icon" : "book", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
+			 			    { "title": "autori", "id" : "authors", "icon" : "user", "columns" : [{"column_title" : "korisničko ime", "column_name" : "author"}, {"column_title" : "opis", "column_name" : "description"}, {"column_title" : "registracija", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
+			 			    { "title": "vesti", "id" : "announcements", "icon" : "bullhorn", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
+			 			    { "title": "diskusije", "id" : "topics", "icon" : "comments-o", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}], "categories" : [{"title" : "književnost", "id" : "literature"}, {"title" : "bundolo", "id" : "bundolo"}, {"title" : "razno", "id" : "various"}, {"title" : "predlozi", "id" : "suggestions"}, {"title" : "arhiva", "id" : "archive"} ] },
+			 			    { "title": "konkursi", "id" : "contests", "icon" : "eye", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
+			 			    { "title": "linkovi", "id" : "connections", "icon" : "link", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}], "categories" : [{"title" : "književnost", "id" : "literature"}, {"title" : "kultura", "id" : "art"}, {"title" : "alternativni strip", "id" : "comics"}, {"title" : "online magazini", "id" : "magazines"}, {"title" : "alternativna kultura", "id" : "underground"} ] },
 			 			  ]
 			 			});
 	    $(".sidebar").html(rendered);
@@ -74,24 +117,20 @@ function displaySidebar() {
 	  });
 }
 
-function displaySidebarAccordion(type, orderBy, order, filterBy, filter) {
-	order = typeof order !== 'undefined' ? order : 'desc';
-	if (typeof orderBy === 'undefined') {
-		orderBy = 'date';
+function displaySidebarAccordion(type, orderBy, filterBy) {
+	if (typeof orderBy === 'undefined' || orderBy == '') {
+		orderBy = 'date,desc';
 		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').removeClass("asc desc");
-		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>#'+type+'_column_date').addClass(order);
+		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>#'+type+'_column_date').addClass('desc');
 	}	
 	filterBy = typeof filterBy !== 'undefined' ? filterBy : '';
-	filter = typeof filter !== 'undefined' ? filter : '';
-	var orderByParam = orderBy + ',' + order;
-	var filterByParam = filterBy != '' ? filterBy + ',' + filter : '';
 	var table = $('.sidebar #collapse_'+type+' table');
 	table.addClass('hide');
 	var itemCounter = 0;
 	var itemInitial = 25;
 	var itemAdditional = 10;
 	$.get('/templates/sidebar_'+type+'.html', function(template) {
-		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": orderByParam, "filterBy": filterByParam}, function( data ) {
+		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": orderBy, "filterBy": filterBy}, function( data ) {
 			var escapeUrl = function () {
 				return function(val, render) {
 				    return render(val).replace(/ /g, '~');
@@ -103,12 +142,13 @@ function displaySidebarAccordion(type, orderBy, order, filterBy, filter) {
 			tableBody.html(rendered);
 			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');;
 			table.removeClass('hide');
+			tableBody.unbind('scroll');
 			tableBody.bind('scroll', function() {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
-		    		console.log("start: " + itemCounter);
-		    		console.log("end: " + (itemCounter + itemAdditional -1));
-		    		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": "date,desc", "filterBy": ""}, function( additional_data ) {
+		    		//console.log("start: " + itemCounter);
+		    		//console.log("end: " + (itemCounter + itemAdditional -1));
+		    		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": orderBy, "filterBy": filterBy}, function( additional_data ) {
 		    			var rendered_rows = Mustache.render(template, {"items": additional_data, "escapeUrl": escapeUrl});
 		    			tableBody.append(rendered_rows);
 		    		});
