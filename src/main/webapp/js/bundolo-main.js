@@ -80,6 +80,18 @@ function displaySingleItem(type, id) {
 			    case 'topic':
 			    	commentParentId = data.contentId;
 			        break;
+			    case 'serial':
+			    	commentParentId = data.contentId;
+			        break;
+			    case 'announcement':
+			    	commentParentId = data.contentId;
+			        break;
+			    case 'contest':
+			    	commentParentId = data.descriptionContent.contentId;
+			        break;
+			    case 'connection':
+			    	commentParentId = data.descriptionContent.contentId;
+			        break;
 			    default:
 			        commentParentId = id;
 		    }
