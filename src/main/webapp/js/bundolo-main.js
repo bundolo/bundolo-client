@@ -92,6 +92,9 @@ function displaySingleItem(type, id) {
 			    case 'connection':
 			    	commentParentId = data.descriptionContent.contentId;
 			        break;
+			    case 'episode':
+			    	commentParentId = data.contentId;
+			        break;
 			    default:
 			        commentParentId = id;
 		    }
