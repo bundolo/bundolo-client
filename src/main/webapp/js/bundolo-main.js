@@ -303,8 +303,7 @@ function displayStatistics() {
 		        xhr.setRequestHeader ("Authorization", token);
 		    },
 		    success: function(data) {
-		    	//do not use html from db for now
-		    	var rendered = Mustache.render(template, data);
+		    	var rendered = Mustache.render(template, {"items" : data});
 			    displayContent(contentElement, rendered);
 			},
 			error: function(textStatus, errorThrown) {
