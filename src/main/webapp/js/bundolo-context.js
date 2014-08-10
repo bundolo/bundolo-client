@@ -84,7 +84,7 @@ function addContextMenu(parentElement, parentId) {
 		var contextRootElement = $('.context-menu>div>div');
 		contextRootElement.html(spinner);
 		$.get(rootFolder+"templates/comments.html", function(template) {
-			$.getJSON(rootPath + restRoot + "/comments/" + parentId, function(data) {
+			$.getJSON(rootPath + restRoot + "/parent_comments/" + parentId, function(data) {
 				sanitizeRecursive(data);
 				var partials = {commentPanel: template};
 			    var rendered = Mustache.render(template, {"comments": data}, partials);
@@ -124,7 +124,7 @@ function addComment(parentElement, parentId) {
 	editSingleItem('comment');
 }
 
-function saveComment() {	
+function saveComment() {
 	//TODO validation
 	var commentContent = $('#edit_content').val();
 	var comment = {};
@@ -140,11 +140,11 @@ function saveComment() {
 	  beforeSend: function (xhr) {
 	        xhr.setRequestHeader ("Authorization", token);
 	    },
-	  headers: { 
+	  headers: {
 	        'Accept': 'application/json',
-	        'Content-Type': 'application/json' 
+	        'Content-Type': 'application/json'
 	    },
-	  success: function(data) {  
+	  success: function(data) {
 		  displayComment(username, sanitize(commentContent), commentParentElement);
 		  $('#modal').modal('hide');
       }

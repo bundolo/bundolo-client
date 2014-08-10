@@ -9,15 +9,14 @@ $(document).ready(function() {
 			$carousel.carousel("pause").removeData();
 		}
 	});
-		  
-		  
+
 });
 
 function displaySlider() {
 	$.get('/templates/slider.html', function(template) {
 	    var rendered = Mustache.render(template, {
 	    	"tabs": [
-			    { "title": "komentari", "id" : "overview", "icon" : "comment-o", "active": true },
+			    { "title": "komentari", "id" : "comments", "icon" : "comment-o", "active": true },
 			    { "title": "tekstovi", "id" : "texts", "icon" : "file-text-o" },
 			    { "title": "serije", "id" : "serials", "icon" : "book" },
 			    { "title": "autori", "id" : "authors", "icon" : "user" },
@@ -28,6 +27,7 @@ function displaySlider() {
 			  ]
 		});
 	    $(".slider").html(rendered);
+	    displaySlide('comments');
 	    //TODO assign event handlers if any
 	  });
 }
