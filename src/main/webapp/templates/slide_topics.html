@@ -6,9 +6,9 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h3>{{{name}}}</h3>
-			{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
+			<h4><a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}">{{name}}</a></h4>
+			{{#authorUsername}}pokretač: <a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}<br/>
+			{{#creationDate}}dodato: {{creationDate}}{{/creationDate}}
 		</div>
 	{{/slides}}
 </div>

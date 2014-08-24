@@ -21,7 +21,27 @@
                        
                        
 </pre>
-{{#items}}
-	<br/>{{name}}
-	<br/>{{kind}}
-{{/items}}
+{{#items.length}}
+<h3 class="text-center">ukupno objavljeno: {{items.length}}</h3>
+<h3 class="text-center">ukupno čitanja: {{rating}}</h3>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>naslov</th>
+			<th>vrsta</th>
+			<th>datum objavljivanja</th>
+			<th>broj čitanja</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#items}}
+			<tr onclick="displayEpisode('{{serial.name}}/{{name}}');">
+				<td>{{name}}</td>
+				<td>{{#isText}}tekst{{/isText}}{{#isEpisode}}nastavak{{/isEpisode}}</td>
+				<td>{{creationDate}}</td>
+				<td>{{#rating.value}}{{rating.value}}{{/rating.value}}{{^rating.value}}0{{/rating.value}}</td>
+			</tr>
+		{{/items}}
+	</tbody>
+</table>
+{{/items.length}}

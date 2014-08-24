@@ -6,11 +6,10 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h3>{{descriptionContent.name}}</h3>
+			<h4><a href="/contest/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}">{{descriptionContent.name}}</a></h4>
 			<p>{{{descriptionContent.text}}}</p>
-			{{#expirationDate}}<h4>expires on: {{expirationDate}}</h4>{{/expirationDate}}
-			{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
+			{{#creationDate}}dodato: {{creationDate}}{{/creationDate}}</br>
+			{{#expirationDate}}traje do: {{expirationDate}}{{/expirationDate}}{{^expirationDate}}stalan konkurs{{/expirationDate}}
 		</div>
 	{{/slides}}
 </div>

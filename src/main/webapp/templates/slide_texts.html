@@ -6,10 +6,10 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h3>{{authorUsername}}</h3>
-			<h3>{{{name}}}</h3>
-			<p>{{{description.0.text}}}</p>
-			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
+			<h4><a href="/author/{{authorUsername}}">{{authorUsername}}</a></h4>
+			<h4><a href="/text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}">{{name}}</a></h4>
+			{{#description.0.text}}<p>{{{description.0.text}}}</p>{{/description.0.text}}
+			{{#creationDate}}dodato: {{creationDate}}{{/creationDate}}
 		</div>
 	{{/slides}}
 </div>

@@ -6,7 +6,7 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h3>{{username}}</h3>
+			<h4><a href="/author/{{username}}">{{username}}</a></h4>
 			{{#descriptionContent.text}}<p>{{{descriptionContent.text}}}</p>{{/descriptionContent.text}}
 			{{#showPersonal}}
 				{{#firstName}}First name: {{firstName}}<br/>{{/firstName}}
@@ -15,8 +15,7 @@
 				{{#birthDate}}Birth date: {{birthDate}}<br/>{{/birthDate}}
 				{{#email}}Email: {{email}}<br/>{{/email}}
 			{{/showPersonal}}
-			{{#signupDate}}Signup date: {{signupDate}}<br/>{{/signupDate}}
-			{{#lastLoginDate}}Last login date: {{lastLoginDate}}{{/lastLoginDate}}
+			{{#signupDate}}registrovan: {{signupDate}}<br/>{{/signupDate}}
 		</div>
 	{{/slides}}
 </div>

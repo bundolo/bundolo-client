@@ -69,6 +69,7 @@
 
 .slider .carousel-inner {
 	padding-bottom: 40px;
+	padding-left: 4px;
 	min-height: 100px;	
 }
 
@@ -156,4 +157,15 @@
 .slider>h3 {
 	margin: 40px 20px 0 0;
 	font-weight: 700;
+}
+
+.slider .carousel .item a {
+	color: #444;
+	text-decoration: underline;
+	font-style: italic;
+	font-weight: 700;
+}
+
+.slider .carousel .item a:hover {
+	color: #000;
 }

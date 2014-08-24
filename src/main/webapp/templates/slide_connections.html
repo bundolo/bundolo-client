@@ -6,12 +6,11 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h3>{{descriptionContent.name}}</h3>
+			<h4><a href="/announcement/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}">{{descriptionContent.name}}</a></h4>
 			<p>{{{descriptionContent.text}}}</p>
-			{{#url}}<h4>url: {{url}}</h4>{{/url}}
-			{{#email}}<h4>email: {{email}}</h4>{{/email}}
-			{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-			{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
+			{{#url}}link: <a href="{{url}}" target="_blank">{{url}}</a><br/>{{/url}}
+			{{#email}}email: <a href="mailto:{{url}}">{{email}}</a><br/>{{/email}}
+			{{#creationDate}}dodato: {{creationDate}}{{/creationDate}}
 		</div>
 	{{/slides}}
 </div>

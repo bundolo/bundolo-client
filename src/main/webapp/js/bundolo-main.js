@@ -78,7 +78,10 @@ function displaySingleItem(type, id) {
 			    	commentParentId = data.descriptionContent.contentId;
 			        break;
 			    case 'topic':
-			    	commentParentId = data.contentId;
+			    	//topic comments are disabled to avoid confusion with posts
+			    	//consider enabling comments on forum, or forum groups
+			    	//commentParentId = data.contentId;
+			    	commentParentId = null;
 			        break;
 			    case 'serial':
 			    	commentParentId = data.contentId;
@@ -303,7 +306,21 @@ function displayStatistics() {
 		        xhr.setRequestHeader ("Authorization", token);
 		    },
 		    success: function(data) {
-		    	var rendered = Mustache.render(template, {"items" : data});
+		    	var totalRating = 0;
+		    	for (var i = 0; i < data.length; i++) {
+		    		switch(data[i].kind) {
+				    case 'text':
+				    	data[i].isText = true;
+				        break;
+				    case 'episode':
+				    	data[i].isEpisode = true;
+				        break;
+		    		}
+		    		if (data[i].rating) {
+		    			totalRating += data[i].rating.value;
+		    		}
+		    	}
+		    	var rendered = Mustache.render(template, {"items" : data, "rating" : totalRating});
 			    displayContent(contentElement, rendered);
 			},
 			error: function(textStatus, errorThrown) {

@@ -6,11 +6,9 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<p>-{{{text}}} ({{#authorUsername}}{{authorUsername}}{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</p>			
-			{{#creationDate}}vreme dodavanja: {{creationDate}}{{/creationDate}}
-			<br/>{{parentContent.name}}
-			<br/>{{parentContent.kind}}
-			<br/>{{#parentContent.parentContent}}{{parentContent.parentContent.kind}}{{/parentContent.parentContent}}
+			<h4>- {{{text}}} ({{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h4>			
+			{{#creationDate}}dodato: {{creationDate}}{{/creationDate}}
+			<br/>komentar na {{parentKind}} <a href="{{parentLinkUrl}}">{{parentLinkText}}</a>
 		</div>
 	{{/slides}}
 </div>
