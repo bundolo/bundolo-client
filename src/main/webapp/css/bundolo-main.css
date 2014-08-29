@@ -346,3 +346,14 @@ footer {
 .content h4 {
 	text-transform:lowercase;
 }
+
+.main .jumbotron a {
+	color: #444;
+	text-decoration: underline;
+	font-style: italic;
+	font-weight: 700;
+}
+
+.main .jumbotron a:hover {
+	color: #000;
+}

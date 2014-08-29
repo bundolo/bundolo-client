@@ -72,7 +72,7 @@ function displaySingleItem(type, id) {
 //		    alert("data: " + data);
 		    switch(type) {
 			    case 'text':
-			    	commentParentId = data.description[0].contentId;
+			    	commentParentId = data.contentId;
 			        break;
 			    case 'author':
 			    	commentParentId = data.descriptionContent.contentId;
@@ -212,7 +212,8 @@ function sanitize(content) {
 
 function displayHome() {
 	var contentElement = $('.main>.jumbotron>.content');
-	contentElement.html(spinner);
+	//contentElement.html(spinner);
+	displayContent(contentElement, homeHtml);
 	$.ajax({
 	    url: rootPath + restRoot + "/page/home",
 	    type: 'GET',
@@ -222,11 +223,62 @@ function displayHome() {
 	    	xhr.setRequestHeader ("Authorization", token);
 	    },
 	    success: function(data) {
-			//do not use html from db for now
-		    displayContent(contentElement, homeHtml, data.contentId);
+	    	displayContent(contentElement, homeHtml, data.contentId);
+	    	
+			//do not use html from db for now we will load random comment containing word bundolo
+	    	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
+	    		var comment = data[0];
+	    		var parentLinkUrl = "";
+	    		//console.log(comment.parentContent.kind);
+			  switch(comment.parentContent.kind) {
+			    case 'text':
+			    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'episode':
+			    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'episode_group':
+			    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'connection_description':
+			    	parentLinkUrl = rootPath+"/connection/" + comment.parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'contest_description':
+			    	parentLinkUrl = rootPath+"/contest/" + comment.parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'page_description':
+			    	var contentName = comment.parentContent.name;
+			    	parentLinkUrl = rootPath;
+			    	contentName = contentName.replace(/ /g, '~').toLowerCase();
+			    	if (contentName != 'home') {
+			    		parentLinkUrl += "/" + contentName;
+			    	}
+			        break;
+			    case 'news':
+			    	data[index].parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'forum_group':
+			    	//forum group comments are not enabled 
+			        break;
+			    case 'user_description':
+			    	parentLinkUrl = rootPath+"/author/" + comment.parentContent.authorUsername;
+			        break;
+				}
+  //console.log(JSON.stringify(comment));
+			  var authorLink = "";
+			  if (comment.authorUsername && comment.authorUsername != "gost") {
+				  authorLink = "<a href='/author/"+comment.authorUsername+"'>"+comment.authorUsername+"</a>";
+			  } else {
+				  authorLink = "gost";
+			  }
+			  var authorLink
+			  var mainContentText = $(".main>.jumbotron>.content>h2");
+			  mainContentText.html("- <a href='"+parentLinkUrl+"'>"+comment.text+"</a> ("+authorLink+")");
+	  		  });
 		},
 		error: function(textStatus, errorThrown) {
-			alert("pic: "+ textStatus + ", mic: " + errorThrown);
+			//TODO
+			//alert("pic: "+ textStatus + ", mic: " + errorThrown);
 		}
 	});
 }
@@ -250,7 +302,7 @@ function displayAbout() {
 			},
 			error: function(textStatus, errorThrown) {
 				//TODO
-				alert("pic: "+ textStatus + ", mic: " + errorThrown);
+				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
 			}
 		});
 	});

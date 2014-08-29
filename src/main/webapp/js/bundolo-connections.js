@@ -10,7 +10,8 @@ function saveConnection() {
 	connection.descriptionContent = {};
 	connection.descriptionContent.text = $("#edit_description").code();
 	var name = $("#edit_title").val();
-	connection.parentContentId = $("#edit_group").val();
+	connection.parentContent = {};
+	connection.parentContent.contentId = $("#edit_group").val();
 	connection.url = $("#edit_url").val();
 	connection.email = $("#edit_email").val();
 

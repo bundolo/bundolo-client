@@ -31,6 +31,17 @@ $(document).ready(function() {
 	    }, 500));
 		
 	});
+	//changing selection in category combo box
+	$('body').on('change', '#sidebarAccordion>li>.panel-heading>select', function(e) {
+		window.clearTimeout($(this).data("timeout"));
+		var thiz = $(this);
+	    $(this).data("timeout", setTimeout(function () {
+	    	var collapseId = thiz.parent().parent().find('.panel-collapse').attr('id');
+			var itemType = collapseId.substr(9);
+			displaySidebarAccordion(itemType, getOrderString(itemType), getFilterString(itemType));
+	    }, 500));
+		
+	});
 });
 
 function getOrderString(type) {
@@ -63,6 +74,13 @@ function getFilterString(type) {
 			result += columnName + ',' + filterValue;
 		}
 	});
+	var categorySelect = $('#sidebarAccordion>li #collapse_'+type).parent().find('.panel-heading>select');
+	if (categorySelect.length && categorySelect.val()) {
+		if (result != '') {
+			result += ',';
+		}
+		result += 'group,' + categorySelect.val();
+	}
 	return result;
 }
 
@@ -81,9 +99,9 @@ function displaySidebar() {
 			 			    { "title": "serije", "id" : "serials", "icon" : "book", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
 			 			    { "title": "autori", "id" : "authors", "icon" : "user", "columns" : [{"column_title" : "korisničko ime", "column_name" : "author"}, {"column_title" : "opis", "column_name" : "description"}, {"column_title" : "registracija", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
 			 			    { "title": "vesti", "id" : "announcements", "icon" : "bullhorn", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
-			 			    { "title": "diskusije", "id" : "topics", "icon" : "comments-o", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}], "categories" : [{"title" : "književnost", "id" : "literature"}, {"title" : "bundolo", "id" : "bundolo"}, {"title" : "razno", "id" : "various"}, {"title" : "predlozi", "id" : "suggestions"}, {"title" : "arhiva", "id" : "archive"} ] },
+			 			    { "title": "diskusije", "id" : "topics", "icon" : "comments-o", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}], "categories" : [{"title" : "književnost", "id" : "književnost"}, {"title" : "bundolo", "id" : "bundolo"}, {"title" : "razno", "id" : "razno"}, {"title" : "predlozi", "id" : "predlozi"}, {"title" : "arhiva", "id" : "arhiva"} ] },
 			 			    { "title": "konkursi", "id" : "contests", "icon" : "eye", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}] },
-			 			    { "title": "linkovi", "id" : "connections", "icon" : "link", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}], "categories" : [{"title" : "književnost", "id" : "literature"}, {"title" : "kultura", "id" : "art"}, {"title" : "alternativni strip", "id" : "comics"}, {"title" : "online magazini", "id" : "magazines"}, {"title" : "alternativna kultura", "id" : "underground"} ] },
+			 			    { "title": "linkovi", "id" : "connections", "icon" : "link", "columns" : [{"column_title" : "naslov", "column_name" : "title"}, {"column_title" : "autor", "column_name" : "author"}, {"column_title" : "objavljivanje", "column_name" : "date", "column_order" : "desc"}, {"column_title" : "aktivnost", "column_name" : "activity"}], "categories" : [{"title" : "književnost", "id" : "književnost"}, {"title" : "kultura", "id" : "kultura"}, {"title" : "alternativni strip", "id" : "alternativni strip"}, {"title" : "online magazini", "id" : "online magazini"}, {"title" : "alternativna kultura", "id" : "alternativna kultura"} ] },
 			 			  ]
 			 			});
 	    $(".sidebar").html(rendered);
@@ -118,6 +136,7 @@ function displaySidebar() {
 }
 
 function displaySidebarAccordion(type, orderBy, filterBy) {
+	//console.log("type: " + type + ", orderBy: " + orderBy +", filterBy: "+ filterBy);
 	if (typeof orderBy === 'undefined' || orderBy == '') {
 		orderBy = 'date,desc';
 		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').removeClass("asc desc");
