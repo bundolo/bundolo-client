@@ -235,7 +235,7 @@ function displayHome() {
 			    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'episode':
-			    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+			    	parentLinkUrl = rootPath+"/episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'episode_group':
 			    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
@@ -255,7 +255,7 @@ function displayHome() {
 			    	}
 			        break;
 			    case 'news':
-			    	data[index].parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
+			    	parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'forum_group':
 			    	//forum group comments are not enabled 
@@ -271,7 +271,6 @@ function displayHome() {
 			  } else {
 				  authorLink = "gost";
 			  }
-			  var authorLink
 			  var mainContentText = $(".main>.jumbotron>.content>h2");
 			  mainContentText.html("- <a href='"+parentLinkUrl+"'>"+comment.text+"</a> ("+authorLink+")");
 	  		  });
@@ -342,6 +341,41 @@ function displayProfile() {
 				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
 			}
 		});
+	});
+}
+
+function displayNext(type, id, orderBy, fixBy, ascending) {
+	$.getJSON(rootPath + restRoot + "/next", { "type": type, "id": id, "orderBy": orderBy, "fixBy": fixBy, "ascending": ascending}, function( data ) {
+		//console.log(JSON.stringify(data));
+		var nextItemUrl = "";
+		//console.log(data.kind);
+		  switch(type) {
+		    case 'text':
+		    	nextItemUrl = rootFolder+"text/" + data.authorUsername + "/" + data.name.replace(/ /g, '~');
+		        break;
+		    case 'episode':
+		    	nextItemUrl = rootFolder+"episode/" + data.parentGroup.replace(/ /g, '~') + "/" + data.name.replace(/ /g, '~');
+		        break;
+		    case 'serial':
+		    	nextItemUrl = rootFolder+"serial/" + data.name.replace(/ /g, '~');
+		        break;
+		    case 'connection':
+		    	nextItemUrl = rootFolder+"connection/" + data.descriptionContent.name.replace(/ /g, '~');
+		        break;
+		    case 'contest':
+		    	nextItemUrl = rootFolder+"contest/" + data.descriptionContent.name.replace(/ /g, '~');
+		        break;
+		    case 'announcement':
+		    	nextItemUrl = rootFolder+"announcement/" + data.name.replace(/ /g, '~');
+		        break;
+		    case 'topic':
+		    	nextItemUrl = rootFolder+"topic/" + data.name.replace(/ /g, '~');
+		        break;
+		    case 'author':
+		    	nextItemUrl = rootFolder+"author/" + data.username;
+		        break;
+			}	
+			$.address.value(nextItemUrl);
 	});
 }
 

@@ -30,11 +30,11 @@
 		</span>
   </button>
   <ul class="dropdown-menu" role="menu">
-  	<li><a href="#">u seriji</a></li>
-    <li><a href="#">od istog autora</a></li>
-    <li><a href="#">po naslovu</a></li>
-    <li><a href="#">po datumu</a></li>
-    <li><a href="#">po poslednjem komentaru</a></li>
+  	<li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'group', false);">u seriji</a></li>
+    <li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'author', false);">od istog autora</a></li>
+    <li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'title', '', false);">po naslovu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', '', false);">po datumu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
   </ul>
 </div>
 
@@ -46,14 +46,15 @@
 		</span>
   </button>
   <ul class="dropdown-menu" role="menu">
-  	<li class="pull-right"><a href="#">u seriji</a></li>
-    <li class="pull-right"><a href="#">od istog autora</a></li>
-    <li class="pull-right"><a href="#">po naslovu</a></li>
-    <li class="pull-right"><a href="#">po datumu</a></li>
-    <li class="pull-right"><a href="#">po poslednjem komentaru</a></li>
+  	<li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'group', true);">u seriji</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'author', true);">od istog autora</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'title', '', true);">po naslovu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', '', true);">po datumu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
   </ul>
 </div>
 
+<h3 class="text-center">{{parentGroup}}</h3>
 <h3 class="text-center">{{authorUsername}}</h3>
 <h3 class="text-center">{{{name}}}</h3>
 {{{text}}}

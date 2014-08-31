@@ -30,10 +30,10 @@
 		</span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li><a href="#">od istog autora</a></li>
-    <li><a href="#">po naslovu</a></li>
-    <li><a href="#">po datumu</a></li>
-    <li><a href="#">po poslednjem komentaru</a></li>
+    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', 'author', false);">od istog autora</a></li>
+    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'title', '', false);">po naslovu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', '', false);">po datumu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
   </ul>
 </div>
 
@@ -45,10 +45,10 @@
 		</span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li class="pull-right"><a href="#">od istog autora</a></li>
-    <li class="pull-right"><a href="#">po naslovu</a></li>
-    <li class="pull-right"><a href="#">po datumu</a></li>
-    <li class="pull-right"><a href="#">po poslednjem komentaru</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', 'author', true);">od istog autora</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'title', '', true);">po naslovu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', '', true);">po datumu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
   </ul>
 </div>
 
