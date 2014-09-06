@@ -58,7 +58,7 @@ function login() {
 	  data: "password="+loginPassword,
 	  success: function(data) {
 		  if (data) {
-			  console.log("success: " + JSON.stringify(data));
+			  //console.log("success: " + JSON.stringify(data));
 			  username = loginUsername;
 			  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
 			  if (loginRememberMe) {

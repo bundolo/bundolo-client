@@ -150,11 +150,11 @@ function displaySidebarAccordion(type, orderBy, filterBy) {
 	var itemAdditional = 10;
 	$.get('/templates/sidebar_'+type+'.html', function(template) {
 		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": orderBy, "filterBy": filterBy}, function( data ) {
-			var escapeUrl = function () {
-				return function(val, render) {
-				    return render(val).replace(/ /g, '~');
-				};
-			};
+//			var escapeUrl = function () {
+//				return function(val, render) {
+//				    return render(val).replace(/ /g, '~');
+//				};
+//			};
 			//console.log(JSON.stringify(data));
 			var rendered = Mustache.render(template, {"items": data, "escapeUrl": escapeUrl});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');

@@ -16,6 +16,13 @@ var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-stack-1x fa-inverse char6">l</i>\
 <i class="fa fa-stack-1x fa-inverse char7">o</i>\
 </span>';
+
+var escapeUrl = function () {
+	return function(val, render) {
+	    return render(val).replace(/ /g, '~');
+	};
+};
+
 $.address.change(function(event) {
 	//alert("address change: " +  $.address.value());
 	//TODO avoid displaying content if it's already displayed
@@ -101,23 +108,60 @@ function displaySingleItem(type, id) {
 			    default:
 			        commentParentId = id;
 		    }
+		    data.escapeUrl = escapeUrl;
 		    var rendered = Mustache.render(template, data);
 		    displayContent(contentElement, rendered, commentParentId);
 		    if (type == 'topic') {
 		    	$.get(rootFolder+"templates/posts.html", function(templatePosts) {
 		    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(posts) {
-		    			var renderedPosts = Mustache.render(templatePosts, {"posts": posts});
+		    			var renderedPosts = Mustache.render(templatePosts, {"posts": posts, "escapeUrl": escapeUrl});
 		    			contentElement.find('tbody').append(renderedPosts);
 		    		});
 		    	});
 		    } else if (type == 'serial') {
 		    	$.get(rootFolder+"templates/episodes.html", function(templateEpisodes) {
 		    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
-		    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes});
+		    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes, "escapeUrl": escapeUrl});
 		    			contentElement.append(renderedEpisodes);
 		    		});
 		    	});
-		    }
+		    } else if (type == 'author') {
+		    	$.get(rootFolder+"templates/author_statistics.html", function(templateStatistics) {
+			    	$.ajax({
+					    url: rootPath + restRoot + "/statistics/" + data.username,
+					    type: 'GET',
+					    dataType: "json",
+					    contentType: "application/json; charset=utf-8",
+					    beforeSend: function (xhr) {
+					        xhr.setRequestHeader ("Authorization", token);
+					    },
+					    success: function(data) {
+					    	var totalRating = 0;
+					    	for (var i = 0; i < data.length; i++) {
+					    		switch(data[i].kind) {
+							    case 'text':
+							    	data[i].isText = true;
+							        break;
+							    case 'episode':
+							    	data[i].isEpisode = true;
+							        break;
+					    		}
+					    		if (data[i].rating) {
+					    			totalRating += data[i].rating.value;
+					    		}
+					    	}
+					    	  //console.log(JSON.stringify(data));
+					    	var renderedStatistics = Mustache.render(templateStatistics, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
+					    	contentElement.append(renderedStatistics);
+						},
+						error: function(textStatus, errorThrown) {
+							//TODO
+							//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+						}
+					});
+		    	});
+		    } 
+		    
 		});
 	});
 }
@@ -406,7 +450,7 @@ function displayStatistics() {
 		    			totalRating += data[i].rating.value;
 		    		}
 		    	}
-		    	var rendered = Mustache.render(template, {"items" : data, "rating" : totalRating});
+		    	var rendered = Mustache.render(template, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
 			    displayContent(contentElement, rendered);
 			},
 			error: function(textStatus, errorThrown) {

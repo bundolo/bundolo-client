@@ -54,8 +54,8 @@
   </ul>
 </div>
 
-<h3 class="text-center">{{parentGroup}}</h3>
-<h3 class="text-center">{{authorUsername}}</h3>
+<h3 class="text-center"><a href="{{#escapeUrl}}/serial/{{parentGroup}}{{/escapeUrl}}">{{parentGroup}}</a></h3>
+<h3 class="text-center">{{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}</h3>
 <h3 class="text-center">{{{name}}}</h3>
 {{{text}}}
 {{#creationDate}}Datum dodavanja epizode: {{creationDate}}{{/creationDate}}

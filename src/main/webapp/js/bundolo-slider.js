@@ -98,12 +98,7 @@ function displaySlide(type) {
 			    		}
 					  //console.log(JSON.stringify(data[index])); 
 				  }
-			  }
-			  var escapeUrl = function () {
-					return function(val, render) {
-					    return render(val).replace(/ /g, '~');
-					};
-				};
+			  }			  
 			  var rendered = Mustache.render(template, { "id": type, "slides": data, "escapeUrl": escapeUrl });
 			  $(".slider #"+type+"-carousel>div").html(rendered);
 		  });

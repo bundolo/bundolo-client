@@ -93,6 +93,6 @@ function saveSerial(title, description) {
 		});
 }
 
-function displayEpisode(id) {
-	$.address.value(rootFolder+"episode"+"/" + id.replace(/ /g, '~'));
-}
+//function displayEpisode(id) {
+//	$.address.value(rootFolder+"episode"+"/" + id.replace(/ /g, '~'));
+//}

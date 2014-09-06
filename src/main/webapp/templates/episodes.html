@@ -1,5 +1,5 @@
 {{#episodes.length}}
-<table class="table table-striped">
+<table class="table table-striped clickable">
 	<thead>
 		<tr>
 			<th>Author</th>
@@ -10,7 +10,7 @@
 	</thead>
 	<tbody>
 		{{#episodes}}
-			<tr onclick="displayEpisode('{{serial.name}}/{{name}}');">
+			<tr onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');">
 				<td>{{authorUsername}}</td>
 				<td>{{{name}}}</td>
 				<td>{{{description.0.text}}}</td>
