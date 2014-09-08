@@ -55,8 +55,8 @@
 <h3 class="text-center">{{parentContent.name}}</h3>
 <h3 class="text-center">{{descriptionContent.name}}</h3>
 <p>{{{descriptionContent.text}}}</p>
-{{#url}}<h4>url: {{url}}</h4>{{/url}}
-{{#email}}<h4>email: {{email}}</h4>{{/email}}
-{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-{{#creationDate}}added on: {{/creationDate}}
-<br/>rating: {{descriptionContent.rating.value}}
+{{#url}}<h4>adresa: {{url}}</h4>{{/url}}
+{{#email}}<h4>e-pošta: {{email}}</h4>{{/email}}
+dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+<br/>{{#creationDate}}datum: {{creationDate}}{{/creationDate}}
+<br/>rejting: {{descriptionContent.rating.value}}

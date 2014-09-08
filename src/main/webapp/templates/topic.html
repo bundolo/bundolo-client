@@ -54,9 +54,9 @@
 
 <h3 class="text-center">{{parentGroup}}</h3>
 <h3 class="text-center">{{name}}</h3>
-{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
-<br/>rating: {{rating.value}}
+dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+<br/>{{#creationDate}}datum: {{creationDate}}{{/creationDate}}
+<br/>rejting: {{rating.value}}
 <table class="table table-striped">
 	<!-- <thead>
 		<tr>

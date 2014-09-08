@@ -124,6 +124,10 @@ footer {
 	background-color: #ccc;	
 }
 
+.main .table .fa-stack {
+	font-size: 10px;
+}
+
 .fa-stack {
 	color: #000;
 }

@@ -53,6 +53,6 @@
 <h3 class="text-center">{{descriptionContent.name}}</h3>
 <h3 class="text-center">{{#expirationDate}}traje do: {{expirationDate}}{{/expirationDate}}{{^expirationDate}}stalan konkurs{{/expirationDate}}</h3>
 <p>{{{descriptionContent.text}}}</p>
-{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
-<br/>rating: {{descriptionContent.rating.value}}
+dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+<br/>{{#creationDate}}datum: {{creationDate}}{{/creationDate}}
+<br/>rejting: {{descriptionContent.rating.value}}

@@ -54,11 +54,11 @@
 <h3 class="text-center">na bundolu od {{signupDate}}</h3>
 {{#descriptionContent.text}}<p>{{{descriptionContent.text}}}</p>{{/descriptionContent.text}}
 {{#showPersonal}}
-	{{#firstName}}First name: {{firstName}}<br/>{{/firstName}}
-	{{#lastName}}Last name: {{lastName}}<br/>{{/lastName}}
-	{{#gender}}Gender: {{gender}}<br/>{{/gender}}
-	{{#birthDate}}Birth date: {{birthDate}}<br/>{{/birthDate}}
-	{{#email}}Email: {{email}}<br/>{{/email}}
+	{{#firstName}}ime: {{firstName}}<br/>{{/firstName}}
+	{{#lastName}}prezime: {{lastName}}<br/>{{/lastName}}
+	{{#gender}}pol: {{gender}}<br/>{{/gender}}
+	{{#birthDate}}datum rođenja: {{birthDate}}<br/>{{/birthDate}}
+	{{#email}}email: {{email}}<br/>{{/email}}
 {{/showPersonal}}
-{{#lastLoginDate}}Last login date: {{lastLoginDate}}{{/lastLoginDate}}
-<br/>rating: {{descriptionContent.rating.value}}
+{{#lastLoginDate}}poslednja prijava: {{lastLoginDate}}{{/lastLoginDate}}
+<br/>rejting: {{descriptionContent.rating.value}}

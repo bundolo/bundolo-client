@@ -1,6 +1,6 @@
 {{#posts}}
 	<tr>
-		<td>{{authorUsername}}<br/>{{creationDate}}</td>
+		<td>{{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>{{creationDate}}</td>
 		<td>{{{text}}}</td>
 	</tr>
 {{/posts}}

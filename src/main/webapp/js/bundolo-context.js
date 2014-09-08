@@ -69,6 +69,7 @@ function addContextMenu(parentElement, parentId) {
 			<i class="fa fa-circle fa-stack-2x"></i>\
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
 			</span>');
+	//TODO this does not work
 	commentsButton.hover(
 		function() {
 			$(this).parent().addClass("hover");

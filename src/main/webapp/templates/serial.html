@@ -52,11 +52,11 @@
 
 <h3 class="text-center">{{{name}}}</h3>
 <h3 class="text-center">todo xy nastavaka</h3>
-<p>{{{text}}}</p>			
-{{#authorUsername}}added by: {{authorUsername}}{{/authorUsername}}
-{{#creationDate}}added on: {{creationDate}}{{/creationDate}}
-<br/>last activity: {{lastActivity}}
-<br/>rating: {{rating.value}}
+<p>{{{text}}}</p>
+pokretač: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+<br/>{{#creationDate}}dodato: {{creationDate}}{{/creationDate}}
+<br/>poslednja aktivnost: {{lastActivity}}
+<br/>rejting: {{rating.value}}
 <button type="button" class="btn btn-default" title="Add episode" onClick="addEpisode({{contentId}}, '{{name}}');">
 	<span class="fa-stack fa-2x">
 		<i class="fa fa-circle fa-stack-2x"></i>

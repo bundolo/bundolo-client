@@ -117,3 +117,14 @@
 .context-menu>div>div>span, .context-menu>div>div>div {
 	display: inline-block;
 }
+
+.comment a {
+	color: #444;
+	text-decoration: underline;
+	font-style: italic;
+	font-weight: 700;
+}
+
+.comment a:hover {
+	color: #000;
+}
