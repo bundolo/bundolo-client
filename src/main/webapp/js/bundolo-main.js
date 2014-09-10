@@ -24,6 +24,7 @@ var escapeUrl = function () {
 };
 
 $.address.change(function(event) {
+	//console.log('$.address.value(): ' + $.address.value());
 	//alert("address change: " +  $.address.value());
 	//TODO avoid displaying content if it's already displayed
 	if ($.address.value() == rootFolder) {
@@ -166,7 +167,10 @@ function displaySingleItem(type, id) {
 	});
 }
 
-function editSingleItem(type, id) {
+function editSingleItem(type, id, event) {
+	if (event) {
+		event.stopPropagation();
+	}
 	var contentElement = $('#modal .modal-content');
 	contentElement.html(spinner);
 	$('#modal').modal('show');
@@ -202,7 +206,9 @@ function editSingleItem(type, id) {
 				error: function(textStatus, errorThrown) {
 					//TODO
 				}
-			});		
+			});
+		} else if (type == 'confirmation') {
+			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id+"');");
 		} else {
 			editSingleItemHelper(type, id, contentElement, template);
 		}
@@ -242,7 +248,9 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     			data.connectionGroups = formData;
     		} else if (type == 'topic') {
     			data.topicGroups = formData;
-    		}		    		
+    		} else if (type == 'confirmation') {
+    			data.modalAction = formData;
+    		}
     	}
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
@@ -441,9 +449,11 @@ function displayStatistics() {
 		    		switch(data[i].kind) {
 				    case 'text':
 				    	data[i].isText = true;
+				    	data[i].isEditable = true;
 				        break;
 				    case 'episode':
 				    	data[i].isEpisode = true;
+				    	data[i].isEditable = "pending" == data[i].contentStatus;
 				        break;
 		    		}
 		    		if (data[i].rating) {
@@ -459,6 +469,30 @@ function displayStatistics() {
 			}
 		});
 	});
+}
+
+function deleteSingleItem(id) {
+	$.ajax({
+	    url: rootPath + restRoot + "/" + id,
+	    type: 'DELETE',
+	    dataType: "json",
+	    contentType: "application/json; charset=utf-8",
+	    beforeSend: function (xhr) {
+	        xhr.setRequestHeader ("Authorization", token);
+	    },
+	    success: function(data) {
+	    	if (data) {
+	    		displayStatistics();
+	    		$('#modal').modal('hide');
+	    	} else {
+	    		alert("sadržaj ne može biti obrisan.");
+	    	}	    	
+		},
+		error: function(textStatus, errorThrown) {
+			alert("sadržaj ne može biti obrisan.");
+		}
+	});
+	return false;
 }
 
 function saveInquiry() {

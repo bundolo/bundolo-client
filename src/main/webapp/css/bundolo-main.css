@@ -89,7 +89,8 @@ footer {
 }
 
 .navbar button, .navbar button:hover, .navbar button:focus, .navbar button:active, .navbar button:active:focus, .open .dropdown-toggle.btn-default,
-.content button, .content button:hover, .content button:focus, .content button:active, .content button:active:focus {
+.content button, .content button:hover, .content button:focus, .content button:active, .content button:active:focus,
+.modal button, .modal button:hover, .modal button:focus, .modal button:active, .modal button:active:focus {
 	padding: 4px 0 0 0;
 	border: none;
 	background: none transparent;
@@ -102,7 +103,7 @@ footer {
 	font-size: 24px;
 }
 
-.content button:hover, .navbar button:hover {
+.content button:hover, .navbar button:hover, .modal button:hover {
 	transform: scale(1.2,1.2);
 	-ms-transform: scale(1.2,1.2);
 	-webkit-transform: scale(1.2,1.2);
