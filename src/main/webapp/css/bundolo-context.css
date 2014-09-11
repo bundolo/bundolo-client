@@ -18,7 +18,7 @@
 	border-radius: 15px;
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
-	padding: 13px 0;
+	padding: 13px 1px;
 	overflow-x: auto;
 	
 }
@@ -27,19 +27,7 @@
 	min-height: 50px;
     max-height: 300px;
 	overflow-y: auto;
-	
-}
-
-.context-menu .panel-heading .accordion-toggle:after {
-    /* symbol for "opening" panels */
-    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
-    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
-    float: right;        /* adjust as needed */
-    color: grey;         /* adjust as needed */
-}
-.context-menu .panel-heading .accordion-toggle.collapsed:after {
-    /* symbol for "collapsed" panels */
-    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+	padding-left: 1px;
 }
 
 .context-menu .panel+.panel {
@@ -109,6 +97,7 @@
 .panel.comment {
 	overflow: visible;
 	width: 100%;
+	/*padding-bottom: 1px; making space for outline on mouseover, but disabled because we get some gray lines*/
 }
 
 .comment>div>div>div>div>div {

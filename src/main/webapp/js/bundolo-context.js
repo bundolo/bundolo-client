@@ -23,15 +23,18 @@ $(document).ready(function() {
 		addComment(parentElement.find('>.panel-collapse>.panel-body>.panel-group>div>div'), parentId);
 	});
 	
-	/*
-	 * instead of hover for context and comment buttons add these handlers to se overflow and add hover class. make it generic
-	$('body').on('mouseenter', '[title]', function(e) {
-		displayStatusBar($(this).attr('title'));
+	
+	///
+	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button', function(e) {
+		$(this).parent().addClass("hover");
+		if ($(this).parent().parent().css("overflow")=="hidden") {
+			$(this).parent().parent().addClass("show-overflow");
+		}
 	});
-	$('body').on('mouseleave', '.navbar-header [title]', function(e) {
-		displayStatusBar('');
+	$('body').on('mouseleave', '.comments-button, .root-comment-button, .comment-button', function(e) {
+		$(this).parent().removeClass("hover");
+		$(this).parent().parent().removeClass("show-overflow");
 	});
-	*/
 });
 
 function setContextMenuPostion(event, contextMenu) {
@@ -69,18 +72,6 @@ function addContextMenu(parentElement, parentId) {
 			<i class="fa fa-circle fa-stack-2x"></i>\
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
 			</span>');
-	//TODO this does not work
-	commentsButton.hover(
-		function() {
-			$(this).parent().addClass("hover");
-			if ($(this).parent().parent().css("overflow")=="hidden") {
-				$(this).parent().parent().addClass("show-overflow");
-			}
-		}, function() {
-			$(this).parent().removeClass("hover");
-			$(this).parent().parent().removeClass("show-overflow");
-		}
-	);
 	commentsButton.click(function(e) {
 		var contextRootElement = $('.context-menu>div>div');
 		contextRootElement.html(spinner);
@@ -89,7 +80,7 @@ function addContextMenu(parentElement, parentId) {
 				sanitizeRecursive(data);
 				var partials = {commentPanel: template};
 			    var rendered = Mustache.render(template, {"comments": data}, partials);
-			    var rootCommentButton = $('<span title="Add comment" class="fa-stack fa-2x pull-right root-comment-button" id="comment_'+parentId+'">\
+			    var rootCommentButton = $('<span title="dodaj komentar" class="fa-stack fa-2x pull-right root-comment-button" id="comment_'+parentId+'">\
 						<i class="fa fa-circle fa-stack-2x"></i>\
 						<i class="fa fa-plus fa-stack-1x fa-inverse"></i>\
 					</span>');
@@ -100,7 +91,7 @@ function addContextMenu(parentElement, parentId) {
 		setContextMenuPostion(e, $('.context-menu'));
         return false;
     });
-	commentsButton.attr("title", "Comments");
+	commentsButton.attr("title", "komentari");
 	parentElement.append(commentsButton);
 }
 
