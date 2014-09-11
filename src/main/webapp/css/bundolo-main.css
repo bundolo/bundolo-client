@@ -88,9 +88,10 @@ footer {
 	width: 100%;
 }
 
-.navbar button, .navbar button:hover, .navbar button:focus, .navbar button:active, .navbar button:active:focus, .open .dropdown-toggle.btn-default,
+.navbar button, .navbar button:hover, .navbar button:focus, .navbar button:active, .navbar button:active:focus, .content .open .dropdown-toggle.btn-default,
+.header_form .open .dropdown-toggle.btn-default,
 .content button, .content button:hover, .content button:focus, .content button:active, .content button:active:focus,
-.modal button, .modal button:hover, .modal button:focus, .modal button:active, .modal button:active:focus {
+.modal-edit>div>div>.modal-footer button, .modal-edit>div>div>.modal-footer button:hover, .modal-edit>div>div>.modal-footer button:focus, .modal-edit>div>div>.modal-footer button:active, .modal-edit>div>div>.modal-footer button:active:focus {
 	padding: 4px 0 0 0;
 	border: none;
 	background: none transparent;
@@ -103,7 +104,7 @@ footer {
 	font-size: 24px;
 }
 
-.content button:hover, .navbar button:hover, .modal button:hover {
+.content button:hover, .navbar button:hover, .modal-edit>div>div>.modal-footer button:hover {
 	transform: scale(1.2,1.2);
 	-ms-transform: scale(1.2,1.2);
 	-webkit-transform: scale(1.2,1.2);
@@ -326,7 +327,7 @@ footer {
 	100% {opacity: 0;}
 }
 
-.modal>div {
+.modal-edit>div {
     background-color: #fff;
     border-radius: 25px;
 	-webkit-border-radius: 25px;
@@ -335,7 +336,7 @@ footer {
 	background: #000;
 }
 
-.modal>div>div {
+.modal-edit>div>div {
 	background: #fff;
 	border-radius: 15px;
 	-webkit-border-radius: 15px;
@@ -372,4 +373,8 @@ footer {
 
 .forum-topic td:first-child {
 	width: 10%;
+}
+
+.note-dialog .modal-dialog {
+    max-width: 500px;
 }
