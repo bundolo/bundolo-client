@@ -1,31 +1,31 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">Edit profile</h4>
+	<h4 class="modal-title">izmena korisničkog profila</h4>
 </div>
 <div class="modal-body">
 	<form role="form" autocomplete="off">
 		<div class="form-group">
-		  <label for="edit_username">Username</label>
-		  <input type="text" class="form-control" id="edit_username" placeholder="Enter username" readonly value="{{username}}">
+		  <label for="edit_username">korisničko ime</label>
+		  <input type="text" class="form-control" id="edit_username" placeholder="unesite korisničko ime" readonly value="{{username}}">
 		</div>
 		<div class="form-group">
-		  <label for="edit_description">Short description</label>
-		  <textarea cols="45" rows="4" class="form-control" id="edit_description" placeholder="Enter description">{{{descriptionContent.text}}}</textarea>
+		  <label for="edit_description">kratak opis</label>
+		  <textarea cols="45" rows="4" class="form-control default-focus" id="edit_description" placeholder="unesite kratak opis">{{{descriptionContent.text}}}</textarea>
 		</div>
 		<div class="form-group">
-		  <label for="edit_show_personal">Show personal info</label>
-		  <input type="checkbox" class="form-control" id="edit_show_personal" placeholder="Enter show personal" {{#showPersonal}}checked{{/showPersonal}}>
+		  <label for="edit_show_personal">prikaži lične podatke</label>
+		  <input type="checkbox" class="form-control" id="edit_show_personal" placeholder="prikaži lične podatke" {{#showPersonal}}checked{{/showPersonal}}>
 		</div>
 		<div class="form-group">
-		  <label for="edit_first_name">First name</label>
-		  <input type="text" class="form-control" id="edit_first_name" placeholder="Enter first name" value="{{firstName}}">
+		  <label for="edit_first_name">ime</label>
+		  <input type="text" class="form-control" id="edit_first_name" placeholder="unesite ime" value="{{firstName}}">
 		</div>
 		<div class="form-group">
-		  <label for="edit_last_name">Last name</label>
-		  <input type="text" class="form-control" id="edit_last_name" placeholder="Enter last name" value="{{lastName}}">
+		  <label for="edit_last_name">prezime</label>
+		  <input type="text" class="form-control" id="edit_last_name" placeholder="unesite prezime" value="{{lastName}}">
 		</div>
 		<div class="form-group">
-			<label for="edit_gender">Gender</label>
+			<label for="edit_gender">pol</label>
 			<select class="form-control" id="edit_gender">
 				<option value="other">Other</option>
 				<option value="female">Female</option>
@@ -36,8 +36,8 @@
 			</script>
 		</div>
 		<div class="form-group">
-			<label for="edit_birth_date">Birth date</label>
-			<input type="text" class="form-control" id="edit_birth_date" placeholder="Enter birth date" value="{{birthDate}}">
+			<label for="edit_birth_date">datum rođenja</label>
+			<input type="text" class="form-control" id="edit_birth_date" placeholder="unesite datum rođenja" value="{{birthDate}}">
 			<script type='text/javascript'>
 				$('#edit_birth_date').datepicker({
 				    format: "dd.mm.yyyy.",
@@ -56,25 +56,35 @@
 			</script>
 		</div>
 		<div class="form-group highlighted">
-			<span>Fill out these fields if you want to change your email address</span><br />
-		  <label for="edit_email">New email address</label>
-		  <input type="email" class="form-control" id="edit_email" placeholder="Enter new email" value="" autocomplete="off" validators="email same1">
-		  <label for="edit_retype_email">Retype new email address</label>
-		  <input type="email" class="form-control" id="edit_retype_email" placeholder="Retype new email" value="" autocomplete="off" validators="email same2">
+			<span>popunite ova polja ako želite da promenite adresu elektronske pošte</span><br />
+		  <label for="edit_email">nova adresa</label>
+		  <input type="email" class="form-control" id="edit_email" placeholder="unesite novu adresu" value="" autocomplete="off" validators="email same1">
+		  <label for="edit_retype_email">nova adresa ponovo</label>
+		  <input type="email" class="form-control" id="edit_retype_email" placeholder="unesite ponovo novu adresu" value="" autocomplete="off" validators="email same2">
 		</div>
 		<div class="form-group highlighted">
-			<span>Fill out these fields if you want to change your password</span><br />
+			<span>popunite ova polja ako želite da promenite lozinku</span><br />
 		  <input type="password" style="display:none" />
-		  <label for="edit_current_password">Current password</label>
-		  <input type="password" class="form-control" id="edit_current_password" placeholder="Enter current password" autocomplete="off" validators="length different1">
-		  <label for="edit_password">New password</label>
-		  <input type="password" class="form-control" id="edit_password" placeholder="Enter new password" autocomplete="off" validators="length same1 different2">
-		  <label for="edit_retype_password">Retype new password</label>
-		  <input type="password" class="form-control" id="edit_retype_password" placeholder="Retype new password" autocomplete="off" validators="length same2">
+		  <label for="edit_current_password">sadašnja lozinka</label>
+		  <input type="password" class="form-control" id="edit_current_password" placeholder="unesite sadašnju lozinku" autocomplete="off" validators="length different1">
+		  <label for="edit_password">nova lozinka</label>
+		  <input type="password" class="form-control" id="edit_password" placeholder="unesite novu lozinku" autocomplete="off" validators="length same1 different2">
+		  <label for="edit_retype_password">nova lozinka ponovo</label>
+		  <input type="password" class="form-control" id="edit_retype_password" placeholder="unesite ponovo novu lozinku" autocomplete="off" validators="length same2">
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-  <button type="button" class="btn btn-primary" onClick="saveAuthor();">Save</button>
+	<button type="button" class="btn btn-default" title="odustani" data-dismiss="modal">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-times fa-stack-1x fa-inverse"></i>			
+		</span>
+	</button>
+	<button type="button" class="btn btn-default" title="snimi" onClick="saveAuthor();">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-check fa-stack-1x fa-inverse"></i>
+		</span>
+	</button>
 </div>

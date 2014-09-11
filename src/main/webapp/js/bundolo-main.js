@@ -59,8 +59,12 @@ $(document).ready(function() {
 	$('body').on('mouseleave', '[title]', function(e) {
 		displayStatusBar('');
 	});
-  var mainContent = $(".main>.jumbotron>.content");
-  homeHtml = mainContent.html();
+	var mainContent = $(".main>.jumbotron>.content");
+	homeHtml = mainContent.html();
+  
+	$('.modal').on('shown.bs.modal', function () {
+		$('.default-focus').focus();
+	});
 });
 
 function displayContent(parentElement, html, contentId) {
@@ -234,7 +238,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    		}		    		
 		    	}
 		    	var rendered = Mustache.render(template, data);
-		    	contentElement.html(rendered);
+		    	contentElement.html(rendered);	    
 			},
 			error: function(textStatus, errorThrown) {
 				//TODO

@@ -73,12 +73,12 @@ function displaySlide(type) {
 					        break;
 					    case 'page_description':
 					    	data[index].parentKind = 'stranicu';
-					    	var contentName = data[index].parentContent.name;
-					    	data[index].parentLinkText = contentName;
+					    	data[index].parentLinkText = data[index].parentContent.text;
 					    	data[index].parentLinkUrl = rootPath;
-					    	contentName = contentName.replace(/ /g, '~').toLowerCase();
-					    	if (contentName != 'home') {
-					    		data[index].parentLinkUrl += "/" + contentName;
+					    	var contentUrl = data[index].parentContent.name;
+					    	contentUrl = contentUrl.replace(/ /g, '~').toLowerCase();
+					    	if (contentUrl != 'home') {
+					    		data[index].parentLinkUrl += "/" + contentUrl;
 					    	}
 					        break;
 					    case 'news':

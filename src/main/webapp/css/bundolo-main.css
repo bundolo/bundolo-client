@@ -99,7 +99,7 @@ footer {
 	text-shadow: none;
 }
 
-.content .fa-stack {
+.content .fa-stack, .modal .fa-stack {
 	font-size: 24px;
 }
 
@@ -107,6 +107,11 @@ footer {
 	transform: scale(1.2,1.2);
 	-ms-transform: scale(1.2,1.2);
 	-webkit-transform: scale(1.2,1.2);
+}
+
+.modal-footer {
+	border: none;
+	margin: 0;
 }
 
 .main .table {
@@ -363,4 +368,8 @@ footer {
 
 .main .jumbotron a:hover {
 	color: #000;
+}
+
+.forum-topic td:first-child {
+	width: 10%;
 }

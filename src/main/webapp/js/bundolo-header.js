@@ -88,6 +88,9 @@ function logout() {
 	eraseCookie('token');
 	eraseCookie('username');
 	displayLogin();
+	if ($.address.value() == rootFolder +"profile" || $.address.value() == rootFolder + "statistics") {
+		$.address.value(rootFolder);
+	}
 }
 
 function passwordReset() {

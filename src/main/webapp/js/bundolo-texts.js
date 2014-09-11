@@ -14,7 +14,7 @@ function saveText() {
 	text.text = $("#edit_content").code();
 	var name = username + "/" + $("#edit_title").val();
 
-	console.log(JSON.stringify(text));
+	//console.log(JSON.stringify(text));
 	$.ajax({
 		  url: rootPath + restRoot + "/text/" + name,
 		  type: "PUT",
@@ -30,7 +30,7 @@ function saveText() {
 		  },		  
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
+				  //console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
 				  $.address.value(rootFolder+"text"+"/" + name.replace(/ /g, '~'));

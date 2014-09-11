@@ -1,11 +1,11 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">Edit connection</h4>
+	<h4 class="modal-title">unos linka</h4>
 </div>
 <div class="modal-body">
 	<form role="form">
 		<div class="form-group">
-			<label for="edit_group">Category</label>
+			<label for="edit_group">kategorija</label>
 			<select class="form-control" id="edit_group">
 				{{#connectionGroups}}
 					<option value="{{contentId}}">{{name}}</option>
@@ -17,11 +17,11 @@
 			</script>
 		</div>
 		<div class="form-group">
-		  <label for="edit_title">Title</label>
-		  <input type="text" class="form-control" id="edit_title" placeholder="Enter title">
+		  <label for="edit_title">ime</label>
+		  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite ime">
 		</div>
 		<div class="form-group">
-		  <label for="edit_description">Description</label>
+		  <label for="edit_description">opis</label>
 		  <div id="edit_description"></div>
 		  <script type='text/javascript'>
 		  $('#edit_description').summernote({
@@ -41,16 +41,26 @@
 		  </script>
 		</div>
 		<div class="form-group">
-		  <label for="edit_url">URL</label>
-		  <input type="text" class="form-control" id="edit_url" placeholder="Enter url">
+		  <label for="edit_url">internet adresa</label>
+		  <input type="text" class="form-control" id="edit_url" placeholder="unesite internet adresu">
 		</div>
 		<div class="form-group">
-		  <label for="edit_email">Email</label>
-		  <input type="text" class="form-control" id="edit_email" placeholder="Enter email">
+		  <label for="edit_email">adresa elektronske pošte</label>
+		  <input type="text" class="form-control" id="edit_email" placeholder="unesite adresu elektronske pošte">
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal" onClick="$('#edit_description').destroy();">Close</button>
-  <button type="button" class="btn btn-primary" onClick="saveConnection();">Save</button>
+  <button type="button" class="btn btn-default" title="odustani" data-dismiss="modal" onClick="$('#edit_description').destroy();">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-times fa-stack-1x fa-inverse"></i>			
+		</span>
+	</button>
+	<button type="button" class="btn btn-default" title="snimi" onClick="saveConnection();">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-check fa-stack-1x fa-inverse"></i>
+		</span>
+	</button>
 </div>
