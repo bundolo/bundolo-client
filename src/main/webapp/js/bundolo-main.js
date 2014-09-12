@@ -25,7 +25,6 @@ var escapeUrl = function () {
 
 $.address.change(function(event) {
 	//console.log('$.address.value(): ' + $.address.value());
-	//alert("address change: " +  $.address.value());
 	//TODO avoid displaying content if it's already displayed
 	if ($.address.value() == rootFolder) {
 		displayHome();
@@ -43,7 +42,6 @@ $.address.change(function(event) {
 		var reminder = $.address.value().substr(rootFolder.length);
 		var slashPos = reminder.indexOf('/');
 		if (slashPos > 0) {
-			//alert("address change: " + reminder.substr(0, slashPos) + ", " + reminder.substr(slashPos + 1));
 			displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
 		}
 	}
@@ -80,8 +78,6 @@ function displaySingleItem(type, id) {
 		$.getJSON(rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '), function(data) {		    
 		    var contentElement = $('.main>.jumbotron>.content');
 		    var commentParentId = id;
-		    //TODO go through all type of content and set appropriate contentId. sometimes it's description id, sometimes it's this item
-//		    alert("data: " + data);
 		    switch(type) {
 			    case 'text':
 			    	commentParentId = data.contentId;
@@ -161,7 +157,6 @@ function displaySingleItem(type, id) {
 						},
 						error: function(textStatus, errorThrown) {
 							//TODO
-							//alert("pic: "+ textStatus + ", mic: " + errorThrown);
 						}
 					});
 		    	});
@@ -171,8 +166,9 @@ function displaySingleItem(type, id) {
 	});
 }
 
-function editSingleItem(type, id, event) {
+function editSingleItem(type, id, event, notification) {
 	if (event) {
+		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
 	}
 	var contentElement = $('#modal .modal-content');
@@ -213,6 +209,8 @@ function editSingleItem(type, id, event) {
 			});
 		} else if (type == 'confirmation') {
 			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id+"');");
+		} else if (type == 'notification') {
+			editSingleItemHelper(type, null, contentElement, template, notification);
 		} else {
 			editSingleItemHelper(type, id, contentElement, template);
 		}
@@ -247,7 +245,6 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 			},
 			error: function(textStatus, errorThrown) {
 				//TODO
-				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
 			}
 		});
 	} else {
@@ -259,6 +256,8 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     			data.topicGroups = formData;
     		} else if (type == 'confirmation') {
     			data.modalAction = formData;
+    		} else if (type == 'notification') {
+    			data.notification = formData;
     		}
     	}
 		var rendered = Mustache.render(template, data);
@@ -337,8 +336,7 @@ function displayHome() {
 	  		  });
 		},
 		error: function(textStatus, errorThrown) {
-			//TODO
-			//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
 		}
 	});
 }
@@ -361,8 +359,7 @@ function displayAbout() {
 			    displayContent(contentElement, rendered, data.contentId);
 			},
 			error: function(textStatus, errorThrown) {
-				//TODO
-				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -372,10 +369,22 @@ function displayContact() {
 	var contentElement = $('.main>.jumbotron>.content');
 	contentElement.html(spinner);
 	$.get(rootFolder+'templates/contact.html', function(template) {
-		$.getJSON(rootPath + restRoot + "/page/contact", function(data) {
-			//do not use html from db for now
-			var rendered = Mustache.render(template, {});
-		    displayContent(contentElement, rendered, data.contentId);
+		$.ajax({
+		    url: rootPath + restRoot + "/page/contact",
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	//do not use html from db for now
+		    	var rendered = Mustache.render(template, {});
+			    displayContent(contentElement, rendered, data.contentId);
+			},
+			error: function(textStatus, errorThrown) {
+				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+			}
 		});
 	});
 }
@@ -393,13 +402,16 @@ function displayProfile() {
 		        xhr.setRequestHeader ("Authorization", token);
 		    },
 		    success: function(data) {
-		    	//do not use html from db for now
-		    	var rendered = Mustache.render(template, data);
-			    displayContent(contentElement, rendered);
+		    	if (data) {
+		    		//do not use html from db for now
+			    	var rendered = Mustache.render(template, data);
+				    displayContent(contentElement, rendered);
+		    	} else {
+		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+		    	}		    	
 			},
 			error: function(textStatus, errorThrown) {
-				//TODO
-				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -407,36 +419,38 @@ function displayProfile() {
 
 function displayNext(type, id, orderBy, fixBy, ascending) {
 	$.getJSON(rootPath + restRoot + "/next", { "type": type, "id": id, "orderBy": orderBy, "fixBy": fixBy, "ascending": ascending}, function( data ) {
-		//console.log(JSON.stringify(data));
-		var nextItemUrl = "";
-		//console.log(data.kind);
-		  switch(type) {
-		    case 'text':
-		    	nextItemUrl = rootFolder+"text/" + data.authorUsername + "/" + data.name.replace(/ /g, '~');
-		        break;
-		    case 'episode':
-		    	nextItemUrl = rootFolder+"episode/" + data.parentGroup.replace(/ /g, '~') + "/" + data.name.replace(/ /g, '~');
-		        break;
-		    case 'serial':
-		    	nextItemUrl = rootFolder+"serial/" + data.name.replace(/ /g, '~');
-		        break;
-		    case 'connection':
-		    	nextItemUrl = rootFolder+"connection/" + data.descriptionContent.name.replace(/ /g, '~');
-		        break;
-		    case 'contest':
-		    	nextItemUrl = rootFolder+"contest/" + data.descriptionContent.name.replace(/ /g, '~');
-		        break;
-		    case 'announcement':
-		    	nextItemUrl = rootFolder+"announcement/" + data.name.replace(/ /g, '~');
-		        break;
-		    case 'topic':
-		    	nextItemUrl = rootFolder+"topic/" + data.name.replace(/ /g, '~');
-		        break;
-		    case 'author':
-		    	nextItemUrl = rootFolder+"author/" + data.username;
-		        break;
-			}	
-			$.address.value(nextItemUrl);
+		if (data) {
+			//console.log(JSON.stringify(data));
+			var nextItemUrl = "";
+			//console.log(data.kind);
+			  switch(type) {
+			    case 'text':
+			    	nextItemUrl = rootFolder+"text/" + data.authorUsername + "/" + data.name.replace(/ /g, '~');
+			        break;
+			    case 'episode':
+			    	nextItemUrl = rootFolder+"episode/" + data.parentGroup.replace(/ /g, '~') + "/" + data.name.replace(/ /g, '~');
+			        break;
+			    case 'serial':
+			    	nextItemUrl = rootFolder+"serial/" + data.name.replace(/ /g, '~');
+			        break;
+			    case 'connection':
+			    	nextItemUrl = rootFolder+"connection/" + data.descriptionContent.name.replace(/ /g, '~');
+			        break;
+			    case 'contest':
+			    	nextItemUrl = rootFolder+"contest/" + data.descriptionContent.name.replace(/ /g, '~');
+			        break;
+			    case 'announcement':
+			    	nextItemUrl = rootFolder+"announcement/" + data.name.replace(/ /g, '~');
+			        break;
+			    case 'topic':
+			    	nextItemUrl = rootFolder+"topic/" + data.name.replace(/ /g, '~');
+			        break;
+			    case 'author':
+			    	nextItemUrl = rootFolder+"author/" + data.username;
+			        break;
+				}	
+				$.address.value(nextItemUrl);
+		}		
 	});
 }
 
@@ -453,28 +467,31 @@ function displayStatistics() {
 		        xhr.setRequestHeader ("Authorization", token);
 		    },
 		    success: function(data) {
-		    	var totalRating = 0;
-		    	for (var i = 0; i < data.length; i++) {
-		    		switch(data[i].kind) {
-				    case 'text':
-				    	data[i].isText = true;
-				    	data[i].isEditable = true;
-				        break;
-				    case 'episode':
-				    	data[i].isEpisode = true;
-				    	data[i].isEditable = "pending" == data[i].contentStatus;
-				        break;
-		    		}
-		    		if (data[i].rating) {
-		    			totalRating += data[i].rating.value;
-		    		}
+		    	if (data) {
+			    	var totalRating = 0;
+			    	for (var i = 0; i < data.length; i++) {
+			    		switch(data[i].kind) {
+					    case 'text':
+					    	data[i].isText = true;
+					    	data[i].isEditable = true;
+					        break;
+					    case 'episode':
+					    	data[i].isEpisode = true;
+					    	data[i].isEditable = "pending" == data[i].contentStatus;
+					        break;
+			    		}
+			    		if (data[i].rating) {
+			    			totalRating += data[i].rating.value;
+			    		}
+			    	}
+			    	var rendered = Mustache.render(template, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
+				    displayContent(contentElement, rendered);
+		    	} else {
+		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
-		    	var rendered = Mustache.render(template, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
-			    displayContent(contentElement, rendered);
 			},
 			error: function(textStatus, errorThrown) {
-				//TODO
-				//alert("pic: "+ textStatus + ", mic: " + errorThrown);
+				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -494,11 +511,11 @@ function deleteSingleItem(id) {
 	    		displayStatistics();
 	    		$('#modal').modal('hide');
 	    	} else {
-	    		alert("sadržaj ne može biti obrisan.");
+	    		editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
 	    	}	    	
 		},
 		error: function(textStatus, errorThrown) {
-			alert("sadržaj ne može biti obrisan.");
+			editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
 		}
 	});
 	return false;

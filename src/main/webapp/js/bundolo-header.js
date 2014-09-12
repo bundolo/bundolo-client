@@ -70,11 +70,11 @@ function login() {
 			  }
 			  displayLoggedIn();
 		  } else {
-			  alert("login failed");
+			  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
 		  }
       },
       error: function(data) {
-    	  alert("login failed");
+    	  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
       },
       complete: function(data) {
 //    	  console.log("complete: " + JSON.stringify(data));
@@ -105,11 +105,11 @@ function passwordReset() {
 			  console.log("success: " + JSON.stringify(data));
 			  displayLogin();
 		  } else {
-			  alert("password reset failed");
+			  editSingleItem("notification", null, null, "resetovanje lozinke nije uspelo!");
 		  }
       },
       error: function(data) {
-    	  alert("password reset failed");
+    	  editSingleItem("notification", null, null, "resetovanje lozinke nije uspelo!");
       },
       complete: function(data) {
 //    	  console.log("complete: " + JSON.stringify(data));
@@ -138,14 +138,14 @@ function register() {
 		  success: function(data) {  
 			  if (data) {
 				  console.log("success: " + JSON.stringify(data));
-				  alert("activation email sent");
+				  editSingleItem("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
 				  displayLogin();
 			  } else {
-				  alert("registration failed");
+				  editSingleItem("notification", null, null, "registracija nije uspela!");
 			  }
 	      },
 	      error: function(data) {
-	    	  alert("registration failed");
+	    	  editSingleItem("notification", null, null, "registracija nije uspela!");
 	      },
 	      complete: function(data) {
 //	    	  console.log("complete: " + JSON.stringify(data));
@@ -162,16 +162,16 @@ function validateEmail() {
 			  data: "email="+$.address.parameter('email'),
 			  success: function(data) {
 				  if (data) {
-					  console.log("success: " + JSON.stringify(data));
-					  message = "email address validated";
+					  //console.log("success: " + JSON.stringify(data));
+					  editSingleItem("notification", null, null, "validacija je uspela. možete se prijaviti!");
+				  } else {
+					  editSingleItem("notification", null, null, "validacija nije uspela!");
 				  }
 		      },
 		      error: function(data) {
-		    	  console.log("validateEmail error: " + JSON.stringify(data));
+		    	  editSingleItem("notification", null, null, "validacija nije uspela!");
 		      },
 		      complete: function(data) {
-//		    	  console.log("complete: " + JSON.stringify(data));
-		    	  alert(message);
 		    	  $.address.value(rootFolder);
 		      }
 			});
@@ -218,11 +218,11 @@ function saveAuthor() {
 				  $('#modal').modal('hide');
 				  displayProfile();
 			  } else {
-				  alert("update failed");
+				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }
 	      },
 	      error: function(data) {
-	    	  alert("update failed");
+	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 	      },
 	      complete: function(data) {
 //	    	  console.log("complete: " + JSON.stringify(data));

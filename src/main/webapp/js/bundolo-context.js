@@ -139,6 +139,9 @@ function saveComment() {
 	  success: function(data) {
 		  displayComment(username, sanitize(commentContent), commentParentElement);
 		  $('#modal').modal('hide');
+      },
+      error: function(data) {
+    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
       }
 	});
 }

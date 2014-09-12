@@ -36,11 +36,11 @@ function saveText() {
 				  $('#edit_content').destroy();
 				  $.address.value(rootFolder+"text"+"/" + name.replace(/ /g, '~'));
 			  } else {
-				  alert("saving failed");
+				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }
 	      },
 	      error: function(data) {
-	    	  alert("saving failed");
+	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 	      },
 	      complete: function(data) {
 //	    	  console.log("complete: " + JSON.stringify(data));

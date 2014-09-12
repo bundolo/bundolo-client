@@ -41,11 +41,11 @@ function saveEpisode(title, content) {
 				  $('#edit_content').destroy();
 				  $.address.value(rootFolder+"episode"+"/" + episodeName.replace(/ /g, '~'));
 			  } else {
-				  alert("saving failed");
+				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }
 	      },
 	      error: function(data) {
-	    	  alert("saving failed");
+	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 	      },
 	      complete: function(data) {
 //	    	  console.log("complete: " + JSON.stringify(data));
@@ -83,11 +83,11 @@ function saveSerial(title, description) {
 				  $('#modal').modal('hide');
 				  $.address.value(rootFolder+"serial"+"/" + serialName.replace(/ /g, '~'));
 			  } else {
-				  alert("saving failed");
+				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }
 	      },
 	      error: function(data) {
-	    	  alert("saving failed");
+	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 	      },
 	      complete: function(data) {
 //	    	  console.log("complete: " + JSON.stringify(data));
