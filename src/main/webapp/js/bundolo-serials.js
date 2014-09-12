@@ -13,9 +13,10 @@ function saveEpisode(title, content) {
 	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
-	}
+	}	
 	var episodeName = episodeParentName + "/" + $("#edit_title").val();
 	var episode = {};
+	episode.contentId = $("#edit_item_id").val();
 	episode.text = $("#edit_content").code();
 	episode.parentContent = {"contentId" : episodeParentId};
 
@@ -59,6 +60,7 @@ function saveSerial(title, description) {
 	}
 	var serialName = $("#edit_title").val();
 	var serial = {};
+	serial.contentId = $("#edit_item_id").val();
 	serial.text = $("#edit_description").val();
 
 	console.log(JSON.stringify(serial));

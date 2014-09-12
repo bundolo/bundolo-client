@@ -7,6 +7,7 @@ function saveContest() {
 		return;
 	}
 	var contest = {};
+	contest.contestId = $("#edit_item_id").val();
 	contest.descriptionContent = {};
 	contest.descriptionContent.text = $("#edit_content").code();
 	contest.descriptionContent.name = $("#edit_title").val();

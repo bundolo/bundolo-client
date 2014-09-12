@@ -7,6 +7,7 @@ function saveAnnouncement() {
 		return;
 	}
 	var announcement = {};
+	announcement.contentId = $("#edit_item_id").val();
 	announcement.text = $("#edit_content").code();
 	var name = $("#edit_title").val();
 

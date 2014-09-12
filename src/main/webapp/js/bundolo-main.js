@@ -238,7 +238,12 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    		}		    		
 		    	}
 		    	var rendered = Mustache.render(template, data);
-		    	contentElement.html(rendered);	    
+		    	contentElement.html(rendered);
+		    	if (type == 'announcement' || type == 'episode' || type == 'text') {
+		    		$("#edit_content").code(data.text);
+		    	} else if (type == 'connection' || type == 'contest') {
+		    		$("#edit_content").code(data.descriptionContent.text);
+		    	}
 			},
 			error: function(textStatus, errorThrown) {
 				//TODO

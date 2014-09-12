@@ -7,6 +7,7 @@ function saveText() {
 		return;
 	}
 	var text = {};
+	text.contentId = $("#edit_item_id").val();
 	text.description = [];
 	var description = {};
 	description.text = $("#edit_description").val();

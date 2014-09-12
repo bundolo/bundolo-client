@@ -7,8 +7,9 @@ function saveConnection() {
 		return;
 	}
 	var connection = {};
+	connection.connectionId = $("#edit_item_id").val();
 	connection.descriptionContent = {};
-	connection.descriptionContent.text = $("#edit_description").code();
+	connection.descriptionContent.text = $("#edit_content").code();
 	var name = $("#edit_title").val();
 	connection.parentContent = {};
 	connection.parentContent.contentId = $("#edit_group").val();
@@ -33,7 +34,7 @@ function saveConnection() {
 			  if (data) {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
-				  $('#edit_description').destroy();
+				  $('#edit_content').destroy();
 				  $.address.value(rootFolder+"connection"+"/" + name.replace(/ /g, '~'));
 			  } else {
 				  alert("saving failed");

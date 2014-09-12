@@ -178,13 +178,6 @@ function validateEmail() {
 	}
 }
 
-
-function saveAuthor() {
-	//TODO validation
-	displayAuthor('dummy_user', date, description);
-	$('#modal').modal('hide');
-}
-
 function saveAuthor() {
 	if (!isFormValid($('#modal form'))) {
 		return;
@@ -219,7 +212,7 @@ function saveAuthor() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json' 
 		  },		  
-		  success: function(data) {  
+		  success: function(data) {
 			  if (data) {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');

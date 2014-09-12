@@ -14,6 +14,7 @@ function savePost(content) {
 	}
 	var postContent = $('#edit_content').val();
 	var post = {};
+	post.contentId = $("#edit_item_id").val();
 	post.text = sanitize(postContent);
 	post.parentContent = {"contentId" : postParentId};
 	//TODO display spinner
@@ -55,6 +56,7 @@ function saveTopic() {
 		return;
 	}
 	var topic = {};
+	topic.contentId = $("#edit_item_id").val();
 	var name = $("#edit_title").val();
 	topic.parentContent = {};
 	topic.parentContent.contentId = $("#edit_group").val();

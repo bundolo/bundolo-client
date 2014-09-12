@@ -4,6 +4,7 @@
 </div>
 <div class="modal-body">
 	<form role="form">
+		<input type="hidden" id="edit_item_id" value="{{connnectionId}}">
 		<div class="form-group">
 			<label for="edit_group">kategorija</label>
 			<select class="form-control" id="edit_group">
@@ -18,29 +19,29 @@
 		</div>
 		<div class="form-group">
 		  <label for="edit_title">ime</label>
-		  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite ime">
+		  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite ime" value="{{descriptionContent.name}}">
 		</div>
 		<div class="form-group">
-		  <label for="edit_description">opis</label>
-		  <div id="edit_description"></div>
+		  <label for="edit_content">opis</label>
+		  <div id="edit_content"></div>
 		  <script type='text/javascript'>
-		  	$('#edit_description').summernote({
+		  	$('#edit_content').summernote({
 			  lang: 'sr-RS'
 			});
 		  </script>
 		</div>
 		<div class="form-group">
 		  <label for="edit_url">internet adresa</label>
-		  <input type="text" class="form-control" id="edit_url" placeholder="unesite internet adresu">
+		  <input type="text" class="form-control" id="edit_url" placeholder="unesite internet adresu" value="{{url}}">
 		</div>
 		<div class="form-group">
 		  <label for="edit_email">adresa elektronske pošte</label>
-		  <input type="text" class="form-control" id="edit_email" placeholder="unesite adresu elektronske pošte">
+		  <input type="text" class="form-control" id="edit_email" placeholder="unesite adresu elektronske pošte" value="{{email}}">
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" title="odustani" data-dismiss="modal" onClick="$('#edit_description').destroy();">
+  <button type="button" class="btn btn-default" title="odustani" data-dismiss="modal" onClick="$('#edit_content').destroy();">
 		<span class="fa-stack fa-2x">
 			<i class="fa fa-circle fa-stack-2x"></i>
 			<i class="fa fa-times fa-stack-1x fa-inverse"></i>			
