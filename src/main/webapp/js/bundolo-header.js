@@ -69,6 +69,9 @@ function login() {
 				  createCookie("username", username);
 			  }
 			  displayLoggedIn();
+			  if ($.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
+					displaySingleItem("author", $.address.value().substring(7));
+				}
 		  } else {
 			  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
 		  }
@@ -88,8 +91,10 @@ function logout() {
 	eraseCookie('token');
 	eraseCookie('username');
 	displayLogin();
-	if ($.address.value() == rootFolder +"profile" || $.address.value() == rootFolder + "statistics" || $.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
+	if ($.address.value() == rootFolder +"profile" || $.address.value() == rootFolder + "statistics") {
 		$.address.value(rootFolder);
+	} else if ($.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
+		displaySingleItem("author", $.address.value().substring(7));
 	}
 }
 
