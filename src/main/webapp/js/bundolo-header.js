@@ -88,7 +88,7 @@ function logout() {
 	eraseCookie('token');
 	eraseCookie('username');
 	displayLogin();
-	if ($.address.value() == rootFolder +"profile" || $.address.value() == rootFolder + "statistics") {
+	if ($.address.value() == rootFolder +"profile" || $.address.value() == rootFolder + "statistics" || $.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
 		$.address.value(rootFolder);
 	}
 }
@@ -137,7 +137,7 @@ function register() {
 		    },
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
+				  //console.log("success: " + JSON.stringify(data));
 				  editSingleItem("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
 				  displayLogin();
 			  } else {

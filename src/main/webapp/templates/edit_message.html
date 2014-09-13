@@ -1,6 +1,6 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">pošaljite nam poruku</h4>
+	<h4 class="modal-title">slanje privatne poruke korisniku {{recipientUsername}}</h4>
 </div>
 <div class="modal-body">
 	<form role="form">
@@ -21,7 +21,7 @@
 			<i class="fa fa-times fa-stack-1x fa-inverse"></i>			
 		</span>
 	</button>
-	<button type="button" class="btn btn-default" title="pošalji" onClick="sendMessage('');">
+	<button type="button" class="btn btn-default" title="pošalji" onClick="sendMessage('{{recipientUsername}}');">
 		<span class="fa-stack fa-2x">
 			<i class="fa fa-circle fa-stack-2x"></i>
 			<i class="fa fa-check fa-stack-1x fa-inverse"></i>

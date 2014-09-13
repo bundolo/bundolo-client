@@ -84,6 +84,7 @@ function displaySingleItem(type, id) {
 			        break;
 			    case 'author':
 			    	commentParentId = data.descriptionContent.contentId;
+			    	data.messagingEnabled = (username != "gost") && (username != data.username);
 			        break;
 			    case 'topic':
 			    	//topic comments are disabled to avoid confusion with posts
@@ -211,6 +212,8 @@ function editSingleItem(type, id, event, notification) {
 			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id+"');");
 		} else if (type == 'notification') {
 			editSingleItemHelper(type, null, contentElement, template, notification);
+		} else if (type == 'message') {
+			editSingleItemHelper(type, null, contentElement, template, id);
 		} else {
 			editSingleItemHelper(type, id, contentElement, template);
 		}
@@ -258,6 +261,8 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     			data.modalAction = formData;
     		} else if (type == 'notification') {
     			data.notification = formData;
+    		} else if (type == 'message') {
+    			data.recipientUsername = formData;
     		}
     	}
 		var rendered = Mustache.render(template, data);
@@ -521,11 +526,42 @@ function deleteSingleItem(id) {
 	return false;
 }
 
-function saveInquiry() {
+function sendMessage(recipientUsername) {
 	//TODO validation
-	//TODO send email
-	//TODO show some thank you message
-	$('#modal').modal('hide');
+	var messageTitle = $("#edit_title").val();
+	var messageText = $("#edit_content").val();
+	var message = {};
+	message.title = messageTitle;
+	message.text = messageText;	
+	
+	//console.log("message: " + JSON.stringify(message));
+	$.ajax({
+	  url: rootPath + restRoot + "/message/" + recipientUsername,
+	  type: "POST",
+	  data: JSON.stringify(message),
+	  dataType: "json",
+	  contentType: "application/json; charset=utf-8",
+	  beforeSend: function (xhr) {
+		  xhr.setRequestHeader ("Authorization", token);
+	  },
+	  headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' 
+	  },
+	  success: function(data) {  
+		  if (data) {
+			  $('#modal').modal('hide');
+		  } else {
+			  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
+		  }
+      },
+      error: function(data) {
+    	  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
+      },
+      complete: function(data) {
+//	    	  console.log("complete: " + JSON.stringify(data));
+      }
+	});
 }
 
 function isFormValid(formElement) {
