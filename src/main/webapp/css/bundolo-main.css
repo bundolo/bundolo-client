@@ -31,16 +31,6 @@ footer {
 	width: 60%;
 }
 
-.main>p {
-	/*margin-right: -60px;*/
-	margin: 0 -4.6% 0 0;
-}
-
-.active .main>p {
-	margin-right: -7.4%;
-	
-}
-
 .container, .row {
 	margin: 0;
 	padding: 0;
@@ -70,11 +60,16 @@ footer {
 	border: none;
 }
 
-.main .jumbotron p {
+.main .content p {
+	font-size: 14px;
+	white-space: pre-wrap;
+}
+
+.main .content h4 + p {
 	padding-left: 10px;
 	padding-right: 10px;
-	font-size: 14px;
 	text-transform: lowercase;
+	white-space: normal;
 }
 
 /*.main */.slider {

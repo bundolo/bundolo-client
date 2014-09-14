@@ -190,7 +190,7 @@ function saveAuthor() {
 	var user = {};
 	user.descriptionContent = {};
 	user.descriptionContent.text = $("#edit_description").val();
-	user.showPersonal = $("#edit_show_personal").prop('checked')?"true":"false";
+	//user.showPersonal = $("#edit_show_personal").prop('checked')?"true":"false";
 	user.showPersonal = $("#edit_show_personal").prop('checked');
 	user.firstName = $("#edit_first_name").val();
 	user.lastName = $("#edit_last_name").val();

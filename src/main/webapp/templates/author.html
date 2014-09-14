@@ -62,12 +62,20 @@
 {{/showPersonal}}
 {{#lastLoginDate}}poslednja prijava: {{lastLoginDate}}{{/lastLoginDate}}
 <br/>rejting: {{descriptionContent.rating.value}}
-{{#messagingEnabled}}
 <br/>
-<button type="button" class="btn btn-default" title="pošalji poruku" onClick="editSingleItem('message', '{{username}}');">
+{{#editingEnabled}}
+<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{username}}');">
 	<span class="fa-stack fa-2x">
 		<i class="fa fa-circle fa-stack-2x"></i>
 		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+	</span>
+</button>
+{{/editingEnabled}}
+{{#messagingEnabled}}
+<button type="button" class="btn btn-default" title="pošalji poruku" onClick="editSingleItem('message', '{{username}}');">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
 	</span>
 </button>
 {{/messagingEnabled}}

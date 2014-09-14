@@ -19,7 +19,7 @@ function saveEpisode(title, content) {
 	episode.contentId = $("#edit_item_id").val();
 	episode.text = $("#edit_content").code();
 	episode.parentContent = {"contentId" : episodeParentId};
-
+	episode.contentStatus = $("#edit_finalized").prop('checked')?"active":"pending";
 	console.log(JSON.stringify(episode));
 	$.ajax({
 		  url: rootPath + restRoot + "/episode/" + episodeName,

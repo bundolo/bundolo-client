@@ -81,10 +81,23 @@ function displaySingleItem(type, id) {
 		    switch(type) {
 			    case 'text':
 			    	commentParentId = data.contentId;
+			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 			        break;
 			    case 'author':
 			    	commentParentId = data.descriptionContent.contentId;
 			    	data.messagingEnabled = (username != "gost") && (username != data.username);
+			    	data.editingEnabled = (username != "gost") && (username == data.username);
+			    	switch(data.gender) {
+			    		case 'male':
+			    			data.gender = 'muški';
+			    			break;
+			    		case 'female':
+			    			data.gender = 'ženski';
+			    			break;
+			    		case 'other':
+			    			data.gender = 'x';
+			    			break;
+			    	}
 			        break;
 			    case 'topic':
 			    	//topic comments are disabled to avoid confusion with posts
@@ -94,18 +107,23 @@ function displaySingleItem(type, id) {
 			        break;
 			    case 'serial':
 			    	commentParentId = data.contentId;
+			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 			        break;
 			    case 'announcement':
 			    	commentParentId = data.contentId;
+			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 			        break;
 			    case 'contest':
 			    	commentParentId = data.descriptionContent.contentId;
+			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 			        break;
 			    case 'connection':
 			    	commentParentId = data.descriptionContent.contentId;
+			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 			        break;
 			    case 'episode':
 			    	commentParentId = data.contentId;
+			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername) && (data.contentStatus == 'pending');
 			        break;
 			    default:
 			        commentParentId = id;
@@ -123,6 +141,21 @@ function displaySingleItem(type, id) {
 		    } else if (type == 'serial') {
 		    	$.get(rootFolder+"templates/episodes.html", function(templateEpisodes) {
 		    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
+		    			var numberOfEpisodesLabel = '0 nastavaka';
+		    			if (episodes) {
+		    				if (episodes.length%100 >= 11 && episodes.length%100 <= 14) {
+			    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
+			    			} else if (episodes.length%10 == 1) {
+			    				numberOfEpisodesLabel = episodes.length + ' nastavak';
+			    			} else if (episodes.length%10 >= 2 && episodes.length%10 <= 4) {
+			    				numberOfEpisodesLabel = episodes.length + ' nastavka';
+			    			} else {
+			    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
+			    			}
+		    				data.isLoggedIn = username != "gost";
+		    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
+		    			}		    			
+		    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);		    			
 		    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes, "escapeUrl": escapeUrl});
 		    			contentElement.append(renderedEpisodes);
 		    		});
@@ -237,6 +270,9 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    		} else if (type == 'topic') {
 		    			data.topicGroups = formData;
 		    		}		    		
+		    	}
+		    	if (type == 'episode') {
+		    		episodeParentName = data.parentGroup;
 		    	}
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
@@ -408,7 +444,17 @@ function displayProfile() {
 		    },
 		    success: function(data) {
 		    	if (data) {
-		    		//do not use html from db for now
+		    		switch(data.gender) {
+			    		case 'male':
+			    			data.gender = 'muški';
+			    			break;
+			    		case 'female':
+			    			data.gender = 'ženski';
+			    			break;
+			    		case 'other':
+			    			data.gender = 'x';
+			    			break;
+			    	}
 			    	var rendered = Mustache.render(template, data);
 				    displayContent(contentElement, rendered);
 		    	} else {

@@ -20,3 +20,16 @@
 	</tbody>
 </table>
 {{/episodes.length}}
+{{#serial.isLoggedIn}}
+	{{#serial.addingEnabled}}
+		<button type="button" class="btn btn-default" title="dodaj nastavak" onClick="addEpisode({{serial.contentId}}, '{{serial.name}}');">
+			<span class="fa-stack fa-2x">
+				<i class="fa fa-circle fa-stack-2x"></i>
+				<i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+			</span>
+		</button>
+	{{/serial.addingEnabled}}
+	{{^serial.addingEnabled}}
+		novi nastavak se ne može dodati jer je poslednji zaključan.
+	{{/serial.addingEnabled}}
+{{/serial.isLoggedIn}}
