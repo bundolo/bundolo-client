@@ -142,7 +142,7 @@ function displaySingleItem(type, id) {
 		    	$.get(rootFolder+"templates/episodes.html", function(templateEpisodes) {
 		    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
 		    			var numberOfEpisodesLabel = '0 nastavaka';
-		    			if (episodes) {
+		    			if (episodes && episodes.length > 0) {
 		    				if (episodes.length%100 >= 11 && episodes.length%100 <= 14) {
 			    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
 			    			} else if (episodes.length%10 == 1) {
@@ -151,10 +151,12 @@ function displaySingleItem(type, id) {
 			    				numberOfEpisodesLabel = episodes.length + ' nastavka';
 			    			} else {
 			    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
-			    			}
-		    				data.isLoggedIn = username != "gost";
+			    			}		    				
 		    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
-		    			}		    			
+		    			} else {
+		    				data.addingEnabled = true;
+		    			}
+		    			data.isLoggedIn = username != "gost";
 		    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);		    			
 		    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes, "escapeUrl": escapeUrl});
 		    			contentElement.append(renderedEpisodes);
@@ -619,19 +621,19 @@ function isFormValid(formElement) {
 		var value = $(this).val();
 		if (validators.indexOf("required") >= 0 && !value) {
 			$(this).parent().addClass("has-error");
-			$(this).after("<div class='help-inline'>required</div>");
+			$(this).after("<div class='help-inline'>obavezno polje</div>");
 			result = false;
 			return true;
 		}
 		if (validators.indexOf("length") >= 0 && value && value.length < 3) {
 			$(this).parent().addClass("has-error");
-			$(this).after("<div class='help-inline'>not long enough</div>");
+			$(this).after("<div class='help-inline'>dužina nije dovoljna</div>");
 			result = false;
 			return true;
 		}
 		if (validators.indexOf("email") >= 0 && value && !isValidEmailAddress(value)) {
 			$(this).parent().addClass("has-error");
-			$(this).after("<div class='help-inline'>not valid email address</div>");
+			$(this).after("<div class='help-inline'>mora imati format adrese elektronske pošte</div>");
 			result = false;
 			return true;
 		}
@@ -641,7 +643,7 @@ function isFormValid(formElement) {
 				var siblingValue = sibling.val();
 				if (value != siblingValue) {
 					$(this).parent().addClass("has-error");
-					$(this).after("<div class='help-inline'>values must match</div>");
+					$(this).after("<div class='help-inline'>vrednosti moraju biti iste</div>");
 					result = false;
 					return true;
 				}
@@ -653,7 +655,7 @@ function isFormValid(formElement) {
 				var siblingValue = sibling.val();
 				if (!siblingValue || value == siblingValue) {
 					$(this).parent().addClass("has-error");
-					$(this).after("<div class='help-inline'>values must not be same</div>");
+					$(this).after("<div class='help-inline'>vrednosti moraju biti različite</div>");
 					result = false;
 					return true;
 				}

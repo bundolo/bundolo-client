@@ -62,6 +62,7 @@
 <br/>poslednja aktivnost: {{lastActivity}}
 <br/>rejting: {{rating.value}}
 {{#editingEnabled}}
+<div class="item-footer">
 <button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('episode','{{parentGroup}}/{{name}}');">
 	<span class="fa-stack fa-2x">
 		<i class="fa fa-circle fa-stack-2x"></i>
@@ -74,4 +75,5 @@
 		<i class="fa fa-minus fa-stack-1x fa-inverse"></i>
 	</span>
 </button>
+</div>
 {{/editingEnabled}}

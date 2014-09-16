@@ -19,7 +19,7 @@
 		</div>
 		<div class="form-group">
 		  <label for="edit_title">ime</label>
-		  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite ime" value="{{descriptionContent.name}}">
+		  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite ime" value="{{descriptionContent.name}}" validators="required">
 		</div>
 		<div class="form-group">
 		  <label for="edit_content">opis</label>
@@ -36,7 +36,7 @@
 		</div>
 		<div class="form-group">
 		  <label for="edit_email">adresa elektronske pošte</label>
-		  <input type="text" class="form-control" id="edit_email" placeholder="unesite adresu elektronske pošte" value="{{email}}">
+		  <input type="text" class="form-control" id="edit_email" placeholder="unesite adresu elektronske pošte" value="{{email}}" validators="email">
 		</div>
 	</form>
 </div>

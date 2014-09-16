@@ -372,3 +372,9 @@ footer {
 .note-dialog .modal-dialog {
     max-width: 500px;
 }
+
+.item-footer {
+	padding: 19px 20px 20px;
+	text-align: right;
+	border-top: 1px solid #e5e5e5;
+}

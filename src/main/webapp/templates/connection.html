@@ -61,10 +61,12 @@ dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUserna
 <br/>{{#creationDate}}datum: {{creationDate}}{{/creationDate}}
 <br/>rejting: {{descriptionContent.rating.value}}
 {{#editingEnabled}}
+<div class="item-footer">
 <button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('connection', '{{descriptionContent.name}}');">
 	<span class="fa-stack fa-2x">
 		<i class="fa fa-circle fa-stack-2x"></i>
 		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 	</span>
 </button>
+</div>
 {{/editingEnabled}}

@@ -97,6 +97,18 @@ function displaySlide(type) {
 					        break;
 			    		}
 					  //console.log(JSON.stringify(data[index])); 
+				  } else if (type == 'authors') {
+					  switch(data[index].gender) {
+			    		case 'male':
+			    			data[index].gender = 'muški';
+			    			break;
+			    		case 'female':
+			    			data[index].gender = 'ženski';
+			    			break;
+			    		case 'other':
+			    			data[index].gender = 'x';
+			    			break;
+			    	}
 				  }
 			  }			  
 			  var rendered = Mustache.render(template, { "id": type, "slides": data, "escapeUrl": escapeUrl });
