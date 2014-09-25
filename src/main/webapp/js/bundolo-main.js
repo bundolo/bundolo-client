@@ -1,5 +1,5 @@
 var rootPath = "http://localhost";
-//var rootPath = "http://62.113.232.24/";
+//var rootPath = "http://54.76.44.57/";
 var restRoot = "/rest";
 //var rootFolder = "bundolo2/";
 var rootFolder = "/";
@@ -661,6 +661,18 @@ function isFormValid(formElement) {
 				}
 			}
 		}
+		if (validators.indexOf("url_safe") >= 0 && !/^[^~\\\/\[\]\{\}\(\);\:"'\|<>\?\+=`#$%\^&\*]+$/.test(value)) {
+			$(this).parent().addClass("has-error");
+			$(this).after("<div class='help-inline'>specijalni karakteri nisu dozvoljeni</div>");
+			result = false;
+			return true;
+		}
+		if (validators.indexOf("username") >= 0 && !/^[A-Za-z0-9 _-]{3,25}$/.test(value)) {
+			$(this).parent().addClass("has-error");
+			$(this).after("<div class='help-inline'>dozvoljeni karakteri su A-Za-z0-9 _-</div>");
+			result = false;
+			return true;
+		}		
 	});
 	return result;
 }

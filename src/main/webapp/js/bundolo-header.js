@@ -49,6 +49,9 @@ function displayStatusBar(title) {
 }
 
 function login() {
+	if (!isFormValid($('.navbar-form'))) {
+		return;
+	}
 	var loginUsername = $("#login_username").val();
 	var loginPassword = $("#login_password").val();
 	var loginRememberMe = $('#login_remember').is(':checked');
@@ -103,6 +106,9 @@ function logout() {
 }
 
 function passwordReset() {
+	if (!isFormValid($('.navbar-form'))) {
+		return;
+	}
 	var resetUsername = $("#reset_username").val();
 	var resetEmail = $("#reset_email").val();
 	$.ajax({
@@ -127,6 +133,9 @@ function passwordReset() {
 }
 
 function register() {
+	if (!isFormValid($('.navbar-form'))) {
+		return;
+	}
 	var registerUsername = $("#register_username").val();
 	var registerEmail = $("#register_email").val();
 	var registerPassword = $("#register_password").val();

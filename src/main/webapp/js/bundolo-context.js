@@ -102,9 +102,9 @@ function sanitizeRecursive(data) {
 		  if(!$.isArray(data[index].comments)) {
 			  data[index].comments = [];
 		  }
-		  if (!data[index].authorUsername) {
-			  data[index].authorUsername = 'gost';
-		  }
+//		  if (!data[index].authorUsername) {
+//			  data[index].authorUsername = 'gost';
+//		  }
 		  sanitizeRecursive(data[index].comments);
 		}
 	}
