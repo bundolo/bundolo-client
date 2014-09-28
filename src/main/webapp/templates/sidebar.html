@@ -9,9 +9,9 @@
 			<div class="panel-heading">
 				<a href="#collapse_{{id}}" data-parent="#sidebarAccordion" data-toggle="collapse" class="accordion-toggle collapsed" onClick="displaySidebarAccordion('{{id}}');">{{title}}</a>
 				
-				<input data-parent="#sidebarAccordion" data-target="#collapse_{{id}}" data-toggle="collapse" class="form-control pull-right" type="search" value="" placeholder="Search" name="q">
+				<input data-parent="#sidebarAccordion" data-target="#collapse_{{id}}" data-toggle="collapse" class="form-control pull-right hidden" type="search" value="" placeholder="Search" name="q">
 				{{#categories.length}}
-        			<select class="pull-right">
+        			<select class="pull-right hidden-xs">
         				<option value=""></option>
         				{{#categories}}
 					    	<option value="{{id}}">{{title}}</option>
@@ -35,12 +35,12 @@
 						<thead>
 							<tr>
 								{{#columns}}
-									<th id="{{id}}_column_{{column_name}}" {{#column_order}}class="{{column_order}}"{{/column_order}}>{{column_title}}</th>
+									<th id="{{id}}_column_{{column_name}}" class="{{#column_order}}{{column_order}}{{/column_order}} {{^primary}}hidden-xs{{/primary}}">{{column_title}}</th>
 								{{/columns}}
 							</tr>
 							<tr>
 								{{#columns}}
-									<td><input type="search" placeholder=""></td>
+									<td class="{{^primary}}hidden-xs{{/primary}}"><input type="search" placeholder=""></td>
 								{{/columns}}
 							</tr>
 						</thead>

@@ -33,7 +33,7 @@ function displaySlider() {
 }
 
 function displaySlide(type) {
-	$.getJSON(rootPath + restRoot + "/" + type, { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
+	$.getJSON(rootPath + restRoot + "/" + type, { "start": "0", "end": "9", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
 		  $.get("/templates/slide_"+type+".html", function(template) {
 			  for (index in data) {
 				  //since mustache does not support accessing array index in template, we have to add it manually

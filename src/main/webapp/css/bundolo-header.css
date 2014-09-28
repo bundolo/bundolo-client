@@ -37,30 +37,24 @@
 
 .navbar .navbar-header {
 	margin: 0 0 0 40px;
-	width: 460px;
-}
-
-.navbar pre {
-	font-size: 2px;
-	padding: 0;
-	margin: 0;
-	background-color: transparent;
-	color: #ccc;
-	border: none;
+	width: 445px;
+	float: left;	
 }
 
 .navbar-header .navbar-brand {
 	/*height: 54px;*/
-	background-color: #000;
+	background-image: url("/img/brand.png");
 	border-radius: 25px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	padding: 10px 16px;
 	height: 100%;
+	width: 160px;
+	margin-left: -15px;
 }
 
-.navbar-header .navbar-brand:hover, .navbar-brand:focus {
-	background-color: #000;
+.navbar-header .navbar-brand:hover, .navbar-header .navbar-brand:focus {
+	background-image: url("/img/brand_on.png");
 }
 
 .navbar-brand pre:hover, .navbar-brand pre:focus {
@@ -90,16 +84,6 @@
 .navbar .dropdown-menu {
 	right: auto;
 }
-    
-@media (max-width: 978px) {
-    .navbar .navbar-header {
-		margin: 0 0 0 8px;
-	}
-	.navbar .navbar-nav>li>a {
-		padding: 15px 4px;
-		font-size: 10px;
-	}
-}
 
 .pipe_h {
 	/*position: absolute;
@@ -108,12 +92,16 @@
     margin: 19px -15px;
     display: inline-block;
     height: 16px;
-    width: 30px;
+    width: 28px;
 	background-color: #000;
 }
 
+.navbar-form button + .pipe_h {
+	width: 24px;
+}
+
 .status_bar, .username_bar {
-	width: 200px;
+	width: 190px;
 	border-radius: 25px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
@@ -138,6 +126,10 @@
 
 input[type="text"], input[type="email"], input[type="password"] {
 	background-color: #fff;
+}
+
+.navbar-form input[type="text"], .navbar-form input[type="email"], .navbar-form input[type="password"] {
+	width: 102px;
 }
 
 input:-webkit-autofill {

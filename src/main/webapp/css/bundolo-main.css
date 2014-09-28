@@ -378,3 +378,7 @@ footer {
 	text-align: right;
 	border-top: 1px solid #e5e5e5;
 }
+
+.table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th {
+	background-color: #fff;
+}

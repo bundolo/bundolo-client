@@ -4,3 +4,99 @@
 @import url("bundolo-slider.css");
 @import url("bundolo-context.css");
 @import url("bundolo-forum.css");
+
+
+
+@media (max-width: 991px) {
+	.navbar .navbar-header {
+		width: 249px;
+	}
+	.navbar-form input[type="text"], .navbar-form input[type="email"], .navbar-form input[type="password"] {
+		width: 89px;
+	}
+}
+
+@media (max-width: 767px) {
+	.navbar-form.navbar-right {
+		float: right !important;
+	}
+	.navbar .navbar-form {
+		height: auto;
+		border: none;
+		padding: 0 20px;
+	}
+	.navbar-form.navbar-right:last-child {
+		margin-right: 0 !important;
+	}
+	
+	.navbar .checkbox {
+		background: none;
+		padding: 0;
+	}
+	
+	.navbar-form button {
+		/*padding: 0;*/
+	}
+	
+	.navbar-form button:hover {
+		/*padding: 0;*/
+		transform: none;
+		-ms-transform: none;
+		-webkit-transform: none;
+	}
+	
+	.navbar-collapse {
+		border: none;
+	}
+	
+	.navbar input[type=checkbox] {
+		margin-left: 0;
+	}
+	
+	.navbar-collapse.in {
+		overflow: visible;
+	}
+	
+	.open .dropdown-toggle.btn-default {
+		background: none;
+	}
+	
+	.nav>li>a {
+		padding: 10px 0;
+	}
+}
+
+@media (max-width: 480px) {
+    .main .jumbotron pre {
+    	display: none;
+    }
+    .slider .nav-tabs span {
+    	font-size: 15px;
+    }
+    .slider .nav-tabs {
+    	height: 46px;
+    }
+    .slider .pipe_vb {
+    	display: none;
+    }
+    .main .table-striped>tbody>tr>td, .main .table-striped>tbody>tr>th, .main .table.clickable>tbody>tr:hover>td {
+		background: none;
+	}
+	.main .table-striped, .main .table-striped>thead>tr>th, .main .table-striped>tbody>tr>th, .main .table-striped>tfoot>tr>th, .main .table-striped>thead>tr>td, .main .table-striped>tbody>tr>td, .main .table-striped>tfoot>tr>td {
+		border: none;
+	}
+	/*
+	.hidden-xxs {
+		display: none!important;
+	}*/
+}
+
+@media (max-width: 1199px) {
+    .navbar .navbar-header {
+		margin: 0 0 0 16px;
+	}
+	
+	.navbar-form.navbar-right:last-child {
+		margin-right: -34px;
+	}
+}

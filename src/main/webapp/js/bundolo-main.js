@@ -75,130 +75,159 @@ function displaySingleItem(type, id) {
 	$.get(rootFolder+"templates/" + type + ".html", function(template) {
 		//console.log('id: ' + id);
 		//console.log('path: ' + rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '));
-		$.getJSON(rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '), function(data) {		    
-		    var contentElement = $('.main>.jumbotron>.content');
-		    var commentParentId = id;
-		    switch(type) {
-			    case 'text':
-			    	commentParentId = data.contentId;
-			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
-			        break;
-			    case 'author':
-			    	commentParentId = data.descriptionContent.contentId;
-			    	data.messagingEnabled = (username != "gost") && (username != data.username);
-			    	data.editingEnabled = (username != "gost") && (username == data.username);
-			    	switch(data.gender) {
-			    		case 'male':
-			    			data.gender = 'muški';
-			    			break;
-			    		case 'female':
-			    			data.gender = 'ženski';
-			    			break;
-			    		case 'other':
-			    			data.gender = 'x';
-			    			break;
-			    	}
-			        break;
-			    case 'topic':
-			    	//topic comments are disabled to avoid confusion with posts
-			    	//consider enabling comments on forum, or forum groups
-			    	//commentParentId = data.contentId;
-			    	commentParentId = null;
-			        break;
-			    case 'serial':
-			    	commentParentId = data.contentId;
-			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
-			        break;
-			    case 'announcement':
-			    	commentParentId = data.contentId;
-			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
-			        break;
-			    case 'contest':
-			    	commentParentId = data.descriptionContent.contentId;
-			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
-			        break;
-			    case 'connection':
-			    	commentParentId = data.descriptionContent.contentId;
-			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
-			        break;
-			    case 'episode':
-			    	commentParentId = data.contentId;
-			    	data.editingEnabled = (username != "gost") && (username == data.authorUsername) && (data.contentStatus == 'pending');
-			        break;
-			    default:
-			        commentParentId = id;
-		    }
-		    data.escapeUrl = escapeUrl;
-		    var rendered = Mustache.render(template, data);
-		    displayContent(contentElement, rendered, commentParentId);
-		    if (type == 'topic') {
-		    	$.get(rootFolder+"templates/posts.html", function(templatePosts) {
-		    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(posts) {
-		    			var renderedPosts = Mustache.render(templatePosts, {"posts": posts, "escapeUrl": escapeUrl});
-		    			contentElement.find('tbody').append(renderedPosts);
-		    		});
-		    	});
-		    } else if (type == 'serial') {
-		    	$.get(rootFolder+"templates/episodes.html", function(templateEpisodes) {
-		    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
-		    			var numberOfEpisodesLabel = '0 nastavaka';
-		    			if (episodes && episodes.length > 0) {
-		    				if (episodes.length%100 >= 11 && episodes.length%100 <= 14) {
-			    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
-			    			} else if (episodes.length%10 == 1) {
-			    				numberOfEpisodesLabel = episodes.length + ' nastavak';
-			    			} else if (episodes.length%10 >= 2 && episodes.length%10 <= 4) {
-			    				numberOfEpisodesLabel = episodes.length + ' nastavka';
-			    			} else {
-			    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
-			    			}		    				
-		    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
-		    			} else {
-		    				data.addingEnabled = true;
-		    			}
-		    			data.isLoggedIn = username != "gost";
-		    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);		    			
-		    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes, "escapeUrl": escapeUrl});
-		    			contentElement.append(renderedEpisodes);
-		    		});
-		    	});
-		    } else if (type == 'author') {
-		    	$.get(rootFolder+"templates/author_statistics.html", function(templateStatistics) {
-			    	$.ajax({
-					    url: rootPath + restRoot + "/statistics/" + data.username,
-					    type: 'GET',
-					    dataType: "json",
-					    contentType: "application/json; charset=utf-8",
-					    beforeSend: function (xhr) {
-					        xhr.setRequestHeader ("Authorization", token);
-					    },
-					    success: function(data) {
-					    	var totalRating = 0;
-					    	for (var i = 0; i < data.length; i++) {
-					    		switch(data[i].kind) {
-							    case 'text':
-							    	data[i].isText = true;
-							        break;
-							    case 'episode':
-							    	data[i].isEpisode = true;
-							        break;
-					    		}
-					    		if (data[i].rating) {
-					    			totalRating += data[i].rating.value;
-					    		}
-					    	}
-					    	  //console.log(JSON.stringify(data));
-					    	var renderedStatistics = Mustache.render(templateStatistics, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
-					    	contentElement.append(renderedStatistics);
-						},
-						error: function(textStatus, errorThrown) {
-							//TODO
-						}
-					});
-		    	});
-		    } 
-		    
-		});
+		
+		
+		//
+		$.ajax({
+			  url: rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '),
+			  type: "GET",
+			  //data: JSON.stringify(text),
+			  dataType: "json",
+			  contentType: "application/json; charset=utf-8",
+			  beforeSend: function (xhr) {
+				  xhr.setRequestHeader ("Authorization", token);
+			  },
+			  headers: { 
+		          'Accept': 'application/json',
+		          'Content-Type': 'application/json' 
+			  },		  
+			  success: function(data) {  
+				  if (data) {
+					    var contentElement = $('.main>.jumbotron>.content');
+					    var commentParentId = id;
+					    switch(type) {
+						    case 'text':
+						    	commentParentId = data.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						        break;
+						    case 'author':
+						    	commentParentId = data.descriptionContent.contentId;
+						    	data.messagingEnabled = (username != "gost") && (username != data.username);
+						    	data.editingEnabled = (username != "gost") && (username == data.username);
+						    	switch(data.gender) {
+						    		case 'male':
+						    			data.gender = 'muški';
+						    			break;
+						    		case 'female':
+						    			data.gender = 'ženski';
+						    			break;
+						    		case 'other':
+						    			data.gender = 'x';
+						    			break;
+						    	}
+						        break;
+						    case 'topic':
+						    	//topic comments are disabled to avoid confusion with posts
+						    	//consider enabling comments on forum, or forum groups
+						    	//commentParentId = data.contentId;
+						    	commentParentId = null;
+						        break;
+						    case 'serial':
+						    	commentParentId = data.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						        break;
+						    case 'announcement':
+						    	commentParentId = data.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						        break;
+						    case 'contest':
+						    	commentParentId = data.descriptionContent.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						        break;
+						    case 'connection':
+						    	commentParentId = data.descriptionContent.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						        break;
+						    case 'episode':
+						    	commentParentId = data.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername) && (data.contentStatus == 'pending');
+						        break;
+						    default:
+						        commentParentId = id;
+					    }
+					    data.escapeUrl = escapeUrl;
+					    var rendered = Mustache.render(template, data);
+					    displayContent(contentElement, rendered, commentParentId);
+					    if (type == 'topic') {
+					    	$.get(rootFolder+"templates/posts.html", function(templatePosts) {
+					    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(posts) {
+					    			var renderedPosts = Mustache.render(templatePosts, {"posts": posts, "escapeUrl": escapeUrl});
+					    			contentElement.find('tbody').append(renderedPosts);
+					    		});
+					    	});
+					    } else if (type == 'serial') {
+					    	$.get(rootFolder+"templates/episodes.html", function(templateEpisodes) {
+					    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
+					    			var numberOfEpisodesLabel = '0 nastavaka';
+					    			if (episodes && episodes.length > 0) {
+					    				if (episodes.length%100 >= 11 && episodes.length%100 <= 14) {
+						    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
+						    			} else if (episodes.length%10 == 1) {
+						    				numberOfEpisodesLabel = episodes.length + ' nastavak';
+						    			} else if (episodes.length%10 >= 2 && episodes.length%10 <= 4) {
+						    				numberOfEpisodesLabel = episodes.length + ' nastavka';
+						    			} else {
+						    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
+						    			}		    				
+					    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
+					    			} else {
+					    				data.addingEnabled = true;
+					    			}
+					    			data.isLoggedIn = username != "gost";
+					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);		    			
+					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes, "escapeUrl": escapeUrl});
+					    			contentElement.append(renderedEpisodes);
+					    		});
+					    	});
+					    } else if (type == 'author') {
+					    	$.get(rootFolder+"templates/author_statistics.html", function(templateStatistics) {
+						    	$.ajax({
+								    url: rootPath + restRoot + "/statistics/" + data.username,
+								    type: 'GET',
+								    dataType: "json",
+								    contentType: "application/json; charset=utf-8",
+								    beforeSend: function (xhr) {
+								        xhr.setRequestHeader ("Authorization", token);
+								    },
+								    success: function(data) {
+								    	var totalRating = 0;
+								    	for (var i = 0; i < data.length; i++) {
+								    		switch(data[i].kind) {
+										    case 'text':
+										    	data[i].isText = true;
+										        break;
+										    case 'episode':
+										    	data[i].isEpisode = true;
+										        break;
+								    		}
+								    		if (data[i].rating) {
+								    			totalRating += data[i].rating.value;
+								    		}
+								    	}
+								    	  //console.log(JSON.stringify(data));
+								    	var renderedStatistics = Mustache.render(templateStatistics, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
+								    	contentElement.append(renderedStatistics);
+									},
+									error: function(textStatus, errorThrown) {
+										//TODO
+									}
+								});
+					    	});
+					    }
+				  } else {
+					  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+				  }
+		      },
+		      error: function(data) {
+		    	  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+		      },
+		      complete: function(data) {
+//		    	  console.log("complete: " + JSON.stringify(data));
+		      }
+			});
+		
+		//
+
 	});
 }
 

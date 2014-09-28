@@ -1,8 +1,8 @@
 {{#items}}
 	<tr id="text_{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}">
 		<td>{{{name}}}</td>
-		<td>{{authorUsername}}</td>
-		<td>{{creationDate}}</td>
-		<td>{{{description.0.lastActivity}}}</td>
+		<td class="hidden-xs">{{authorUsername}}</td>
+		<td class="hidden-xs">{{creationDate}}</td>
+		<td class="hidden-xs">{{{description.0.lastActivity}}}</td>
 	</tr>
 {{/items}}

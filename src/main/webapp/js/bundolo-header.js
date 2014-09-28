@@ -11,6 +11,10 @@ $(document).ready(function() {
 	} else {
 		displayLogin();
 	}
+	
+	//preload mouseover brand image to prevent flickering
+	var brandOn = new Image();
+	brandOn.src = "/img/brand_on.png";
 });
 
 function displayLogin() {
