@@ -32,7 +32,12 @@ function saveContest() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  $.address.value(rootFolder+"contest"+"/" + contest.descriptionContent.name.replace(/ /g, '~'));
+				  var itemUrl = rootFolder+"contest"+"/" + contest.descriptionContent.name.replace(/ /g, '~');
+				  if (itemUrl == $.address.value()) {
+					  displaySingleItem("contest", contest.descriptionContent.name);
+				  } else {
+					  $.address.value(itemUrl);
+				  }
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

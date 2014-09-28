@@ -27,10 +27,15 @@ function saveAnnouncement() {
 		  },		  
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
+				  //console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  $.address.value(rootFolder+"announcement"+"/" + name.replace(/ /g, '~'));
+				  var itemUrl = rootFolder+"announcement"+"/" + name.replace(/ /g, '~');
+				  if (itemUrl == $.address.value()) {
+					  displaySingleItem("announcement", name);
+				  } else {
+					  $.address.value(itemUrl);
+				  }
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

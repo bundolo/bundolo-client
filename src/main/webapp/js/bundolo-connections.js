@@ -35,7 +35,12 @@ function saveConnection() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  $.address.value(rootFolder+"connection"+"/" + name.replace(/ /g, '~'));
+				  var itemUrl = rootFolder+"connection"+"/" + name.replace(/ /g, '~');
+				  if (itemUrl == $.address.value()) {
+					  displaySingleItem("connection", name);
+				  } else {
+					  $.address.value(itemUrl);
+				  }
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

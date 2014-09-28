@@ -1,5 +1,6 @@
 var commentParentElement;
 var commentParentId;
+var rootParentId;
 $(document).ready(function() {
 	$('body').on('click', function(e) {
 		var modalDialog = $('#modal');
@@ -23,8 +24,6 @@ $(document).ready(function() {
 		addComment(parentElement.find('>.panel-collapse>.panel-body>.panel-group>div>div'), parentId);
 	});
 	
-	
-	///
 	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button', function(e) {
 		$(this).parent().addClass("hover");
 		if ($(this).parent().parent().css("overflow")=="hidden") {
@@ -35,36 +34,46 @@ $(document).ready(function() {
 		$(this).parent().removeClass("hover");
 		$(this).parent().parent().removeClass("show-overflow");
 	});
+	$(window).resize(resizer);
 });
 
-function setContextMenuPostion(event, contextMenu) {
-    var mousePosition = {};
-    var menuPostion = {};
-    var menuDimension = {};
+function resizer() {
+	var contextMenu = $('.context-menu');
+	if(contextMenu.is(":visible")) {
+    	contextMenu.hide();
+    }
+}
 
+function setContextMenuPostion(event) {
+	var contextMenu = $('.context-menu');
+    var mousePosition = {};
+    var menuPosition = {};
+    var menuDimension = {};
     menuDimension.x = contextMenu.outerWidth();
-    menuDimension.y = contextMenu.outerHeight();
+    menuDimension.y = contextMenu.outerHeight();    
     mousePosition.x = event.pageX;
     mousePosition.y = event.pageY;
-
     if (mousePosition.x + menuDimension.x > $(window).width() + $(window).scrollLeft()) {
-        menuPostion.x = mousePosition.x - menuDimension.x;
+    	menuPosition.x = mousePosition.x - menuDimension.x;
     } else {
-        menuPostion.x = mousePosition.x;
+    	menuPosition.x = mousePosition.x;
     }
-
     if (mousePosition.y + menuDimension.y > $(window).height() + $(window).scrollTop()) {
-        menuPostion.y = mousePosition.y - menuDimension.y;
+    	menuPosition.y = mousePosition.y - menuDimension.y;
     } else {
-        menuPostion.y = mousePosition.y;
+    	menuPosition.y = mousePosition.y;
     }
-
+    if (menuPosition.x < 0) {
+    	menuPosition.x = 0;
+    }
+    if (menuPosition.y < 0) {
+    	menuPosition.y = 0;
+    }
     contextMenu.css({
         display: "block",
-        left: menuPostion.x,
-        top: menuPostion.y
+        left: menuPosition.x,
+        top: menuPosition.y
     });
-    return menuPostion;
 }
 
 function addContextMenu(parentElement, parentId) {
@@ -73,26 +82,31 @@ function addContextMenu(parentElement, parentId) {
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
 			</span>');
 	commentsButton.click(function(e) {
-		var contextRootElement = $('.context-menu>div>div');
-		contextRootElement.html(spinner);
-		$.get(rootFolder+"templates/comments.html", function(template) {
-			$.getJSON(rootPath + restRoot + "/parent_comments/" + parentId, function(data) {
-				sanitizeRecursive(data);
-				var partials = {commentPanel: template};
-			    var rendered = Mustache.render(template, {"comments": data}, partials);
-			    var rootCommentButton = $('<span title="dodaj komentar" class="fa-stack fa-2x pull-right root-comment-button" id="comment_'+parentId+'">\
-						<i class="fa fa-circle fa-stack-2x"></i>\
-						<i class="fa fa-plus fa-stack-1x fa-inverse"></i>\
-					</span>');
-			    contextRootElement.html(rootCommentButton);
-			    contextRootElement.append(rendered);
-			});
-		});
-		setContextMenuPostion(e, $('.context-menu'));
+		rootParentId = parentId;
+		displayComments(rootParentId);
+		setContextMenuPostion(e);
         return false;
     });
 	commentsButton.attr("title", "komentari");
 	parentElement.append(commentsButton);
+}
+
+function displayComments(parentId) {
+	var contextRootElement = $('.context-menu>div>div');
+	contextRootElement.html(spinner);
+	$.get(rootFolder+"templates/comments.html", function(template) {
+		$.getJSON(rootPath + restRoot + "/parent_comments/" + parentId, function(data) {
+			sanitizeRecursive(data);
+			var partials = {commentPanel: template};
+		    var rendered = Mustache.render(template, {"comments": data}, partials);
+		    var rootCommentButton = $('<span title="dodaj komentar" class="fa-stack fa-2x pull-right root-comment-button" id="comment_'+parentId+'">\
+					<i class="fa fa-circle fa-stack-2x"></i>\
+					<i class="fa fa-plus fa-stack-1x fa-inverse"></i>\
+				</span>');
+		    contextRootElement.html(rootCommentButton);
+		    contextRootElement.append(rendered);
+		});
+	});
 }
 
 function sanitizeRecursive(data) {
@@ -117,7 +131,9 @@ function addComment(parentElement, parentId) {
 }
 
 function saveComment() {
-	//TODO validation
+	if (!isFormValid($('#modal form'))) {
+		return;
+	}
 	var commentContent = $('#edit_content').val();
 	var comment = {};
 	comment.text = sanitize(commentContent);
@@ -137,18 +153,15 @@ function saveComment() {
 	        'Content-Type': 'application/json'
 	    },
 	  success: function(data) {
-		  displayComment(username, sanitize(commentContent), commentParentElement);
-		  $('#modal').modal('hide');
+		  if (data) {
+			  displayComments(rootParentId);
+			  $('#modal').modal('hide');
+		  } else {
+			  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+		  }
       },
       error: function(data) {
     	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
       }
-	});
-}
-
-function displayComment(author, content, parentElement) {
-	$.get('/templates/comment.html', function(template) {
-		var rendered = Mustache.render(template, {"author": author, "content": content});
-	    parentElement.append($(rendered));
 	});
 }

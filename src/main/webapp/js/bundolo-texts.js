@@ -34,7 +34,12 @@ function saveText() {
 				  //console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $('#edit_content').destroy();
-				  $.address.value(rootFolder+"text"+"/" + name.replace(/ /g, '~'));
+				  var itemUrl = rootFolder+"text"+"/" + name.replace(/ /g, '~');
+				  if (itemUrl == $.address.value()) {
+					  displaySingleItem("text", name);
+				  } else {
+					  $.address.value(itemUrl);
+				  }
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }
