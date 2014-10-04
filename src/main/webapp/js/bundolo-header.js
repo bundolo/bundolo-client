@@ -186,6 +186,8 @@ function validateEmail() {
 				  if (data) {
 					  //console.log("success: " + JSON.stringify(data));
 					  editSingleItem("notification", null, null, "validacija je uspela. možete se prijaviti!");
+					  refreshSliderIfNeeded("authors");
+					  refreshSidebarIfNeeded("authors");
 				  } else {
 					  editSingleItem("notification", null, null, "validacija nije uspela!");
 				  }
@@ -239,6 +241,8 @@ function saveAuthor() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  displayProfile();
+				  refreshSliderIfNeeded("authors");
+				  refreshSidebarIfNeeded("authors");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

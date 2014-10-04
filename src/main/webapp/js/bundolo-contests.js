@@ -38,6 +38,8 @@ function saveContest() {
 				  } else {
 					  $.address.value(itemUrl);
 				  }
+				  refreshSliderIfNeeded("contests");
+				  refreshSidebarIfNeeded("contests");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

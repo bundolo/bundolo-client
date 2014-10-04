@@ -80,6 +80,8 @@ function saveTopic() {
 				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
 				  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
+				  refreshSliderIfNeeded("topics");
+				  refreshSidebarIfNeeded("topics");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

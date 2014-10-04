@@ -92,6 +92,8 @@ function saveSerial(title, description) {
 				  } else {
 					  $.address.value(itemUrl);
 				  }
+				  refreshSliderIfNeeded("serials");
+				  refreshSidebarIfNeeded("serials");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

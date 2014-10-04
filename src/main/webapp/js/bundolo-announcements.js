@@ -36,6 +36,8 @@ function saveAnnouncement() {
 				  } else {
 					  $.address.value(itemUrl);
 				  }
+				  refreshSliderIfNeeded("announcements");
+				  refreshSidebarIfNeeded("announcements");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

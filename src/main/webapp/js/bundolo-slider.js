@@ -28,7 +28,6 @@ function displaySlider() {
 		});
 	    $(".slider").html(rendered);
 	    displaySlide('comments');
-	    //TODO assign event handlers if any
 	  });
 }
 
@@ -115,4 +114,11 @@ function displaySlide(type) {
 			  $(".slider #"+type+"-carousel>div").html(rendered);
 		  });
 	});
+}
+
+function refreshSliderIfNeeded(type) {
+	var slide = $(".slider #"+type+"_tab.active");
+	if (slide.length) {
+		displaySlide(type);
+	}
 }

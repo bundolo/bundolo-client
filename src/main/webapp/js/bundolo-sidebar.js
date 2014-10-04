@@ -18,7 +18,8 @@ $(document).ready(function() {
 			$('#sidebarAccordion>li #collapse_'+itemType+' table>thead>tr>th').removeClass("asc desc");
 			$(this).toggleClass("asc");
 		}
-		displaySidebarAccordion(itemType, columnName + ',' + $(this).attr('class'), getFilterString(itemType));
+		var orderByDirection = $(this).hasClass("desc") ? "desc" : "asc";
+		displaySidebarAccordion(itemType, columnName + ',' + orderByDirection, getFilterString(itemType));
 	});
 	//changing text in filter input fields
 	$('body').on('input', '#sidebarAccordion>li .panel-collapse table>thead>tr>td>input', function(e) {
@@ -47,13 +48,14 @@ $(document).ready(function() {
 function getOrderString(type) {
 	var result = '';
 	$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').each(function() {
-		if ($(this).attr('class')) {
+		if ($(this).hasClass("desc") || $(this).hasClass("asc")) {
 			var elementId = $(this).attr('id');
 			var columnName = elementId.substr(type.length + 8);
 			if (result != '') {
 				result += ',';
 			}
-			result += columnName + ',' + $(this).attr('class');
+			var orderByDirection = $(this).hasClass("desc") ? "desc" : "asc";
+			result += columnName + ',' + orderByDirection;
 		}
 	});
 	return result;
@@ -175,4 +177,11 @@ function displaySidebarAccordion(type, orderBy, filterBy) {
 		    });
 		});		
 	});
+}
+
+function refreshSidebarIfNeeded(type) {
+	var sidebarAccordion = $(".sidebar #collapse_"+type+".in");
+	if (sidebarAccordion.length) {
+		displaySidebarAccordion(type, getOrderString(type), getFilterString(type));
+	}
 }

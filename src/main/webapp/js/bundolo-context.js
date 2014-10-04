@@ -156,6 +156,7 @@ function saveComment() {
 		  if (data) {
 			  displayComments(rootParentId);
 			  $('#modal').modal('hide');
+			  refreshSliderIfNeeded("comments");
 		  } else {
 			  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 		  }

@@ -40,6 +40,8 @@ function saveText() {
 				  } else {
 					  $.address.value(itemUrl);
 				  }
+				  refreshSliderIfNeeded("texts");
+				  refreshSidebarIfNeeded("texts");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }

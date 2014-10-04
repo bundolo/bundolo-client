@@ -41,6 +41,8 @@ function saveConnection() {
 				  } else {
 					  $.address.value(itemUrl);
 				  }
+				  refreshSliderIfNeeded("connections");
+				  refreshSidebarIfNeeded("connections");
 			  } else {
 				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
 			  }
