@@ -236,9 +236,15 @@ function editSingleItem(type, id, event, notification) {
 		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
 	}
-	var contentElement = $('#modal .modal-content');
+	var modalElement;	
+	if ((type == 'notification') || (type == 'confirmation')) {
+		modalElement= $('#modal-notification');
+	} else {
+		modalElement= $('#modal');
+	}
+	var contentElement = modalElement.find('.modal-content');
 	contentElement.html(spinner);
-	$('#modal').modal('show');
+	modalElement.modal('show');
 	$.get(rootFolder+'templates/edit_'+type+'.html', function(template) {
 		if (type == 'connection') {
 			$.ajax({
@@ -591,7 +597,7 @@ function deleteSingleItem(id) {
 	    success: function(data) {
 	    	if (data) {
 	    		displayStatistics();
-	    		$('#modal').modal('hide');
+	    		$('#modal-notification').modal('hide');
 	    	} else {
 	    		editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
 	    	}	    	
