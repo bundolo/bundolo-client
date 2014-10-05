@@ -238,9 +238,13 @@ function saveAuthor() {
 		  },		  
 		  success: function(data) {
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
 				  $('#modal').modal('hide');
-				  displayProfile();
+				  if (user.password) {
+					  logout();
+					  editSingleItem("notification", null, null, "morate se prijaviti sa novom lozinkom.");
+				  } else {
+					  displayProfile();
+				  }				  
 				  refreshSliderIfNeeded("authors");
 				  refreshSidebarIfNeeded("authors");
 			  } else {
