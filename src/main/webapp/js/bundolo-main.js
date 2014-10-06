@@ -75,11 +75,8 @@ function displaySingleItem(type, id) {
 	$.get(rootFolder+"templates/" + type + ".html", function(template) {
 		//console.log('id: ' + id);
 		//console.log('path: ' + rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '));
-		
-		
-		//
 		$.ajax({
-			  url: rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '),
+			  url: rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
 			  type: "GET",
 			  //data: JSON.stringify(text),
 			  dataType: "json",
