@@ -116,9 +116,6 @@ function sanitizeRecursive(data) {
 		  if(!$.isArray(data[index].comments)) {
 			  data[index].comments = [];
 		  }
-//		  if (!data[index].authorUsername) {
-//			  data[index].authorUsername = 'gost';
-//		  }
 		  sanitizeRecursive(data[index].comments);
 		}
 	}
@@ -154,15 +151,19 @@ function saveComment() {
 	    },
 	  success: function(data) {
 		  if (data) {
-			  displayComments(rootParentId);
-			  $('#modal').modal('hide');
-			  refreshSliderIfNeeded("comments");
+			  if (data == 'success') {
+				  displayComments(rootParentId);
+				  $('#modal').modal('hide');
+				  refreshSliderIfNeeded("comments");
+			  } else {
+				  editSingleItem("notification", null, null, data);
+			  }
 		  } else {
-			  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+			  editSingleItem("notification", null, null, "saving_error");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+    	  editSingleItem("notification", null, null, "saving_error");
       }
 	});
 }

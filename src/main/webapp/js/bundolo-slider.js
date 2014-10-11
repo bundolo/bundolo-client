@@ -9,7 +9,6 @@ $(document).ready(function() {
 			$carousel.carousel("pause").removeData();
 		}
 	});
-
 });
 
 function displaySlider() {
@@ -43,7 +42,6 @@ function displaySlide(type) {
 				  
 				  //there is no switch in mustache so we are setting variables
 				  if (type == 'comments') {
-					  //console.log(data[index].parentContent.kind);
 					  switch(data[index].parentContent.kind) {
 					    case 'text':
 					    	data[index].parentKind = 'tekst';
@@ -95,7 +93,6 @@ function displaySlide(type) {
 					    	data[index].parentLinkUrl = rootPath+"/author/" + data[index].parentContent.authorUsername;
 					        break;
 			    		}
-					  //console.log(JSON.stringify(data[index])); 
 				  } else if (type == 'authors') {
 					  switch(data[index].gender) {
 			    		case 'male':

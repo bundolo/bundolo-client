@@ -1,8 +1,4 @@
-$(document).ready(function() {
-});
-
 function saveConnection() {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
@@ -15,8 +11,6 @@ function saveConnection() {
 	connection.parentContent.contentId = $("#edit_group").val();
 	connection.url = $("#edit_url").val();
 	connection.email = $("#edit_email").val();
-
-	console.log(JSON.stringify(connection));
 	$.ajax({
 		  url: rootPath + restRoot + "/connection/" + name,
 		  type: "PUT",
@@ -32,26 +26,26 @@ function saveConnection() {
 		  },		  
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
-				  $('#modal').modal('hide');
-				  $('#edit_content').destroy();
-				  var itemUrl = rootFolder+"connection"+"/" + name.replace(/ /g, '~');
-				  if (itemUrl == $.address.value()) {
-					  displaySingleItem("connection", name);
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  $('#edit_content').destroy();
+					  var itemUrl = rootFolder+"connection"+"/" + name.replace(/ /g, '~');
+					  if (itemUrl == $.address.value()) {
+						  displaySingleItem("connection", name);
+					  } else {
+						  $.address.value(itemUrl);
+					  }
+					  refreshSliderIfNeeded("connections");
+					  refreshSidebarIfNeeded("connections");
 				  } else {
-					  $.address.value(itemUrl);
+					  editSingleItem("notification", null, null, data);
 				  }
-				  refreshSliderIfNeeded("connections");
-				  refreshSidebarIfNeeded("connections");
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }

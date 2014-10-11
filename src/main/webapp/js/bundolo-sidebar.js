@@ -138,7 +138,6 @@ function displaySidebar() {
 }
 
 function displaySidebarAccordion(type, orderBy, filterBy) {
-	//console.log("type: " + type + ", orderBy: " + orderBy +", filterBy: "+ filterBy);
 	if (typeof orderBy === 'undefined' || orderBy == '') {
 		orderBy = 'date,desc';
 		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').removeClass("asc desc");
@@ -152,23 +151,15 @@ function displaySidebarAccordion(type, orderBy, filterBy) {
 	var itemAdditional = 10;
 	$.get('/templates/sidebar_'+type+'.html', function(template) {
 		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": orderBy, "filterBy": filterBy}, function( data ) {
-//			var escapeUrl = function () {
-//				return function(val, render) {
-//				    return render(val).replace(/ /g, '~');
-//				};
-//			};
-			//console.log(JSON.stringify(data));
 			var rendered = Mustache.render(template, {"items": data, "escapeUrl": escapeUrl});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');
 			tableBody.html(rendered);
-			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');;
+			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');
 			table.removeClass('hide');
 			tableBody.unbind('scroll');
 			tableBody.bind('scroll', function() {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
-		    		//console.log("start: " + itemCounter);
-		    		//console.log("end: " + (itemCounter + itemAdditional -1));
 		    		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": orderBy, "filterBy": filterBy}, function( additional_data ) {
 		    			var rendered_rows = Mustache.render(template, {"items": additional_data, "escapeUrl": escapeUrl});
 		    			tableBody.append(rendered_rows);

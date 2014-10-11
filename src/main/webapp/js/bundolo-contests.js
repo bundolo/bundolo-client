@@ -1,8 +1,4 @@
-$(document).ready(function() {
-});
-
 function saveContest() {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
@@ -12,8 +8,6 @@ function saveContest() {
 	contest.descriptionContent.text = $("#edit_content").code();
 	contest.descriptionContent.name = $("#edit_title").val();
 	contest.expirationDate = $("#edit_expiration_date").val();
-
-	console.log(JSON.stringify(contest));
 	$.ajax({
 		  url: rootPath + restRoot + "/contest/" + contest.descriptionContent.name,
 		  type: "PUT",
@@ -29,26 +23,26 @@ function saveContest() {
 		  },		  
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
-				  $('#modal').modal('hide');
-				  $('#edit_content').destroy();
-				  var itemUrl = rootFolder+"contest"+"/" + contest.descriptionContent.name.replace(/ /g, '~');
-				  if (itemUrl == $.address.value()) {
-					  displaySingleItem("contest", contest.descriptionContent.name);
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  $('#edit_content').destroy();
+					  var itemUrl = rootFolder+"contest"+"/" + contest.descriptionContent.name.replace(/ /g, '~');
+					  if (itemUrl == $.address.value()) {
+						  displaySingleItem("contest", contest.descriptionContent.name);
+					  } else {
+						  $.address.value(itemUrl);
+					  }
+					  refreshSliderIfNeeded("contests");
+					  refreshSidebarIfNeeded("contests");
 				  } else {
-					  $.address.value(itemUrl);
+					  editSingleItem("notification", null, null, data);
 				  }
-				  refreshSliderIfNeeded("contests");
-				  refreshSidebarIfNeeded("contests");
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }

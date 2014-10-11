@@ -1,8 +1,4 @@
-$(document).ready(function() {
-});
-
 function saveText() {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
@@ -14,8 +10,6 @@ function saveText() {
 	text.description.push(description);
 	text.text = $("#edit_content").code();
 	var name = username + "/" + $("#edit_title").val();
-
-	//console.log(JSON.stringify(text));
 	$.ajax({
 		  url: rootPath + restRoot + "/text/" + name,
 		  type: "PUT",
@@ -29,28 +23,28 @@ function saveText() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json' 
 		  },		  
-		  success: function(data) {  
+		  success: function(data) {
 			  if (data) {
-				  //console.log("success: " + JSON.stringify(data));
-				  $('#modal').modal('hide');
-				  $('#edit_content').destroy();
-				  var itemUrl = rootFolder+"text"+"/" + name.replace(/ /g, '~');
-				  if (itemUrl == $.address.value()) {
-					  displaySingleItem("text", name);
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  $('#edit_content').destroy();
+					  var itemUrl = rootFolder+"text"+"/" + name.replace(/ /g, '~');
+					  if (itemUrl == $.address.value()) {
+						  displaySingleItem("text", name);
+					  } else {
+						  $.address.value(itemUrl);
+					  }
+					  refreshSliderIfNeeded("texts");
+					  refreshSidebarIfNeeded("texts");					  
 				  } else {
-					  $.address.value(itemUrl);
+					  editSingleItem("notification", null, null, data);
 				  }
-				  refreshSliderIfNeeded("texts");
-				  refreshSidebarIfNeeded("texts");
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }

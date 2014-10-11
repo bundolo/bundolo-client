@@ -65,31 +65,31 @@ function login() {
 	  data: "password="+loginPassword,
 	  success: function(data) {
 		  if (data) {
-			  //console.log("success: " + JSON.stringify(data));
-			  username = loginUsername;
-			  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
-			  if (loginRememberMe) {
-				  createCookie('token', token, 14);
-				  createCookie("username", 14);
+			  if (data == 'success') {
+				  username = loginUsername;
+				  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
+				  if (loginRememberMe) {
+					  createCookie('token', token, 14);
+					  createCookie("username", 14);
+				  } else {
+					  createCookie('token', token);
+					  createCookie("username", username);
+				  }
+				  displayLoggedIn();
+				  //TODO extract type and id from address and reload content instead of going to home
+	//			  if ($.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
+	//				  displaySingleItem("author", $.address.value().substring(7));
+	//			  }
+				  $.address.value(rootFolder);
 			  } else {
-				  createCookie('token', token);
-				  createCookie("username", username);
+				  editSingleItem("notification", null, null, data);
 			  }
-			  displayLoggedIn();
-			  //TODO extract type and id from address and reload content instead of going to home
-//			  if ($.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
-//				  displaySingleItem("author", $.address.value().substring(7));
-//			  }
-			  $.address.value(rootFolder);
 		  } else {
 			  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
 		  }
       },
       error: function(data) {
     	  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
-      },
-      complete: function(data) {
-//    	  console.log("complete: " + JSON.stringify(data));
       }
 	});
 }
@@ -121,17 +121,17 @@ function passwordReset() {
 	  data: "email="+resetEmail,
 	  success: function(data) {
 		  if (data) {
-			  console.log("success: " + JSON.stringify(data));
-			  displayLogin();
+			  if (data == 'success') {
+				  displayLogin();
+			  } else {
+				  editSingleItem("notification", null, null, data);
+			  }
 		  } else {
 			  editSingleItem("notification", null, null, "resetovanje lozinke nije uspelo!");
 		  }
       },
       error: function(data) {
     	  editSingleItem("notification", null, null, "resetovanje lozinke nije uspelo!");
-      },
-      complete: function(data) {
-//    	  console.log("complete: " + JSON.stringify(data));
       }
 	});
 }
@@ -150,7 +150,6 @@ function register() {
 		  url: rootPath + restRoot + "/author/" + registerUsername,
 		  type: "PUT",
 		  data: JSON.stringify(user),
-//		  data: comment,
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
 		  headers: { 
@@ -159,44 +158,43 @@ function register() {
 		    },
 		  success: function(data) {  
 			  if (data) {
-				  //console.log("success: " + JSON.stringify(data));
-				  editSingleItem("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
-				  displayLogin();
+				  if (data == 'success') {
+					  editSingleItem("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
+					  displayLogin();
+				  } else {
+					  editSingleItem("notification", null, null, data);
+				  }
 			  } else {
 				  editSingleItem("notification", null, null, "registracija nije uspela!");
 			  }
 	      },
 	      error: function(data) {
 	    	  editSingleItem("notification", null, null, "registracija nije uspela!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
 	      }
 		});
 }
 
 function validateEmail() {
 	if ($.address.parameter('nonce') && $.address.parameter('email')) {
-		var message = "email address validation failed";
 		$.ajax({
 			  url: rootPath + restRoot + "/validate/" + $.address.parameter('nonce'),
 			  type: "POST",
 			  data: "email="+$.address.parameter('email'),
 			  success: function(data) {
 				  if (data) {
-					  //console.log("success: " + JSON.stringify(data));
-					  editSingleItem("notification", null, null, "validacija je uspela. možete se prijaviti!");
-					  refreshSliderIfNeeded("authors");
-					  refreshSidebarIfNeeded("authors");
+					  if (data == 'success') {
+						  editSingleItem("notification", null, null, "validacija je uspela!");
+						  refreshSliderIfNeeded("authors");
+						  refreshSidebarIfNeeded("authors");
+					  } else {
+						  editSingleItem("notification", null, null, data);
+					  }
 				  } else {
 					  editSingleItem("notification", null, null, "validacija nije uspela!");
 				  }
 		      },
 		      error: function(data) {
 		    	  editSingleItem("notification", null, null, "validacija nije uspela!");
-		      },
-		      complete: function(data) {
-		    	  $.address.value(rootFolder);
 		      }
 			});
 	}
@@ -209,7 +207,6 @@ function saveAuthor() {
 	var user = {};
 	user.descriptionContent = {};
 	user.descriptionContent.text = $("#edit_description").val();
-	//user.showPersonal = $("#edit_show_personal").prop('checked')?"true":"false";
 	user.showPersonal = $("#edit_show_personal").prop('checked');
 	user.firstName = $("#edit_first_name").val();
 	user.lastName = $("#edit_last_name").val();
@@ -222,7 +219,6 @@ function saveAuthor() {
 		//TODO check password, or send it instead of the one in the token
 		user.password = $("#edit_password").val();
 	}
-	console.log(JSON.stringify(user));
 	$.ajax({
 		  url: rootPath + restRoot + "/author/" + username,
 		  type: "PUT",
@@ -238,31 +234,31 @@ function saveAuthor() {
 		  },		  
 		  success: function(data) {
 			  if (data) {
-				  $('#modal').modal('hide');
-				  if (user.password) {
-					  logout();
-					  editSingleItem("notification", null, null, "morate se prijaviti sa novom lozinkom.");
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  if (user.password) {
+						  logout();
+						  editSingleItem("notification", null, null, "morate se prijaviti sa novom lozinkom.");
+					  } else {
+						  displayProfile();
+					  }				  
+					  refreshSliderIfNeeded("authors");
+					  refreshSidebarIfNeeded("authors");
 				  } else {
-					  displayProfile();
-				  }				  
-				  refreshSliderIfNeeded("authors");
-				  refreshSidebarIfNeeded("authors");
+					  editSingleItem("notification", null, null, data);
+				  }
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }
 
 function createCookie(name, value, days) {
     var expires;
-
     if (days) {
         var date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));

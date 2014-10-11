@@ -1,6 +1,4 @@
 var postParentId;
-$(document).ready(function() {
-});
 
 function addPost(parentId) {
 	postParentId = parentId;
@@ -8,7 +6,6 @@ function addPost(parentId) {
 }
 
 function savePost(content) {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
@@ -33,25 +30,27 @@ function savePost(content) {
 	    },
 	  success: function(data) {
 		  if (data) {
-			  var reminder = $.address.value().substr(rootFolder.length);
-			  var slashPos = reminder.indexOf('/');
-			  console.log("reminder: " + reminder);
-			  if (slashPos > 0) {
-				  displaySingleItem('topic', reminder.substr(slashPos + 1));
+			  if (data == 'success') {
+				  var reminder = $.address.value().substr(rootFolder.length);
+				  var slashPos = reminder.indexOf('/');
+				  if (slashPos > 0) {
+					  displaySingleItem('topic', reminder.substr(slashPos + 1));
+				  }
+				  $('#modal').modal('hide');
+			  } else {
+				  editSingleItem("notification", null, null, data);
 			  }
-			  $('#modal').modal('hide');
 		  } else {
-			  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+			  editSingleItem("notification", null, null, "saving_error");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+    	  editSingleItem("notification", null, null, "saving_error");
       }
 	});
 }
 
 function saveTopic() {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
@@ -60,8 +59,6 @@ function saveTopic() {
 	var name = $("#edit_title").val();
 	topic.parentContent = {};
 	topic.parentContent.contentId = $("#edit_group").val();
-
-	console.log(JSON.stringify(topic));
 	$.ajax({
 		  url: rootPath + restRoot + "/topic/" + name,
 		  type: "PUT",
@@ -77,20 +74,20 @@ function saveTopic() {
 		  },		  
 		  success: function(data) {
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
-				  $('#modal').modal('hide');
-				  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
-				  refreshSliderIfNeeded("topics");
-				  refreshSidebarIfNeeded("topics");
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
+					  refreshSliderIfNeeded("topics");
+					  refreshSidebarIfNeeded("topics");
+				  } else {
+					  editSingleItem("notification", null, null, data);
+				  }
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }

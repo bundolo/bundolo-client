@@ -1,7 +1,5 @@
 var episodeParentId;
 var episodeParentName;
-$(document).ready(function() {
-});
 
 function addEpisode(parentId, parentName) {
 	episodeParentId = parentId;
@@ -10,7 +8,6 @@ function addEpisode(parentId, parentName) {
 }
 
 function saveEpisode(title, content) {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}	
@@ -20,7 +17,6 @@ function saveEpisode(title, content) {
 	episode.text = $("#edit_content").code();
 	episode.parentContent = {"contentId" : episodeParentId};
 	episode.contentStatus = $("#edit_finalized").prop('checked')?"active":"pending";
-	console.log(JSON.stringify(episode));
 	$.ajax({
 		  url: rootPath + restRoot + "/episode/" + episodeName,
 		  type: "PUT",
@@ -36,30 +32,29 @@ function saveEpisode(title, content) {
 		  },		  
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
-				  $('#modal').modal('hide');
-				  $('#edit_content').destroy();
-				  var itemUrl = rootFolder+"episode"+"/" + episodeName.replace(/ /g, '~');
-				  if (itemUrl == $.address.value()) {
-					  displaySingleItem("episode", episodeName);
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  $('#edit_content').destroy();
+					  var itemUrl = rootFolder+"episode"+"/" + episodeName.replace(/ /g, '~');
+					  if (itemUrl == $.address.value()) {
+						  displaySingleItem("episode", episodeName);
+					  } else {
+						  $.address.value(itemUrl);
+					  }
 				  } else {
-					  $.address.value(itemUrl);
+					  editSingleItem("notification", null, null, data);
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }
 
 function saveSerial(title, description) {
-	//TODO validation
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
@@ -67,8 +62,6 @@ function saveSerial(title, description) {
 	var serial = {};
 	serial.contentId = $("#edit_item_id").val();
 	serial.text = $("#edit_description").val();
-
-	console.log(JSON.stringify(serial));
 	$.ajax({
 		  url: rootPath + restRoot + "/serial/" + serialName,
 		  type: "PUT",
@@ -84,29 +77,25 @@ function saveSerial(title, description) {
 		  },		  
 		  success: function(data) {  
 			  if (data) {
-				  console.log("success: " + JSON.stringify(data));
-				  $('#modal').modal('hide');
-				  var itemUrl = rootFolder+"serial"+"/" + serialName.replace(/ /g, '~');
-				  if (itemUrl == $.address.value()) {
-					  displaySingleItem("serial", serialName);
+				  if (data == 'success') {
+					  $('#modal').modal('hide');
+					  var itemUrl = rootFolder+"serial"+"/" + serialName.replace(/ /g, '~');
+					  if (itemUrl == $.address.value()) {
+						  displaySingleItem("serial", serialName);
+					  } else {
+						  $.address.value(itemUrl);
+					  }
+					  refreshSliderIfNeeded("serials");
+					  refreshSidebarIfNeeded("serials");
 				  } else {
-					  $.address.value(itemUrl);
+					  editSingleItem("notification", null, null, data);
 				  }
-				  refreshSliderIfNeeded("serials");
-				  refreshSidebarIfNeeded("serials");
 			  } else {
-				  editSingleItem("notification", null, null, "snimanje nije uspelo!");
+				  editSingleItem("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "snimanje nije uspelo!");
-	      },
-	      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
+	    	  editSingleItem("notification", null, null, "saving_error");
 	      }
 		});
 }
-
-//function displayEpisode(id) {
-//	$.address.value(rootFolder+"episode"+"/" + id.replace(/ /g, '~'));
-//}

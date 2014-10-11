@@ -1,10 +1,8 @@
 var rootPath = "http://localhost";
 //var rootPath = "http://54.76.44.57/";
 var restRoot = "/rest";
-//var rootFolder = "bundolo2/";
 var rootFolder = "/";
 var homeHtml = "";
-
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -24,8 +22,6 @@ var escapeUrl = function () {
 };
 
 $.address.change(function(event) {
-	//console.log('$.address.value(): ' + $.address.value());
-	//TODO avoid displaying content if it's already displayed
 	if ($.address.value() == rootFolder) {
 		displayHome();
 	} else if ($.address.value() == "/about") {
@@ -63,6 +59,7 @@ $(document).ready(function() {
 	$('.modal').on('shown.bs.modal', function () {
 		$('.default-focus').focus();
 	});
+	$.li18n.currentLocale = 'sr_RS';
 });
 
 function displayContent(parentElement, html, contentId) {
@@ -73,12 +70,9 @@ function displayContent(parentElement, html, contentId) {
 }
 function displaySingleItem(type, id) {
 	$.get(rootFolder+"templates/" + type + ".html", function(template) {
-		//console.log('id: ' + id);
-		//console.log('path: ' + rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' '));
 		$.ajax({
 			  url: rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
 			  type: "GET",
-			  //data: JSON.stringify(text),
 			  dataType: "json",
 			  contentType: "application/json; charset=utf-8",
 			  beforeSend: function (xhr) {
@@ -201,7 +195,6 @@ function displaySingleItem(type, id) {
 								    			totalRating += data[i].rating.value;
 								    		}
 								    	}
-								    	  //console.log(JSON.stringify(data));
 								    	var renderedStatistics = Mustache.render(templateStatistics, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl});
 								    	contentElement.append(renderedStatistics);
 									},
@@ -217,9 +210,6 @@ function displaySingleItem(type, id) {
 		      },
 		      error: function(data) {
 		    	  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
-		      },
-		      complete: function(data) {
-//		    	  console.log("complete: " + JSON.stringify(data));
 		      }
 			});
 		
@@ -330,7 +320,11 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     		} else if (type == 'confirmation') {
     			data.modalAction = formData;
     		} else if (type == 'notification') {
-    			data.notification = formData;
+    			try {
+    				data.notification = $.li18n.translate(formData);
+    			} catch(err) {
+    				data.notification = formData;
+    			}
     		} else if (type == 'message') {
     			data.recipientUsername = formData;
     		}
@@ -358,57 +352,54 @@ function displayHome() {
 	    	xhr.setRequestHeader ("Authorization", token);
 	    },
 	    success: function(data) {
-	    	displayContent(contentElement, homeHtml, data.contentId);
-	    	
+	    	displayContent(contentElement, homeHtml, data.contentId);	    	
 			//do not use html from db for now we will load random comment containing word bundolo
 	    	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
 	    		var comment = data[0];
 	    		var parentLinkUrl = "";
-	    		//console.log(comment.parentContent.kind);
-			  switch(comment.parentContent.kind) {
-			    case 'text':
-			    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
-			        break;
-			    case 'episode':
-			    	parentLinkUrl = rootPath+"/episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
-			        break;
-			    case 'episode_group':
-			    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
-			        break;
-			    case 'connection_description':
-			    	parentLinkUrl = rootPath+"/connection/" + comment.parentContent.name.replace(/ /g, '~');
-			        break;
-			    case 'contest_description':
-			    	parentLinkUrl = rootPath+"/contest/" + comment.parentContent.name.replace(/ /g, '~');
-			        break;
-			    case 'page_description':
-			    	var contentName = comment.parentContent.name;
-			    	parentLinkUrl = rootPath;
-			    	contentName = contentName.replace(/ /g, '~').toLowerCase();
-			    	if (contentName != 'home') {
-			    		parentLinkUrl += "/" + contentName;
-			    	}
-			        break;
-			    case 'news':
-			    	parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
-			        break;
-			    case 'forum_group':
-			    	//forum group comments are not enabled 
-			        break;
-			    case 'user_description':
-			    	parentLinkUrl = rootPath+"/author/" + comment.parentContent.authorUsername;
-			        break;
+	    		switch(comment.parentContent.kind) {
+				    case 'text':
+				    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+				        break;
+				    case 'episode':
+				    	parentLinkUrl = rootPath+"/episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+				        break;
+				    case 'episode_group':
+				    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
+				        break;
+				    case 'connection_description':
+				    	parentLinkUrl = rootPath+"/connection/" + comment.parentContent.name.replace(/ /g, '~');
+				        break;
+				    case 'contest_description':
+				    	parentLinkUrl = rootPath+"/contest/" + comment.parentContent.name.replace(/ /g, '~');
+				        break;
+				    case 'page_description':
+				    	var contentName = comment.parentContent.name;
+				    	parentLinkUrl = rootPath;
+				    	contentName = contentName.replace(/ /g, '~').toLowerCase();
+				    	if (contentName != 'home') {
+				    		parentLinkUrl += "/" + contentName;
+				    	}
+				        break;
+				    case 'news':
+				    	parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
+				        break;
+				    case 'forum_group':
+				    	//forum group comments are not enabled 
+				        break;
+				    case 'user_description':
+				    	parentLinkUrl = rootPath+"/author/" + comment.parentContent.authorUsername;
+				        break;
 				}
-  //console.log(JSON.stringify(comment));
 			  var authorLink = "";
 			  if (comment.authorUsername && comment.authorUsername != "gost") {
-				  authorLink = "<a href='/author/"+comment.authorUsername+"'>"+comment.authorUsername+"</a>";
+			  authorLink = "<a href='/author/"+comment.authorUsername+"'>"+comment.authorUsername+"</a>";
 			  } else {
 				  authorLink = "gost";
 			  }
 			  var mainContentText = $(".main>.jumbotron>.content>h2");
 			  mainContentText.html("- <a href='"+parentLinkUrl+"'>"+comment.text+"</a> ("+authorLink+")");
-	  		  });
+	  		});
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
@@ -505,9 +496,7 @@ function displayProfile() {
 function displayNext(type, id, orderBy, fixBy, ascending) {
 	$.getJSON(rootPath + restRoot + "/next", { "type": type, "id": id, "orderBy": orderBy, "fixBy": fixBy, "ascending": ascending}, function( data ) {
 		if (data) {
-			//console.log(JSON.stringify(data));
 			var nextItemUrl = "";
-			//console.log(data.kind);
 			  switch(type) {
 			    case 'text':
 			    	nextItemUrl = rootFolder+"text/" + data.authorUsername + "/" + data.name.replace(/ /g, '~');
@@ -607,14 +596,14 @@ function deleteSingleItem(id) {
 }
 
 function sendMessage(recipientUsername) {
-	//TODO validation
+	if (!isFormValid($('#modal form'))) {
+		return;
+	}
 	var messageTitle = $("#edit_title").val();
 	var messageText = $("#edit_content").val();
 	var message = {};
 	message.title = messageTitle;
-	message.text = messageText;	
-	
-	//console.log("message: " + JSON.stringify(message));
+	message.text = messageText;
 	$.ajax({
 	  url: rootPath + restRoot + "/message/" + recipientUsername,
 	  type: "POST",
@@ -630,16 +619,17 @@ function sendMessage(recipientUsername) {
 	  },
 	  success: function(data) {  
 		  if (data) {
-			  $('#modal').modal('hide');
+			  if (data == 'success') {
+				  $('#modal').modal('hide');
+			  } else {
+				  editSingleItem("notification", null, null, data);
+			  }			  
 		  } else {
 			  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
 		  }
       },
       error: function(data) {
     	  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
-      },
-      complete: function(data) {
-//	    	  console.log("complete: " + JSON.stringify(data));
       }
 	});
 }
