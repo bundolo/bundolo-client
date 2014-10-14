@@ -94,7 +94,7 @@ function addContextMenu(parentElement, parentId) {
 function displayComments(parentId) {
 	var contextRootElement = $('.context-menu>div>div');
 	contextRootElement.html(spinner);
-	$.get(rootFolder+"templates/comments.html", function(template) {
+	$.get(rootFolder+"templates/comments-1.0.0.html", function(template) {
 		$.getJSON(rootPath + restRoot + "/parent_comments/" + parentId, function(data) {
 			sanitizeRecursive(data);
 			var partials = {commentPanel: template};
