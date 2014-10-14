@@ -113,6 +113,11 @@ function sanitizeRecursive(data) {
 	if($.isArray(data) && data.length) {
 		for (index in data) {
 		  data[index].text = sanitize(data[index].text);
+		  if(data[index].authorUsername) {
+			  data[index].authorText = '<a href="/author/' + data[index].authorUsername + '">' + data[index].authorUsername + '</a>';
+		  } else {
+			  data[index].authorText = 'gost';
+		  }
 		  if(!$.isArray(data[index].comments)) {
 			  data[index].comments = [];
 		  }
