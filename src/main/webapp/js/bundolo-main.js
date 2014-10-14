@@ -1,5 +1,9 @@
-var rootPath = "http://localhost";
+//var rootPath = "http://localhost";
 //var rootPath = "http://54.76.44.57/";
+
+var url = window.location.href;
+var arr = url.split("/");
+var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
@@ -82,7 +86,7 @@ function displaySingleItem(type, id) {
 		          'Accept': 'application/json',
 		          'Content-Type': 'application/json' 
 			  },		  
-			  success: function(data) {  
+			  success: function(data) {
 				  if (data) {
 					    var contentElement = $('.main>.jumbotron>.content');
 					    var commentParentId = id;
@@ -353,53 +357,9 @@ function displayHome() {
 	    },
 	    success: function(data) {
 	    	displayContent(contentElement, homeHtml, data.contentId);	    	
-			//do not use html from db for now we will load random comment containing word bundolo
-	    	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
-	    		var comment = data[0];
-	    		var parentLinkUrl = "";
-	    		switch(comment.parentContent.kind) {
-				    case 'text':
-				    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
-				        break;
-				    case 'episode':
-				    	parentLinkUrl = rootPath+"/episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
-				        break;
-				    case 'episode_group':
-				    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
-				        break;
-				    case 'connection_description':
-				    	parentLinkUrl = rootPath+"/connection/" + comment.parentContent.name.replace(/ /g, '~');
-				        break;
-				    case 'contest_description':
-				    	parentLinkUrl = rootPath+"/contest/" + comment.parentContent.name.replace(/ /g, '~');
-				        break;
-				    case 'page_description':
-				    	var contentName = comment.parentContent.name;
-				    	parentLinkUrl = rootPath;
-				    	contentName = contentName.replace(/ /g, '~').toLowerCase();
-				    	if (contentName != 'home') {
-				    		parentLinkUrl += "/" + contentName;
-				    	}
-				        break;
-				    case 'news':
-				    	parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
-				        break;
-				    case 'forum_group':
-				    	//forum group comments are not enabled 
-				        break;
-				    case 'user_description':
-				    	parentLinkUrl = rootPath+"/author/" + comment.parentContent.authorUsername;
-				        break;
-				}
-			  var authorLink = "";
-			  if (comment.authorUsername && comment.authorUsername != "gost") {
-			  authorLink = "<a href='/author/"+comment.authorUsername+"'>"+comment.authorUsername+"</a>";
-			  } else {
-				  authorLink = "gost";
-			  }
-			  var mainContentText = $(".main>.jumbotron>.content>h2");
-			  mainContentText.html("- <a href='"+parentLinkUrl+"'>"+comment.text+"</a> ("+authorLink+")");
-	  		});
+			//do not use html from db for now
+	    	displayRandomComment();
+	    	//displayHighlightedAnnouncement('novi bundolo');
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
@@ -480,7 +440,8 @@ function displayProfile() {
 			    			data.gender = 'x';
 			    			break;
 			    	}
-			    	var rendered = Mustache.render(template, data);
+		    		data.showPersonal = data.showPersonal ? 'da' : 'ne';
+		    		var rendered = Mustache.render(template, data);
 				    displayContent(contentElement, rendered);
 		    	} else {
 		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
@@ -702,4 +663,75 @@ function isFormValid(formElement) {
 function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
     return pattern.test(emailAddress);
+}
+
+function displayRandomComment() {
+	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
+		var comment = data[0];
+		var parentLinkUrl = "";
+		switch(comment.parentContent.kind) {
+		    case 'text':
+		    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+		        break;
+		    case 'episode':
+		    	parentLinkUrl = rootPath+"/episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+		        break;
+		    case 'episode_group':
+		    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
+		        break;
+		    case 'connection_description':
+		    	parentLinkUrl = rootPath+"/connection/" + comment.parentContent.name.replace(/ /g, '~');
+		        break;
+		    case 'contest_description':
+		    	parentLinkUrl = rootPath+"/contest/" + comment.parentContent.name.replace(/ /g, '~');
+		        break;
+		    case 'page_description':
+		    	var contentName = comment.parentContent.name;
+		    	parentLinkUrl = rootPath;
+		    	contentName = contentName.replace(/ /g, '~').toLowerCase();
+		    	if (contentName != 'home') {
+		    		parentLinkUrl += "/" + contentName;
+		    	}
+		        break;
+		    case 'news':
+		    	parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
+		        break;
+		    case 'forum_group':
+		    	//forum group comments are not enabled 
+		        break;
+		    case 'user_description':
+		    	parentLinkUrl = rootPath+"/author/" + comment.parentContent.authorUsername;
+		        break;
+		}
+	  var authorLink = "";
+	  if (comment.authorUsername && comment.authorUsername != "gost") {
+	  authorLink = "<a href='/author/"+comment.authorUsername+"'>"+comment.authorUsername+"</a>";
+	  } else {
+		  authorLink = "gost";
+	  }
+	  var mainContentText = $(".main>.jumbotron>.content>h2");
+	  mainContentText.html("- <a href='"+parentLinkUrl+"'>"+comment.text+"</a> ("+authorLink+")");
+	});
+}
+
+function displayHighlightedAnnouncement(id) {
+	$.ajax({
+		  url: rootPath + restRoot + "/announcement/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
+		  type: "GET",
+		  dataType: "json",
+		  contentType: "application/json; charset=utf-8",
+		  beforeSend: function (xhr) {
+			  xhr.setRequestHeader ("Authorization", token);
+		  },
+		  headers: { 
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json' 
+		  },		  
+		  success: function(data) {
+			  if (data) {
+				  var mainContentText = $(".main>.jumbotron>.content>h2");
+				  mainContentText.html("- <a href='"+rootPath+"/announcement/" + data.name.replace(/ /g, '~')+"'>"+data.text+"</a>");
+			  }
+		  }
+	});
 }
