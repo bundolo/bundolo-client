@@ -15,6 +15,14 @@ $(document).ready(function() {
 	//preload mouseover brand image to prevent flickering
 	var brandOn = new Image();
 	brandOn.src = "/img/brand_on.png";
+	
+	//submit form when enter is pressed on input elements
+	$(".header_form").keypress(function(event) {
+	    if (event.which == 13 && event.target.nodeName.toLowerCase() == 'input') {
+	    	event.preventDefault();
+	    	login();
+	    }
+	});
 });
 
 function displayLogin() {
