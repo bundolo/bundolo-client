@@ -181,9 +181,9 @@ function displaySingleItem(type, id) {
 								    type: 'GET',
 								    dataType: "json",
 								    contentType: "application/json; charset=utf-8",
-								    beforeSend: function (xhr) {
-								        xhr.setRequestHeader ("Authorization", token);
-								    },
+//								    beforeSend: function (xhr) {
+//								        xhr.setRequestHeader ("Authorization", token);
+//								    },
 								    success: function(data) {
 								    	var totalRating = 0;
 								    	for (var i = 0; i < data.length; i++) {
@@ -243,9 +243,9 @@ function editSingleItem(type, id, event, notification) {
 			    type: 'GET',
 			    dataType: "json",
 			    contentType: "application/json; charset=utf-8",
-			    beforeSend: function (xhr) {
-			        xhr.setRequestHeader ("Authorization", token);
-			    },
+//			    beforeSend: function (xhr) {
+//			        xhr.setRequestHeader ("Authorization", token);
+//			    },
 			    success: function(data) {
 			    	editSingleItemHelper(type, id, contentElement, template, data);
 				},
@@ -259,9 +259,9 @@ function editSingleItem(type, id, event, notification) {
 			    type: 'GET',
 			    dataType: "json",
 			    contentType: "application/json; charset=utf-8",
-			    beforeSend: function (xhr) {
-			        xhr.setRequestHeader ("Authorization", token);
-			    },
+//			    beforeSend: function (xhr) {
+//			        xhr.setRequestHeader ("Authorization", token);
+//			    },
 			    success: function(data) {
 			    	editSingleItemHelper(type, id, contentElement, template, data);
 				},
@@ -352,9 +352,9 @@ function displayHome() {
 	    type: 'GET',
 	    dataType: "json",
 	    contentType: "application/json; charset=utf-8",
-	    beforeSend: function (xhr) {
-	    	xhr.setRequestHeader ("Authorization", token);
-	    },
+//	    beforeSend: function (xhr) {
+//	    	xhr.setRequestHeader ("Authorization", token);
+//	    },
 	    success: function(data) {
 	    	displayContent(contentElement, homeHtml, data.contentId);	    	
 			//do not use html from db for now
@@ -376,9 +376,9 @@ function displayAbout() {
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
-		    beforeSend: function (xhr) {
-		        xhr.setRequestHeader ("Authorization", token);
-		    },
+//		    beforeSend: function (xhr) {
+//		        xhr.setRequestHeader ("Authorization", token);
+//		    },
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
@@ -400,9 +400,9 @@ function displayContact() {
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
-		    beforeSend: function (xhr) {
-		        xhr.setRequestHeader ("Authorization", token);
-		    },
+//		    beforeSend: function (xhr) {
+//		        xhr.setRequestHeader ("Authorization", token);
+//		    },
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
@@ -498,9 +498,9 @@ function displayStatistics() {
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
-		    beforeSend: function (xhr) {
-		        xhr.setRequestHeader ("Authorization", token);
-		    },
+//		    beforeSend: function (xhr) {
+//		        xhr.setRequestHeader ("Authorization", token);
+//		    },
 		    success: function(data) {
 		    	if (data) {
 			    	var totalRating = 0;
