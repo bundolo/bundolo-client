@@ -1,0 +1,8 @@
+{{#items}}
+	<tr id="author_{{username}}">
+		<td>{{username}}</td>
+		<td class="hidden-xs">{{descriptionContent.text}}</td>
+		<td class="hidden-xs">{{#timestampDate}}{{signupDate}}{{/timestampDate}}</td>
+		<td class="hidden-xs">{{#timestampDate}}{{descriptionContent.lastActivity}}{{/timestampDate}}</td>
+	</tr>
+{{/items}}

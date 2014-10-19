@@ -1,0 +1,59 @@
+<pre>                    
+                    
+     ;@@@@@@@@@@@@  
+     @@@@@@@@@@@@@  
+    #@@@@@@@@@@@@@  
+    @@@`       #@@  
+    @@@++++++++@@, @
+   '@@@@@@@@@@@@@  @
+   @@@`       #@@ #@
+   @@@::::::::@@' @,
+  '@@@@@@@@@@@@@  @ 
+  @@@@@@@@@@@@@@ '@ 
+  @@@@@@@@@@@@@# @' 
+ #@@@@@@@@@@@@@  @  
+ @@@@@@@@@@@@@@ ,@  
+;@@@@@@@@@@@@@@ @@  
++@@@@@@@@@@@@@  @`  
+@@             `@   
+ @;............@@   
+ .@@@@@@@@@@@@@@    
+                    
+                    
+</pre>
+
+<div class="btn-group pull-left">
+  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="javascript:;" onClick="displayNext('serial', '{{contentId}}' , 'title', '', false);">po naslovu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('serial', '{{contentId}}' , 'date', '', false);">po datumu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('serial', '{{contentId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
+  </ul>
+</div>
+
+<div class="btn-group pull-right">
+  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('serial', '{{contentId}}' , 'title', '', true);">po naslovu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('serial', '{{contentId}}' , 'date', '', true);">po datumu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('serial', '{{contentId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
+  </ul>
+</div>
+
+<h3 class="text-center">{{{name}}}</h3>
+<h3 class="text-center"></h3>
+<p>{{{text}}}</p>
+pokretač: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+<br/>{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+<br/>poslednja aktivnost: {{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+<br/>broj prikazivanja: {{rating.value}}

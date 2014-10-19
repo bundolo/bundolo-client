@@ -1,0 +1,26 @@
+<ol class="carousel-indicators">
+	{{#slides}}
+		<li data-target="#{{id}}-carousel" data-slide-to="{{index}}" class="{{#active_slide}}active{{/active_slide}}"></li>
+	{{/slides}}
+</ol>
+<div class="carousel-inner">
+	{{#slides}}
+		<div class="item content {{#active_slide}}active{{/active_slide}}">
+			<h4><a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}">{{name}}</a></h4>
+			{{#authorUsername}}pokretač: <a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}<br/>
+			{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+		</div>
+	{{/slides}}
+</div>
+<a class="left carousel-control pull-left" href="#{{id}}-carousel" data-slide="prev">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+	</span>
+</a>
+<a class="right carousel-control pull-right" href="#{{id}}-carousel" data-slide="next">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+	</span>
+</a>

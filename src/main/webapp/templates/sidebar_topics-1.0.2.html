@@ -1,0 +1,8 @@
+{{#items}}
+	<tr id="topic_{{#escapeUrl}}{{name}}{{/escapeUrl}}">
+		<td>{{name}}</td>
+		<td class="hidden-xs">{{authorUsername}}</td>
+		<td class="hidden-xs">{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
+		<td class="hidden-xs">{{#timestampDate}}{{lastActivity}}{{/timestampDate}}</td>
+	</tr>
+{{/items}}

@@ -1,0 +1,64 @@
+<pre>                       
+                       
+ @@@@@@@@@@@@@@@@@@@@@#
+#@...................:@
+@@                    @
+@@               @@@  @
+@@      +++      @@@  @
+@@      @@@      @@@  @
+@@      @@@      @@@  @
+@@      @@@ .::, @@@  @
+@@      @@@ ;@@+ @@@  @
+@@      @@@ ;@@+ @@@  @
+@@ ,::` @@@ ;@@+ @@@  @
+@@ +@@. @@@ ;@@+ @@@  @
+@@ +@@. @@@ ;@@+ @@@  @
+@@ +@@. @@@ ;@@+ @@@  @
+@@ +@@. @@@ ;@@+ @@@  @
+@@                    @
+#@...................:@
+ @@@@@@@@@@@@@@@@@@@@@@
+                       
+                       
+</pre>
+{{#items.length}}
+<h3 class="text-center">ukupno objavljeno: {{items.length}}</h3>
+<h3 class="text-center">ukupno prikazivanja: {{rating}}</h3>
+<table class="table table-striped clickable">
+	<thead>
+		<tr>
+			<th>naslov</th>
+			<th>vrsta</th>
+			<th>datum objavljivanja</th>
+			<th>broj prikazivanja</th>
+			<th>akcija</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#items}}
+			<tr onclick="$.address.value('{{#isText}}text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}{{/isText}}{{#isEpisode}}episode/{{#escapeUrl}}{{parentGroup}}/{{name}}{{/escapeUrl}}{{/isEpisode}}');">
+				<td>{{name}}</td>
+				<td>{{#isText}}tekst{{/isText}}{{#isEpisode}}nastavak{{/isEpisode}}</td>
+				<td>{{#timestampDateTime}}{{creationDate}}{{/timestampDateTime}}</td>
+				<td>{{#rating.value}}{{rating.value}}{{/rating.value}}{{^rating.value}}0{{/rating.value}}</td>
+				<td>
+					{{#isEditable}}
+					<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem({{#isText}}'text','{{authorUsername}}/{{name}}'{{/isText}}{{#isEpisode}}'episode','{{parentGroup}}/{{name}}'{{/isEpisode}}, event);">
+						<span class="fa-stack fa-2x">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+						</span>
+					</button>
+					<button type="button" class="btn btn-default" title="obriši" onClick="editSingleItem('confirmation', {{#isText}}'text/{{authorUsername}}/{{name}}'{{/isText}}{{#isEpisode}}'episode/{{parentGroup}}/{{name}}'{{/isEpisode}}, event);">
+						<span class="fa-stack fa-2x">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-minus fa-stack-1x fa-inverse"></i>
+						</span>
+					</button>
+					{{/isEditable}}
+				</td>
+			</tr>
+		{{/items}}
+	</tbody>
+</table>
+{{/items.length}}

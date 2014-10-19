@@ -1,0 +1,27 @@
+<ol class="carousel-indicators">
+	{{#slides}}
+		<li data-target="#{{id}}-carousel" data-slide-to="{{index}}" class="{{#active_slide}}active{{/active_slide}}"></li>
+	{{/slides}}
+</ol>
+<div class="carousel-inner">
+	{{#slides}}
+		<div class="item content {{#active_slide}}active{{/active_slide}}">
+			<h4><a href="/author/{{authorUsername}}">{{authorUsername}}</a></h4>
+			<h4><a href="/text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}">{{name}}</a></h4>
+			{{#description.0.text}}<p>{{{description.0.text}}}</p>{{/description.0.text}}
+			{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+		</div>
+	{{/slides}}
+</div>
+<a class="left carousel-control pull-left" href="#{{id}}-carousel" data-slide="prev">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+	</span>
+</a>
+<a class="right carousel-control pull-right" href="#{{id}}-carousel" data-slide="next">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+	</span>
+</a>

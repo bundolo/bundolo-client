@@ -1,0 +1,9 @@
+{{#posts}}
+	<tr>
+		<td>
+			{{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
+			{{#timestampDateTime}}{{creationDate}}{{/timestampDateTime}}
+		</td>
+		<td>{{{text}}}</td>
+	</tr>
+{{/posts}}
