@@ -1,8 +1,14 @@
 <br/>
-{{#items.length}}
+{{#pages.length}}
 ukupno objavljeno: {{items.length}}
 ukupno prikazivanja: {{rating}}
-<table class="table table-striped clickable">
+<ul class="pagination">
+	{{#pages}}
+  		<li><a href="javascript:;" onClick="displayPage('author-items', {{index}});" class="page{{index}}">{{index}}</a></li>
+	{{/pages}}
+</ul>
+{{#pages}}
+<table class="table table-striped clickable author-items hidden page{{index}}">
 	<thead>
 		<tr>
 			<th>naslov</th>
@@ -22,4 +28,5 @@ ukupno prikazivanja: {{rating}}
 		{{/items}}
 	</tbody>
 </table>
-{{/items.length}}
+{{/pages}}
+{{/pages.length}}

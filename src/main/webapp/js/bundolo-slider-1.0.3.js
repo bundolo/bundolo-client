@@ -93,6 +93,7 @@ function displaySlide(type) {
 					    	data[index].parentLinkUrl = rootPath+"/author/" + data[index].parentContent.authorUsername;
 					        break;
 			    		}
+					  data[index].text = sanitizeRuntime(data[index].text);
 				  } else if (type == 'authors') {
 					  switch(data[index].gender) {
 			    		case 'male':

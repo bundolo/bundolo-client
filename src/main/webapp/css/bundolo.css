@@ -14,6 +14,9 @@
 	.navbar-form input[type="text"], .navbar-form input[type="email"], .navbar-form input[type="password"] {
 		width: 89px;
 	}
+	.context-menu {
+		width: 400px;
+	}
 }
 
 @media (max-width: 767px) {

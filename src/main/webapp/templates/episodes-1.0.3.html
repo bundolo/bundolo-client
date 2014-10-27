@@ -1,5 +1,11 @@
-{{#episodes.length}}
-<table class="table table-striped clickable">
+{{#pages.length}}
+<ul class="pagination">
+	{{#pages}}
+  		<li><a href="javascript:;" onClick="displayPage('serial-episodes', {{index}});" class="page{{index}}">{{index}}</a></li>
+	{{/pages}}
+</ul>
+{{#pages}}
+<table class="table table-striped clickable serial-episodes hidden page{{index}}">
 	<thead>
 		<tr>
 			<th>autor</th>
@@ -19,7 +25,8 @@
 		{{/episodes}}
 	</tbody>
 </table>
-{{/episodes.length}}
+{{/pages}}
+{{/pages.length}}
 {{#serial.isLoggedIn}}
 	<div class="item-footer">
 		{{#serial.editingEnabled}}

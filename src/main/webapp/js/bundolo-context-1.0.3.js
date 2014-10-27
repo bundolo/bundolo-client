@@ -112,7 +112,7 @@ function displayComments(parentId) {
 function sanitizeRecursive(data) {
 	if($.isArray(data) && data.length) {
 		for (index in data) {
-		  data[index].text = sanitize(data[index].text);
+		  data[index].text = sanitizeRuntime(data[index].text);
 		  if(data[index].authorUsername) {
 			  data[index].authorText = '<a href="/author/' + data[index].authorUsername + '">' + data[index].authorUsername + '</a>';
 		  } else {

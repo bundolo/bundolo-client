@@ -14,6 +14,7 @@ function savePost(content) {
 	post.contentId = $("#edit_item_id").val();
 	post.text = sanitize(postContent);
 	post.parentContent = {"contentId" : postParentId};
+	console.log("text: " + post.text);
 	//TODO display spinner
 	$.ajax({
 	  url: rootPath + restRoot + "/post",

@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.0.2";
+var version = "1.0.3";
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -66,10 +66,10 @@ $(document).ready(function() {
 	$('[data-toggle=offcanvas]').click(function() {
 		$('.row-offcanvas').toggleClass('active');
 	});
-	$('body').on('mouseenter', '[title]', function(e) {
+	$('body').on('mouseenter', ':not(pre>a)[title]', function(e) {
 		displayStatusBar($(this).attr('title'));
 	});
-	$('body').on('mouseleave', '[title]', function(e) {
+	$('body').on('mouseleave', ':not(pre>a)[title]', function(e) {
 		displayStatusBar('');
 	});
 	var mainContent = $(".main>.jumbotron>.content");
@@ -162,15 +162,29 @@ function displaySingleItem(type, id) {
 					    displayContent(contentElement, rendered, commentParentId);
 					    if (type == 'topic') {
 					    	$.get(rootFolder+"templates/posts" + "-" + version + ".html", function(templatePosts) {
-					    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(posts) {
-					    			var renderedPosts = Mustache.render(templatePosts, {"posts": posts, "escapeUrl": escapeUrl, "timestampDateTime": timestampDateTime});
-					    			contentElement.find('tbody').append(renderedPosts);
+					    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(allPosts) {
+					    			if (allPosts) {
+					    				for (var i = 0; i < allPosts.length; i++) {
+					    					allPosts[i].text = sanitizeRuntime(allPosts[i].text);
+					    				}
+					    				var pages = [];
+					    				var pageSize = 10;
+					    				for (var i = 0; i < allPosts.length / pageSize; i++) {
+					    					var page = {"index" : i + 1, "posts" : allPosts.slice(i*pageSize, i*pageSize + pageSize)};
+					    					pages.push(page);
+					    				}
+					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "escapeUrl": escapeUrl, "timestampDateTime": timestampDateTime});
+						    			contentElement.find('.item-footer').before(renderedPosts);
+						    			displayPage('forum-topic', 1);
+					    			}					    			
 					    		});
 					    	});
 					    } else if (type == 'serial') {
 					    	$.get(rootFolder+"templates/episodes" + "-" + version + ".html", function(templateEpisodes) {
 					    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
 					    			var numberOfEpisodesLabel = '0 nastavaka';
+					    			var pages = [];
+				    				var pageSize = 10;
 					    			if (episodes && episodes.length > 0) {
 					    				if (episodes.length%100 >= 11 && episodes.length%100 <= 14) {
 						    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
@@ -182,13 +196,18 @@ function displaySingleItem(type, id) {
 						    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
 						    			}		    				
 					    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
+					    				for (var i = 0; i < episodes.length / pageSize; i++) {
+					    					var page = {"index" : i + 1, "episodes" : episodes.slice(i*pageSize, i*pageSize + pageSize)};
+					    					pages.push(page);
+					    				}
 					    			} else {
 					    				data.addingEnabled = true;
 					    			}
 					    			data.isLoggedIn = username != "gost";
-					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);		    			
-					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "episodes": episodes, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);
+					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "pages": pages, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 					    			contentElement.append(renderedEpisodes);
+					    			displayPage('serial-episodes', 1);
 					    		});
 					    	});
 					    } else if (type == 'author') {
@@ -216,8 +235,15 @@ function displaySingleItem(type, id) {
 								    			totalRating += data[i].rating.value;
 								    		}
 								    	}
-								    	var renderedStatistics = Mustache.render(templateStatistics, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+								    	var pages = [];
+					    				var pageSize = 10;
+								    	for (var i = 0; i < data.length / pageSize; i++) {
+					    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
+					    					pages.push(page);
+					    				}
+								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 								    	contentElement.append(renderedStatistics);
+								    	displayPage('author-items', 1);
 									},
 									error: function(textStatus, errorThrown) {
 										//TODO
@@ -358,7 +384,19 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 
 function sanitize(content) {
 	//TODO make this more generic. strip all tags for some content, be selective for other
-	return content.replace(/(<([^>]+)>)/ig,"");
+	//return content.replace(/(<([^>]+)>)/ig,"");
+	return content;
+}
+function sanitizeRuntime(content) {
+    var url = content.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]+@([\w][\w\-]+\.)+[a-zA-Z]{2,3})/g) || [];
+
+    $.each(url, function(i, v) {
+    	content = content.replace(v, '<a href="' + v + '">' + v + '</a>');        
+    });
+    
+    content = content.replace(/[\n\r]/g,"<br/>");
+
+    return content;
 }
 
 function displayHome() {
@@ -378,6 +416,7 @@ function displayHome() {
 			//do not use html from db for now
 	    	displayRandomComment();
 	    	//displayHighlightedAnnouncement('novi bundolo');
+	    	displayLinksInAscii();
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
@@ -538,8 +577,15 @@ function displayStatistics() {
 			    			totalRating += data[i].rating.value;
 			    		}
 			    	}
-			    	var rendered = Mustache.render(template, {"items" : data, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+			    	var pages = [];
+    				var pageSize = 10;
+			    	for (var i = 0; i < data.length / pageSize; i++) {
+    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
+    					pages.push(page);
+    				}
+			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 				    displayContent(contentElement, rendered);
+				    displayPage('profile-items', 1);
 		    	} else {
 		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
@@ -759,9 +805,89 @@ function displayHighlightedAnnouncement(id) {
 	});
 }
 
+function displayLinksInAscii() {
+	$.ajax({
+	    url: rootPath + restRoot + "/recent",
+	    type: 'GET',
+	    dataType: "json",
+	    contentType: "application/json; charset=utf-8",
+	    beforeSend: function (xhr) {
+	        xhr.setRequestHeader ("Authorization", token);
+	    },
+	    success: function(data) {
+	    	if (data) {
+	    		var asciiArt = $(".main>.jumbotron>.content>pre");
+	    		var asciiArtText = asciiArt.html();
+	    		var asciiArtArray = asciiArtText.split("");
+	    		var letterIndexesArray = [];
+	    		for (var i = 0; i < asciiArtArray.length; i++) {
+	    			if (asciiArtArray[i].match(/b|u|n|d|o|l|o/g)) {
+	    				letterIndexesArray.push(i);
+	    			}
+	    		}
+	    		for (var i = 0; i < data.length; i++) {
+	    			var link = "";
+	    			var title = "";
+		    		switch(data[i].kind) {
+				    case 'text':
+				    	link = rootPath + "/text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+				    	title = "tekst:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				        break;
+				    case 'forum_topic':
+				    	link = rootPath + "/topic/" + data[i].name.replace(/ /g, '~');
+				    	title = "diskusija:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				        break;
+				    case 'connection_description':
+				    	link = rootPath + "/connection/" + data[i].name.replace(/ /g, '~');
+				    	title = "link:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				        break;
+				    case 'news':
+				    	link = rootPath + "/announcement/" + data[i].name.replace(/ /g, '~');
+				    	title = "vest:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				        break;
+				    case 'contest_description':
+				    	link = rootPath + "/contest/" + data[i].name.replace(/ /g, '~');
+				    	title = "konkurs:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				        break;
+				    case 'episode':
+				    	link = rootPath + "/episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
+				        break;
+				    case 'user_description':
+				    	link = rootPath + "/author/" + data[i].authorUsername.replace(/ /g, '~');
+				    	title = "autor:\r\n"+data[i].authorUsername;
+				        break;
+		    		}
+	    			var randomCharacterIndex = Math.floor((Math.random() * letterIndexesArray.length) + 1);
+	    			var characterAsciiIndex = letterIndexesArray[randomCharacterIndex];
+	    			asciiArtArray[characterAsciiIndex] = "<a href='"+link+"' data-toggle='tooltip' title='"+title+"'>" + asciiArtArray[characterAsciiIndex] + "</a>";	    			
+		    	}
+	    		asciiArt.html(asciiArtArray.join(""));
+	    	} else {
+	    		//do nothing
+	    	}		    	
+		},
+		error: function(textStatus, errorThrown) {
+			//do nothing
+		}
+	});
+}
+
 function addZero(i) {
     if (i < 10) {
         i = "0" + i;
     }
     return i;
+}
+
+function displayPage(pageKind, index) {
+	var active = $(".pagination>li>a.active");
+	if (!active.hasClass("page"+index)) {
+		active.removeClass("active");
+		$(".pagination>li>a.page"+index).addClass("active");
+	}
+	var pages = $(".main>.jumbotron>.content ." + pageKind);
+	pages.addClass("hidden");
+	var page = $(".main>.jumbotron>.content ." + pageKind+".page"+index);
+	page.removeClass("hidden");
 }

@@ -351,7 +351,7 @@ footer {
 	font-weight: 700;
 }
 
-.content h4 {
+.jumbotron .content h4 {
 	text-transform:lowercase;
 }
 
@@ -382,4 +382,23 @@ footer {
 
 .table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th {
 	background-color: #fff;
+}
+
+.pagination {
+	display: block;
+}
+
+.main .jumbotron .pagination a {
+	text-decoration: none;
+	font-style: normal;
+}
+
+.main .jumbotron .pagination a.active {
+	background-color: #eee;
+	border-color: #ddd;
+	cursor: pointer;
+}
+
+.tooltip-inner {
+    white-space:pre-wrap;
 }

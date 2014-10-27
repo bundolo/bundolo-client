@@ -57,10 +57,6 @@
 dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 <br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 <br/>broj prikazivanja: {{rating.value}}
-<table class="table table-striped forum-topic">
-	<tbody>
-	</tbody>
-</table>
 <div class="item-footer">
 <button type="button" class="btn btn-default" title="dodaj odgovor" onClick="addPost({{contentId}});">
 	<span class="fa-stack fa-2x">
