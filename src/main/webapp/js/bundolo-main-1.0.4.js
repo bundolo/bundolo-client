@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.0.3";
+var version = "1.0.4";
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -818,51 +818,67 @@ function displayLinksInAscii() {
 	    	if (data) {
 	    		var asciiArt = $(".main>.jumbotron>.content>pre");
 	    		var asciiArtText = asciiArt.html();
-	    		var asciiArtArray = asciiArtText.split("");
-	    		var letterIndexesArray = [];
-	    		for (var i = 0; i < asciiArtArray.length; i++) {
-	    			if (asciiArtArray[i].match(/b|u|n|d|o|l|o/g)) {
-	    				letterIndexesArray.push(i);
-	    			}
-	    		}
+	    		var wordsArray = asciiArtText.match(/\S+/ig);
+	    		wordsArray.sort(function(a, b){
+	    			return b.length - a.length;
+	    		});
+	    		var anchors = [];
 	    		for (var i = 0; i < data.length; i++) {
 	    			var link = "";
 	    			var title = "";
+	    			var caption = "";
 		    		switch(data[i].kind) {
 				    case 'text':
 				    	link = rootPath + "/text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 				    	title = "tekst:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].authorUsername + " - " + data[i].name;
 				        break;
 				    case 'forum_topic':
 				    	link = rootPath + "/topic/" + data[i].name.replace(/ /g, '~');
 				    	title = "diskusija:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
 				        break;
 				    case 'connection_description':
 				    	link = rootPath + "/connection/" + data[i].name.replace(/ /g, '~');
 				    	title = "link:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
 				        break;
 				    case 'news':
 				    	link = rootPath + "/announcement/" + data[i].name.replace(/ /g, '~');
 				    	title = "vest:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
 				        break;
 				    case 'contest_description':
 				    	link = rootPath + "/contest/" + data[i].name.replace(/ /g, '~');
 				    	title = "konkurs:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
 				        break;
 				    case 'episode':
 				    	link = rootPath + "/episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].parentGroup + " - " + data[i].name;
 				        break;
 				    case 'user_description':
 				    	link = rootPath + "/author/" + data[i].authorUsername.replace(/ /g, '~');
 				    	title = "autor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].authorUsername;
 				        break;
 		    		}
-	    			var randomCharacterIndex = Math.floor((Math.random() * letterIndexesArray.length) + 1);
-	    			var characterAsciiIndex = letterIndexesArray[randomCharacterIndex];
-	    			asciiArtArray[characterAsciiIndex] = "<a href='"+link+"' data-toggle='tooltip' title='"+title+"'>" + asciiArtArray[characterAsciiIndex] + "</a>";	    			
+		    		anchors.push({"caption" : caption, "link" : link, "title" : title});
 		    	}
-	    		asciiArt.html(asciiArtArray.join(""));
+	    		anchors.sort(function(a, b){
+	    			return b.caption.length - a.caption.length;
+	    		});
+	    		for (var i = 0; i < anchors.length; i++) {
+	    			if (wordsArray[i].length > anchors[i].caption.length) {
+	    				asciiArtText = asciiArtText.replace(wordsArray[i], "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length));
+		    		} else if (wordsArray[i].length < anchors[i].caption.length) {
+		    			asciiArtText = asciiArtText.replace(wordsArray[i], "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>");
+		    		} else {
+		    			asciiArtText = asciiArtText.replace(wordsArray[i], "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>");
+		    		}
+	    		}
+	    		asciiArt.html(asciiArtText);
 	    	} else {
 	    		//do nothing
 	    	}		    	
