@@ -52,6 +52,13 @@ $(document).ready(function() {
 			register();
 		}
 	});
+	
+	$('body').on('click', '.save_author', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveAuthor();
+		}
+	});
 });
 
 function displayLogin() {
