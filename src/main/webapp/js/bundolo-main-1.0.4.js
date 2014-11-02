@@ -8,6 +8,7 @@ var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
 var version = "1.0.4";
+var handlingForm = false;
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -90,7 +91,18 @@ $(document).ready(function() {
 	$('.modal').on('shown.bs.modal', function () {
 		$('.default-focus').focus();
 	});
+	$('.modal').on('hidden.bs.modal', function () {
+		handlingForm = false;
+	});
+	
 	$.li18n.currentLocale = 'sr_RS';
+
+	$('body').on('click', '.send_message', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			sendMessage();
+		}		
+	});
 });
 
 function displayContent(parentElement, html, contentId) {
@@ -278,6 +290,7 @@ function displaySingleItem(type, id) {
 }
 
 function editSingleItem(type, id, event, notification) {
+	handlingForm = false;
 	if (event) {
 		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
@@ -645,12 +658,13 @@ function deleteSingleItem(id) {
 	return false;
 }
 
-function sendMessage(recipientUsername) {
+function sendMessage() {
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}
 	var messageTitle = $("#edit_title").val();
 	var messageText = $("#edit_content").val();
+	var recipientUsername = $("#edit_recipient").val();
 	var message = {};
 	message.title = messageTitle;
 	message.text = messageText;
@@ -752,6 +766,9 @@ function isFormValid(formElement) {
 			return true;
 		}		
 	});
+	if (!result) {
+		handlingForm = false;
+	}
 	return result;
 }
 

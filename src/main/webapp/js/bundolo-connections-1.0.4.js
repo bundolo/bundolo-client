@@ -1,3 +1,12 @@
+$(document).ready(function() {
+	$('body').on('click', '.save_connection', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveConnection();
+		}
+	});
+});
+
 function saveConnection() {
 	if (!isFormValid($('#modal form'))) {
 		return;

@@ -4,6 +4,7 @@
 </div>
 <div class="modal-body">
 	<form role="form">
+		<input type="hidden" id="edit_recipient" value="{{recipientUsername}}">
 		<div class="form-group">
 		  <label for="edit_title">naslov</label>
 		  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite naslov" validators="required url_safe">
@@ -21,7 +22,7 @@
 			<i class="fa fa-times fa-stack-1x fa-inverse"></i>			
 		</span>
 	</button>
-	<button type="button" class="btn btn-default" title="pošalji" onClick="sendMessage('{{recipientUsername}}');">
+	<button type="button" class="btn btn-default send_message" title="pošalji">
 		<span class="fa-stack fa-2x">
 			<i class="fa fa-circle fa-stack-2x"></i>
 			<i class="fa fa-check fa-stack-1x fa-inverse"></i>

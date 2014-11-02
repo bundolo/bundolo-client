@@ -23,6 +23,13 @@ $(document).ready(function() {
 	    }
 	});
 	
+	$('body').on('click', '.save_comment', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveComment();
+		}
+	});
+	
 	$('body').on('click', '.root-comment-button', function(e) {
 		var parentElement = $('.context-menu>div>div');
 		var parentId = parentElement.find(">span").attr('id').substr(8);

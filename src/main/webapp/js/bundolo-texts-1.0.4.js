@@ -1,3 +1,12 @@
+$(document).ready(function() {
+	$('body').on('click', '.save_text', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveText();
+		}
+	});
+});
+
 function saveText() {
 	if (!isFormValid($('#modal form'))) {
 		return;

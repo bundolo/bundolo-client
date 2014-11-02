@@ -18,10 +18,39 @@ $(document).ready(function() {
 	
 	//submit form when enter is pressed on input elements
 	$(".header_form").keypress(function(event) {
-	    if (event.which == 13 && event.target.nodeName.toLowerCase() == 'input') {
+	    if (event.which == 13 && event.target.nodeName.toLowerCase() == 'input' && !handlingForm) {
+	    	handlingForm = true;
 	    	event.preventDefault();
 	    	login();
 	    }
+	});
+	
+	$('body').on('click', '.process_login', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			login();
+		}
+	});
+	
+	$('body').on('click', '.process_logout', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			logout();
+		}
+	});
+	
+	$('body').on('click', '.password_reset', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			passwordReset();
+		}
+	});
+	
+	$('body').on('click', '.process_register', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			register();
+		}
 	});
 });
 
@@ -30,6 +59,7 @@ function displayLogin() {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
+		handlingForm = false;
 	});
 }
 
@@ -38,6 +68,7 @@ function displayRegister() {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
+		handlingForm = false;
 	});
 }
 
@@ -46,6 +77,7 @@ function displayReset() {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
+		handlingForm = false;
 	});
 }
 
@@ -53,6 +85,7 @@ function displayLoggedIn() {
 	$.get("/templates/logged_in" + "-" + version + ".html", function(template) {
 	    var rendered = Mustache.render(template, { "username": username });
 		$(".header_form").html(rendered);
+		handlingForm = false;
 	});
 }
 
@@ -83,7 +116,7 @@ function login() {
 					  createCookie('token', token);
 					  createCookie("username", username);
 				  }
-				  displayLoggedIn();
+				  displayLoggedIn();				  
 				  loadFromAddress();
 			  } else {
 				  editSingleItem("notification", null, null, data);

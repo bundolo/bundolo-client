@@ -1,11 +1,26 @@
 var postParentId;
 
+$(document).ready(function() {
+	$('body').on('click', '.save_post', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			savePost();
+		}
+	});
+	$('body').on('click', '.save_topic', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveTopic();
+		}
+	});
+});
+
 function addPost(parentId) {
 	postParentId = parentId;
 	editSingleItem('post');
 }
 
-function savePost(content) {
+function savePost() {
 	if (!isFormValid($('#modal form'))) {
 		return;
 	}

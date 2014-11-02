@@ -1,6 +1,22 @@
 var episodeParentId;
 var episodeParentName;
 
+$(document).ready(function() {
+	$('body').on('click', '.save_episode', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveEpisode();
+		}
+	});
+	
+	$('body').on('click', '.save_serial', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveSerial();
+		}
+	});
+});
+
 function addEpisode(parentId, parentName) {
 	episodeParentId = parentId;
 	episodeParentName = parentName;

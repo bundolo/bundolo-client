@@ -1,3 +1,12 @@
+$(document).ready(function() {
+	$('body').on('click', '.save_announcement', function(e) {
+		if (!handlingForm) {
+			handlingForm = true;
+			saveAnnouncement();
+		}
+	});
+});
+
 function saveAnnouncement() {
 	if (!isFormValid($('#modal form'))) {
 		return;
