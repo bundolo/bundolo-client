@@ -78,7 +78,7 @@ function login() {
 				  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
 				  if (loginRememberMe) {
 					  createCookie('token', token, 14);
-					  createCookie("username", 14);
+					  createCookie("username", username, 14);
 				  } else {
 					  createCookie('token', token);
 					  createCookie("username", username);
