@@ -890,19 +890,21 @@ function displayLinksInAscii() {
 				    	caption = data[i].authorUsername;
 				        break;
 		    		}
-		    		anchors.push({"caption" : caption, "link" : link, "title" : title});
+		    		anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});		    		
 		    	}
 	    		anchors.sort(function(a, b){
 	    			return b.caption.length - a.caption.length;
 	    		});
 	    		for (var i = 0; i < anchors.length; i++) {
-	    			if (wordsArray[i].length > anchors[i].caption.length) {
-	    				asciiArtText = asciiArtText.replace(wordsArray[i], "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length));
+	    			var tagAndReminder = "";
+	    			if (wordsArray[i].length > anchors[i].caption.length) {	    				
+	    				tagAndReminder = "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);	    				
 		    		} else if (wordsArray[i].length < anchors[i].caption.length) {
-		    			asciiArtText = asciiArtText.replace(wordsArray[i], "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>");
+		    			tagAndReminder = "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
 		    		} else {
-		    			asciiArtText = asciiArtText.replace(wordsArray[i], "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>");
+		    			tagAndReminder = "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
 		    		}
+	    			asciiArtText = asciiArtText.replace(wordsArray[i], tagAndReminder);
 	    		}
 	    		asciiArt.html(asciiArtText);
 	    	} else {
