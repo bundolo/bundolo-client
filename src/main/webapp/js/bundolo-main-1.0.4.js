@@ -187,7 +187,7 @@ function displaySingleItem(type, id) {
 					    				}
 					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "escapeUrl": escapeUrl, "timestampDateTime": timestampDateTime});
 						    			contentElement.find('.item-footer').before(renderedPosts);
-						    			displayPage('forum-topic', 1);
+						    			displayPage('forum-topic', pages.length);
 					    			}					    			
 					    		});
 					    	});
@@ -219,7 +219,7 @@ function displaySingleItem(type, id) {
 					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);
 					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "pages": pages, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 					    			contentElement.append(renderedEpisodes);
-					    			displayPage('serial-episodes', 1);
+					    			displayPage('serial-episodes', pages.length);
 					    		});
 					    	});
 					    } else if (type == 'author') {
@@ -255,7 +255,7 @@ function displaySingleItem(type, id) {
 					    				}
 								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 								    	contentElement.append(renderedStatistics);
-								    	displayPage('author-items', 1);
+								    	displayPage('author-items', pages.length);
 									},
 									error: function(textStatus, errorThrown) {
 										//TODO
@@ -597,7 +597,7 @@ function displayStatistics() {
     				}
 			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 				    displayContent(contentElement, rendered);
-				    displayPage('profile-items', 1);
+				    displayPage('profile-items', pages.length);
 		    	} else {
 		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
