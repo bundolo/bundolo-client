@@ -41,16 +41,28 @@ var timestampDateTime = function () {
 };
 
 $.address.change(function(event) {
+	loadFromAddress();
+});
+
+function loadFromAddress() {
 	if ($.address.value() == rootFolder) {
 		displayHome();
 	} else if ($.address.value() == "/about") {
 		displayAbout();
 	} else if ($.address.value() == "/contact") {
 		displayContact();
-	} else if ($.address.value() == "/profile" && username != 'gost') {
-		displayProfile();
-	} else if ($.address.value() == "/statistics" && username != 'gost') {
-		displayStatistics();
+	} else if ($.address.value() == "/profile") {
+		if (username != 'gost') {
+			displayProfile();
+		} else {
+			displayHome();
+		}
+	} else if ($.address.value() == "/statistics") {
+		if (username != 'gost') {
+			displayStatistics();
+		} else {
+			displayHome();
+		}
 	} else if ($.address.value().match("^/validate")) {
 		validateEmail();
 	} else {
@@ -60,7 +72,7 @@ $.address.change(function(event) {
 			displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
 		}
 	}
-});
+}
 
 $(document).ready(function() {
 	$('[data-toggle=offcanvas]').click(function() {

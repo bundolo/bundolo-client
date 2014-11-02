@@ -84,11 +84,7 @@ function login() {
 					  createCookie("username", username);
 				  }
 				  displayLoggedIn();
-				  //TODO extract type and id from address and reload content instead of going to home
-	//			  if ($.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
-	//				  displaySingleItem("author", $.address.value().substring(7));
-	//			  }
-				  $.address.value(rootFolder);
+				  loadFromAddress();
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }
@@ -108,13 +104,7 @@ function logout() {
 	eraseCookie('token');
 	eraseCookie('username');
 	displayLogin();
-	//TODO extract type and id from address and reload content instead of going to home
-//	if ($.address.value() == rootFolder +"profile" || $.address.value() == rootFolder + "statistics") {
-//		$.address.value(rootFolder);
-//	} else if ($.address.value().lastIndexOf(rootFolder + "author", 0) === 0) {
-//		displaySingleItem("author", $.address.value().substring(7));
-//	}
-	$.address.value(rootFolder);
+	loadFromAddress();
 }
 
 function passwordReset() {
