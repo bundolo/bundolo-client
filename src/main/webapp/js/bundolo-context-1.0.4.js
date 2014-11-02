@@ -140,6 +140,7 @@ function saveComment() {
 	var comment = {};
 	comment.text = sanitize(commentContent);
 	comment.parentContent = {"contentId" : commentParentId};
+	var credentials = $('#edit_credentials').val() == 'logged' ? token : "Basic " + btoa(" : ");
 	//TODO display spinner
 	$.ajax({
 	  url: rootPath + restRoot + "/comment",
@@ -148,7 +149,7 @@ function saveComment() {
 	  dataType: "json",
 	  contentType: "application/json; charset=utf-8",
 	  beforeSend: function (xhr) {
-	        xhr.setRequestHeader ("Authorization", token);
+	        xhr.setRequestHeader ("Authorization", credentials);
 	    },
 	  headers: {
 	        'Accept': 'application/json',

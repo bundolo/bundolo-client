@@ -14,7 +14,7 @@ function savePost(content) {
 	post.contentId = $("#edit_item_id").val();
 	post.text = sanitize(postContent);
 	post.parentContent = {"contentId" : postParentId};
-	console.log("text: " + post.text);
+	var credentials = $('#edit_credentials').val() == 'logged' ? token : "Basic " + btoa(" : ");
 	//TODO display spinner
 	$.ajax({
 	  url: rootPath + restRoot + "/post",
@@ -23,7 +23,7 @@ function savePost(content) {
 	  dataType: "json",
 	  contentType: "application/json; charset=utf-8",
 	  beforeSend: function (xhr) {
-	        xhr.setRequestHeader ("Authorization", token);
+	        xhr.setRequestHeader ("Authorization", credentials);
 	    },
 	  headers: { 
 	        'Accept': 'application/json',

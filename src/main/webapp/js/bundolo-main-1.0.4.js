@@ -282,7 +282,7 @@ function editSingleItem(type, id, event, notification) {
 		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
 	}
-	var modalElement;	
+	var modalElement;
 	if ((type == 'notification') || (type == 'confirmation')) {
 		modalElement= $('#modal-notification');
 	} else {
@@ -388,9 +388,17 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     		} else if (type == 'message') {
     			data.recipientUsername = formData;
     		}
-    	}		
+    	}
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
+    	if (type == 'comment' || type == 'post') {
+    		if (username != 'gost') {
+    			$("#edit_credentials>option[value='logged']").html(username);
+    			$("#edit_credentials").val('logged');
+    		} else {
+    			$("#edit_credentials>option[value='logged']").css("display", "none");
+    		}
+    	}
 	}
 }
 
@@ -683,6 +691,12 @@ function isFormValid(formElement) {
 	formElement.find('[validators]').each(function() {
 		var validators = $(this).attr('validators');
 		var value = $(this).val();
+		if (validators.indexOf("forbidden") >= 0 && value) {
+			$(this).parent().addClass("has-error");
+			$(this).after("<div class='help-inline'>ovo polje se koristi kao zaštita i ne sme se popunjavati</div>");
+			result = false;
+			return true;
+		}
 		if (validators.indexOf("required") >= 0 && !value) {
 			$(this).parent().addClass("has-error");
 			$(this).after("<div class='help-inline'>obavezno polje</div>");

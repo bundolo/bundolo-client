@@ -9,6 +9,17 @@
 		  <label for="edit_content">tekst</label>
 		  <textarea cols="45" rows="4" class="form-control default-focus" id="edit_content" placeholder="unesite tekst" validators="required"></textarea>
 		</div>
+		<div class="form-group">
+			<label for="edit_credentials">odgovor želim da dodam kao</label>
+			<select class="form-control" id="edit_credentials">
+				<option value="anonymous">gost</option>
+				<option value="logged">ulogovan</option>
+			</select>
+		</div>
+		<div class="form-group hidden">
+		  <label for="edit_honeypot">nemojte popunjavati ovo polje</label>
+		  <input type="text" class="form-control" id="edit_honeypot" placeholder="nemojte popunjavati ovo polje" validators="forbidden">
+		</div>
 	</form>
 </div>
 <div class="modal-footer">
