@@ -2,15 +2,25 @@ var commentParentElement;
 var commentParentId;
 var rootParentId;
 $(document).ready(function() {
-	$('body').on('click', function(e) {
+//	$('body').on('click', function(e) {
+//		var modalDialog = $('#modal');
+//		var contextMenu = $('.context-menu');
+//		var targetParents = $(e.target).parents();
+//		if ((targetParents.index(modalDialog) == -1) && !modalDialog.hasClass('in') && (targetParents.index(contextMenu) == -1)) {
+//            if(contextMenu.is(":visible")) {
+//            	contextMenu.hide();
+//            }
+//        }
+//	});
+	$(document).mouseup(function (e) {
 		var modalDialog = $('#modal');
 		var contextMenu = $('.context-menu');
-		var targetParents = $(e.target).parents();
-		if ((targetParents.index(modalDialog) == -1) && !modalDialog.hasClass('in') && (targetParents.index(contextMenu) == -1)) {
-            if(contextMenu.is(":visible")) {
+	
+	    if (!modalDialog.is(e.target) && modalDialog.has(e.target).length === 0 && !contextMenu.is(e.target) && contextMenu.has(e.target).length === 0) {
+	        if(contextMenu.is(":visible")) {
             	contextMenu.hide();
             }
-        }
+	    }
 	});
 	
 	$('body').on('click', '.root-comment-button', function(e) {
