@@ -347,7 +347,7 @@ footer {
 	color: #a94442;
 }
 
-.content {
+.jumbotron .content {
 	border: 1px solid;
 	padding-left: 4px;
 }
