@@ -347,6 +347,10 @@ footer {
 	color: #a94442;
 }
 
+.content {
+	border: 1px solid;
+	padding-left: 4px;
+}
 .content h3 {
 	font-weight: 700;
 }
