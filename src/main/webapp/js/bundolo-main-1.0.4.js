@@ -255,8 +255,8 @@ function displaySingleItem(type, id) {
 										    	data[i].isEpisode = true;
 										        break;
 								    		}
-								    		if (data[i].rating) {
-								    			totalRating += data[i].rating.value;
+								    		if (data[i].rating[0]) {
+								    			totalRating += data[i].rating[0].value;
 								    		}
 								    	}
 								    	var pages = [];
@@ -606,8 +606,8 @@ function displayStatistics() {
 					    	data[i].isEditable = "pending" == data[i].contentStatus;
 					        break;
 			    		}
-			    		if (data[i].rating) {
-			    			totalRating += data[i].rating.value;
+			    		if (data[i].rating[0]) {
+			    			totalRating += data[i].rating[0].value;
 			    		}
 			    	}
 			    	var pages = [];

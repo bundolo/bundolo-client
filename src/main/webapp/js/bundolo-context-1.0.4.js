@@ -41,17 +41,21 @@ $(document).ready(function() {
 		addComment(parentElement.find('>.panel-collapse>.panel-body>.panel-group>div>div'), parentId);
 	});
 	
-	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button', function(e) {
+	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button, .rating-select', function(e) {
 		$(this).parent().addClass("hover");
 		if ($(this).parent().parent().css("overflow")=="hidden") {
 			$(this).parent().parent().addClass("show-overflow");
 		}
 	});
-	$('body').on('mouseleave', '.comments-button, .root-comment-button, .comment-button', function(e) {
+	$('body').on('mouseleave', '.comments-button, .root-comment-button, .comment-button, .rating-select', function(e) {
 		$(this).parent().removeClass("hover");
 		$(this).parent().parent().removeClass("show-overflow");
 	});
 	$(window).resize(resizer);
+	$('body').on('change', '.rating-select', function(e) {
+		var ratingId = $(e.target).attr('id').substr(7);
+		saveRating(ratingId, $(e.target).val());
+	});
 });
 
 function resizer() {
@@ -94,6 +98,33 @@ function setContextMenuPostion(event) {
 }
 
 function addContextMenu(parentElement, parentId) {
+	$.ajax({
+	    url: rootPath + restRoot + "/rating/" + parentId,
+	    type: 'GET',
+	    dataType: "json",
+	    contentType: "application/json; charset=utf-8",
+	    beforeSend: function (xhr) {
+	        xhr.setRequestHeader ("Authorization", token);
+	    },
+	    success: function(data) {
+	    	if (data) {
+	    		var ratingDropdown = $('<select class="rating-select" title="ocena" id="rating_' + data.ratingId + '">\
+	    				<option value="3"'+(data.value==3?' selected':'')+'>3</option>\
+	    				<option value="2"'+(data.value==2?' selected':'')+'>2</option>\
+	    				<option value="1"'+(data.value==1?' selected':'')+'>1</option>\
+	    				<option value="0"'+(data.value==0?' selected':'')+'>0</option>\
+	    				<option value="-1"'+(data.value==-1?' selected':'')+'>-1</option>\
+	    				<option value="-2"'+(data.value==-2?' selected':'')+'>-2</option>\
+	    				<option value="-3"'+(data.value==-3?' selected':'')+'>-3</option>\
+	    			</select>');
+	    		parentElement.append(ratingDropdown);
+	    	}
+		},
+		error: function(textStatus, errorThrown) {
+			//TODO
+		}
+	});
+	
 	var commentsButton = $('<span class="fa-stack fa-2x comments-button" id="comments_' + parentId + '">\
 			<i class="fa fa-circle fa-stack-2x"></i>\
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
@@ -178,6 +209,43 @@ function saveComment() {
 				  displayComments(rootParentId);
 				  $('#modal').modal('hide');
 				  refreshSliderIfNeeded("comments");
+			  } else {
+				  editSingleItem("notification", null, null, data);
+			  }
+		  } else {
+			  editSingleItem("notification", null, null, "saving_error");
+		  }
+      },
+      error: function(data) {
+    	  editSingleItem("notification", null, null, "saving_error");
+      }
+	});
+}
+
+
+function saveRating(ratingId, value) {
+	var rating = {};
+	rating.value = value;
+	//TODO display spinner
+	$.ajax({
+	  url: rootPath + restRoot + "/rating/" + ratingId,
+	  type: "PUT",
+	  data: JSON.stringify(rating),
+	  dataType: "json",
+	  contentType: "application/json; charset=utf-8",
+	  beforeSend: function (xhr) {
+		  xhr.setRequestHeader ("Authorization", token);
+	  },
+	  headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	  },
+	  success: function(data) {
+		  if (data) {
+			  if (data == 'success') {
+//				  displayComments(rootParentId);
+//				  $('#modal').modal('hide');
+//				  refreshSliderIfNeeded("comments");
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }

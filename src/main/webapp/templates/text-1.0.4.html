@@ -58,7 +58,7 @@
 {{{text}}}
 <br/>
 {{#creationDate}}<br/>dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
-<br/>broj prikazivanja: {{rating.value}}
+<br/>broj prikazivanja: {{rating.0.value}}
 {{#editingEnabled}}
 <div class="item-footer">
 <button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('text', '{{authorUsername}}/{{name}}');">

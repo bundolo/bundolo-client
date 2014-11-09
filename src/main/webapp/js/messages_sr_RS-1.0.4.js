@@ -14,6 +14,7 @@ $.li18n.translations =
 	login_failed : 'prijavljivanje nije uspelo!',
 	validation_failed : 'validacija nije uspela!',
 	username_taken : 'korisničko ime je već zauzeto! ako ste ga vi koristili, umesto kreiranja novog naloga možete resetovati lozinku na starom.',
-	email_taken : 'adresa elektronske pošte je već u upotrebi! ako ste je vi koristili, možete resetovati lozinku na starom korisničkom nalogu.'
+	email_taken : 'adresa elektronske pošte je već u upotrebi! ako ste je vi koristili, možete resetovati lozinku na starom korisničkom nalogu.',
+	wrong_value : 'nedozvoljena vrednost!'
 	}
 };

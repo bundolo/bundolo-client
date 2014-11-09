@@ -46,7 +46,7 @@
 				<td>{{name}}</td>
 				<td>{{#isText}}tekst{{/isText}}{{#isEpisode}}nastavak{{/isEpisode}}</td>
 				<td>{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
-				<td>{{#rating.value}}{{rating.value}}{{/rating.value}}{{^rating.value}}0{{/rating.value}}</td>
+				<td>{{#rating.0.value}}{{rating.0.value}}{{/rating.0.value}}{{^rating.0.value}}0{{/rating.0.value}}</td>
 				<td>
 					{{#isEditable}}
 					<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem({{#isText}}'text','{{authorUsername}}/{{name}}'{{/isText}}{{#isEpisode}}'episode','{{parentGroup}}/{{name}}'{{/isEpisode}}, event);">

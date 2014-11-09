@@ -72,6 +72,14 @@
 	color: #000;
 	cursor: pointer;
 }
+
+.content .rating-select {
+	position:absolute;
+	bottom: 6px;
+	right: 30px;
+	font-size: 10px;
+	color: #000;
+}
 .content .comments-button:hover {
 	transform: scale(1.2,1.2);
 	-ms-transform: scale(1.2,1.2);
