@@ -409,7 +409,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     			$("#edit_credentials>option[value='logged']").html(username);
     			$("#edit_credentials").val('logged');
     		} else {
-    			$("#edit_credentials>option[value='logged']").css("display", "none");
+    			$("#edit_credentials>option[value='logged']").remove();
     		}
     	}
 	}
