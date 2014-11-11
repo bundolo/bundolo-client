@@ -28,7 +28,7 @@ $(document).ready(function() {
 	    $(this).data("timeout", setTimeout(function () {
 	    	var collapseId = thiz.closest('.panel-collapse').attr('id');
 			var itemType = collapseId.substr(9);
-			displaySidebarAccordion(itemType, getOrderString(itemType), getFilterString(itemType));
+			displaySidebarAccordion(itemType, getOrderString(itemType), getFilterString(itemType), thiz);
 	    }, 500));
 		
 	});
@@ -137,7 +137,7 @@ function displaySidebar() {
 	  });
 }
 
-function displaySidebarAccordion(type, orderBy, filterBy) {
+function displaySidebarAccordion(type, orderBy, filterBy, lastModified) {
 	if (typeof orderBy === 'undefined' || orderBy == '') {
 		orderBy = 'date,desc';
 		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').removeClass("asc desc");
@@ -166,6 +166,9 @@ function displaySidebarAccordion(type, orderBy, filterBy) {
 		    		});
 		        }
 		    });
+			if (lastModified) {
+				lastModified.focus();
+			}
 		});		
 	});
 }
