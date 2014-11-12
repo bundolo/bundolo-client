@@ -58,6 +58,8 @@ function loadFromAddress() {
 		} else {
 			displayHome();
 		}
+	} else if ($.address.value().indexOf("/item_list") == 0 && username == 'gost') {
+		displayHome();
 	} else if ($.address.value() == "/statistics") {
 		if (username != 'gost') {
 			displayStatistics();
@@ -177,6 +179,11 @@ function displaySingleItem(type, id) {
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername) && (data.contentStatus == 'pending');
 						        break;
+						    case 'item_list':
+						    	commentParentId = data.descriptionContent.contentId;
+						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						    	formatItemListItems(data.items);
+						        break;
 						    default:
 						        commentParentId = id;
 					    }
@@ -276,11 +283,19 @@ function displaySingleItem(type, id) {
 					    	});
 					    }
 				  } else {
-					  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+					  if ($.address.value() == rootFolder && type == 'item_list') {
+						  displayHomeDefault();
+					  } else {
+						  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+					  }
 				  }
 		      },
 		      error: function(data) {
-		    	  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+		    	  if ($.address.value() == rootFolder && type == 'item_list') {
+		    		  displayHomeDefault();
+				  } else {
+					  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+				  }
 		      }
 			});
 		
@@ -433,6 +448,10 @@ function sanitizeRuntime(content) {
 }
 
 function displayHome() {
+	displaySingleItem("item_list", "prvi izbor");
+}
+
+function displayHomeDefault() {
 	var contentElement = $('.main>.jumbotron>.content');
 	//contentElement.html(spinner);
 	displayContent(contentElement, homeHtml);
@@ -450,6 +469,7 @@ function displayHome() {
 	    	displayRandomComment();
 	    	//displayHighlightedAnnouncement('novi bundolo');
 	    	displayLinksInAscii();
+	    	
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
@@ -589,9 +609,9 @@ function displayStatistics() {
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
-//		    beforeSend: function (xhr) {
-//		        xhr.setRequestHeader ("Authorization", token);
-//		    },
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
 		    success: function(data) {
 		    	if (data) {
 			    	var totalRating = 0;
@@ -604,6 +624,10 @@ function displayStatistics() {
 					    case 'episode':
 					    	data[i].isEpisode = true;
 					    	data[i].isEditable = "pending" == data[i].contentStatus;
+					        break;
+					    case 'item_list_description':
+					    	data[i].isItemList = true;
+					    	data[i].isEditable = true;
 					        break;
 			    		}
 			    		if (data[i].rating[0]) {
@@ -932,6 +956,60 @@ function displayLinksInAscii() {
 			//do nothing
 		}
 	});
+}
+
+function formatItemListItems(data) {
+	if (data) {
+		for (var i = 0; i < data.length; i++) {
+			switch(data[i].kind) {
+		    case 'text':
+		    	data[i].link = rootPath + "/text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].authorUsername + " - " + data[i].name;
+		        break;
+		    case 'forum_topic':
+		    	data[i].link = rootPath + "/topic/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].name;
+		        break;
+		    case 'connection_description':
+		    	data[i].link = rootPath + "/connection/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].name;
+		        break;
+		    case 'news':
+		    	data[i].link = rootPath + "/announcement/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].name;
+		        break;
+		    case 'contest_description':
+		    	data[i].link = rootPath + "/contest/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].name;
+		        break;
+		    case 'episode':
+		    	data[i].link = rootPath + "/episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].parentGroup + " - " + data[i].name;
+		        break;
+		    case 'user_description':
+		    	data[i].link = rootPath + "/author/" + data[i].authorUsername.replace(/ /g, '~');
+		    	data[i].caption = data[i].authorUsername;
+		        break;
+		    case 'page_description':
+		    	if (data[i].name.toLowerCase() != 'home') {
+		    		data[i].link = rootPath + "/" + data[i].name.replace(/ /g, '~').toLowerCase();
+		    	} else {
+		    		data[i].link = rootPath;
+		    	}
+		    	data[i].caption = data[i].text;
+		        break;
+		    case 'item_list_description':
+		    	data[i].link = rootPath + "/item_list/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].name;
+		        break;
+		    case 'episode_group':
+		    	data[i].link = rootPath + "/serial/" + data[i].name.replace(/ /g, '~');
+		    	data[i].caption = data[i].name;
+		        break;
+			}
+			//anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});		    		
+		}
+	}
 }
 
 function addZero(i) {

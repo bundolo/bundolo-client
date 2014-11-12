@@ -1,6 +1,7 @@
 var commentParentElement;
 var commentParentId;
 var rootParentId;
+var itemLists;
 $(document).ready(function() {
 //	$('body').on('click', function(e) {
 //		var modalDialog = $('#modal');
@@ -56,6 +57,16 @@ $(document).ready(function() {
 		var ratingId = $(e.target).attr('id').substr(7);
 		saveRating(ratingId, $(e.target).val());
 	});
+	$('body').on('focus', '.item-list-select', function(e) {
+		previousItemList = $(e.target).val();
+	});
+	$('body').on('change', '.item-list-select', function(e) {
+		newItemList = $(e.target).val();
+		if (newItemList != previousItemList) {
+			var parentId = parseInt($(e.target).attr('id').substr(11));
+			saveItemInList(parentId, newItemList, previousItemList);
+		}
+	});
 });
 
 function resizer() {
@@ -98,33 +109,53 @@ function setContextMenuPostion(event) {
 }
 
 function addContextMenu(parentElement, parentId) {
-	$.ajax({
-	    url: rootPath + restRoot + "/rating/" + parentId,
-	    type: 'GET',
-	    dataType: "json",
-	    contentType: "application/json; charset=utf-8",
-	    beforeSend: function (xhr) {
-	        xhr.setRequestHeader ("Authorization", token);
-	    },
-	    success: function(data) {
-	    	if (data) {
-	    		var ratingDropdown = $('<select class="rating-select" title="ocena" id="rating_' + data.ratingId + '">\
-	    				<option value="3"'+(data.value==3?' selected':'')+'>3</option>\
-	    				<option value="2"'+(data.value==2?' selected':'')+'>2</option>\
-	    				<option value="1"'+(data.value==1?' selected':'')+'>1</option>\
-	    				<option value="0"'+(data.value==0?' selected':'')+'>0</option>\
-	    				<option value="-1"'+(data.value==-1?' selected':'')+'>-1</option>\
-	    				<option value="-2"'+(data.value==-2?' selected':'')+'>-2</option>\
-	    				<option value="-3"'+(data.value==-3?' selected':'')+'>-3</option>\
-	    			</select>');
-	    		parentElement.append(ratingDropdown);
-	    	}
-		},
-		error: function(textStatus, errorThrown) {
-			//TODO
-		}
-	});
-	
+	if (username != 'gost') {
+		$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( data ) {
+			if (data) {
+				itemLists = data;
+				var itemListDropdownHtml = '<select class="item-list-select" title="izbor" id="item_lists_' + parentId + '">';
+				itemListDropdownHtml += '<option value="">dodaj u izbor</option>';
+				var itemListItems;
+				var itemInList;
+				for (index in data) {
+					itemListItems = $.parseJSON(data[index].query);
+					itemInList = itemListItems && itemListItems.indexOf(parentId) >= 0;
+					itemListDropdownHtml += '<option value="'+index+'"'+(itemInList?' selected="selected"':'')+'>'+data[index].descriptionContent.name+'</option>';
+				}
+				itemListDropdownHtml += '</select>';
+				var itemListDropdown = $(itemListDropdownHtml);
+				parentElement.append(itemListDropdown);
+			}
+		});
+		
+		$.ajax({
+		    url: rootPath + restRoot + "/rating/" + parentId,
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	if (data) {
+		    		var ratingDropdown = $('<select class="rating-select" title="ocena" id="rating_' + data.ratingId + '">\
+		    				<option value="3"'+(data.value==3?' selected="selected"':'')+'>3</option>\
+		    				<option value="2"'+(data.value==2?' selected="selected"':'')+'>2</option>\
+		    				<option value="1"'+(data.value==1?' selected="selected"':'')+'>1</option>\
+		    				<option value="0"'+(data.value==0?' selected="selected"':'')+'>0</option>\
+		    				<option value="-1"'+(data.value==-1?' selected="selected"':'')+'>-1</option>\
+		    				<option value="-2"'+(data.value==-2?' selected="selected"':'')+'>-2</option>\
+		    				<option value="-3"'+(data.value==-3?' selected="selected"':'')+'>-3</option>\
+		    			</select>');
+		    		parentElement.append(ratingDropdown);
+		    	}
+			},
+			error: function(textStatus, errorThrown) {
+				//TODO
+			}
+		});
+	}
+
 	var commentsButton = $('<span class="fa-stack fa-2x comments-button" id="comments_' + parentId + '">\
 			<i class="fa fa-circle fa-stack-2x"></i>\
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
@@ -257,4 +288,29 @@ function saveRating(ratingId, value) {
     	  editSingleItem("notification", null, null, "saving_error");
       }
 	});
+}
+
+function saveItemInList(parentId, newItemList, previousItemList) {
+	if (newItemList) {
+		var itemListToAddItem = itemLists[newItemList];
+		itemListItems = $.parseJSON(itemListToAddItem.query);
+		if (!itemListItems) {
+			itemListItems =[];
+		}
+		itemListItems.push(parentId);
+		itemListToAddItem.query = JSON.stringify(itemListItems);
+		saveItemListItems(itemListToAddItem);
+	}
+	if (previousItemList) {
+		var itemListToRemoveItem = itemLists[previousItemList];
+		itemListItems = $.parseJSON(itemListToRemoveItem.query);
+		if (itemListItems) {
+			var index = itemListItems.indexOf(parentId);
+			if (index > -1) {
+				itemListItems.splice(index, 1);
+				itemListToRemoveItem.query = JSON.stringify(itemListItems);
+				saveItemListItems(itemListToRemoveItem);
+			}
+		}
+	}	
 }

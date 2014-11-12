@@ -1,0 +1,69 @@
+<pre style="font: 10px monospace;">
+bbbbbbbb                                                          dddddddd                                          
+b::::::b                                                          d::::::d                 lllllll                  
+b::::::b                                                          d::::::d                 l:::::l                  
+b::::::b                                                          d::::::d                 l:::::l                  
+ b:::::b                                                          d:::::d                  l:::::l                  
+ b:::::bbbbbbbbb    uuuuuu    uuuuuunnnn  nnnnnnnn        ddddddddd:::::d    ooooooooooo    l::::l    ooooooooooo   
+ b::::::::::::::bb  u::::u    u::::un:::nn::::::::nn    dd::::::::::::::d  oo:::::::::::oo  l::::l  oo:::::::::::oo 
+ b::::::::::::::::b u::::u    u::::un::::::::::::::nn  d::::::::::::::::d o:::::::::::::::o l::::l o:::::::::::::::o
+ b:::::bbbbb:::::::bu::::u    u::::unn:::::::::::::::nd:::::::ddddd:::::d o:::::ooooo:::::o l::::l o:::::ooooo:::::o
+ b:::::b    b::::::bu::::u    u::::u  n:::::nnnn:::::nd::::::d    d:::::d o::::o     o::::o l::::l o::::o     o::::o
+ b:::::b     b:::::bu::::u    u::::u  n::::n    n::::nd:::::d     d:::::d o::::o     o::::o l::::l o::::o     o::::o
+ b:::::b     b:::::bu::::u    u::::u  n::::n    n::::nd:::::d     d:::::d o::::o     o::::o l::::l o::::o     o::::o
+ b:::::b     b:::::bu:::::uuuu:::::u  n::::n    n::::nd:::::d     d:::::d o::::o     o::::o l::::l o::::o     o::::o
+ b:::::bbbbbb::::::bu:::::::::::::::uun::::n    n::::nd::::::ddddd::::::ddo:::::ooooo:::::ol::::::lo:::::ooooo:::::o
+ b::::::::::::::::b  u:::::::::::::::un::::n    n::::n d:::::::::::::::::do:::::::::::::::ol::::::lo:::::::::::::::o
+ b:::::::::::::::b    uu::::::::uu:::un::::n    n::::n  d:::::::::ddd::::d oo:::::::::::oo l::::::l oo:::::::::::oo 
+ bbbbbbbbbbbbbbbb       uuuuuuuu  uuuunnnnnn    nnnnnn   ddddddddd   ddddd   ooooooooooo   llllllll   ooooooooooo   </pre>
+<!-- 
+<div class="btn-group pull-left">
+  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+	<li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'title', '', false);">po imenu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'date', '', false);">po datumu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
+  </ul>
+</div>
+
+<div class="btn-group pull-right">
+  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+  	<li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'title', '', true);">po imenu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'date', '', true);">po datumu</a></li>
+    <li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
+  </ul>
+</div>
+ -->
+<h3 class="text-center">{{descriptionContent.name}}</h3>
+<h3 class="text-center">{{#authorUsername}}izbor korisnika <a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}</h3>
+<p>{{{descriptionContent.text}}}</p>
+{{#items}}
+	<p><a href="{{link}}">{{caption}}</a></p>
+{{/items}}
+{{#editingEnabled}}
+<div class="item-footer">
+<button type="button" class="btn btn-default" title="obriši" onClick="editSingleItem('confirmation', 'item_list/{{descriptionContent.name}}');">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-minus fa-stack-1x fa-inverse"></i>
+	</span>
+</button>
+<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('item_list', '{{descriptionContent.name}}');">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+	</span>
+</button>
+</div>
+{{/editingEnabled}}

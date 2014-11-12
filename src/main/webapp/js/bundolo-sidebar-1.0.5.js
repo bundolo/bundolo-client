@@ -169,7 +169,7 @@ function displaySidebarAccordion(type, orderBy, filterBy, lastModified) {
 			if (lastModified) {
 				lastModified.focus();
 			}
-		});		
+		});
 	});
 }
 
