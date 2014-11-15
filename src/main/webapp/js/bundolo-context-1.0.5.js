@@ -42,13 +42,13 @@ $(document).ready(function() {
 		addComment(parentElement.find('>.panel-collapse>.panel-body>.panel-group>div>div'), parentId);
 	});
 	
-	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button, .rating-select', function(e) {
+	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button, .rating-select, .item-list-select', function(e) {
 		$(this).parent().addClass("hover");
 		if ($(this).parent().parent().css("overflow")=="hidden") {
 			$(this).parent().parent().addClass("show-overflow");
 		}
 	});
-	$('body').on('mouseleave', '.comments-button, .root-comment-button, .comment-button, .rating-select', function(e) {
+	$('body').on('mouseleave', '.comments-button, .root-comment-button, .comment-button, .rating-select, .item-list-select', function(e) {
 		$(this).parent().removeClass("hover");
 		$(this).parent().parent().removeClass("show-overflow");
 	});
@@ -113,18 +113,21 @@ function addContextMenu(parentElement, parentId) {
 		$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( data ) {
 			if (data) {
 				itemLists = data;
-				var itemListDropdownHtml = '<select class="item-list-select" title="izbor" id="item_lists_' + parentId + '">';
-				itemListDropdownHtml += '<option value="">dodaj u izbor</option>';
-				var itemListItems;
-				var itemInList;
-				for (index in data) {
-					itemListItems = $.parseJSON(data[index].query);
-					itemInList = itemListItems && itemListItems.indexOf(parentId) >= 0;
-					itemListDropdownHtml += '<option value="'+index+'"'+(itemInList?' selected="selected"':'')+'>'+data[index].descriptionContent.name+'</option>';
+				if (itemLists && itemLists.length > 0) {
+					var itemListDropdownHtml = '<select class="item-list-select" title="izbor" id="item_lists_' + parentId + '">';
+					itemListDropdownHtml += '<option value="">dodaj u izbor</option>';
+					var itemListItems;
+					var itemInList;
+					for (index in data) {
+						itemListItems = $.parseJSON(data[index].query);
+						itemInList = itemListItems && itemListItems.indexOf(parentId) >= 0;
+						itemListDropdownHtml += '<option value="'+index+'"'+(itemInList?' selected="selected"':'')+'>'+data[index].descriptionContent.name+'</option>';
+					}
+					itemListDropdownHtml += '</select>';
+					var itemListDropdown = $(itemListDropdownHtml);
+					parentElement.append(itemListDropdown);
+					refreshItemListDefault();
 				}
-				itemListDropdownHtml += '</select>';
-				var itemListDropdown = $(itemListDropdownHtml);
-				parentElement.append(itemListDropdown);
 			}
 		});
 		
@@ -312,5 +315,20 @@ function saveItemInList(parentId, newItemList, previousItemList) {
 				saveItemListItems(itemListToRemoveItem);
 			}
 		}
-	}	
+	}
+	refreshItemListDefault();
+}
+
+function refreshItemListDefault() {
+	var itemListDefault = $(".content .item-list-select>option[value='']");
+	if (itemLists && itemLists.length > 0) {
+		if (itemListDefault.is(':selected')) {
+			itemListDefault.text("dodaj u izbor");
+		} else {		
+			itemListDefault.text("izbaci iz izbora");
+		}
+	} else {
+		itemListDefault.text("kreirajte novi izbor da biste mogli dodavati u njega");
+	}
+	
 }
