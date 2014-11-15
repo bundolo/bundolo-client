@@ -406,3 +406,7 @@ footer {
 .tooltip-inner {
     white-space:pre-wrap;
 }
+
+a:focus { 
+    outline: none; 
+}
