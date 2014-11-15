@@ -26,6 +26,11 @@ var escapeUrl = function () {
 	    return render(val).replace(/ /g, '~');
 	};
 };
+var escapeUrlExtended = function () {
+	return function(val, render) {
+	    return render(val).replace(/ /g, '~').replace(/&#39;/g, "\\'");
+	};
+};
 
 var timestampDate = function () {
 	return function(val, render) {
@@ -272,7 +277,7 @@ function displaySingleItem(type, id) {
 					    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
 					    					pages.push(page);
 					    				}
-								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
 								    	contentElement.append(renderedStatistics);
 								    	displayPage('author-items', pages.length);
 									},
@@ -281,6 +286,8 @@ function displaySingleItem(type, id) {
 									}
 								});
 					    	});
+					    } else if (type == 'item_list') {
+					    	displayLinksInAscii();
 					    }
 				  } else {
 					  if ($.address.value() == rootFolder && type == 'item_list') {
@@ -469,7 +476,6 @@ function displayHomeDefault() {
 	    	displayRandomComment();
 	    	//displayHighlightedAnnouncement('novi bundolo');
 	    	displayLinksInAscii();
-	    	
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
@@ -640,7 +646,7 @@ function displayStatistics() {
     					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
     					pages.push(page);
     				}
-			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
 				    displayContent(contentElement, rendered);
 				    displayPage('profile-items', pages.length);
 		    	} else {
