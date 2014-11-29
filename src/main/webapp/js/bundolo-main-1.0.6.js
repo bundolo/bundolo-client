@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.0.5";
+var version = "1.0.6";
 var handlingForm = false;
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
@@ -393,6 +393,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    		episodeParentName = data.parentGroup;
 		    	}
 		    	data.timestampDate = timestampDate;
+		    	data.escapeUrl = escapeUrlExtended;
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
 		    	if (type == 'announcement' || type == 'episode' || type == 'text') {
@@ -424,6 +425,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     			data.recipientUsername = formData;
     		}
     	}
+		data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
     	if (type == 'comment' || type == 'post') {
@@ -455,7 +457,7 @@ function sanitizeRuntime(content) {
 }
 
 function displayHome() {
-	displaySingleItem("item_list", "prvi izbor");
+	displaySingleItem("item_list", "prvi ižbor");
 }
 
 function displayHomeDefault() {
