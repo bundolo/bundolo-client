@@ -53,6 +53,7 @@ function savePost() {
 					  displaySingleItem('topic', reminder.substr(slashPos + 1));
 				  }
 				  $('#modal').modal('hide');
+				  refreshSidebarIfNeeded("topics");
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }
