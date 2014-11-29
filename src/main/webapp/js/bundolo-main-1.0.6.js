@@ -112,10 +112,10 @@ $(document).ready(function() {
 	});
 });
 
-function displayContent(parentElement, html, contentId) {
+function displayContent(parentElement, html, contentId, contentType) {
 	parentElement.html(html);
 	if (contentId) {
-		addContextMenu(parentElement, contentId);
+		addContextMenu(parentElement, contentId, contentType);
 	}	
 }
 
@@ -195,7 +195,7 @@ function displaySingleItem(type, id) {
 					    data.escapeUrl = escapeUrlExtended;
 					    data.timestampDate = timestampDate;
 					    var rendered = Mustache.render(template, data);
-					    displayContent(contentElement, rendered, commentParentId);
+					    displayContent(contentElement, rendered, commentParentId, type);
 					    if (type == 'topic') {
 					    	$.get(rootFolder+"templates/posts" + "-" + version + ".html", function(templatePosts) {
 					    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(allPosts) {
@@ -473,7 +473,7 @@ function displayHomeDefault() {
 //	    	xhr.setRequestHeader ("Authorization", token);
 //	    },
 	    success: function(data) {
-	    	displayContent(contentElement, homeHtml, data.contentId);	    	
+	    	displayContent(contentElement, homeHtml, data.contentId, "page");
 			//do not use html from db for now
 	    	displayRandomComment();
 	    	//displayHighlightedAnnouncement('novi bundolo');
@@ -500,7 +500,7 @@ function displayAbout() {
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
-			    displayContent(contentElement, rendered, data.contentId);
+			    displayContent(contentElement, rendered, data.contentId, "page");
 			},
 			error: function(textStatus, errorThrown) {
 				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
@@ -524,7 +524,7 @@ function displayContact() {
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
-			    displayContent(contentElement, rendered, data.contentId);
+			    displayContent(contentElement, rendered, data.contentId, "page");
 			},
 			error: function(textStatus, errorThrown) {
 				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");

@@ -1,6 +1,7 @@
 var commentParentElement;
 var commentParentId;
 var rootParentId;
+var rootType;
 var itemLists;
 $(document).ready(function() {
 //	$('body').on('click', function(e) {
@@ -108,7 +109,7 @@ function setContextMenuPostion(event) {
     });
 }
 
-function addContextMenu(parentElement, parentId) {
+function addContextMenu(parentElement, parentId, parentType) {
 	if (username != 'gost') {
 		$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( data ) {
 			if (data) {
@@ -159,6 +160,7 @@ function addContextMenu(parentElement, parentId) {
 		});
 	}
 
+	rootType = parentType;
 	var commentsButton = $('<span class="fa-stack fa-2x comments-button" id="comments_' + parentId + '">\
 			<i class="fa fa-circle fa-stack-2x"></i>\
 			<i class="fa fa-comment-o fa-stack-1x fa-inverse"></i>\
@@ -243,6 +245,7 @@ function saveComment() {
 				  displayComments(rootParentId);
 				  $('#modal').modal('hide');
 				  refreshSliderIfNeeded("comments");
+				  refreshSidebarIfNeeded(rootType + "s");
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }
