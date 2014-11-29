@@ -92,6 +92,11 @@ function displaySlide(type) {
 					    	data[index].parentLinkText = data[index].parentContent.authorUsername;
 					    	data[index].parentLinkUrl = rootPath+"/author/" + data[index].parentContent.authorUsername;
 					        break;
+					    case 'item_list_description':
+					    	data[index].parentKind = 'izbor';
+					    	data[index].parentLinkText = data[index].parentContent.name;
+					    	data[index].parentLinkUrl = rootPath+"/item_list/" + data[index].parentContent.name.replace(/ /g, '~');
+					        break;
 			    		}
 					  data[index].text = sanitizeRuntime(data[index].text);
 				  } else if (type == 'authors') {
