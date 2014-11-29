@@ -192,7 +192,7 @@ function displaySingleItem(type, id) {
 						    default:
 						        commentParentId = id;
 					    }
-					    data.escapeUrl = escapeUrl;
+					    data.escapeUrl = escapeUrlExtended;
 					    data.timestampDate = timestampDate;
 					    var rendered = Mustache.render(template, data);
 					    displayContent(contentElement, rendered, commentParentId);
