@@ -32,6 +32,17 @@ var escapeUrlExtended = function () {
 	};
 };
 
+var trimLong = function () {
+	return function(val, render) {
+		var trimmedText = render(val);
+		if (trimmedText.length > 30) {
+			//trimmedText = trimmedText.substring(0, 27);
+			trimmedText = trimmedText.substring(0, 27) + '...';
+        }
+		return trimmedText;
+	};
+};
+
 var timestampDate = function () {
 	return function(val, render) {
 		var timestamp = new Date(+render(val));

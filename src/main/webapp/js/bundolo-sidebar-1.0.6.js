@@ -151,7 +151,7 @@ function displaySidebarAccordion(type, orderBy, filterBy, lastModified) {
 	var itemAdditional = 10;
 	$.get("/templates/sidebar_"+type+"-" + version + ".html", function(template) {
 		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": orderBy, "filterBy": filterBy}, function( data ) {
-			var rendered = Mustache.render(template, {"items": data, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+			var rendered = Mustache.render(template, {"items": data, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
 			var tableBody = $('.sidebar #collapse_'+type+' tbody');
 			tableBody.html(rendered);
 			 $('.sidebar #collapse_'+type+' .fa-spin').addClass('hide');
@@ -161,7 +161,7 @@ function displaySidebarAccordion(type, orderBy, filterBy, lastModified) {
 		    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
 		    		itemCounter = tableBody.find('tr').length;
 		    		$.getJSON(rootPath + restRoot + "/" + type, { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": orderBy, "filterBy": filterBy}, function( additional_data ) {
-		    			var rendered_rows = Mustache.render(template, {"items": additional_data, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+		    			var rendered_rows = Mustache.render(template, {"items": additional_data, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
 		    			tableBody.append(rendered_rows);
 		    		});
 		        }
