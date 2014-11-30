@@ -45,8 +45,12 @@ var trimLong = function () {
 
 var timestampDate = function () {
 	return function(val, render) {
-		var timestamp = new Date(+render(val));
-		return addZero(timestamp.getDate()) + "." + addZero(timestamp.getMonth()+1) + "." + timestamp.getFullYear() + ".";
+		var timestamp = render(val);
+		if (timestamp) {
+			var timestampDate = new Date(+render(val));
+			return addZero(timestampDate.getDate()) + "." + addZero(timestampDate.getMonth()+1) + "." + timestampDate.getFullYear() + ".";
+		}
+		return "";
 	};
 };
 
