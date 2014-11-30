@@ -16,7 +16,11 @@ $(document).ready(function() {
 			$(this).toggleClass("asc desc");
 		} else {
 			$('#sidebarAccordion>li #collapse_'+itemType+' table>thead>tr>th').removeClass("asc desc");
-			$(this).toggleClass("asc");
+			if ('date' == columnName || 'activity' == columnName || 'lastLoginDate' == columnName) {
+				$(this).toggleClass("desc");
+			} else {
+				$(this).toggleClass("asc");
+			}			
 		}
 		var orderByDirection = $(this).hasClass("desc") ? "desc" : "asc";
 		displaySidebarAccordion(itemType, columnName + ',' + orderByDirection, getFilterString(itemType));
