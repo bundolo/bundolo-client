@@ -246,6 +246,13 @@ function saveComment() {
 				  $('#modal').modal('hide');
 				  refreshSliderIfNeeded("comments");
 				  refreshSidebarIfNeeded(rootType + "s");
+				  if (rootType = 'serial') {
+					  var reminder = $.address.value().substr(rootFolder.length);
+					  var slashPos = reminder.indexOf('/');
+					  if (slashPos > 0) {
+						  displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
+					  }
+				  }
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }
