@@ -17,6 +17,9 @@
 	.context-menu {
 		width: 400px;
 	}
+	.main .jumbotron {
+		padding-right: 20px;
+	}
 }
 
 @media (max-width: 767px) {
@@ -67,6 +70,10 @@
 	.nav>li>a {
 		padding: 10px 0;
 	}
+	
+	.main .jumbotron {
+		padding-right: 30px;
+	}
 }
 
 @media (max-width: 480px) {
@@ -92,6 +99,9 @@
 	.hidden-xxs {
 		display: none!important;
 	}*/
+	.main .jumbotron {
+		padding-right: 40px;
+	}
 }
 
 @media (max-width: 1199px) {
@@ -101,5 +111,17 @@
 	
 	.navbar-form.navbar-right:last-child {
 		margin-right: -34px;
+	}
+}
+
+@media (max-height: 1080px) {
+	.sidebar .table tbody {
+		height: 262px;
+	}
+}
+
+@media (max-height: 780px) {
+	.sidebar .table tbody {
+		height: 162px;
 	}
 }

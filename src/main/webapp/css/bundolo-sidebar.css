@@ -4,7 +4,7 @@
 }
 
 .active .sidebar {
-	width: 40%;
+	width: 50%;
 	/*max-width: 40%;*/
 }
 
@@ -139,16 +139,16 @@ z-index: 2;
 
 .sidebar table td, .sidebar table th {
 	width: 25%;
--ms-word-break: break-all;
-     word-break: break-all;
+	-ms-word-break: break-all;
+    word-break: break-all;
 
-     /* Non standard for webkit */
-     word-break: break-word;
+    /* Non standard for webkit */
+    word-break: break-word;
 
--webkit-hyphens: auto;
-   -moz-hyphens: auto;
+	-webkit-hyphens: auto;
+   	-moz-hyphens: auto;
     -ms-hyphens: auto;
-        hyphens: auto;
+    hyphens: auto;
 	padding: 0 !important;
 	
 	background-repeat: no-repeat;
@@ -156,6 +156,11 @@ z-index: 2;
     cursor: pointer;
     border: 0;
     /*position: relative;*/
+}
+
+.sidebar table td:nth-child(3), .sidebar table th:nth-child(3), .sidebar table td:nth-child(4), .sidebar table th:nth-child(4) {
+	width: 10%;
+	min-width: 100px;
 }
 
 .sidebar table th:after {	
@@ -282,7 +287,7 @@ z-index: 2;
 
 .sidebar .table tbody {
 display: block;
-height: 162px;
+height: 362px;
 overflow: auto;
 width: 100%;
 }
