@@ -472,7 +472,7 @@ function sanitizeRuntime(content) {
 }
 
 function displayHome() {
-	displaySingleItem("item_list", "prvi ižbor");
+	displaySingleItem("item_list", "Gde je more");
 }
 
 function displayHomeDefault() {
