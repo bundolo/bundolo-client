@@ -142,10 +142,11 @@ function displaySidebar() {
 
 function displaySidebarAccordion(type, orderBy, filterBy, lastModified) {
 	if (typeof orderBy === 'undefined' || orderBy == '') {
-		orderBy = 'date,desc';
+		orderBy = getOrderString(type);
+		var orderByArray = orderBy.split(",");
 		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>th').removeClass("asc desc");
-		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>#'+type+'_column_date').addClass('desc');
-	}	
+		$('#sidebarAccordion>li #collapse_'+type+' table>thead>tr>#'+type+'_column_'+orderByArray[0]).addClass(orderByArray[1]);
+	}
 	filterBy = typeof filterBy !== 'undefined' ? filterBy : '';
 	var table = $('.sidebar #collapse_'+type+' table');
 	table.addClass('hide');
