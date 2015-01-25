@@ -13,8 +13,9 @@ function saveItemList() {
 	}
 	var itemList = {};
 	itemList.itemListId = $("#edit_item_id").val();
+	itemList.query = $("#edit_item_query").val();
 	itemList.descriptionContent = {};
-	itemList.descriptionContent.text = $("#edit_description").val();
+	itemList.descriptionContent.text = $("#edit_description").val();	
 	var name = $("#edit_title").val();
 	$.ajax({
 		  url: rootPath + restRoot + "/item_list/" + name,
