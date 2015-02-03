@@ -52,7 +52,7 @@
   </ul>
 </div>
 
-<h3 class="text-center">{{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}</h3>
+<h3 class="text-center">{{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}</h3>
 <h3 class="text-center">{{{name}}}</h3>
 <p>{{{description.0.text}}}</p>
 {{{text}}}

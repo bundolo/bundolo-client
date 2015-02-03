@@ -53,7 +53,7 @@
 <h3 class="text-center">{{descriptionContent.name}}</h3>
 <h3 class="text-center">{{#expirationDate}}traje do: {{expirationDate}}{{/expirationDate}}{{^expirationDate}}stalan konkurs{{/expirationDate}}</h3>
 <p>{{{descriptionContent.text}}}</p>
-dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 <br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 <br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
 {{#editingEnabled}}

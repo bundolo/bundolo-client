@@ -54,7 +54,7 @@
 
 <h3 class="text-center">{{parentGroup}}</h3>
 <h3 class="text-center">{{name}}</h3>
-dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 <br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 <br/>broj prikazivanja: {{rating.0.value}}
 <div class="item-footer">

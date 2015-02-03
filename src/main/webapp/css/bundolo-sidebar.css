@@ -109,9 +109,7 @@ z-index: 2;
 .sidebar .panel-group {
 	padding: 0 0 0 14.62%;
 	margin-left: -3.7%;
-}
-
-.active .sidebar .panel-group {
+	margin-bottom: 0;
 }
 
 .sidebar .panel-heading {
@@ -250,8 +248,23 @@ z-index: 2;
 }
 
 .sidebar .panel-default>span.serials_button {
-	margin-left: -80px; 
+	margin-left: -80px;
 	width: 65px;
+}
+
+.row-offcanvas.fixed>.sidebar .panel-default>span {
+	margin-left: 0;
+	display: none;
+}
+.row-offcanvas.fixed>.sidebar>ul {
+	padding-left: 20px;
+}
+.row-offcanvas>.sidebar .panel-default>.panel-heading>a>i {
+	display: none;
+	padding-right: 4px;
+}
+.row-offcanvas.fixed>.sidebar .panel-default>.panel-heading>a>i {
+	display: inline-block;
 }
 
 .pipe_hr {
@@ -295,4 +308,14 @@ width: 100%;
 .sidebar .dropdown-menu {
 	left: auto;
 	right: auto;
+}
+#sidebar-toggle {
+	height: auto;
+}
+#sidebar-toggle>i {
+	font-size: 24px;
+	font-weight: bold;
+}
+#sidebar-toggle.pull-left {
+	margin-left: 43px;
 }

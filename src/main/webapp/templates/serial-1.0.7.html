@@ -53,7 +53,7 @@
 <h3 class="text-center">{{{name}}}</h3>
 <h3 class="text-center"></h3>
 <p>{{{text}}}</p>
-pokretač: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+pokretač: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 <br/>{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 <br/>poslednja aktivnost: {{#timestampDate}}{{lastActivity}}{{/timestampDate}}
 <br/>broj prikazivanja: {{rating.0.value}}

@@ -830,46 +830,46 @@ function displayRandomComment() {
 		var parentLinkUrl = "";
 		switch(comment.parentContent.kind) {
 		    case 'text':
-		    	parentLinkUrl = rootPath+"/text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+		    	parentLinkUrl = "text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'episode':
-		    	parentLinkUrl = rootPath+"/episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
+		    	parentLinkUrl = "episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'episode_group':
-		    	parentLinkUrl = rootPath+"/serial/" + comment.parentContent.name.replace(/ /g, '~');
+		    	parentLinkUrl = "serial/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'connection_description':
-		    	parentLinkUrl = rootPath+"/connection/" + comment.parentContent.name.replace(/ /g, '~');
+		    	parentLinkUrl = "connection/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'contest_description':
-		    	parentLinkUrl = rootPath+"/contest/" + comment.parentContent.name.replace(/ /g, '~');
+		    	parentLinkUrl = "contest/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'page_description':
 		    	var contentName = comment.parentContent.name;
-		    	parentLinkUrl = rootPath;
+		    	parentLinkUrl = "";
 		    	contentName = contentName.replace(/ /g, '~').toLowerCase();
 		    	if (contentName != 'home') {
-		    		parentLinkUrl += "/" + contentName;
+		    		parentLinkUrl += contentName;
 		    	}
 		        break;
 		    case 'news':
-		    	parentLinkUrl = rootPath+"/announcement/" + comment.parentContent.name.replace(/ /g, '~');
+		    	parentLinkUrl = "announcement/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'forum_group':
 		    	//forum group comments are not enabled 
 		        break;
 		    case 'user_description':
-		    	parentLinkUrl = rootPath+"/author/" + comment.parentContent.authorUsername;
+		    	parentLinkUrl = "author/" + comment.parentContent.authorUsername;
 		        break;
 		}
 	  var authorLink = "";
-	  if (comment.authorUsername && comment.authorUsername != "gost") {
-	  authorLink = "<a href='/author/"+comment.authorUsername+"'>"+comment.authorUsername+"</a>";
+	  if (comment.authorUsername && comment.authorUsername != "gost") {		  
+		  authorLink = '<a href="javascript:;" onclick="$.address.value(\'author/'+comment.authorUsername+'\');">'+comment.authorUsername+'</a>';
 	  } else {
 		  authorLink = "gost";
 	  }
 	  var mainContentText = $(".main>.jumbotron>.content>h2");
-	  mainContentText.html("- <a href='"+parentLinkUrl+"'>"+comment.text+"</a> ("+authorLink+")");
+	  mainContentText.html('- <a href="javascript:;" onclick="$.address.value(\''+parentLinkUrl+'\');">'+comment.text+'</a> ('+authorLink+')');
 	});
 }
 
@@ -889,7 +889,7 @@ function displayHighlightedAnnouncement(id) {
 		  success: function(data) {
 			  if (data) {
 				  var mainContentText = $(".main>.jumbotron>.content>h2");
-				  mainContentText.html("- <a href='"+rootPath+"/announcement/" + data.name.replace(/ /g, '~')+"'>"+data.text+"</a>");
+				  mainContentText.html('- <a href="javascript:;" onclick="$.address.value(\'announcement/'+data.name.replace(/ /g, '~')+'\');">'+data.text+'</a>');
 			  }
 		  }
 	});
@@ -919,37 +919,37 @@ function displayLinksInAscii() {
 	    			var caption = "";
 		    		switch(data[i].kind) {
 				    case 'text':
-				    	link = rootPath + "/text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+				    	link = "text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 				    	title = "tekst:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].authorUsername + " - " + data[i].name;
 				        break;
 				    case 'forum_topic':
-				    	link = rootPath + "/topic/" + data[i].name.replace(/ /g, '~');
+				    	link = "topic/" + data[i].name.replace(/ /g, '~');
 				    	title = "diskusija:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'connection_description':
-				    	link = rootPath + "/connection/" + data[i].name.replace(/ /g, '~');
+				    	link = "connection/" + data[i].name.replace(/ /g, '~');
 				    	title = "link:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'news':
-				    	link = rootPath + "/announcement/" + data[i].name.replace(/ /g, '~');
+				    	link = "announcement/" + data[i].name.replace(/ /g, '~');
 				    	title = "vest:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'contest_description':
-				    	link = rootPath + "/contest/" + data[i].name.replace(/ /g, '~');
+				    	link = "contest/" + data[i].name.replace(/ /g, '~');
 				    	title = "konkurs:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'episode':
-				    	link = rootPath + "/episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+				    	link = "episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].parentGroup + " - " + data[i].name;
 				        break;
 				    case 'user_description':
-				    	link = rootPath + "/author/" + data[i].authorUsername.replace(/ /g, '~');
+				    	link = "author/" + data[i].authorUsername.replace(/ /g, '~');
 				    	title = "autor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].authorUsername;
 				        break;
@@ -961,12 +961,12 @@ function displayLinksInAscii() {
 	    		});
 	    		for (var i = 0; i < anchors.length; i++) {
 	    			var tagAndReminder = "";
-	    			if (wordsArray[i].length > anchors[i].caption.length) {	    				
-	    				tagAndReminder = "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);	    				
+	    			if (wordsArray[i].length > anchors[i].caption.length) {
+	    				tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);	    				
 		    		} else if (wordsArray[i].length < anchors[i].caption.length) {
-		    			tagAndReminder = "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
+		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
 		    		} else {
-		    			tagAndReminder = "<a href='"+anchors[i].link+"' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
+		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
 		    		}
 	    			asciiArtText = asciiArtText.replace(wordsArray[i], tagAndReminder);
 	    		}
@@ -986,47 +986,47 @@ function formatItemListItems(data) {
 		for (var i = 0; i < data.length; i++) {
 			switch(data[i].kind) {
 		    case 'text':
-		    	data[i].link = rootPath + "/text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].authorUsername + " - " + data[i].name;
 		        break;
 		    case 'forum_topic':
-		    	data[i].link = rootPath + "/topic/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "topic/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'connection_description':
-		    	data[i].link = rootPath + "/connection/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "connection/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'news':
-		    	data[i].link = rootPath + "/announcement/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "announcement/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'contest_description':
-		    	data[i].link = rootPath + "/contest/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "contest/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'episode':
-		    	data[i].link = rootPath + "/episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].parentGroup + " - " + data[i].name;
 		        break;
 		    case 'user_description':
-		    	data[i].link = rootPath + "/author/" + data[i].authorUsername.replace(/ /g, '~');
+		    	data[i].link = "author/" + data[i].authorUsername.replace(/ /g, '~');
 		    	data[i].caption = data[i].authorUsername;
 		        break;
 		    case 'page_description':
 		    	if (data[i].name.toLowerCase() != 'home') {
-		    		data[i].link = rootPath + "/" + data[i].name.replace(/ /g, '~').toLowerCase();
+		    		data[i].link = data[i].name.replace(/ /g, '~').toLowerCase();
 		    	} else {
-		    		data[i].link = rootPath;
+		    		data[i].link = "";
 		    	}
 		    	data[i].caption = data[i].text;
 		        break;
 		    case 'item_list_description':
-		    	data[i].link = rootPath + "/item_list/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "item_list/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'episode_group':
-		    	data[i].link = rootPath + "/serial/" + data[i].name.replace(/ /g, '~');
+		    	data[i].link = "serial/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 			}

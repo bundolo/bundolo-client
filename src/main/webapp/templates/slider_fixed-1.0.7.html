@@ -1,0 +1,31 @@
+<div class="col-md-4">
+	<h4><i class="fa fa-file-text-o"></i> tekstovi</h4>
+	{{#texts}}
+		<div class="item content">
+			<h5><a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a></h5>
+			<h5><a href="javascript:;" onclick="$.address.value('text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">{{name}}</a></h5>
+			{{#description.0.text}}<p>{{{description.0.text}}}</p>{{/description.0.text}}
+			{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+		</div>
+	{{/texts}}
+</div>
+<div class="col-md-4">
+	<h4><i class="fa fa-comment-o"></i> komentari</h4>
+	{{#comments}}
+		<div class="item content">
+			<h5>- {{{text}}} ({{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>			
+			{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+			<br/>komentar na {{parentKind}} <a href="javascript:;" onclick="$.address.value('{{parentLinkUrl}}');">{{parentLinkText}}</a>
+		</div>
+	{{/comments}}
+</div>
+<div class="col-md-4">
+	<h4><i class="fa fa-comments-o"></i> diskusije</h4>
+	{{#topics}}
+		<div class="item content">
+			<h5><a href="javascript:;" onclick="$.address.value('topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">{{name}}</a></h5>
+			{{#authorUsername}}pokretač: <a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}<br/>
+			{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+		</div>
+	{{/topics}}
+</div>

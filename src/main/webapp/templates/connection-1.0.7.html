@@ -57,7 +57,7 @@
 <p>{{{descriptionContent.text}}}</p>
 {{#url}}<h4>adresa: {{url}}</h4>{{/url}}
 {{#email}}<h4>e-pošta: {{email}}</h4>{{/email}}
-dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 <br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 <br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
 {{#editingEnabled}}

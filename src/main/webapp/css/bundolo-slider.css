@@ -168,3 +168,23 @@
 .slider .carousel .item a:hover {
 	color: #000;
 }
+
+#slider-toggle {
+	margin-left: 4px;
+	height: 24px;
+	padding: 0 2px;
+}
+#slider-toggle>i {
+	font-size: 24px;
+	font-weight: bold;
+}
+.slider.fixed>ul, .slider.fixed>.tab-content {
+	display: none;
+}
+.slider>.tabs-plain {
+	display: none;
+	float: left;
+}
+.slider.fixed>.tabs-plain {
+	display: block;
+}

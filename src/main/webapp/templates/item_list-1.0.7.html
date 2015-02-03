@@ -17,10 +17,10 @@ b::::::b                                                          d::::::d      
  b:::::::::::::::b    uu::::::::uu:::un::::n    n::::n  d:::::::::ddd::::d oo:::::::::::oo l::::::l oo:::::::::::oo 
  bbbbbbbbbbbbbbbb       uuuuuuuu  uuuunnnnnn    nnnnnn   ddddddddd   ddddd   ooooooooooo   llllllll   ooooooooooo   </pre>
 <h3 class="text-center">{{descriptionContent.name}}</h3>
-<h3 class="text-center">{{#authorUsername}}izbor autora <a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}</h3>
+<h3 class="text-center">{{#authorUsername}}izbor autora <a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}</h3>
 <p>{{{descriptionContent.text}}}</p>
 {{#items}}
-	<p><a href="{{link}}">{{caption}}</a></p>
+	<p><a href="javascript:;" onclick="$.address.value('{{link}}');">{{caption}}</a></p>
 {{/items}}
 {{#editingEnabled}}
 	<div class="item-footer">

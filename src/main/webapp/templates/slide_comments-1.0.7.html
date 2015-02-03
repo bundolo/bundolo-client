@@ -6,9 +6,9 @@
 <div class="carousel-inner">
 	{{#slides}}
 		<div class="item content {{#active_slide}}active{{/active_slide}}">
-			<h4>- {{{text}}} ({{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h4>			
+			<h4>- {{{text}}} ({{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h4>			
 			{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
-			<br/>komentar na {{parentKind}} <a href="{{parentLinkUrl}}">{{parentLinkText}}</a>
+			<br/>komentar na {{parentKind}} <a href="javascript:;" onclick="$.address.value('{{parentLinkUrl}}');">{{parentLinkText}}</a>
 		</div>
 	{{/slides}}
 </div>

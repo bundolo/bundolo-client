@@ -10,7 +10,7 @@
 			{{#posts}}
 				<tr>
 					<td>
-						{{#authorUsername}}<a href="/author/{{authorUsername}}">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
+						{{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
 						{{#timestampDateTime}}{{creationDate}}{{/timestampDateTime}}
 					</td>
 					<td>{{{text}}}</td>
