@@ -158,14 +158,14 @@
 	margin: 40px 20px 0 0;
 	font-weight: 700;
 }
-.slider .carousel .item a {
+.slider .item a {
 	color: #444;
 	text-decoration: underline;
 	font-style: italic;
 	font-weight: 700;
 }
 
-.slider .carousel .item a:hover {
+.slider .item a:hover {
 	color: #000;
 }
 
@@ -187,4 +187,12 @@
 }
 .slider.fixed>.tabs-plain {
 	display: block;
+}
+.slider>.tabs-plain>.row {
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+.slider>.tabs-plain>.row:last-of-type {
+	border-bottom: 1px solid #ddd;
 }

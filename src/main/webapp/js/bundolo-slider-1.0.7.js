@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	displaySlider();
-	
+
 	//this solves a problem of carousel not showing active item after slide has been shown, hidden and shown again. some event hangs.
 	//on tab show we are finding previous tab, its carousel, and cleaning it up.
 	$('body').on('show.bs.tab', 'a[data-toggle="tab"]', function(e) {
@@ -9,7 +9,7 @@ $(document).ready(function() {
 			$carousel.carousel("pause").removeData();
 		}
 	});
-	
+
 	//click on slider toggle
 	$('body').on('click', '#slider-toggle', function(e) {
 		$('.slider').toggleClass('fixed');
@@ -47,7 +47,7 @@ function displaySlider() {
 
 function displaySlide(type) {
 	$.getJSON(rootPath + restRoot + "/" + type, { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
-		  $.get("/templates/slide_"+type+"-" + version + ".html", function(template) {			  
+		  $.get("/templates/slide_"+type+"-" + version + ".html", function(template) {
 			  var rendered = Mustache.render(template, { "id": type, "slides": adjustData(data, type), "escapeUrl": escapeUrl, "timestampDate": timestampDate});
 			  $(".slider #"+type+"-carousel>div").html(rendered);
 		  });
@@ -55,9 +55,15 @@ function displaySlide(type) {
 }
 
 function refreshSliderIfNeeded(type) {
+	if ($('.slider.fixed').length) {
+		if (type == 'texts' || type == 'comments' || type == 'topics') {
+			displaySliderFixed();
+		}
+	} else {
 	var slide = $(".slider #"+type+"_tab.active");
-	if (slide.length) {
-		displaySlide(type);
+		if (slide.length) {
+			displaySlide(type);
+		}
 	}
 }
 
@@ -66,13 +72,13 @@ function displaySliderFixed() {
 		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataComments) {
 			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTopics) {
 				$.get("/templates/slider_fixed" + "-" + version + ".html", function(template) {
-				    var rendered = Mustache.render(template, { "texts" : adjustData(dataTexts, "texts"), "comments" : adjustData(dataComments, "comments"), "topics" : adjustData(dataTopics, "topics"), "escapeUrl": escapeUrl, "timestampDate": timestampDate
+				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]), "escapeUrl": escapeUrl, "timestampDate": timestampDate
 				    	});
 				    $(".tabs-plain").html(rendered);
 				});
 			});
 		});
-	});	
+	});
 }
 
 function adjustData(data, type) {
@@ -82,7 +88,7 @@ function adjustData(data, type) {
 		  if (index == 0) {
 			  data[index].active_slide = true;
 		  }
-		  
+
 		  //there is no switch in mustache so we are setting variables
 		  if (type == 'comments') {
 			  switch(data[index].parentContent.kind) {
@@ -127,7 +133,7 @@ function adjustData(data, type) {
 			    	data[index].parentLinkUrl = "announcement/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'forum_group':
-			    	//forum group comments are not enabled 
+			    	//forum group comments are not enabled
 			    	data[index].parentKind = 'kategoriju na forumu';
 			        break;
 			    case 'user_description':
@@ -157,4 +163,20 @@ function adjustData(data, type) {
 		  }
 	  }
 	return data;
+}
+
+//takes array of arrays and makes array of tuples
+function rearrangeDataForTable(data) {
+	var result = [];
+	if (data && data.constructor === Array) {
+		for (resultIndex in data[0]) {
+			var resultEntry = [];
+			for (dataIndex in data) {
+				console.log(JSON.stringify(data[dataIndex][resultIndex]));
+				resultEntry.push(data[dataIndex][resultIndex]);
+			}
+			result.push({"entry": resultEntry});
+		}
+	}
+	return result;
 }
