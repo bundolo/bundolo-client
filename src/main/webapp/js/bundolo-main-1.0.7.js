@@ -66,6 +66,7 @@ $.address.change(function(event) {
 });
 
 function loadFromAddress() {
+	$('.slider').hide();
 	if ($.address.value() == rootFolder) {
 		displayHome();
 	} else if ($.address.value() == "/about") {
@@ -109,21 +110,21 @@ $(document).ready(function() {
 	});
 	var mainContent = $(".main>.jumbotron>.content");
 	homeHtml = mainContent.html();
-  
+
 	$('.modal').on('shown.bs.modal', function () {
 		$('.default-focus').focus();
 	});
 	$('.modal').on('hidden.bs.modal', function () {
 		handlingForm = false;
 	});
-	
+
 	$.li18n.currentLocale = 'sr_RS';
 
 	$('body').on('click', '.send_message', function(e) {
 		if (!handlingForm) {
 			handlingForm = true;
 			sendMessage();
-		}		
+		}
 	});
 });
 
@@ -131,7 +132,7 @@ function displayContent(parentElement, html, contentId, contentType) {
 	parentElement.html(html);
 	if (contentId) {
 		addContextMenu(parentElement, contentId, contentType);
-	}	
+	}
 }
 
 function displaySingleItem(type, id) {
@@ -144,10 +145,10 @@ function displaySingleItem(type, id) {
 			  beforeSend: function (xhr) {
 				  xhr.setRequestHeader ("Authorization", token);
 			  },
-			  headers: { 
+			  headers: {
 		          'Accept': 'application/json',
-		          'Content-Type': 'application/json' 
-			  },		  
+		          'Content-Type': 'application/json'
+			  },
 			  success: function(data) {
 				  if (data) {
 					    var contentElement = $('.main>.jumbotron>.content');
@@ -227,7 +228,7 @@ function displaySingleItem(type, id) {
 					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "escapeUrl": escapeUrl, "timestampDateTime": timestampDateTime});
 						    			contentElement.find('.item-footer').before(renderedPosts);
 						    			displayPage('forum-topic', pages.length);
-					    			}					    			
+					    			}
 					    		});
 					    	});
 					    } else if (type == 'serial') {
@@ -245,7 +246,7 @@ function displaySingleItem(type, id) {
 						    				numberOfEpisodesLabel = episodes.length + ' nastavka';
 						    			} else {
 						    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
-						    			}		    				
+						    			}
 					    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
 					    				for (var i = 0; i < episodes.length / pageSize; i++) {
 					    					var page = {"index" : i + 1, "episodes" : episodes.slice(i*pageSize, i*pageSize + pageSize)};
@@ -320,7 +321,7 @@ function displaySingleItem(type, id) {
 				  }
 		      }
 			});
-		
+
 		//
 
 	});
@@ -402,7 +403,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    			data.connectionGroups = formData;
 		    		} else if (type == 'topic') {
 		    			data.topicGroups = formData;
-		    		}		    		
+		    		}
 		    	}
 		    	if (type == 'episode') {
 		    		episodeParentName = data.parentGroup;
@@ -463,15 +464,16 @@ function sanitizeRuntime(content) {
     var url = content.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]+@([\w][\w\-]+\.)+[a-zA-Z]{2,3})/g) || [];
 
     $.each(url, function(i, v) {
-    	content = content.replace(v, '<a href="' + v + '">' + v + '</a>');        
+    	content = content.replace(v, '<a href="' + v + '">' + v + '</a>');
     });
-    
+
     content = content.replace(/[\n\r]/g,"<br/>");
 
     return content;
 }
 
 function displayHome() {
+	$('.slider').show();
 	displaySingleItem("item_list", "Gde je more");
 }
 
@@ -579,7 +581,7 @@ function displayProfile() {
 				    displayContent(contentElement, rendered);
 		    	} else {
 		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
-		    	}		    	
+		    	}
 			},
 			error: function(textStatus, errorThrown) {
 				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
@@ -617,9 +619,9 @@ function displayNext(type, id, orderBy, fixBy, ascending) {
 			    case 'author':
 			    	nextItemUrl = rootFolder+"author/" + data.username;
 			        break;
-				}	
+				}
 				$.address.value(nextItemUrl);
-		}		
+		}
 	});
 }
 
@@ -696,7 +698,7 @@ function deleteSingleItem(id) {
 	    		$('#modal-notification').modal('hide');
 	    	} else {
 	    		editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
-	    	}	    	
+	    	}
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
@@ -724,17 +726,17 @@ function sendMessage() {
 	  beforeSend: function (xhr) {
 		  xhr.setRequestHeader ("Authorization", token);
 	  },
-	  headers: { 
+	  headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json' 
+          'Content-Type': 'application/json'
 	  },
-	  success: function(data) {  
+	  success: function(data) {
 		  if (data) {
 			  if (data == 'success') {
 				  $('#modal').modal('hide');
 			  } else {
 				  editSingleItem("notification", null, null, data);
-			  }			  
+			  }
 		  } else {
 			  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
 		  }
@@ -811,7 +813,7 @@ function isFormValid(formElement) {
 			$(this).after("<div class='help-inline'>dozvoljeni karakteri su A-Za-z0-9 _-</div>");
 			result = false;
 			return true;
-		}		
+		}
 	});
 	if (!result) {
 		handlingForm = false;
@@ -856,14 +858,14 @@ function displayRandomComment() {
 		    	parentLinkUrl = "announcement/" + comment.parentContent.name.replace(/ /g, '~');
 		        break;
 		    case 'forum_group':
-		    	//forum group comments are not enabled 
+		    	//forum group comments are not enabled
 		        break;
 		    case 'user_description':
 		    	parentLinkUrl = "author/" + comment.parentContent.authorUsername;
 		        break;
 		}
 	  var authorLink = "";
-	  if (comment.authorUsername && comment.authorUsername != "gost") {		  
+	  if (comment.authorUsername && comment.authorUsername != "gost") {
 		  authorLink = '<a href="javascript:;" onclick="$.address.value(\'author/'+comment.authorUsername+'\');">'+comment.authorUsername+'</a>';
 	  } else {
 		  authorLink = "gost";
@@ -882,10 +884,10 @@ function displayHighlightedAnnouncement(id) {
 		  beforeSend: function (xhr) {
 			  xhr.setRequestHeader ("Authorization", token);
 		  },
-		  headers: { 
+		  headers: {
 	          'Accept': 'application/json',
-	          'Content-Type': 'application/json' 
-		  },		  
+	          'Content-Type': 'application/json'
+		  },
 		  success: function(data) {
 			  if (data) {
 				  var mainContentText = $(".main>.jumbotron>.content>h2");
@@ -954,7 +956,7 @@ function displayLinksInAscii() {
 				    	caption = data[i].authorUsername;
 				        break;
 		    		}
-		    		anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});		    		
+		    		anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});
 		    	}
 	    		anchors.sort(function(a, b){
 	    			return b.caption.length - a.caption.length;
@@ -962,7 +964,7 @@ function displayLinksInAscii() {
 	    		for (var i = 0; i < anchors.length; i++) {
 	    			var tagAndReminder = "";
 	    			if (wordsArray[i].length > anchors[i].caption.length) {
-	    				tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);	    				
+	    				tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);
 		    		} else if (wordsArray[i].length < anchors[i].caption.length) {
 		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
 		    		} else {
@@ -973,7 +975,7 @@ function displayLinksInAscii() {
 	    		asciiArt.html(asciiArtText);
 	    	} else {
 	    		//do nothing
-	    	}		    	
+	    	}
 		},
 		error: function(textStatus, errorThrown) {
 			//do nothing
@@ -1030,7 +1032,7 @@ function formatItemListItems(data) {
 		    	data[i].caption = data[i].name;
 		        break;
 			}
-			//anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});		    		
+			//anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});
 		}
 	}
 }

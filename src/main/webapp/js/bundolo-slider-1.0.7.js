@@ -172,7 +172,6 @@ function rearrangeDataForTable(data) {
 		for (resultIndex in data[0]) {
 			var resultEntry = [];
 			for (dataIndex in data) {
-				console.log(JSON.stringify(data[dataIndex][resultIndex]));
 				resultEntry.push(data[dataIndex][resultIndex]);
 			}
 			result.push({"entry": resultEntry});
