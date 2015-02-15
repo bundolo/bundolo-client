@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.0.7";
+var version = "1.0.8";
 var handlingForm = false;
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
