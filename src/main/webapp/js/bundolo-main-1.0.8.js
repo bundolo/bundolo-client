@@ -376,7 +376,7 @@ function editSingleItem(type, id, event, notification) {
 				}
 			});
 		} else if (type == 'confirmation') {
-			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id+"');");
+			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id.replace(/ /g, '~').replace(/'/g, "\\'")+"');");
 		} else if (type == 'notification') {
 			editSingleItemHelper(type, null, contentElement, template, notification);
 		} else if (type == 'message') {
@@ -390,7 +390,7 @@ function editSingleItem(type, id, event, notification) {
 function editSingleItemHelper(type, id, contentElement, template, formData) {
 	if (id) {
 		$.ajax({
-		    url: rootPath + restRoot + "/"+type+"/" + id,
+		    url: rootPath + restRoot + "/"+type+"/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
@@ -681,7 +681,7 @@ function displayStatistics() {
 
 function deleteSingleItem(id) {
 	$.ajax({
-	    url: rootPath + restRoot + "/" + id,
+	    url: rootPath + restRoot + "/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
 	    type: 'DELETE',
 	    dataType: "json",
 	    contentType: "application/json; charset=utf-8",
