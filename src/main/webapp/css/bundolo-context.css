@@ -30,24 +30,24 @@
 	padding-left: 1px;
 }
 
-.context-menu .panel+.panel {
+.context-menu .panel+.panel, .context-root .panel+.panel {
 	margin: 0;
 }
 
-.context-menu .panel-body {
+.context-menu .panel-body, .context-root .panel-body {
 	padding: 0;
 }
 
-.context-menu .panel-default {
+.context-menu .panel-default, .context-root .panel-default {
 	border: none;
 }
 
-.context-menu .panel-group {
+.context-menu .panel-group, .context-root .panel-group {
 	margin: 0;
 	padding-left: 10px;
 }
 
-.context-menu .panel-heading {
+.context-menu .panel-heading, .context-root .panel-heading {
 	background: none;
 	padding: 0;
 	border: none;
@@ -57,7 +57,7 @@
 	border: none;
 }
 
-.context-menu span.accordion-toggle:hover {
+.context-menu span.accordion-toggle:hover, .context-root span.accordion-toggle:hover {
 	cursor: pointer;
 }
 
@@ -102,7 +102,7 @@
 	overflow: visible;
 }
 
-.comment-button, .root-comment-button {
+.comment-button, .root-comment-button, .content .comment-button, .content .root-comment-button {
 	font-size: 10px;
 	color: #000;
 	cursor: pointer;
@@ -120,7 +120,7 @@
 .comment>div>div>div>div>div {
 	width: 100%;
 }
-.context-menu>div>div>span, .context-menu>div>div>div {
+.context-menu>div>div>span, .context-menu>div>div>div, .context-root>span, .context-root>div {
 	display: inline-block;
 }
 
@@ -133,4 +133,33 @@
 
 .comment a:hover {
 	color: #000;
+}
+
+.toggle-comments {
+	margin-left: 4px;
+	position: absolute;
+	bottom: 4px;
+	right: 4px;
+	height: 24px;
+	padding: 0 2px;
+}
+
+.toggle-comments.detached {
+	bottom: 30px;
+}
+
+.toggle-comments>i {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.context-root {
+	display: none;
+}
+
+.context-root.fixed {
+	display: block;
+}
+.context-root h4, .context-menu h4 {
+	margin: 10px 0 0 0;
 }
