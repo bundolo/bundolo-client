@@ -155,6 +155,7 @@
 
 .context-root {
 	display: none;
+	width: 99%;
 }
 
 .context-root.fixed {
