@@ -184,6 +184,7 @@
 .slider>.tabs-plain {
 	display: none;
 	float: left;
+	width: 100%;
 }
 .slider.fixed>.tabs-plain {
 	display: block;
