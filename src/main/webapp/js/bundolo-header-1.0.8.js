@@ -11,11 +11,11 @@ $(document).ready(function() {
 	} else {
 		displayLogin();
 	}
-	
+
 	//preload mouseover brand image to prevent flickering
 	var brandOn = new Image();
 	brandOn.src = "/img/brand_on.png";
-	
+
 	//submit form when enter is pressed on input elements
 	$(".header_form").keypress(function(event) {
 	    if (event.which == 13 && event.target.nodeName.toLowerCase() == 'input' && !handlingForm) {
@@ -24,35 +24,35 @@ $(document).ready(function() {
 	    	login();
 	    }
 	});
-	
+
 	$('body').on('click', '.process_login', function(e) {
 		if (!handlingForm) {
 			handlingForm = true;
 			login();
 		}
 	});
-	
+
 	$('body').on('click', '.process_logout', function(e) {
 		if (!handlingForm) {
 			handlingForm = true;
 			logout();
 		}
 	});
-	
+
 	$('body').on('click', '.password_reset', function(e) {
 		if (!handlingForm) {
 			handlingForm = true;
 			passwordReset();
 		}
 	});
-	
+
 	$('body').on('click', '.process_register', function(e) {
 		if (!handlingForm) {
 			handlingForm = true;
 			register();
 		}
 	});
-	
+
 	$('body').on('click', '.save_author', function(e) {
 		if (!handlingForm) {
 			handlingForm = true;
@@ -123,7 +123,7 @@ function login() {
 					  createCookie('token', token);
 					  createCookie("username", username);
 				  }
-				  displayLoggedIn();				  
+				  displayLoggedIn();
 				  loadFromAddress();
 			  } else {
 				  editSingleItem("notification", null, null, data);
@@ -190,11 +190,11 @@ function register() {
 		  data: JSON.stringify(user),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
-		  headers: { 
+		  headers: {
 		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
+		        'Content-Type': 'application/json'
 		    },
-		  success: function(data) {  
+		  success: function(data) {
 			  if (data) {
 				  if (data == 'success') {
 					  editSingleItem("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
@@ -257,6 +257,7 @@ function saveAuthor() {
 		//TODO check password, or send it instead of the one in the token
 		user.password = $("#edit_password").val();
 	}
+	user.subscribed = $("#edit_subscribed").prop('checked');
 	$.ajax({
 		  url: rootPath + restRoot + "/author/" + username,
 		  type: "PUT",
@@ -266,10 +267,10 @@ function saveAuthor() {
 		  beforeSend: function (xhr) {
 			  xhr.setRequestHeader ("Authorization", token);
 		  },
-		  headers: { 
+		  headers: {
 	          'Accept': 'application/json',
-	          'Content-Type': 'application/json' 
-		  },		  
+	          'Content-Type': 'application/json'
+		  },
 		  success: function(data) {
 			  if (data) {
 				  if (data == 'success') {
@@ -279,7 +280,7 @@ function saveAuthor() {
 						  editSingleItem("notification", null, null, "morate se prijaviti sa novom lozinkom.");
 					  } else {
 						  displayProfile();
-					  }				  
+					  }
 					  refreshSliderIfNeeded("authors");
 					  refreshSidebarIfNeeded("authors");
 				  } else {

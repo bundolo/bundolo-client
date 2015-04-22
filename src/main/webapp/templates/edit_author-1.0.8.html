@@ -72,6 +72,10 @@
 		  <label for="edit_retype_password">nova lozinka ponovo</label>
 		  <input type="password" class="form-control" id="edit_retype_password" placeholder="unesite ponovo novu lozinku" autocomplete="off" validators="length same2">
 		</div>
+		<div class="form-group">
+		  <label for="edit_subscribed">želim da primam grupne poruke</label>
+		  <input type="checkbox" class="form-control" id="edit_subscribed" placeholder="želim da primam grupne poruke" {{#subscribed}}checked{{/subscribed}}>
+		</div>
 	</form>
 </div>
 <div class="modal-footer">
