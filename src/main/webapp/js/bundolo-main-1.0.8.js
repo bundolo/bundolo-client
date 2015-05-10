@@ -474,7 +474,8 @@ function sanitizeRuntime(content) {
 
 function displayHome() {
 	$('.slider').show();
-	displaySingleItem("item_list", "Gde je more");
+	//displaySingleItem("item_list", "Gde je more");
+	displayHomeDefault();
 }
 
 function displayHomeDefault() {
@@ -492,8 +493,8 @@ function displayHomeDefault() {
 	    success: function(data) {
 	    	displayContent(contentElement, homeHtml, data.contentId, "page");
 			//do not use html from db for now
-	    	displayRandomComment();
-	    	//displayHighlightedAnnouncement('novi bundolo');
+	    	//displayRandomComment();
+	    	displayHighlightedAnnouncement('Va%C5%A1e%20mejl%20adrese');
 	    	displayLinksInAscii();
 		},
 		error: function(textStatus, errorThrown) {
