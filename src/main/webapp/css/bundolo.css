@@ -1,0 +1,20 @@
+body>div>div>.content table.clickable {
+	border-collapse: collapse;
+	table-layout: fixed;
+	empty-cells: show;
+}
+
+body>div>div>.content table.clickable td, body>div>div>.content table.clickable th {
+	padding: 4px;
+	border: 0;
+}
+
+body>div>div>.content table.clickable th:last-of-type {
+	width: 17px;
+}
+
+body>div>div>.content table.clickable>tbody {
+	height: 262px;
+	overflow: auto;
+	display: block;
+}

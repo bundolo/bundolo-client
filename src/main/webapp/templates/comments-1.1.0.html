@@ -1,0 +1,28 @@
+{{#contentId}}
+	<div class="panel panel-default comment">
+		<span title="dodaj komentar" class="fa-stack fa-2x pull-right comment-button" id="comment_{{contentId}}">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+		</span>
+		{{#text}}
+		<div class="panel-heading">
+			<span>- {{{text}}} ({{{authorText}}})</span>
+		</div>
+		{{/text}}
+		<div class="panel-collapse">
+			<div class="panel-body">
+				<div class="panel-group">
+					<div>
+						<div>
+{{/contentId}}						
+							{{#comments}}
+								{{>commentPanel}}
+						 	{{/comments}}
+{{#contentId}}						 	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{{/contentId}}
