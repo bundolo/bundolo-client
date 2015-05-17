@@ -1,33 +1,7 @@
-<pre>                
-                
-'@@@@@@@@@@     
-@@......@+@@    
-@@      @;`@@   
-@@      @; `@@  
-@@      @;  `@@ 
-@@      @;   `@.
-@@      @@@@@@@+
-@@       ;;;;;@+
-@@            @+
-@@ +@@@@@@@@; @+
-@@ .;;;;;;;;` @+
-@@            @+
-@@ +@@@@@@@@; @+
-@@ ,++++++++. @+
-@@            @+
-@@            @+
-@@............@+
-'@@@@@@@@@@@@@@,
-                
-                
-</pre>
-
 <div class="btn-group pull-left">
   <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
-		<span class="fa-stack fa-2x">
-			<i class="fa fa-circle fa-stack-2x"></i>
-			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
-		</span>
+	<i class="fa fa-caret-left"></i>
+	<span>prethodni</span>
   </button>
   <ul class="dropdown-menu" role="menu">
   	<li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'group', false);">u seriji</a></li>
@@ -40,10 +14,8 @@
 
 <div class="btn-group pull-right">
   <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
-		<span class="fa-stack fa-2x">
-			<i class="fa fa-circle fa-stack-2x"></i>
-			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
-		</span>
+	<i class="fa fa-caret-right"></i>
+	<span>sledeći</span>
   </button>
   <ul class="dropdown-menu" role="menu">
   	<li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'group', true);">u seriji</a></li>
@@ -63,17 +35,36 @@
 <br/>broj prikazivanja: {{rating.0.value}}
 {{#editingEnabled}}
 <div class="item-footer">
-<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('episode','{{parentGroup}}/{{name}}');">
-	<span class="fa-stack fa-2x">
-		<i class="fa fa-circle fa-stack-2x"></i>
-		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-	</span>
-</button>
-<button type="button" class="btn btn-default" title="obriši" onClick="editSingleItem('confirmation', 'episode/{{parentGroup}}/{{name}}');">
-	<span class="fa-stack fa-2x">
-		<i class="fa fa-circle fa-stack-2x"></i>
-		<i class="fa fa-minus fa-stack-1x fa-inverse"></i>
-	</span>
-</button>
+	<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('episode','{{parentGroup}}/{{name}}');">
+		<i class="fa fa-pencil"></i>
+		<span>izmeni</span>
+	</button>
+	<button type="button" class="btn btn-default" title="obriši" onClick="editSingleItem('confirmation', 'episode/{{parentGroup}}/{{name}}');">
+		<i class="fa fa-minus"></i>
+		<span>obriši</span>
+	</button>
 </div>
 {{/editingEnabled}}
+<pre>
+
+'@@@@@@@@@@
+@@......@+@@
+@@      @;`@@
+@@      @; `@@
+@@      @;  `@@
+@@      @;   `@.
+@@      @@@@@@@+
+@@       ;;;;;@+
+@@            @+
+@@ +@@@@@@@@; @+
+@@ .;;;;;;;;` @+
+@@            @+
+@@ +@@@@@@@@; @+
+@@ ,++++++++. @+
+@@            @+
+@@            @+
+@@............@+
+'@@@@@@@@@@@@@@,
+
+
+</pre>

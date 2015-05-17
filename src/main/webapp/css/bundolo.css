@@ -51,3 +51,13 @@ body>div>div>.content table.infinite th.asc:after {
 body>div>div>.content table.infinite th.desc:after {
 	content: "\f0d8";
 }
+
+.navbar input {
+	font-size: 10px;
+	padding: 4px 8px;
+	height: auto;
+}
+
+.navbar .fa-stack {
+	font-size: 24px;
+}

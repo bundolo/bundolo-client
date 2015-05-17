@@ -1,9 +1,7 @@
 <div class="btn-group pull-left">
   <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
-		<span class="fa-stack fa-2x">
-			<i class="fa fa-circle fa-stack-2x"></i>
-			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
-		</span>
+	<i class="fa fa-caret-left"></i>
+	<span>prethodni</span>
   </button>
   <ul class="dropdown-menu" role="menu">
     <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'author', '', false);">po korisničkom imenu</a></li>
@@ -14,10 +12,8 @@
 
 <div class="btn-group pull-right">
   <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
-		<span class="fa-stack fa-2x">
-			<i class="fa fa-circle fa-stack-2x"></i>
-			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
-		</span>
+	<i class="fa fa-caret-right"></i>
+	<span>sledeći</span>
   </button>
   <ul class="dropdown-menu" role="menu">
     <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'author', '', true);">po korisničkom imenu</a></li>
@@ -42,20 +38,16 @@
 {{#editingEnabled}}
 <div class="item-footer">
 <button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{username}}');">
-	<span class="fa-stack fa-2x">
-		<i class="fa fa-circle fa-stack-2x"></i>
-		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-	</span>
+	<i class="fa fa-pencil"></i>
+	<span>izmena podataka</span>
 </button>
 </div>
 {{/editingEnabled}}
 {{#messagingEnabled}}
 <div class="item-footer">
 <button type="button" class="btn btn-default" title="pošalji poruku" onClick="editSingleItem('message', '{{username}}');">
-	<span class="fa-stack fa-2x">
-		<i class="fa fa-circle fa-stack-2x"></i>
-		<i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-	</span>
+	<i class="fa fa-envelope-o"></i>
+	<span>pošalji poruku</span>
 </button>
 </div>
 {{/messagingEnabled}}

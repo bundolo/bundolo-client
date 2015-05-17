@@ -1,0 +1,26 @@
+<button type="button" class="btn btn-default" title="registracija" onClick="displayRegister();">
+	<i class="fa fa-user-plus"></i>
+	<span>registracija</span>
+</button>
+<button type="button" class="btn btn-default" title="nova lozinka" onClick="displayReset();">
+	<i class="fa fa-key"></i>
+	<span>nova lozinka</span>
+</button>
+<div class="form-group" title="korisničko ime">
+	<label class="sr-only" for="login_username">korisničko ime</label>
+	<input type="text" class="form-control" id="login_username" placeholder="korisničko ime" validators="required username">
+</div>
+<div class="form-group" title="lozinka">
+	<label class="sr-only" for="login_password">lozinka</label>
+	<input type="password" class="form-control" id="login_password" placeholder="lozinka">
+</div>
+<div class="checkbox" title="zapamti me">
+	<span>
+		<label class="sr-only" for="login_remember">zapamti me</label>
+		<input type="checkbox" id="login_remember" tabindex="0">
+	</span>
+</div>
+<button type="button" class="btn btn-default process_login" title="prijava">
+	<i class="fa fa-sign-in"></i>
+	<span>prijava</span>
+</button>

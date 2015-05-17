@@ -13,8 +13,8 @@ $(document).ready(function() {
 	}
 
 	//preload mouseover brand image to prevent flickering
-	var brandOn = new Image();
-	brandOn.src = "/img/brand_on.png";
+//	var brandOn = new Image();
+//	brandOn.src = "/img/brand_on.png";
 
 	//submit form when enter is pressed on input elements
 	$(".header_form").keypress(function(event) {
@@ -94,10 +94,6 @@ function displayLoggedIn() {
 		$(".header_form").html(rendered);
 		handlingForm = false;
 	});
-}
-
-function displayStatusBar(title) {
-	$('.status_bar>div').text(title);
 }
 
 function login() {

@@ -31,18 +31,14 @@
 	<div class="item-footer">
 		{{#serial.editingEnabled}}
 			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('serial', '{{serial.name}}');">
-				<span class="fa-stack fa-2x">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-				</span>
+				<i class="fa fa-pencil"></i>
+				<span>izmeni</span>
 			</button>
 		{{/serial.editingEnabled}}
 		{{#serial.addingEnabled}}
 			<button type="button" class="btn btn-default" title="dodaj nastavak" onClick="addEpisode({{serial.contentId}}, '{{serial.name}}');">
-				<span class="fa-stack fa-2x">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-plus fa-stack-1x fa-inverse"></i>
-				</span>
+				<i class="fa fa-plus"></i>
+				<span>dodaj nastavak</span>
 			</button>
 		{{/serial.addingEnabled}}
 		{{^serial.addingEnabled}}

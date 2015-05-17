@@ -1,33 +1,7 @@
-<pre>     ,              
-   #@@@@            
-  #@@@@@@           
- #@@'  @@@          
- @@'    @@@         
-,@@      @@.        
- @@    ' @@+        
- @@@  '@@@@.        
-  @@@  @@@@         
-   @@@@@@@@ @@@@    
-    @@@@@@@@@@@@@   
-     .+.  @@@` @@@  
-         @@@@@  @@@ 
-         @@`@@   @@@
-         @@      .@@
-         @@@     +@@
-          @@@   '@@,
-           @@@.+@@+ 
-            @@@@@+  
-             @@@.   
-                    
-                    
-</pre>
-
 <div class="btn-group pull-left">
   <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
-		<span class="fa-stack fa-2x">
-			<i class="fa fa-circle fa-stack-2x"></i>
-			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
-		</span>
+	<i class="fa fa-caret-left"></i>
+	<span>prethodni</span>
   </button>
   <ul class="dropdown-menu" role="menu">
   	<li><a href="javascript:;" onClick="displayNext('connection', '{{connectionId}}' , 'title', 'group', false);">u kategoriji</a></li>
@@ -39,10 +13,8 @@
 
 <div class="btn-group pull-right">
   <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
-		<span class="fa-stack fa-2x">
-			<i class="fa fa-circle fa-stack-2x"></i>
-			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
-		</span>
+	<i class="fa fa-caret-right"></i>
+	<span>sledeći</span>
   </button>
   <ul class="dropdown-menu" role="menu">
   	<li class="pull-right"><a href="javascript:;" onClick="displayNext('connection', '{{connectionId}}' , 'title', 'group', true);">u kategoriji</a></li>
@@ -63,10 +35,31 @@ dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('au
 {{#editingEnabled}}
 <div class="item-footer">
 <button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('connection', '{{descriptionContent.name}}');">
-	<span class="fa-stack fa-2x">
-		<i class="fa fa-circle fa-stack-2x"></i>
-		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-	</span>
+	<i class="fa fa-pencil"></i>
+	<span>izmeni</span>
 </button>
 </div>
 {{/editingEnabled}}
+<pre>     ,
+   #@@@@
+  #@@@@@@
+ #@@'  @@@
+ @@'    @@@
+,@@      @@.
+ @@    ' @@+
+ @@@  '@@@@.
+  @@@  @@@@
+   @@@@@@@@ @@@@
+    @@@@@@@@@@@@@
+     .+.  @@@` @@@
+         @@@@@  @@@
+         @@`@@   @@@
+         @@      .@@
+         @@@     +@@
+          @@@   '@@,
+           @@@.+@@+
+            @@@@@+
+             @@@.
+
+
+</pre>
