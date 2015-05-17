@@ -1,20 +1,53 @@
-body>div>div>.content table.clickable {
+body>div>div>.content table.infinite {
 	border-collapse: collapse;
 	table-layout: fixed;
 	empty-cells: show;
 }
 
-body>div>div>.content table.clickable td, body>div>div>.content table.clickable th {
+body>div>div>.content table.infinite td, body>div>div>.content table.infinite th {
 	padding: 4px;
 	border: 0;
+
+	-ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+	-webkit-hyphens: auto;
+   	-moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+	padding: 0 !important;
+
+	background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
 }
 
-body>div>div>.content table.clickable th:last-of-type {
+body>div>div>.content .table.infinite>tbody>tr:hover>td {
+	background-color: #ccc;
+}
+
+body>div>div>.content table.infinite th:last-of-type {
 	width: 17px;
 }
 
-body>div>div>.content table.clickable>tbody {
+body>div>div>.content table.infinite>tbody {
 	height: 262px;
 	overflow: auto;
 	display: block;
+}
+
+body>div>div>.content table.infinite th:after {
+	font-family: FontAwesome;
+	padding-left: 4px;
+}
+
+body>div>div>.content table.infinite th.asc:after {
+	content: "\f0d7";
+}
+
+body>div>div>.content table.infinite th.desc:after {
+	content: "\f0d8";
 }

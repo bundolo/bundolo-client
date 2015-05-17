@@ -9,7 +9,7 @@ var rootFolder = "/";
 var homeHtml = "";
 var version = "1.1.0";
 var handlingForm = false;
-var mainContentPath = "body>div>div>.content";
+var mainContentPath = "div>div>.content";
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -72,6 +72,8 @@ function loadFromAddress() {
 		displayHome();
 	} else if ($.address.value() == "/about") {
 		displayAbout();
+	} else if ($.address.value() == "/help") {
+		displayHelp();
 	} else if ($.address.value() == "/contact") {
 		displayContact();
 	} else if ($.address.value() == "/profile") {
@@ -487,6 +489,30 @@ function displayAbout() {
 	$.get(rootFolder+"templates/about" + "-" + version + ".html", function(template) {
 		$.ajax({
 		    url: rootPath + restRoot + "/page/about",
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+//		    beforeSend: function (xhr) {
+//		        xhr.setRequestHeader ("Authorization", token);
+//		    },
+		    success: function(data) {
+		    	//do not use html from db for now
+		    	var rendered = Mustache.render(template, {});
+			    displayContent(contentElement, rendered, data.contentId, "page");
+			},
+			error: function(textStatus, errorThrown) {
+				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+			}
+		});
+	});
+}
+
+function displayHelp() {
+	var contentElement = $(mainContentPath);
+	contentElement.html(spinner);
+	$.get(rootFolder+"templates/help" + "-" + version + ".html", function(template) {
+		$.ajax({
+		    url: rootPath + restRoot + "/page/help",
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",

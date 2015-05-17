@@ -1,0 +1,84 @@
+<div class="btn-group pull-left">
+  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-left fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'author', '', false);">po korisničkom imenu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'date', '', false);">po datumu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
+  </ul>
+</div>
+
+<div class="btn-group pull-right">
+  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
+		<span class="fa-stack fa-2x">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+		</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'author', '', true);">po korisničkom imenu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'date', '', true);">po datumu</a></li>
+    <li><a href="javascript:;" onClick="displayNext('author', '{{username}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
+  </ul>
+</div>
+
+<h3 class="text-center">{{username}}</h3>
+<h3 class="text-center">na bundolu od {{#timestampDate}}{{signupDate}}{{/timestampDate}}</h3>
+{{#descriptionContent.text}}<p>{{{descriptionContent.text}}}</p>{{/descriptionContent.text}}
+{{#showPersonal}}
+	{{#firstName}}ime: {{firstName}}<br/>{{/firstName}}
+	{{#lastName}}prezime: {{lastName}}<br/>{{/lastName}}
+	{{#gender}}pol: {{gender}}<br/>{{/gender}}
+	{{#birthDate}}datum rođenja: {{#timestampDate}}{{birthDate}}{{/timestampDate}}<br/>{{/birthDate}}
+	{{#email}}email: {{email}}<br/>{{/email}}
+{{/showPersonal}}
+{{#lastLoginDate}}poslednja prijava: {{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}{{/lastLoginDate}}
+<br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
+<br/>
+{{#editingEnabled}}
+<div class="item-footer">
+<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{username}}');">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+	</span>
+</button>
+</div>
+{{/editingEnabled}}
+{{#messagingEnabled}}
+<div class="item-footer">
+<button type="button" class="btn btn-default" title="pošalji poruku" onClick="editSingleItem('message', '{{username}}');">
+	<span class="fa-stack fa-2x">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+	</span>
+</button>
+</div>
+{{/messagingEnabled}}
+<pre>
+
+      '@@@@
+     @@@@@@@
+    .@@@@@@@@
+    @@@@@@@@@
+    @@@@@@@@@
+    @@@@@@@@@
+    `@@@@@@@@
+     #@@@@@@
+   #@ .@@@# ;@.
+  @@@@+   ,@@@@#
+ @@@@@@@@@@@@@@@
+ @@@@@@@@@@@@@@@#
+,@@@@@@@@@@@@@@@@
++@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@
++@@@@@@@@@@@@@@@@
+`@@@@@@@@@@@@@@@@
+ ;@@@@@@@@@@@@@@
+
+
+</pre>

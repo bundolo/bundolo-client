@@ -1,0 +1,52 @@
+{{#pages.length}}
+<ul class="pagination">
+	{{#pages}}
+  		<li><a href="javascript:;" onClick="displayPage('serial-episodes', {{index}});" class="page{{index}}">{{index}}</a></li>
+	{{/pages}}
+</ul>
+{{#pages}}
+<table class="table table-striped clickable serial-episodes hidden page{{index}}">
+	<thead>
+		<tr>
+			<th>autor</th>
+			<th>naslov</th>
+			<th>kratak opis</th>
+			<th>datum objavljivanja</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#episodes}}
+			<tr onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');">
+				<td>{{authorUsername}}</td>
+				<td>{{{name}}}</td>
+				<td>{{{description.0.text}}}</td>
+				<td>{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
+			</tr>
+		{{/episodes}}
+	</tbody>
+</table>
+{{/pages}}
+{{/pages.length}}
+{{#serial.isLoggedIn}}
+	<div class="item-footer">
+		{{#serial.editingEnabled}}
+			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('serial', '{{serial.name}}');">
+				<span class="fa-stack fa-2x">
+					<i class="fa fa-circle fa-stack-2x"></i>
+					<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+				</span>
+			</button>
+		{{/serial.editingEnabled}}
+		{{#serial.addingEnabled}}
+			<button type="button" class="btn btn-default" title="dodaj nastavak" onClick="addEpisode({{serial.contentId}}, '{{serial.name}}');">
+				<span class="fa-stack fa-2x">
+					<i class="fa fa-circle fa-stack-2x"></i>
+					<i class="fa fa-plus fa-stack-1x fa-inverse"></i>
+				</span>
+			</button>
+		{{/serial.addingEnabled}}
+		{{^serial.addingEnabled}}
+			novi nastavak se ne može dodati jer je poslednji zaključan.
+		{{/serial.addingEnabled}}
+	</div>
+{{/serial.isLoggedIn}}

@@ -1,0 +1,22 @@
+{{#pages.length}}
+<ul class="pagination">
+	{{#pages}}
+  		<li><a href="javascript:;" onClick="displayPage('forum-topic', {{index}});" class="page{{index}}">{{index}}</a></li>
+	{{/pages}}
+</ul>
+{{#pages}}
+<table class="table table-striped forum-topic hidden page{{index}}">
+	<tbody>		
+			{{#posts}}
+				<tr>
+					<td>
+						{{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
+						{{#timestampDateTime}}{{creationDate}}{{/timestampDateTime}}
+					</td>
+					<td>{{{text}}}</td>
+				</tr>
+			{{/posts}}
+	</tbody>
+</table>
+{{/pages}}
+{{/pages.length}}
