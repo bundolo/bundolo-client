@@ -1,68 +1,78 @@
-<div class="btn-group pull-left">
-  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
-	<i class="fa fa-caret-left"></i>
-	<span>prethodni</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', 'author', false);">od istog autora</a></li>
-    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'title', '', false);">po naslovu</a></li>
-    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', '', false);">po datumu</a></li>
-    <li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
-  </ul>
-</div>
+<section class="content-header">
+	<div class="btn-group pull-left">
+		<button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
+			<i class="fa fa-caret-left"></i>
+			<span>prethodni</span>
+	 	</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', 'author', false);">od istog autora</a></li>
+			<li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'title', '', false);">po naslovu</a></li>
+			<li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', '', false);">po datumu</a></li>
+			<li><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
+		</ul>
+	</div>
+	<div class="btn-group pull-right">
+	  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
+		<i class="fa fa-caret-right"></i>
+		<span>sledeći</span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', 'author', true);">od istog autora</a></li>
+	   <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'title', '', true);">po naslovu</a></li>
+	   <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', '', true);">po datumu</a></li>
+	   <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
+	  </ul>
+	</div>
+	<h1 class="text-center">
+	  {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+	</h1>
+	<h1 class="text-center">
+	  {{{name}}}
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<p>{{{description.0.text}}}</p>
+			{{{text}}}
+			<br/>
+			{{#creationDate}}<br/>dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+			<br/>broj prikazivanja: {{rating.0.value}}
+			{{#editingEnabled}}
+			<div class="item-footer">
+				<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('text', '{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">
+					<i class="fa fa-pencil"></i>
+					<span>izmeni</span>
+				</button>
+				<button type="button" class="btn btn-default" title="obriši" onClick="editSingleItem('confirmation', 'text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">
+					<i class="fa fa-minus"></i>
+					<span>obriši</span>
+				</button>
+			</div>
+			{{/editingEnabled}}
+			<pre>
 
-<div class="btn-group pull-right">
-  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
-	<i class="fa fa-caret-right"></i>
-	<span>sledeći</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', 'author', true);">od istog autora</a></li>
-    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'title', '', true);">po naslovu</a></li>
-    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'date', '', true);">po datumu</a></li>
-    <li class="pull-right"><a href="javascript:;" onClick="displayNext('text', '{{contentId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
-  </ul>
-</div>
-
-<h3 class="text-center">{{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}</h3>
-<h3 class="text-center">{{{name}}}</h3>
-<p>{{{description.0.text}}}</p>
-{{{text}}}
-<br/>
-{{#creationDate}}<br/>dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
-<br/>broj prikazivanja: {{rating.0.value}}
-{{#editingEnabled}}
-<div class="item-footer">
-	<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('text', '{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">
-		<i class="fa fa-pencil"></i>
-		<span>izmeni</span>
-	</button>
-	<button type="button" class="btn btn-default" title="obriši" onClick="editSingleItem('confirmation', 'text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">
-		<i class="fa fa-minus"></i>
-		<span>obriši</span>
-	</button>
-</div>
-{{/editingEnabled}}
-<pre>
-
-'@@@@@@@@@@
-@@......@+@@
-@@      @;`@@
-@@      @; `@@
-@@      @;  `@@
-@@      @;   `@.
-@@      @@@@@@@+
-@@       ;;;;;@+
-@@            @+
-@@ +@@@@@@@@; @+
-@@ .;;;;;;;;` @+
-@@            @+
-@@ +@@@@@@@@; @+
-@@ ,++++++++. @+
-@@            @+
-@@            @+
-@@............@+
-'@@@@@@@@@@@@@@,
+			'@@@@@@@@@@
+			@@......@+@@
+			@@      @;`@@
+			@@      @; `@@
+			@@      @;  `@@
+			@@      @;   `@.
+			@@      @@@@@@@+
+			@@       ;;;;;@+
+			@@            @+
+			@@ +@@@@@@@@; @+
+			@@ .;;;;;;;;` @+
+			@@            @+
+			@@ +@@@@@@@@; @+
+			@@ ,++++++++. @+
+			@@            @+
+			@@            @+
+			@@............@+
+			'@@@@@@@@@@@@@@,
 
 
-</pre>
+			</pre>
+		</div>
+	</div>
+</section>

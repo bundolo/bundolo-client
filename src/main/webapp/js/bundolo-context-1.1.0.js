@@ -14,16 +14,16 @@ $(document).ready(function() {
 //            }
 //        }
 //	});
-	$(document).mouseup(function (e) {
-		var modalDialog = $('#modal');
-		var contextMenu = $('.context-menu');
-
-	    if (!modalDialog.is(e.target) && modalDialog.has(e.target).length === 0 && !contextMenu.is(e.target) && contextMenu.has(e.target).length === 0) {
-	        if(contextMenu.is(":visible")) {
-            	contextMenu.hide();
-            }
-	    }
-	});
+//	$(document).mouseup(function (e) {
+//		var modalDialog = $('#modal');
+//		var contextMenu = $('.context-menu');
+//
+//	    if (!modalDialog.is(e.target) && modalDialog.has(e.target).length === 0 && !contextMenu.is(e.target) && contextMenu.has(e.target).length === 0) {
+//	        if(contextMenu.is(":visible")) {
+//            	contextMenu.hide();
+//            }
+//	    }
+//	});
 
 	$('body').on('click', '.save_comment', function(e) {
 		if (!handlingForm) {
@@ -243,7 +243,7 @@ function addComment(parentElement, parentId) {
 }
 
 function saveComment() {
-	if (!isFormValid($('#modal form'))) {
+	if (!isFormValid($(mainFormPath))) {
 		return;
 	}
 	var commentContent = $('#edit_content').val();
@@ -269,9 +269,6 @@ function saveComment() {
 		  if (data) {
 			  if (data == 'success') {
 				  displayComments(rootParentId);
-				  $('#modal').modal('hide');
-				  refreshSliderIfNeeded("comments");
-				  refreshSidebarIfNeeded(rootType + "s");
 				  if (rootType = 'serial') {
 					  var reminder = $.address.value().substr(rootFolder.length);
 					  var slashPos = reminder.indexOf('/');
@@ -314,8 +311,6 @@ function saveRating(ratingId, value) {
 		  if (data) {
 			  if (data == 'success') {
 //				  displayComments(rootParentId);
-//				  $('#modal').modal('hide');
-//				  refreshSliderIfNeeded("comments");
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }

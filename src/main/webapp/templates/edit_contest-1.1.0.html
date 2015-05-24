@@ -1,0 +1,60 @@
+<section class="content-header">
+  <h1 class="text-center">
+    unos konkursa
+  </h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<form role="form">
+				<input type="hidden" id="edit_item_id" value="{{contestId}}">
+				<div class="form-group">
+				  <label for="edit_title">naslov</label>
+				  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite naslov" value="{{descriptionContent.name}}" validators="required url_safe">
+				</div>
+				<div class="form-group">
+				  <label for="edit_content">tekst</label>
+				  <div id="edit_content"></div>
+				  <script type='text/javascript'>
+				  	$('#edit_content').summernote({
+					  lang: 'sr-RS',
+					  height: 300
+					});
+				  </script>
+				</div>
+				<div class="form-group">
+					<label for="edit_expiration_date">traje do</label>
+					<input type="text" class="form-control" id="edit_expiration_date" placeholder="unesite krajnji rok" value="{{expirationDate}}">
+					<script type='text/javascript'>
+						$('#edit_expiration_date').datepicker({
+						    format: "dd.mm.yyyy.",
+						    weekStart: 1
+						}).on('show', function() {
+							//this is a fix for datepicker not showing when it's opened from modal dialog
+					  		var modal = $('#edit_expiration_date').closest('.modal');
+					  		var datePicker = $('body').find('.datepicker');
+					  		if(!modal.length) {
+					  			$(datePicker).css('z-index', 'auto');
+					  			return;
+					  		}
+					  		var zIndexModal = $(modal).css('z-index');
+					  		$(datePicker).css('z-index', zIndexModal + 1);
+					  	});
+					</script>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="pull-right">
+			<button type="button" class="btn btn-default" title="odustani" onClick="cancelEdit('#edit_content');">
+				<i class="fa fa-times"></i>
+				<span>odustani</span>
+			</button>
+			<button type="button" class="btn btn-default save_contest" title="snimi">
+				<i class="fa fa-check"></i>
+				<span>snimi</span>
+			</button>
+		</div>
+	</div>
+</section>

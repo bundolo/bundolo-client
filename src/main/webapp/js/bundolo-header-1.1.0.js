@@ -218,8 +218,6 @@ function validateEmail() {
 				  if (data) {
 					  if (data == 'success') {
 						  editSingleItem("notification", null, null, "validacija je uspela!");
-						  refreshSliderIfNeeded("authors");
-						  refreshSidebarIfNeeded("authors");
 					  } else {
 						  editSingleItem("notification", null, null, data);
 					  }
@@ -235,7 +233,7 @@ function validateEmail() {
 }
 
 function saveAuthor() {
-	if (!isFormValid($('#modal form'))) {
+	if (!isFormValid($(mainFormPath))) {
 		return;
 	}
 	var user = {};
@@ -270,15 +268,12 @@ function saveAuthor() {
 		  success: function(data) {
 			  if (data) {
 				  if (data == 'success') {
-					  $('#modal').modal('hide');
 					  if (user.password) {
 						  logout();
 						  editSingleItem("notification", null, null, "morate se prijaviti sa novom lozinkom.");
 					  } else {
 						  displayProfile();
 					  }
-					  refreshSliderIfNeeded("authors");
-					  refreshSidebarIfNeeded("authors");
 				  } else {
 					  editSingleItem("notification", null, null, data);
 				  }

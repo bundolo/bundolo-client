@@ -44,7 +44,7 @@
   border-left: 1px solid #222d32;
   border-right-width: 0;
 }
-.skin-bundolo .main-header > .logo {
+.skin-bundolo .main-header > .logo, .username_bar {
   background-color: #222d32;
   color: #b8c7ce;
   border-bottom: 0px solid transparent;

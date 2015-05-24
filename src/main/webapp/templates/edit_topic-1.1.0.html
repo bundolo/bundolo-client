@@ -1,0 +1,42 @@
+<section class="content-header">
+  <h1 class="text-center">
+    unos diskusije na forumu
+  </h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<form role="form">
+				<input type="hidden" id="edit_item_id" value="{{contentId}}">
+				<div class="form-group">
+					<label for="edit_group">kategorija</label>
+					<select class="form-control" id="edit_group">
+						{{#topicGroups}}
+							<option value="{{contentId}}">{{name}}</option>
+						{{/topicGroups}}
+					</select>
+					<script type='text/javascript'>
+						//$("#edit_gender").val('{{gender}}');
+						//TODO set topic group if this is update
+					</script>
+				</div>
+				<div class="form-group">
+				  <label for="edit_title">naslov</label>
+				  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite naslov" validators="required url_safe">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="pull-right">
+			<button type="button" class="btn btn-default" title="odustani" onClick="cancelEdit();">
+				<i class="fa fa-times"></i>
+				<span>odustani</span>
+			</button>
+			<button type="button" class="btn btn-default save_topic" title="snimi">
+				<i class="fa fa-check"></i>
+				<span>snimi</span>
+			</button>
+		</div>
+	</div>
+</section>

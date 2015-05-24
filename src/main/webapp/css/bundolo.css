@@ -58,6 +58,17 @@ body>div>div>.content table.infinite th.desc:after {
 	height: auto;
 }
 
-.navbar .fa-stack {
+.main-header .logo, .username_bar {
 	font-size: 24px;
+}
+
+.navbar-form {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.username_bar {
+  padding-right: 8px;
 }

@@ -1,0 +1,40 @@
+<section class="content-header">
+  <h1 class="text-center">
+    unos vesti
+  </h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<form role="form">
+				<input type="hidden" id="edit_item_id" value="{{contentId}}">
+				<div class="form-group">
+				  <label for="edit_title">naslov</label>
+				  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite naslov" value="{{name}}" validators="required url_safe">
+				</div>
+				<div class="form-group">
+				  <label for="edit_content">tekst</label>
+				  <div id="edit_content"></div>
+				  <script type='text/javascript'>
+				  	$('#edit_content').summernote({
+					  lang: 'sr-RS',
+					  height: 300
+					});
+				  </script>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="pull-right">
+			<button type="button" class="btn btn-default" title="odustani" onClick="cancelEdit('#edit_content');">
+				<i class="fa fa-times"></i>
+				<span>odustani</span>
+			</button>
+			<button type="button" class="btn btn-default save_announcement" title="snimi">
+				<i class="fa fa-check"></i>
+				<span>snimi</span>
+			</button>
+		</div>
+	</div>
+</section>

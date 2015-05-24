@@ -1,61 +1,71 @@
-<div class="btn-group pull-left">
-  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
-	<i class="fa fa-caret-left"></i>
-	<span>prethodni</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-	<li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'title', '', false);">po imenu</a></li>
-    <li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'date', '', false);">po datumu</a></li>
-    <li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
-  </ul>
-</div>
-
-<div class="btn-group pull-right">
-  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
-	<i class="fa fa-caret-right"></i>
-	<span>sledeći</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-  	<li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'title', '', true);">po imenu</a></li>
-    <li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'date', '', true);">po datumu</a></li>
-    <li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
-  </ul>
-</div>
-
-<h3 class="text-center">{{descriptionContent.name}}</h3>
-<h3 class="text-center">{{#expirationDate}}traje do: {{expirationDate}}{{/expirationDate}}{{^expirationDate}}stalan konkurs{{/expirationDate}}</h3>
-<p>{{{descriptionContent.text}}}</p>
-dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
-<br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
-<br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
-{{#editingEnabled}}
-<div class="item-footer">
-<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('contest', '{{descriptionContent.name}}');">
-	<i class="fa fa-pencil"></i>
-	<span>izmeni</span>
-</button>
-</div>
-{{/editingEnabled}}
-<pre>
-
-
-
-
-       ;@@@@@@;
-     #@@@@@@@@@@#
-   .@@@@+  '@@@@@@.
-  ,@@ @@ #@@@@@@ @@,
- .@@  @, @@@@@@@  @@.
- @@   @,'@@@@@@@   @@
-#@    @@@@@@@@@@    @#
-,@.   @@@@@@@@@@   .@,
- @@    @@@@@@@@    @@
-  @@`   @@@@@@   `@@
-   @@+   `;;`   +@@
-    +@@'      '@@+
-      @@@@@@@@@@
-         ;++;
+<section class="content-header">
+	<div class="btn-group pull-left">
+	  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
+		<i class="fa fa-caret-left"></i>
+		<span>prethodni</span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+		<li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'title', '', false);">po imenu</a></li>
+	    <li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'date', '', false);">po datumu</a></li>
+	    <li><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'activity', '', false);">po poslednjoj aktivnosti</a></li>
+	  </ul>
+	</div>
+	<div class="btn-group pull-right">
+	  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
+		<i class="fa fa-caret-right"></i>
+		<span>sledeći</span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	  	<li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'title', '', true);">po imenu</a></li>
+	    <li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'date', '', true);">po datumu</a></li>
+	    <li class="pull-right"><a href="javascript:;" onClick="displayNext('contest', '{{contestId}}' , 'activity', '', true);">po poslednjoj aktivnosti</a></li>
+	  </ul>
+	</div>
+	<h1 class="text-center">
+	  {{descriptionContent.name}}
+	</h1>
+	<h1 class="text-center">
+	  {{#expirationDate}}traje do: {{expirationDate}}{{/expirationDate}}{{^expirationDate}}stalan konkurs{{/expirationDate}}
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<p>{{{descriptionContent.text}}}</p>
+			dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+			<br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
+			<br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
+			{{#editingEnabled}}
+			<div class="item-footer">
+			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('contest', '{{descriptionContent.name}}');">
+				<i class="fa fa-pencil"></i>
+				<span>izmeni</span>
+			</button>
+			</div>
+			{{/editingEnabled}}
+			<pre>
 
 
 
-</pre>
+
+			       ;@@@@@@;
+			     #@@@@@@@@@@#
+			   .@@@@+  '@@@@@@.
+			  ,@@ @@ #@@@@@@ @@,
+			 .@@  @, @@@@@@@  @@.
+			 @@   @,'@@@@@@@   @@
+			#@    @@@@@@@@@@    @#
+			,@.   @@@@@@@@@@   .@,
+			 @@    @@@@@@@@    @@
+			  @@`   @@@@@@   `@@
+			   @@+   `;;`   +@@
+			    +@@'      '@@+
+			      @@@@@@@@@@
+			         ;++;
+
+
+
+			</pre>
+		</div>
+	</div>
+</section>

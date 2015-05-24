@@ -1,20 +1,20 @@
 $(document).ready(function() {
 	//clicks on entries in tables
-	$('body').on('click', mainContentPath + ' table.infinite>tbody>tr', function(e) {
+	$('body').on('click', 'table.infinite>tbody>tr', function(e) {
 		var elementId = $(this).attr('id');
 		var itemType = elementId.substr(0, elementId.indexOf('_'));
 		var itemId = elementId.substr(itemType.length + 1);
 		$.address.value(rootFolder+itemType+"/" + itemId);
 	});
 	//clicks on column headers
-	$('body').on('click', mainContentPath + ' table.infinite>thead>tr>th', function(e) {
+	$('body').on('click', 'table.infinite>thead>tr>th', function(e) {
 		var elementId = $(this).attr('id');
 		var itemType = elementId.substr(0, elementId.indexOf('_'));
 		var columnName = elementId.substr(itemType.length + 8);
 		if (($(this).hasClass("asc")) || ($(this).hasClass("desc")))  {
 			$(this).toggleClass("asc desc");
 		} else {
-			$(mainContentPath + ' table.infinite>thead>tr>th').removeClass("asc desc");
+			$('table.infinite>thead>tr>th').removeClass("asc desc");
 			if ('date' == columnName || 'activity' == columnName || 'lastLoginDate' == columnName) {
 				$(this).toggleClass("desc");
 			} else {
@@ -25,26 +25,26 @@ $(document).ready(function() {
 		displayListItems(itemType, columnName + ',' + orderByDirection, getFilterString(itemType));
 	});
 	//changing text in filter input fields
-	$('body').on('input', mainContentPath + ' table.infinite>thead>tr>td>input', function(e) {
+	$('body').on('input', 'table.infinite>thead>tr>td>input', function(e) {
 		window.clearTimeout($(this).data("timeout"));
 		var thiz = $(this);
 	    $(this).data("timeout", setTimeout(function () {
-	    	var collapseId = $(mainContentPath + ' table').attr('id');
+	    	var collapseId = $('table.infinite').attr('id');
 			var itemType = collapseId.substr(5);
 			displayListItems(itemType, getOrderString(itemType), getFilterString(itemType), thiz);
 	    }, 500));
 	});
 	//TODO
 	//changing selection in category combo box
-	$('body').on('change', mainContentPath + ' select', function(e) {
-		window.clearTimeout($(this).data("timeout"));
-		var thiz = $(this);
-	    $(this).data("timeout", setTimeout(function () {
-	    	var collapseId = thiz.parent().parent().find('.panel-collapse').attr('id');
-			var itemType = collapseId.substr(9);
-			displayListItems(itemType, getOrderString(itemType), getFilterString(itemType));
-	    }, 500));
-	});
+//	$('body').on('change', mainContentPath + ' select', function(e) {
+//		window.clearTimeout($(this).data("timeout"));
+//		var thiz = $(this);
+//	    $(this).data("timeout", setTimeout(function () {
+//	    	var collapseId = thiz.parent().parent().find('.panel-collapse').attr('id');
+//			var itemType = collapseId.substr(9);
+//			displayListItems(itemType, getOrderString(itemType), getFilterString(itemType));
+//	    }, 500));
+//	});
 });
 
 function displayList(type, orderBy, filterBy, lastModified) {
@@ -60,8 +60,8 @@ function displayListItems(type, orderBy, filterBy, lastModified) {
 	if (typeof orderBy === 'undefined' || orderBy == '') {
 		orderBy = getOrderString(type);
 		var orderByArray = orderBy.split(",");
-		$(mainContentPath + ' table.infinite>thead>tr>th').removeClass("asc desc");
-		$(mainContentPath + ' table.infinite>thead>tr>#'+type+'_column_'+orderByArray[0]).addClass(orderByArray[1]);
+		$('table.infinite>thead>tr>th').removeClass("asc desc");
+		$('table.infinite>thead>tr>#'+type+'_column_'+orderByArray[0]).addClass(orderByArray[1]);
 	}
 	filterBy = typeof filterBy !== 'undefined' ? filterBy : '';
 	//TODO

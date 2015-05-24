@@ -9,7 +9,8 @@ var rootFolder = "/";
 var homeHtml = "";
 var version = "1.1.0";
 var handlingForm = false;
-var mainContentPath = "div>div>.content";
+var mainContentPath = 'body>div.wrapper>div.content-wrapper';
+var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>form';
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -67,7 +68,7 @@ $.address.change(function(event) {
 });
 
 function loadFromAddress() {
-	$('.slider').hide();
+	$('.sidebar-menu>li').removeClass('active');
 	if ($.address.value() == rootFolder) {
 		displayHome();
 	} else if ($.address.value() == "/about") {
@@ -107,6 +108,10 @@ $(document).ready(function() {
 	var mainContent = $(mainContentPath);
 	homeHtml = mainContent.html();
 	$.li18n.currentLocale = 'sr_RS';
+
+	$('body').on('click', '.sidebar-menu>li>a', function(e) {
+		$(e.target).closest('li').addClass('active');
+	});
 });
 
 function displayContent(parentElement, html, contentId, contentType) {
@@ -314,15 +319,16 @@ function editSingleItem(type, id, event, notification) {
 		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
 	}
-	var modalElement;
-	if ((type == 'notification') || (type == 'confirmation')) {
-		modalElement= $('#modal-notification');
-	} else {
-		modalElement= $('#modal');
-	}
-	var contentElement = modalElement.find('.modal-content');
-	contentElement.html(spinner);
-	modalElement.modal('show');
+//	var modalElement;
+//	if ((type == 'notification') || (type == 'confirmation')) {
+//		modalElement= $('#modal-notification');
+//	} else {
+//		modalElement= $('#modal');
+//	}
+//	var contentElement = modalElement.find('.modal-content');
+	var contentElement = $(mainContentPath);
+//	contentElement.html(spinner);
+//	modalElement.modal('show');
 	$.get(rootFolder+"templates/edit_"+type+"-" + version + ".html", function(template) {
 		if (type == 'connection') {
 			$.ajax({
@@ -434,6 +440,11 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     		}
     	}
 	}
+}
+
+function cancelEdit(toDestroy) {
+	$(toDestroy).destroy();
+	loadFromAddress();
 }
 
 function sanitize(content) {
@@ -697,8 +708,6 @@ function deleteSingleItem(id) {
 	    	if (data) {
 	    		displayStatistics();
 	    		if (id.indexOf("text") == 0) {
-	    			refreshSliderIfNeeded("texts");
-					refreshSidebarIfNeeded("texts");
 	    		}
 	    		$('#modal-notification').modal('hide');
 	    	} else {
@@ -713,7 +722,7 @@ function deleteSingleItem(id) {
 }
 
 function sendMessage() {
-	if (!isFormValid($('#modal form'))) {
+	if (!isFormValid($(mainFormPath))) {
 		return;
 	}
 	var messageTitle = $("#edit_title").val();
@@ -738,7 +747,6 @@ function sendMessage() {
 	  success: function(data) {
 		  if (data) {
 			  if (data == 'success') {
-				  $('#modal').modal('hide');
 			  } else {
 				  editSingleItem("notification", null, null, data);
 			  }
