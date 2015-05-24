@@ -52,12 +52,6 @@ body>div>div>.content table.infinite th.desc:after {
 	content: "\f0d8";
 }
 
-.navbar input {
-	font-size: 10px;
-	padding: 4px 8px;
-	height: auto;
-}
-
 .main-header .logo, .username_bar {
 	font-size: 24px;
 }
@@ -71,4 +65,8 @@ body>div>div>.content table.infinite th.desc:after {
 
 .username_bar {
   padding-right: 8px;
+}
+
+.fa.form-control-feedback {
+	line-height: 34px;
 }
