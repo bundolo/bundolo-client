@@ -68,7 +68,10 @@
   background-color: #222;
 }
 .skin-bundolo .content-header {
-  background: transparent;
+    -webkit-background-size: cover; /* For WebKit*/
+    -moz-background-size: cover;    /* Mozilla*/
+    -o-background-size: cover;      /* Opera*/
+    background-size: cover;         /* Generic*/
   box-shadow: none;
 }
 .skin-bundolo .wrapper,
@@ -152,4 +155,11 @@
 }
 .skin-bundolo .main-footer a:hover {
   color: #999;
+}
+.skin-bundolo .content a, .skin-bundolo .content-header a {
+	color: #444;
+  	text-decoration: underline;
+}
+.skin-bundolo .content  a:hover, .skin-bundolo .content-header a:hover {
+	color: #000;
 }

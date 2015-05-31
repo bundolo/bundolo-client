@@ -2,7 +2,6 @@
 	<div class="btn-group pull-left">
 	  <button type="button" class="btn btn-default dropdown-toggle" title="prethodni" data-toggle="dropdown">
 		<i class="fa fa-caret-left"></i>
-		<span>prethodni</span>
 	  </button>
 	  <ul class="dropdown-menu" role="menu">
 	  	<li><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'group', false);">u seriji</a></li>
@@ -15,7 +14,6 @@
 	<div class="btn-group pull-right">
 	  <button type="button" class="btn btn-default dropdown-toggle" title="sledeći" data-toggle="dropdown">
 		<i class="fa fa-caret-right"></i>
-		<span>sledeći</span>
 	  </button>
 	  <ul class="dropdown-menu" role="menu">
 	  	<li class="pull-right"><a href="javascript:;" onClick="displayNext('episode', '{{contentId}}' , 'date', 'group', true);">u seriji</a></li>
@@ -34,7 +32,7 @@
 	<h1 class="text-center">
 	  {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 	</h1>
-	<h1>
+	<h1 class="text-center">
 	  {{{name}}}
 	</h1>
 </section>
@@ -57,29 +55,6 @@
 				</button>
 			</div>
 			{{/editingEnabled}}
-			<pre>
-
-			'@@@@@@@@@@
-			@@......@+@@
-			@@      @;`@@
-			@@      @; `@@
-			@@      @;  `@@
-			@@      @;   `@.
-			@@      @@@@@@@+
-			@@       ;;;;;@+
-			@@            @+
-			@@ +@@@@@@@@; @+
-			@@ .;;;;;;;;` @+
-			@@            @+
-			@@ +@@@@@@@@; @+
-			@@ ,++++++++. @+
-			@@            @+
-			@@            @+
-			@@............@+
-			'@@@@@@@@@@@@@@,
-
-
-			</pre>
 		</div>
 	</div>
 </section>

@@ -116,6 +116,7 @@ $(document).ready(function() {
 
 function displayContent(parentElement, html, contentId, contentType) {
 	parentElement.html(html);
+	randomHeaderBackground();
 	if (contentId) {
 		addContextMenu(parentElement, contentId, contentType);
 	}
@@ -399,6 +400,8 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    	data.escapeUrl = escapeUrlExtended;
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
+		    	randomHeaderBackground();
+		    	$('.default-focus').focus();
 		    	if (type == 'announcement' || type == 'episode' || type == 'text') {
 		    		$("#edit_content").code(data.text);
 		    	} else if (type == 'connection' || type == 'contest') {
@@ -431,6 +434,8 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
+    	randomHeaderBackground();
+    	$('.default-focus').focus();
     	if (type == 'comment' || type == 'post') {
     		if (username != 'gost') {
     			$("#edit_credentials>option[value='logged']").html(username);
@@ -485,8 +490,9 @@ function displayHomeDefault() {
 	    	displayContent(contentElement, homeHtml, data.contentId, "page");
 			//do not use html from db for now
 	    	//displayRandomComment();
-	    	displayHighlightedAnnouncement('Va%C5%A1e%20mejl%20adrese');
+	    	//displayHighlightedAnnouncement('Va%C5%A1e%20mejl%20adrese');
 	    	displayLinksInAscii();
+	    	displayRecent();
 		},
 		error: function(textStatus, errorThrown) {
 			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
@@ -996,6 +1002,20 @@ function displayLinksInAscii() {
 	});
 }
 
+function displayRecent() {
+	$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
+		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataComments) {
+			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTopics) {
+				$.get("/templates/recent" + "-" + version + ".html", function(template) {
+				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]), "escapeUrl": escapeUrl, "timestampDate": timestampDate
+				    	});
+				    $(".recent").html(rendered);
+				});
+			});
+		});
+	});
+}
+
 function formatItemListItems(data) {
 	if (data) {
 		for (var i = 0; i < data.length; i++) {
@@ -1067,4 +1087,109 @@ function displayPage(pageKind, index) {
 	pages.addClass("hidden");
 	var page = $(mainContentPath + " ." + pageKind+".page"+index);
 	page.removeClass("hidden");
+}
+
+function adjustData(data, type) {
+	for (index in data) {
+		  //since mustache does not support accessing array index in template, we have to add it manually
+		  data[index].index = index;
+		  if (index == 0) {
+			  data[index].active_slide = true;
+		  }
+
+		  //there is no switch in mustache so we are setting variables
+		  if (type == 'comments') {
+			  switch(data[index].parentContent.kind) {
+			    case 'text':
+			    	data[index].parentKind = 'tekst';
+			    	data[index].parentLinkText = data[index].parentContent.authorUsername + " - " + data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "text/" + data[index].parentContent.authorUsername + "/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'episode':
+			    	data[index].parentKind = 'nastavak';
+			    	data[index].parentLinkText = data[index].parentContent.authorUsername + " - " + data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "text/" + data[index].parentContent.authorUsername + "/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'episode_group':
+			    	data[index].parentKind = 'priču u nastavcima';
+			    	data[index].parentLinkText = data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "serial/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'connection_description':
+			    	data[index].parentKind = 'link';
+			    	data[index].parentLinkText = data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "connection/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'contest_description':
+			    	data[index].parentKind = 'konkurs';
+			    	data[index].parentLinkText = data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "contest/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'page_description':
+			    	data[index].parentKind = 'stranicu';
+			    	data[index].parentLinkText = data[index].parentContent.text;
+			    	data[index].parentLinkUrl = "";
+			    	var contentUrl = data[index].parentContent.name;
+			    	contentUrl = contentUrl.replace(/ /g, '~').toLowerCase();
+			    	if (contentUrl != 'home') {
+			    		data[index].parentLinkUrl += contentUrl;
+			    	}
+			        break;
+			    case 'news':
+			    	data[index].parentKind = 'vest';
+			    	data[index].parentLinkText = data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "announcement/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+			    case 'forum_group':
+			    	//forum group comments are not enabled
+			    	data[index].parentKind = 'kategoriju na forumu';
+			        break;
+			    case 'user_description':
+			    	data[index].parentKind = 'autora';
+			    	data[index].parentLinkText = data[index].parentContent.authorUsername;
+			    	data[index].parentLinkUrl = "author/" + data[index].parentContent.authorUsername;
+			        break;
+			    case 'item_list_description':
+			    	data[index].parentKind = 'izbor';
+			    	data[index].parentLinkText = data[index].parentContent.name;
+			    	data[index].parentLinkUrl = "item_list/" + data[index].parentContent.name.replace(/ /g, '~');
+			        break;
+	    		}
+			  data[index].text = sanitizeRuntime(data[index].text);
+		  } else if (type == 'authors') {
+			  switch(data[index].gender) {
+	    		case 'male':
+	    			data[index].gender = 'muški';
+	    			break;
+	    		case 'female':
+	    			data[index].gender = 'ženski';
+	    			break;
+	    		case 'other':
+	    			data[index].gender = 'x';
+	    			break;
+	    	}
+		  }
+	  }
+	return data;
+}
+
+//takes array of arrays and makes array of tuples
+function rearrangeDataForTable(data) {
+	var result = [];
+	if (data && data.constructor === Array) {
+		for (resultIndex in data[0]) {
+			var resultEntry = [];
+			for (dataIndex in data) {
+				resultEntry.push(data[dataIndex][resultIndex]);
+			}
+			result.push({"entry": resultEntry});
+		}
+	}
+	return result;
+}
+
+function randomHeaderBackground() {
+	var backgroundImage = 'url("/images/bg'+Math.floor(Math.random() * 58 + 1)+'.png")';
+	$('.content-header').css('background-image', backgroundImage);
+	$('.main-footer').css('background-image', backgroundImage);
 }

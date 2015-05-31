@@ -117,9 +117,8 @@ function displayComments(parentId) {
 			sanitizeRecursive(data);
 			var partials = {commentPanel: template};
 		    var rendered = Mustache.render(template, {"comments": data}, partials);
-		    var rootCommentButton = $('<h4>komentari</h4><span title="dodaj komentar" class="fa-stack fa-2x pull-right root-comment-button" id="comment_'+parentId+'">\
-					<i class="fa fa-circle fa-stack-2x"></i>\
-					<i class="fa fa-plus fa-stack-1x fa-inverse"></i>\
+		    var rootCommentButton = $('<h4>komentari</h4><span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
+					<i class="fa fa-plus"></i>\
 				</span>');
 		    commentsRootElement.html(rootCommentButton);
 		    commentsRootElement.append(rendered);
