@@ -57,14 +57,14 @@ function saveEpisode(title, content) {
 						  $.address.value(itemUrl);
 					  }
 				  } else {
-					  editSingleItem("notification", null, null, data);
+					  displayModal("notification", null, null, data);
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, "saving_error");
+				  displayModal("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "saving_error");
+	    	  displayModal("notification", null, null, "saving_error");
 	      }
 		});
 }
@@ -100,14 +100,14 @@ function saveSerial(title, description) {
 						  $.address.value(itemUrl);
 					  }
 				  } else {
-					  editSingleItem("notification", null, null, data);
+					  displayModal("notification", null, null, data);
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, "saving_error");
+				  displayModal("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "saving_error");
+	    	  displayModal("notification", null, null, "saving_error");
 	      }
 		});
 }

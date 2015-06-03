@@ -122,14 +122,14 @@ function login() {
 				  displayLoggedIn();
 				  loadFromAddress();
 			  } else {
-				  editSingleItem("notification", null, null, data);
+				  displayModal("notification", null, null, data);
 			  }
 		  } else {
-			  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
+			  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "prijavljivanje nije uspelo!");
+    	  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
       }
 	});
 }
@@ -158,14 +158,14 @@ function passwordReset() {
 			  if (data == 'success') {
 				  displayLogin();
 			  } else {
-				  editSingleItem("notification", null, null, data);
+				  displayModal("notification", null, null, data);
 			  }
 		  } else {
-			  editSingleItem("notification", null, null, "resetovanje lozinke nije uspelo!");
+			  displayModal("notification", null, null, "resetovanje lozinke nije uspelo!");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "resetovanje lozinke nije uspelo!");
+    	  displayModal("notification", null, null, "resetovanje lozinke nije uspelo!");
       }
 	});
 }
@@ -193,17 +193,17 @@ function register() {
 		  success: function(data) {
 			  if (data) {
 				  if (data == 'success') {
-					  editSingleItem("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
+					  displayModal("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
 					  displayLogin();
 				  } else {
-					  editSingleItem("notification", null, null, data);
+					  displayModal("notification", null, null, data);
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, "registracija nije uspela!");
+				  displayModal("notification", null, null, "registracija nije uspela!");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "registracija nije uspela!");
+	    	  displayModal("notification", null, null, "registracija nije uspela!");
 	      }
 		});
 }
@@ -217,16 +217,16 @@ function validateEmail() {
 			  success: function(data) {
 				  if (data) {
 					  if (data == 'success') {
-						  editSingleItem("notification", null, null, "validacija je uspela!");
+						  displayModal("notification", null, null, "validacija je uspela!");
 					  } else {
-						  editSingleItem("notification", null, null, data);
+						  displayModal("notification", null, null, data);
 					  }
 				  } else {
-					  editSingleItem("notification", null, null, "validacija nije uspela!");
+					  displayModal("notification", null, null, "validacija nije uspela!");
 				  }
 		      },
 		      error: function(data) {
-		    	  editSingleItem("notification", null, null, "validacija nije uspela!");
+		    	  displayModal("notification", null, null, "validacija nije uspela!");
 		      }
 			});
 	}
@@ -270,19 +270,19 @@ function saveAuthor() {
 				  if (data == 'success') {
 					  if (user.password) {
 						  logout();
-						  editSingleItem("notification", null, null, "morate se prijaviti sa novom lozinkom.");
+						  displayModal("notification", null, null, "morate se prijaviti sa novom lozinkom.");
 					  } else {
 						  displayProfile();
 					  }
 				  } else {
-					  editSingleItem("notification", null, null, data);
+					  displayModal("notification", null, null, data);
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, "saving_error");
+				  displayModal("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "saving_error");
+	    	  displayModal("notification", null, null, "saving_error");
 	      }
 		});
 }

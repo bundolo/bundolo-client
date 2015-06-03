@@ -67,12 +67,12 @@
 .skin-bundolo .main-header li.user-header {
   background-color: #222;
 }
-.skin-bundolo .content-header {
+.skin-bundolo .content-header, .skin-bundolo .main-footer {
     -webkit-background-size: cover; /* For WebKit*/
     -moz-background-size: cover;    /* Mozilla*/
     -o-background-size: cover;      /* Opera*/
     background-size: cover;         /* Generic*/
-  box-shadow: none;
+    box-shadow: none;
 }
 .skin-bundolo .wrapper,
 .skin-bundolo .main-sidebar,

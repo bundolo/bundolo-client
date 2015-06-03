@@ -53,14 +53,14 @@ function savePost() {
 					  displaySingleItem('topic', reminder.substr(slashPos + 1));
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, data);
+				  displayModal("notification", null, null, data);
 			  }
 		  } else {
-			  editSingleItem("notification", null, null, "saving_error");
+			  displayModal("notification", null, null, "saving_error");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "saving_error");
+    	  displayModal("notification", null, null, "saving_error");
       }
 	});
 }
@@ -92,14 +92,14 @@ function saveTopic() {
 				  if (data == 'success') {
 					  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
 				  } else {
-					  editSingleItem("notification", null, null, data);
+					  displayModal("notification", null, null, data);
 				  }
 			  } else {
-				  editSingleItem("notification", null, null, "saving_error");
+				  displayModal("notification", null, null, "saving_error");
 			  }
 	      },
 	      error: function(data) {
-	    	  editSingleItem("notification", null, null, "saving_error");
+	    	  displayModal("notification", null, null, "saving_error");
 	      }
 		});
 }

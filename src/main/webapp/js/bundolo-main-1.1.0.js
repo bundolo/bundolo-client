@@ -10,7 +10,7 @@ var homeHtml = "";
 var version = "1.1.0";
 var handlingForm = false;
 var mainContentPath = 'body>div.wrapper>div.content-wrapper';
-var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>form';
+var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>div>form';
 
 var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-circle fa-stack-2x"></i>\
@@ -296,7 +296,7 @@ function displaySingleItem(type, id) {
 					  if ($.address.value() == rootFolder && type == 'item_list') {
 						  displayHomeDefault();
 					  } else {
-						  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+						  displayModal("notification", null, null, "sadržaj nije pronađen.");
 					  }
 				  }
 		      },
@@ -304,7 +304,7 @@ function displaySingleItem(type, id) {
 		    	  if ($.address.value() == rootFolder && type == 'item_list') {
 		    		  displayHomeDefault();
 				  } else {
-					  editSingleItem("notification", null, null, "sadržaj nije pronađen.");
+					  displayModal("notification", null, null, "sadržaj nije pronađen.");
 				  }
 		      }
 			});
@@ -477,7 +477,7 @@ function displayHome() {
 function displayHomeDefault() {
 	var contentElement = $(mainContentPath);
 	//contentElement.html(spinner);
-	displayContent(contentElement, homeHtml);
+	//displayContent(contentElement, homeHtml);
 	$.ajax({
 	    url: rootPath + restRoot + "/page/home",
 	    type: 'GET',
@@ -495,7 +495,7 @@ function displayHomeDefault() {
 	    	displayRecent();
 		},
 		error: function(textStatus, errorThrown) {
-			editSingleItem("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
+			displayModal("notification", null, null, "sadržaj bundola trenutno nije dostupan!");
 		}
 	});
 }
@@ -518,7 +518,7 @@ function displayAbout() {
 			    displayContent(contentElement, rendered, data.contentId, "page");
 			},
 			error: function(textStatus, errorThrown) {
-				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -542,7 +542,7 @@ function displayHelp() {
 			    displayContent(contentElement, rendered, data.contentId, "page");
 			},
 			error: function(textStatus, errorThrown) {
-				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -566,7 +566,7 @@ function displayContact() {
 			    displayContent(contentElement, rendered, data.contentId, "page");
 			},
 			error: function(textStatus, errorThrown) {
-				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -602,11 +602,11 @@ function displayProfile() {
 		    		var rendered = Mustache.render(template, data);
 				    displayContent(contentElement, rendered);
 		    	} else {
-		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
 			},
 			error: function(textStatus, errorThrown) {
-				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -691,11 +691,11 @@ function displayStatistics() {
 				    displayContent(contentElement, rendered);
 				    displayPage('profile-items', pages.length);
 		    	} else {
-		    		editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
 			},
 			error: function(textStatus, errorThrown) {
-				editSingleItem("notification", null, null, "stranica trenutno nije dostupna!");
+				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
 	});
@@ -717,11 +717,11 @@ function deleteSingleItem(id) {
 	    		}
 	    		$('#modal-notification').modal('hide');
 	    	} else {
-	    		editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
+	    		displayModal("notification", null, null, "sadržaj ne može biti obrisan!");
 	    	}
 		},
 		error: function(textStatus, errorThrown) {
-			editSingleItem("notification", null, null, "sadržaj ne može biti obrisan!");
+			displayModal("notification", null, null, "sadržaj ne može biti obrisan!");
 		}
 	});
 	return false;
@@ -754,14 +754,14 @@ function sendMessage() {
 		  if (data) {
 			  if (data == 'success') {
 			  } else {
-				  editSingleItem("notification", null, null, data);
+				  displayModal("notification", null, null, data);
 			  }
 		  } else {
-			  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
+			  displayModal("notification", null, null, "slanje poruke nije uspelo!");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "slanje poruke nije uspelo!");
+    	  displayModal("notification", null, null, "slanje poruke nije uspelo!");
       }
 	});
 }
@@ -1192,4 +1192,30 @@ function randomHeaderBackground() {
 	var backgroundImage = 'url("/images/bg'+Math.floor(Math.random() * 58 + 1)+'.png")';
 	$('.content-header').css('background-image', backgroundImage);
 	$('.main-footer').css('background-image', backgroundImage);
+	//http://localhost/images/bg52.png
+}
+
+function displayModal(type, id, event, notification) {
+	if (event) {
+		//this is used in content table when row has event handler and contains buttons which have their own
+		event.stopPropagation();
+	}
+	var modalElement = $('#modal-notification');
+	var contentElement = modalElement.find('.modal-content');
+	$.get(rootFolder+"templates/"+type+"-" + version + ".html", function(template) {
+		var data = {};
+		if (type == 'confirmation') {
+			data.modalAction = "deleteSingleItem('"+id.replace(/ /g, '~').replace(/'/g, "\\'")+"');";
+		} else if (type == 'notification') {
+			try {
+				data.notification = $.li18n.translate(notification);
+			} catch(err) {
+				data.notification = notification;
+			}
+		}
+		data.escapeUrl = escapeUrlExtended;
+		var rendered = Mustache.render(template, data);
+    	contentElement.html(rendered);
+    	modalElement.modal('show');
+	});
 }

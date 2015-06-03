@@ -184,14 +184,14 @@ function saveComment() {
 //					  }
 //				  }
 			  } else {
-				  editSingleItem("notification", null, null, data);
+				  displayModal("notification", null, null, data);
 			  }
 		  } else {
-			  editSingleItem("notification", null, null, "saving_error");
+			  displayModal("notification", null, null, "saving_error");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "saving_error");
+    	  displayModal("notification", null, null, "saving_error");
       }
 	});
 }
@@ -219,14 +219,14 @@ function saveRating(ratingId, value) {
 			  if (data == 'success') {
 //				  displayComments(rootParentId);
 			  } else {
-				  editSingleItem("notification", null, null, data);
+				  displayModal("notification", null, null, data);
 			  }
 		  } else {
-			  editSingleItem("notification", null, null, "saving_error");
+			  displayModal("notification", null, null, "saving_error");
 		  }
       },
       error: function(data) {
-    	  editSingleItem("notification", null, null, "saving_error");
+    	  displayModal("notification", null, null, "saving_error");
       }
 	});
 }
