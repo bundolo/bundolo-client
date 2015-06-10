@@ -19,16 +19,16 @@ $(document).ready(function() {
 		var parentId = parentElement.find(">span").attr('id').substr(8);
 		addComment(parentId);
 	});
-//	$('body').on('mouseenter', '.comments-button, .root-comment-button, .comment-button, .rating-select, .item-list-select', function(e) {
-//		$(this).parent().addClass("hover");
-//		if ($(this).parent().parent().css("overflow")=="hidden") {
-//			$(this).parent().parent().addClass("show-overflow");
-//		}
-//	});
-//	$('body').on('mouseleave', '.comments-button, .root-comment-button, .comment-button, .rating-select, .item-list-select', function(e) {
-//		$(this).parent().removeClass("hover");
-//		$(this).parent().parent().removeClass("show-overflow");
-//	});
+	$('body').on('mouseenter', '.root-comment-button, .comment-button', function(e) {
+		$(this).parent().addClass("hover");
+		if ($(this).parent().parent().css("overflow")=="hidden") {
+			$(this).parent().parent().addClass("show-overflow");
+		}
+	});
+	$('body').on('mouseleave', '.root-comment-button, .comment-button', function(e) {
+		$(this).parent().removeClass("hover");
+		$(this).parent().parent().removeClass("show-overflow");
+	});
 	$('body').on('change', '.rating-select', function(e) {
 		var ratingId = $(e.target).attr('id').substr(7);
 		saveRating(ratingId, $(e.target).val());

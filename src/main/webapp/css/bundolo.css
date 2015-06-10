@@ -140,8 +140,8 @@ body>div>div>.content table.infinite th.desc:after {
 	cursor: pointer;
 	display: inline-block;
 }
-.comment span {
-	/*word-wrap: break-word;*/
+.comment-button>span, .root-comment-button>span {
+	padding-left: 4px;
 }
 .panel.comment {
 	overflow: visible;
@@ -215,4 +215,12 @@ h1>i {
 .header_form .has-error .help-inline {
 	color: #b8c7ce;
 	font-size: 10px;
+}
+
+.comments-root.hover, .comment.hover {
+	outline: 1px dashed;
+	/*outline: 1px invert dashed;*/ /*invert seems to fail in mozilla, if color is not set, it defaults to invert*/
+}
+.show-overflow {
+	overflow: visible;
 }
