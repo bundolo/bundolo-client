@@ -62,7 +62,7 @@ $(document).ready(function() {
 });
 
 function displayLogin() {
-	$.get("/templates/login" + "-" + version + ".html", function(template) {
+	$.get(rootPath + "/templates/login" + "-" + version + ".html", function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
@@ -71,7 +71,7 @@ function displayLogin() {
 }
 
 function displayRegister() {
-	$.get("/templates/register" + "-" + version + ".html", function(template) {
+	$.get(rootPath + "/templates/register" + "-" + version + ".html", function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
@@ -80,7 +80,7 @@ function displayRegister() {
 }
 
 function displayReset() {
-	$.get("/templates/reset" + "-" + version + ".html", function(template) {
+	$.get(rootPath + "/templates/reset" + "-" + version + ".html", function(template) {
 	    var rendered = Mustache.render(template, {
 		});
 		$(".header_form").html(rendered);
@@ -89,7 +89,7 @@ function displayReset() {
 }
 
 function displayLoggedIn() {
-	$.get("/templates/logged_in" + "-" + version + ".html", function(template) {
+	$.get(rootPath + "/templates/logged_in" + "-" + version + ".html", function(template) {
 	    var rendered = Mustache.render(template, { "username": username });
 		$(".header_form").html(rendered);
 		handlingForm = false;

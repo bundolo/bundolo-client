@@ -48,7 +48,7 @@ $(document).ready(function() {
 });
 
 function displayList(type, orderBy, filterBy, lastModified) {
-	$.get("/templates/"+type+"-" + version + ".html", function(template) {
+	$.get(rootPath + "/templates/"+type+"-" + version + ".html", function(template) {
 		var rendered = Mustache.render(template, {});
 		var mainContent = $(mainContentPath);
 		displayContent(mainContent, rendered);

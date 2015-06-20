@@ -195,7 +195,7 @@ body>div>div>.content table.infinite th.desc:after {
 .slider>.tabs-plain>.row:last-of-type {
 	border-bottom: 1px solid #ddd;
 }
-h1>i {
+h1>i, .content-header {
 	padding-bottom: 15px;
 }
 
@@ -223,4 +223,28 @@ h1>i {
 }
 .show-overflow {
 	overflow: visible;
+}
+
+.item-footer {
+	text-align: center;
+}
+
+.wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+body {
+	background-color: #222d32;
+}
+.content-wrapper {
+	background-color: #fff;
+}
+
+.content pre {
+	font: 20px/10px monospace;
+	float: right;
+	margin-right: 10px;
+	background-color: #fff;
+	border: none;
 }

@@ -11,7 +11,7 @@
   border-right: 1px solid #eee;
 }
 .skin-bundolo .main-header > .navbar {
-  background-color: #222d32;
+  	background-color: #222d32;
 }
 .skin-bundolo .main-header > .navbar .nav > li > a {
   color: #b8c7ce;
@@ -162,4 +162,10 @@
 }
 .skin-bundolo .content  a:hover, .skin-bundolo .content-header a:hover {
 	color: #000;
+}
+
+.pagination a.active {
+	background-color: #eee;
+	border-color: #ddd;
+	cursor: pointer;
 }

@@ -10,8 +10,7 @@ $(document).ready(function() {
 		}
 	});
 	$('body').on('click', '.root-comment-button', function(e) {
-		var parentElement = $('.comments-root');
-		var parentId = parentElement.find(">span").attr('id').substr(8);
+		var parentId = $('.root-comment-button').attr('id').substr(8);
 		addComment(parentId);
 	});
 	$('body').on('click', '.comment-button', function(e) {
@@ -19,13 +18,25 @@ $(document).ready(function() {
 		var parentId = parentElement.find(">span").attr('id').substr(8);
 		addComment(parentId);
 	});
-	$('body').on('mouseenter', '.root-comment-button, .comment-button', function(e) {
+	$('body').on('mouseenter', '.root-comment-button', function(e) {
+		var commentsRoot = $('.comments-root');
+		commentsRoot.addClass("hover");
+		if (commentsRoot.parent().css("overflow")=="hidden") {
+			commentsRoot.parent().addClass("show-overflow");
+		}
+	});
+	$('body').on('mouseleave', '.root-comment-button', function(e) {
+		var commentsRoot = $('.comments-root');
+		commentsRoot.removeClass("hover");
+		commentsRoot.parent().removeClass("show-overflow");
+	});
+	$('body').on('mouseenter', '.comment-button', function(e) {
 		$(this).parent().addClass("hover");
 		if ($(this).parent().parent().css("overflow")=="hidden") {
 			$(this).parent().parent().addClass("show-overflow");
 		}
 	});
-	$('body').on('mouseleave', '.root-comment-button, .comment-button', function(e) {
+	$('body').on('mouseleave', '.comment-button', function(e) {
 		$(this).parent().removeClass("hover");
 		$(this).parent().parent().removeClass("show-overflow");
 	});
@@ -117,9 +128,9 @@ function displayComments(parentId) {
 			sanitizeRecursive(data);
 			var partials = {commentPanel: template};
 		    var rendered = Mustache.render(template, {"comments": data}, partials);
-		    var rootCommentButton = $('<h4>komentari</h4><span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
-					<i class="fa fa-plus"></i>\
-				</span>');
+		    var rootCommentButton = $('<h4>komentari<span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
+					<i class="fa fa-plus"></i><span class="hidden-xs">dodaj komentar</span>\
+				</span></h4>');
 		    commentsRootElement.html(rootCommentButton);
 		    commentsRootElement.append(rendered);
 		});
