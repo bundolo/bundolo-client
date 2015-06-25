@@ -30,13 +30,13 @@ $(document).ready(function() {
 		commentsRoot.removeClass("hover");
 		commentsRoot.parent().removeClass("show-overflow");
 	});
-	$('body').on('mouseenter', '.comment-button', function(e) {
+	$('body').on('mouseenter', '.comment-button, .collapse_children', function(e) {
 		$(this).parent().addClass("hover");
 		if ($(this).parent().parent().css("overflow")=="hidden") {
 			$(this).parent().parent().addClass("show-overflow");
 		}
 	});
-	$('body').on('mouseleave', '.comment-button', function(e) {
+	$('body').on('mouseleave', '.comment-button, .collapse_children', function(e) {
 		$(this).parent().removeClass("hover");
 		$(this).parent().parent().removeClass("show-overflow");
 	});
@@ -53,6 +53,17 @@ $(document).ready(function() {
 			var parentId = parseInt($(e.target).attr('id').substr(11));
 			saveItemInList(parentId, newItemList, previousItemList);
 		}
+	});
+
+	$("body").on("hide.bs.collapse", '.panel-collapse', function(e){
+		$(e.target).parent().find(">.collapse_children>span").text("prikaži odgovore");
+		$(e.target).parent().find(">.collapse_children>i").removeClass("fa-caret-up");
+		$(e.target).parent().find(">.collapse_children>i").addClass("fa-caret-down");
+	});
+	$("body").on("show.bs.collapse", '.panel-collapse', function(e){
+		$(e.target).parent().find(">.collapse_children>span").text("sakrij odgovore");
+		$(e.target).parent().find(">.collapse_children>i").removeClass("fa-caret-down");
+		$(e.target).parent().find(">.collapse_children>i").addClass("fa-caret-up");
 	});
 });
 
@@ -125,7 +136,8 @@ function displayComments(parentId) {
 	commentsRootElement.html(spinner);
 	$.get(rootFolder+"templates/comments" + "-" + version + ".html", function(template) {
 		$.getJSON(rootPath + restRoot + "/parent_comments/" + parentId, function(data) {
-			sanitizeRecursive(data);
+			sanitizeRecursive(data, true);
+			//console.log(JSON.stringify(data));
 			var partials = {commentPanel: template};
 		    var rendered = Mustache.render(template, {"comments": data}, partials);
 		    var rootCommentButton = $('<h4>komentari<span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
@@ -137,7 +149,7 @@ function displayComments(parentId) {
 	});
 }
 
-function sanitizeRecursive(data) {
+function sanitizeRecursive(data, shouldCollapse) {
 	if($.isArray(data) && data.length) {
 		for (index in data) {
 		  data[index].text = sanitizeRuntime(data[index].text);
@@ -146,10 +158,18 @@ function sanitizeRecursive(data) {
 		  } else {
 			  data[index].authorText = 'gost';
 		  }
+		  data[index].collapse = shouldCollapse;
+		  //console.log(jQuery.type(data[index].collapse));
+
 		  if(!$.isArray(data[index].comments)) {
 			  data[index].comments = [];
 		  }
-		  sanitizeRecursive(data[index].comments);
+//		  if($.isArray(data[index].comments) && data[index].comments.length) {
+//			  data[index].hasChildren = true;
+//		  } else {
+//			  data[index].hasChildren = true;
+//		  }
+		  sanitizeRecursive(data[index].comments, false);
 		}
 	}
 }

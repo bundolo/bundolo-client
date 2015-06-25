@@ -328,7 +328,7 @@ function editSingleItem(type, id, event, notification) {
 //	}
 //	var contentElement = modalElement.find('.modal-content');
 	var contentElement = $(mainContentPath);
-//	contentElement.html(spinner);
+	contentElement.html(spinner);
 //	modalElement.modal('show');
 	$.get(rootFolder+"templates/edit_"+type+"-" + version + ".html", function(template) {
 		if (type == 'connection') {
@@ -476,7 +476,7 @@ function displayHome() {
 
 function displayHomeDefault() {
 	var contentElement = $(mainContentPath);
-	//contentElement.html(spinner);
+	contentElement.html(spinner);
 	//displayContent(contentElement, homeHtml);
 	$.ajax({
 	    url: rootPath + restRoot + "/page/home",
