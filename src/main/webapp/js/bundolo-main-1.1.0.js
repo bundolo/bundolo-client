@@ -526,7 +526,6 @@ function displayAbout() {
 
 function displayHelp() {
 	var contentElement = $(mainContentPath);
-	contentElement.html(spinner);
 	$.get(rootFolder+"templates/help" + "-" + version + ".html", function(template) {
 		$.ajax({
 		    url: rootPath + restRoot + "/page/help",
@@ -1193,6 +1192,7 @@ function rearrangeDataForTable(data) {
 
 function randomHeaderBackground() {
 	var backgroundImage = 'url("'+rootPath+'/images/bg'+Math.floor(Math.random() * 58 + 1)+'.png")';
+	//var backgroundImage = 'url("'+rootPath+'/images/bg52_fix.png")';
 	$('.content-header').css('background-image', backgroundImage);
 	$('.main-footer').css('background-image', backgroundImage);
 	//http://localhost/images/bg52.png
