@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.1.0";
+var version = "1.1.1";
 var handlingForm = false;
 var mainContentPath = 'body>div.wrapper>div.content-wrapper';
 var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>div>form';
@@ -280,7 +280,7 @@ function displaySingleItem(type, id) {
 					    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
 					    					pages.push(page);
 					    				}
-								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
+								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "totalItems" : data.length, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
 								    	contentElement.find('.author-items-root').append(renderedStatistics);
 								    	displayPage('author-items', pages.length);
 									},
@@ -1006,7 +1006,7 @@ function displayLinksInAscii() {
 function displayRecent() {
 	$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
 		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataComments) {
-			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTopics) {
+			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
 				$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
 				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]), "escapeUrl": escapeUrl, "timestampDate": timestampDate
 				    	});
