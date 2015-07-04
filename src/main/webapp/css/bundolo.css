@@ -188,8 +188,11 @@ body>div>div>.content table.infinite th.desc:after {
   left: auto;
 }
 
-.recent>.row {
+.recent>.row:first-of-type {
 	border-top: 1px solid #ddd;
+}
+.recent>.row+.row {
+	border-bottom: 1px solid #ddd;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 }
