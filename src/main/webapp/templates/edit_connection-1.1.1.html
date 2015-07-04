@@ -1,0 +1,61 @@
+<section class="content-header">
+	<h1 class="text-center">
+	  <i class='fa fa-link'></i>
+	</h1>
+	<h1 class="text-center">
+	  unos linka
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<form role="form">
+				<input type="hidden" id="edit_item_id" value="{{connectionId}}">
+				<div class="form-group">
+					<label for="edit_group">kategorija</label>
+					<select class="form-control" id="edit_group">
+						{{#connectionGroups}}
+							<option value="{{contentId}}">{{name}}</option>
+						{{/connectionGroups}}
+					</select>
+					<script type='text/javascript'>
+						//$("#edit_gender").val('{{gender}}');
+						//TODO set connection group if this is update
+					</script>
+				</div>
+				<div class="form-group">
+				  <label for="edit_title">ime</label>
+				  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite ime" value="{{descriptionContent.name}}" validators="required url_safe">
+				</div>
+				<div class="form-group">
+				  <label for="edit_content">opis</label>
+				  <div id="edit_content"></div>
+				  <script type='text/javascript'>
+				  	$('#edit_content').summernote({
+					  lang: 'sr-RS',
+					  height: 300
+					});
+				  </script>
+				</div>
+				<div class="form-group">
+				  <label for="edit_url">internet adresa</label>
+				  <input type="text" class="form-control" id="edit_url" placeholder="unesite internet adresu" value="{{url}}">
+				</div>
+				<div class="form-group">
+				  <label for="edit_email">adresa elektronske pošte</label>
+				  <input type="text" class="form-control" id="edit_email" placeholder="unesite adresu elektronske pošte" value="{{email}}" validators="email">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="item-footer">
+		<button type="button" class="btn btn-default" title="odustani" onClick="cancelEdit('#edit_content');">
+			<i class="fa fa-times"></i>
+			<span>odustani</span>
+		</button>
+		<button type="button" class="btn btn-default save_connection" title="snimi">
+			<i class="fa fa-check"></i>
+			<span>snimi</span>
+		</button>
+	</div>
+</section>

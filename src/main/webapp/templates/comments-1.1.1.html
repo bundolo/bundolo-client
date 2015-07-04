@@ -1,0 +1,33 @@
+{{#contentId}}
+	<div class="panel panel-default comment">
+		<span title="dodaj komentar" class="pull-right comment-button" id="comment_{{contentId}}">
+			<i class="fa fa-plus"></i><span class="hidden-xs">dodaj komentar</span>
+		</span>
+		{{#text}}
+		<div class="panel-heading">
+			<span>- {{{text}}} ({{{authorText}}})</span>
+		</div>
+		{{/text}}
+		{{#comments.length}}
+			<span title="odgovori" class="collapse_children" data-toggle="collapse" data-target="#children_{{contentId}}">
+				{{#collapse}}<i class="fa fa-caret-down"></i><span class="hidden-xs">prikaži odgovore</span>{{/collapse}}
+				{{^collapse}}<i class="fa fa-caret-up"></i><span class="hidden-xs">sakrij odgovore</span>{{/collapse}}
+			</span>
+		{{/comments.length}}
+		<div class="panel-collapse collapse {{^collapse}}in{{/collapse}}" id="children_{{contentId}}">
+			<div class="panel-body">
+				<div class="panel-group">
+					<div>
+						<div>
+{{/contentId}}
+							{{#comments}}
+								{{>commentPanel}}
+						 	{{/comments}}
+{{#contentId}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{{/contentId}}

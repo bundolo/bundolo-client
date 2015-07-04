@@ -1,0 +1,8 @@
+{{#items}}
+	<tr id="connection_{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}">
+		<td>{{{descriptionContent.name}}}</td>
+		<td class="hidden-xs">{{authorUsername}}</td>
+		<td class="hidden-xs">{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
+		<td class="hidden-xs">{{#timestampDate}}{{descriptionContent.lastActivity}}{{/timestampDate}}</td>
+	</tr>
+{{/items}}

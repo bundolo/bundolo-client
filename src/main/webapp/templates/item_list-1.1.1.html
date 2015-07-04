@@ -1,0 +1,33 @@
+<section class="content-header">
+ 	<h1 class="text-center">
+	  <i class='fa fa-bookmark'></i>
+	</h1>
+	<h1 class="text-center">
+	  {{descriptionContent.name}}
+	</h1>
+	<h1 class="text-center">
+	  {{#authorUsername}}izbor autora <a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			<p>{{{descriptionContent.text}}}</p>
+			{{#items}}
+				<p><a href="javascript:;" onclick="$.address.value('{{link}}');">{{caption}}</a></p>
+			{{/items}}
+			{{#editingEnabled}}
+				<div class="item-footer">
+					<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('item_list', '{{descriptionContent.name}}');">
+						<i class="fa fa-pencil"></i>
+						<span>izmeni</span>
+					</button>
+					<button type="button" class="btn btn-default" title="obriši" onClick="displayModal('confirmation', 'item_list/{{descriptionContent.name}}');">
+						<i class="fa fa-minus"></i>
+						<span>obriši</span>
+					</button>
+				</div>
+			{{/editingEnabled}}
+ 		</div>
+	</div>
+</section>

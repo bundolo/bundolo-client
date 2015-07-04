@@ -1,127 +1,447 @@
-@import url("bundolo-main.css");
-@import url("bundolo-header.css");
-@import url("bundolo-sidebar.css");
-@import url("bundolo-slider.css");
-@import url("bundolo-context.css");
-@import url("bundolo-forum.css");
 
-
-
-@media (max-width: 991px) {
-	.navbar .navbar-header {
-		width: 249px;
-	}
-	.navbar-form input[type="text"], .navbar-form input[type="email"], .navbar-form input[type="password"] {
-		width: 89px;
-	}
-	.context-menu {
-		width: 400px;
-	}
-	.main .jumbotron {
-		padding-right: 20px;
-	}
+body>div>div>.content table.infinite {
+	border-collapse: collapse;
+	table-layout: fixed;
+	empty-cells: show;
 }
 
-@media (max-width: 767px) {
-	.navbar-form.navbar-right {
-		float: right !important;
-	}
-	.navbar .navbar-form {
-		height: auto;
-		border: none;
-		padding: 0 20px;
-	}
-	.navbar-form.navbar-right:last-child {
-		margin-right: 0 !important;
-	}
-	
-	.navbar .checkbox {
-		background: none;
-		padding: 0;
-	}
-	
-	.navbar-form button {
-		/*padding: 0;*/
-	}
-	
-	.navbar-form button:hover {
-		/*padding: 0;*/
-		transform: none;
-		-ms-transform: none;
-		-webkit-transform: none;
-	}
-	
-	.navbar-collapse {
-		border: none;
-	}
-	
-	.navbar input[type=checkbox] {
-		margin-left: 0;
-	}
-	
-	.navbar-collapse.in {
-		overflow: visible;
-	}
-	
-	.open .dropdown-toggle.btn-default {
-		background: none;
-	}
-	
-	.nav>li>a {
-		padding: 10px 0;
-	}
-	
-	.main .jumbotron {
-		padding-right: 30px;
-	}
+body>div>div>.content table.infinite td, body>div>div>.content table.infinite th {
+	padding: 4px;
+	border: 0;
+
+	-ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+	-webkit-hyphens: auto;
+   	-moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+	padding: 0 !important;
+
+	background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    .main .jumbotron pre {
-    	display: none;
-    }
-    .slider .nav-tabs span {
-    	font-size: 15px;
-    }
-    .slider .nav-tabs {
-    	height: 46px;
-    }
-    .slider .pipe_vb {
-    	display: none;
-    }
-    .main .table-striped>tbody>tr>td, .main .table-striped>tbody>tr>th, .main .table.clickable>tbody>tr:hover>td {
-		background: none;
-	}
-	.main .table-striped, .main .table-striped>thead>tr>th, .main .table-striped>tbody>tr>th, .main .table-striped>tfoot>tr>th, .main .table-striped>thead>tr>td, .main .table-striped>tbody>tr>td, .main .table-striped>tfoot>tr>td {
-		border: none;
-	}
-	/*
-	.hidden-xxs {
-		display: none!important;
-	}*/
-	.main .jumbotron {
-		padding-right: 40px;
-	}
+body>div>div>.content .table.infinite>tbody>tr:hover>td {
+	background-color: #ccc;
 }
 
-@media (max-width: 1199px) {
-    .navbar .navbar-header {
-		margin: 0 0 0 16px;
-	}
-	
-	.navbar-form.navbar-right:last-child {
-		margin-right: -34px;
-	}
+body>div>div>.content table.infinite th:last-of-type {
+	width: 17px;
 }
 
-@media (max-height: 1080px) {
-	.sidebar .table tbody {
-		height: 262px;
-	}
+body>div>div>.content table.infinite>tbody {
+	height: 262px;
+	overflow: auto;
+	display: block;
 }
 
-@media (max-height: 780px) {
-	.sidebar .table tbody {
-		height: 162px;
-	}
+body>div>div>.content table.infinite th:after {
+	font-family: FontAwesome;
+	padding-left: 4px;
 }
+
+body>div>div>.content table.infinite th.asc:after {
+	content: "\f0d7";
+}
+
+body>div>div>.content table.infinite th.desc:after {
+	content: "\f0d8";
+}
+
+.main-header .logo, .username_bar {
+	font-size: 24px;
+}
+
+.navbar-form {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.username_bar {
+  padding-right: 8px;
+}
+
+.fa.form-control-feedback {
+	line-height: 34px;
+}
+
+
+.comments-root .panel {
+	margin: 0;
+	margin: 1px 0;
+}
+
+.comments-root .panel-body {
+	padding: 0;
+}
+
+.comments-root .panel-default {
+	border: none;
+}
+
+.comments-root .panel-group {
+	margin: 0;
+	padding-left: 20px;
+}
+
+.comments-root .panel-heading {
+	background: none;
+	padding: 0;
+	border: none;
+}
+
+.panel-group .panel-heading+.panel-collapse .panel-body {
+	border: none;
+}
+
+.context-root {
+	position:relative;
+}
+.comments-root .comments-button {
+	position:absolute;
+	bottom: 4px;
+	right: 4px;
+	font-size: 10px;
+	color: #000;
+	cursor: pointer;
+}
+
+.context-root .rating-select {
+	position:absolute;
+	bottom: 6px;
+	right: 30px;
+	font-size: 10px;
+	color: #000;
+}
+
+.context-root .item-list-select {
+	position:absolute;
+	bottom: 6px;
+	right: 70px;
+	font-size: 10px;
+	color: #000;
+}
+
+.comments-root .comments-button:hover {
+	transform: scale(1.2,1.2);
+	-ms-transform: scale(1.2,1.2);
+	-webkit-transform: scale(1.2,1.2);
+}
+
+.comment-button, .root-comment-button, .collapse_children {
+	font-size: 10px;
+	color: #000;
+	cursor: pointer;
+	display: inline-block;
+}
+.comment-button>span, .root-comment-button>span, .collapse_children>span {
+	padding-left: 4px;
+}
+.panel.comment {
+	overflow: visible;
+	width: 100%;
+	/*padding-bottom: 1px; making space for outline on mouseover, but disabled because we get some gray lines*/
+}
+
+.comment>div>div>div>div>div {
+	width: 100%;
+}
+
+
+.comments-root>span, .comments-root>div {
+	display: inline-block;
+}
+
+.comment a {
+	color: #444;
+	text-decoration: underline;
+	font-style: italic;
+	font-weight: 700;
+}
+
+.comment a:hover {
+	color: #000;
+}
+
+.comments-root h4,
+	margin: 10px 0 0 0;
+}
+
+.table.clickable>tbody>tr:hover {
+	cursor: pointer;
+}
+
+.table.clickable>tbody>tr:hover>td {
+	background-color: #ccc;
+	cursor: pointer;
+}
+
+.navbar-right .dropdown-menu {
+  right: 160px;
+  left: auto;
+}
+
+.recent>.row:first-of-type {
+	border-top: 1px solid #ddd;
+}
+.recent>.row+.row {
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+.slider>.tabs-plain>.row:last-of-type {
+	border-bottom: 1px solid #ddd;
+}
+h1>i, .content-header {
+	padding-bottom: 15px;
+}
+
+.content-header > h1 {
+	font-weight: 700;
+}
+
+.forum-topic td:first-child {
+	max-width: 120px;
+}
+
+.has-error .help-inline {
+	color: #dd4b39;
+	font-size: 12px;
+}
+
+.header_form .has-error .help-inline {
+	color: #b8c7ce;
+	font-size: 10px;
+}
+
+.comments-root.hover, .comment.hover {
+	outline: 1px dashed;
+}
+.show-overflow {
+	overflow: visible;
+}
+
+.item-footer {
+	text-align: center;
+}
+
+.wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+body {
+	background-color: #222d32;
+}
+.content-wrapper {
+	background-color: #fff;
+}
+
+.content pre {
+	font: 20px/10px monospace;
+	float: right;
+	margin-right: 10px;
+	background-color: #fff;
+	border: none;
+}
+
+.row {
+	padding: 0 1px;
+}
+
+/*spinner start*/
+.fa-spin .fa-inverse {
+	opacity: 0;
+	font-weight: bolder;
+	font-size: 36px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	-webkit-animation: 2s linear 0s infinite;
+	animation: 2s linear 0s infinite;
+}
+.fa-spin .char1 {
+	animation-name: char_opacity1;
+	-webkit-animation-name: char_opacity1;
+}
+
+.fa-spin .char2 {
+	animation-name: char_opacity2;
+	-webkit-animation-name: char_opacity2;
+}
+
+.fa-spin .char3 {
+	animation-name: char_opacity3;
+	-webkit-animation-name: char_opacity3;
+}
+
+.fa-spin .char4 {
+	animation-name: char_opacity4;
+	-webkit-animation-name: char_opacity4;
+}
+
+.fa-spin .char5 {
+	animation-name: char_opacity5;
+	-webkit-animation-name: char_opacity5;
+}
+
+.fa-spin .char6 {
+	animation-name: char_opacity6;
+	-webkit-animation-name: char_opacity6;
+}
+
+.fa-spin .char7 {
+	animation-name: char_opacity7;
+	-webkit-animation-name: char_opacity7;
+}
+
+.fa-spin .char8 {
+	animation-name: char_opacity8;
+	-webkit-animation-name: char_opacity8;
+}
+
+@-webkit-keyframes char_opacity1 {
+	0% {opacity: 1;}
+	12% {opacity: 1;}
+	13% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity1 {
+	0% {opacity: 1;}
+	12% {opacity: 1;}
+	13% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity2 {
+	0% {opacity: 0;}
+	12% {opacity: 0;}
+	13% {opacity: 1;}
+	24% {opacity: 1;}
+	25% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity2 {
+	0% {opacity: 0;}
+	12% {opacity: 0;}
+	13% {opacity: 1;}
+	24% {opacity: 1;}
+	25% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity3 {
+	0% {opacity: 0;}
+	24% {opacity: 0;}
+	25% {opacity: 1;}
+	36% {opacity: 1;}
+	37% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity3 {
+	0% {opacity: 0;}
+	24% {opacity: 0;}
+	25% {opacity: 1;}
+	36% {opacity: 1;}
+	37% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity4 {
+	0% {opacity: 0;}
+	36% {opacity: 0;}
+	37% {opacity: 1;}
+	48% {opacity: 1;}
+	49% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity4 {
+	0% {opacity: 0;}
+	36% {opacity: 0;}
+	37% {opacity: 1;}
+	48% {opacity: 1;}
+	49% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity5 {
+	0% {opacity: 0;}
+	48% {opacity: 0;}
+	49% {opacity: 1;}
+	60% {opacity: 1;}
+	61% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity5 {
+	0% {opacity: 0;}
+	48% {opacity: 0;}
+	49% {opacity: 1;}
+	60% {opacity: 1;}
+	61% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity6 {
+	0% {opacity: 0;}
+	60% {opacity: 0;}
+	61% {opacity: 1;}
+	72% {opacity: 1;}
+	73% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity6 {
+	0% {opacity: 0;}
+	60% {opacity: 0;}
+	61% {opacity: 1;}
+	72% {opacity: 1;}
+	73% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity7 {
+	0% {opacity: 0;}
+	72% {opacity: 0;}
+	73% {opacity: 1;}
+	84% {opacity: 1;}
+	85% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity7 {
+	0% {opacity: 0;}
+	72% {opacity: 0;}
+	73% {opacity: 1;}
+	84% {opacity: 1;}
+	85% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@-webkit-keyframes char_opacity8 {
+	0% {opacity: 0;}
+	84% {opacity: 0;}
+	85% {opacity: 1;}
+	96% {opacity: 1;}
+	97% {opacity: 0;}
+	100% {opacity: 0;}
+}
+
+@keyframes char_opacity8 {
+	0% {opacity: 0;}
+	84% {opacity: 0;}
+	85% {opacity: 1;}
+	96% {opacity: 1;}
+	97% {opacity: 0;}
+	100% {opacity: 0;}
+}
+/*spinner end*/

@@ -1,0 +1,29 @@
+<section class="content-header">
+	<h1 class="text-center">
+	  <i class="fa fa-cog"></i>
+	</h1>
+	<h1 class="text-center">
+	  profil
+	</h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			korisničko ime: {{username}}<br/>
+			kratak opis: {{{descriptionContent.text}}}<br/>
+			prikaži lične podatke: {{showPersonal}}<br/>
+			ime: {{firstName}}<br/>
+			prezime: {{lastName}}<br/>
+			pol: {{gender}}<br/>
+			datum rođenja: {{#timestampDate}}{{birthDate}}{{/timestampDate}}<br/>
+			datum registracije: {{#timestampDate}}{{signupDate}}{{/timestampDate}}<br/>
+			poslednja prijava: {{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}<br/>
+			<div class="item-footer">
+				<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{username}}');">
+					<i class="fa fa-pencil"></i>
+					<span>izmena podataka</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</section>

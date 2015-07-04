@@ -1,0 +1,34 @@
+<br/>
+{{#pages.length}}
+ukupno objavljeno: {{totalItems}}
+<br/>
+ukupno prikazivanja: {{rating}}
+<br/>
+<ul class="pagination">
+	{{#pages}}
+  		<li><a href="javascript:;" onClick="displayPage('author-items', {{index}});" class="page{{index}}">{{index}}</a></li>
+	{{/pages}}
+</ul>
+{{#pages}}
+<table class="table table-striped clickable author-items hidden page{{index}}">
+	<thead>
+		<tr>
+			<th>naslov</th>
+			<th>vrsta</th>
+			<th>datum objavljivanja</th>
+			<th>broj prikazivanja</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#items}}
+			<tr onclick="$.address.value('{{#isText}}text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}{{/isText}}{{#isEpisode}}episode/{{#escapeUrl}}{{parentGroup}}/{{name}}{{/escapeUrl}}{{/isEpisode}}');">
+				<td>{{name}}</td>
+				<td>{{#isText}}tekst{{/isText}}{{#isEpisode}}nastavak{{/isEpisode}}</td>
+				<td>{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
+				<td>{{#rating.0.value}}{{rating.0.value}}{{/rating.0.value}}{{^rating.0.value}}0{{/rating.0.value}}</td>
+			</tr>
+		{{/items}}
+	</tbody>
+</table>
+{{/pages}}
+{{/pages.length}}
