@@ -918,87 +918,75 @@ function displayHighlightedAnnouncement(id) {
 function displayLinksInAscii() {
 	var asciiArt = $(".content pre");
 	if (asciiArt.length) {
-		$.ajax({
-		    url: rootPath + restRoot + "/recent",
-		    type: 'GET',
-		    dataType: "json",
-		    contentType: "application/json; charset=utf-8",
-		    beforeSend: function (xhr) {
-		        xhr.setRequestHeader ("Authorization", token);
-		    },
-		    success: function(data) {
-		    	if (data) {
-		    		var asciiArtText = asciiArt.html();
-		    		var wordsArray = asciiArtText.match(/\S+/ig);
-		    		wordsArray.sort(function(a, b){
-		    			return b.length - a.length;
-		    		});
-		    		var anchors = [];
-		    		for (var i = 0; i < data.length; i++) {
-		    			var link = "";
-		    			var title = "";
-		    			var caption = "";
-			    		switch(data[i].kind) {
-					    case 'text':
-					    	link = "text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
-					    	title = "tekst:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].authorUsername + " - " + data[i].name;
-					        break;
-					    case 'forum_topic':
-					    	link = "topic/" + data[i].name.replace(/ /g, '~');
-					    	title = "diskusija:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].name;
-					        break;
-					    case 'connection_description':
-					    	link = "connection/" + data[i].name.replace(/ /g, '~');
-					    	title = "link:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].name;
-					        break;
-					    case 'news':
-					    	link = "announcement/" + data[i].name.replace(/ /g, '~');
-					    	title = "vest:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].name;
-					        break;
-					    case 'contest_description':
-					    	link = "contest/" + data[i].name.replace(/ /g, '~');
-					    	title = "konkurs:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].name;
-					        break;
-					    case 'episode':
-					    	link = "episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
-					    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].parentGroup + " - " + data[i].name;
-					        break;
-					    case 'user_description':
-					    	link = "author/" + data[i].authorUsername.replace(/ /g, '~');
-					    	title = "autor:\r\n"+data[i].authorUsername;
-					    	caption = data[i].authorUsername;
-					        break;
-			    		}
-			    		anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});
-			    	}
-		    		anchors.sort(function(a, b){
-		    			return b.caption.length - a.caption.length;
-		    		});
-		    		for (var i = 0; i < anchors.length; i++) {
-		    			var tagAndReminder = "";
-		    			if (wordsArray[i].length > anchors[i].caption.length) {
-		    				tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);
-			    		} else if (wordsArray[i].length < anchors[i].caption.length) {
-			    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
-			    		} else {
-			    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
-			    		}
-		    			asciiArtText = asciiArtText.replace(wordsArray[i], tagAndReminder);
+		$.getJSON(rootPath + restRoot + "/recent", { "limit": "20" }, function(data) {
+			if (data) {
+	    		var asciiArtText = asciiArt.html();
+	    		var wordsArray = asciiArtText.match(/\S+/ig);
+	    		wordsArray.sort(function(a, b){
+	    			return b.length - a.length;
+	    		});
+	    		var anchors = [];
+	    		for (var i = 0; i < data.length; i++) {
+	    			var link = "";
+	    			var title = "";
+	    			var caption = "";
+		    		switch(data[i].kind) {
+				    case 'text':
+				    	link = "text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+				    	title = "tekst:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].authorUsername + " - " + data[i].name;
+				        break;
+				    case 'forum_topic':
+				    	link = "topic/" + data[i].name.replace(/ /g, '~');
+				    	title = "diskusija:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
+				        break;
+				    case 'connection_description':
+				    	link = "connection/" + data[i].name.replace(/ /g, '~');
+				    	title = "link:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
+				        break;
+				    case 'news':
+				    	link = "announcement/" + data[i].name.replace(/ /g, '~');
+				    	title = "vest:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
+				        break;
+				    case 'contest_description':
+				    	link = "contest/" + data[i].name.replace(/ /g, '~');
+				    	title = "konkurs:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].name;
+				        break;
+				    case 'episode':
+				    	link = "episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
+				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].parentGroup + " - " + data[i].name;
+				        break;
+				    case 'user_description':
+				    	link = "author/" + data[i].authorUsername.replace(/ /g, '~');
+				    	title = "autor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].authorUsername;
+				        break;
 		    		}
-		    		asciiArt.html(asciiArtText);
-		    	} else {
-		    		//do nothing
+		    		anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});
 		    	}
-			},
-			error: function(textStatus, errorThrown) {
-				//do nothing
-			}
+	    		anchors.sort(function(a, b){
+	    			return b.caption.length - a.caption.length;
+	    		});
+	    		for (var i = 0; i < anchors.length; i++) {
+	    			var tagAndReminder = "";
+	    			if (wordsArray[i].length > anchors[i].caption.length) {
+	    				tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);
+		    		} else if (wordsArray[i].length < anchors[i].caption.length) {
+		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
+		    		} else {
+		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
+		    		}
+	    			asciiArtText = asciiArtText.replace(wordsArray[i], tagAndReminder);
+	    		}
+	    		asciiArt.html(asciiArtText);
+	    	} else {
+	    		//do nothing
+	    	}
 		});
 	}
 }

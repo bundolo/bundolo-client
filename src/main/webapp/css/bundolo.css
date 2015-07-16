@@ -183,9 +183,12 @@ body>div>div>.content table.infinite th.desc:after {
 	cursor: pointer;
 }
 
+.header_form>.btn-group>ul, .content-header>.btn-group>ul {
+	margin: 0;
+}
+
 .navbar-right .dropdown-menu {
-  right: 160px;
-  left: auto;
+	left: 0;
 }
 
 .recent>.row:first-of-type {

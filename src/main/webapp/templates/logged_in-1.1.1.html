@@ -7,19 +7,21 @@
 	<i class="fa fa-cog"></i>
 	<span>profil</span>
 </button>
-<button type="button" class="btn btn-default dropdown-toggle" title="dodaj" data-toggle="dropdown" id="add_menu">
-	<i class="fa fa-plus"></i>
-	<span>dodaj</span>
-</button>
- <ul class="dropdown-menu" role="menu" aria-labelledby="add_menu">
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('text');">tekst</a></li>
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('serial');">serija</a></li>
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('announcement');">vest</a></li>
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('topic');">diskusija</a></li>
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('contest');">konkurs</a></li>
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('connection');">link</a></li>
-   <li role="presentation" class="text-center"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('item_list');">izbor</a></li>
- </ul>
+<div class="btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle" title="dodaj" data-toggle="dropdown" id="add_menu">
+		<i class="fa fa-plus"></i>
+		<span>dodaj</span>
+	</button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="add_menu">
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('text');">tekst</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('serial');">serija</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('announcement');">vest</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('topic');">diskusija</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('contest');">konkurs</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('connection');">link</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('item_list');">izbor</a></li>
+	</ul>
+</div>
 <button type="button" class="btn btn-default" title="statistika" onClick="$.address.value('/statistics');">
 	<i class="fa fa-bar-chart-o"></i>
 	<span>statistika</span>

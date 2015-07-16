@@ -12,11 +12,8 @@ $(document).ready(function() {
 		displayLogin();
 	}
 
-	//preload mouseover brand image to prevent flickering
-//	var brandOn = new Image();
-//	brandOn.src = "/img/brand_on.png";
-
 	//submit form when enter is pressed on input elements
+	//TODO this is wrong on other header forms
 	$(".header_form").keypress(function(event) {
 	    if (event.which == 13 && event.target.nodeName.toLowerCase() == 'input' && !handlingForm) {
 	    	handlingForm = true;
@@ -59,6 +56,19 @@ $(document).ready(function() {
 			saveAuthor();
 		}
 	});
+
+	$('body').on('mouseenter', '.header_form>.btn-group, .content-header>.btn-group', function(e) {
+		if (!$(this).hasClass('open')) {
+			$(this).find('.dropdown-toggle').dropdown('toggle');
+		}
+	});
+
+	$('body').on('mouseleave', '.header_form>.btn-group, .content-header>.btn-group', function(e) {
+		if ($(this).hasClass('open')) {
+			$(this).find('.dropdown-toggle').dropdown('toggle');
+			$(this).find('.dropdown-toggle').blur();
+		}
+	});
 });
 
 function displayLogin() {
@@ -93,6 +103,7 @@ function displayLoggedIn() {
 	    var rendered = Mustache.render(template, { "username": username });
 		$(".header_form").html(rendered);
 		handlingForm = false;
+		updateLastActivity();
 	});
 }
 
@@ -312,4 +323,36 @@ function readCookie(name) {
 
 function eraseCookie(name) {
     createCookie(name, "", -1);
+}
+
+function updateLastActivity() {
+	var user = {};
+	$.ajax({
+		  url: rootPath + restRoot + "/author/" + username,
+		  type: "PUT",
+		  data: JSON.stringify(user),
+		  dataType: "json",
+		  contentType: "application/json; charset=utf-8",
+		  beforeSend: function (xhr) {
+			  xhr.setRequestHeader ("Authorization", token);
+		  },
+		  headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+		  },
+		  success: function(data) {
+			  if (data) {
+				  if (data == 'success') {
+					  //do nothing
+				  } else {
+					  displayModal("notification", null, null, data);
+				  }
+			  } else {
+				  displayModal("notification", null, null, "saving_error");
+			  }
+	      },
+	      error: function(data) {
+	    	  displayModal("notification", null, null, "saving_error");
+	      }
+	});
 }
