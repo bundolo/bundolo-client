@@ -36,3 +36,10 @@
 	</div>
 </div>
 {{/items}}
+{{#isLoggedIn}}
+<div class="row">
+	<div class="col-xs-12">
+		<h4><a href="javascript:;" onclick="$.address.value('/updates');">sve novosti od vaše prethodne posete</a></h4>
+	</div>
+</div>
+{{/isLoggedIn}}

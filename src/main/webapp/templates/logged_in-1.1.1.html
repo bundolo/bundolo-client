@@ -22,10 +22,16 @@
 	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem('item_list');">izbor</a></li>
 	</ul>
 </div>
-<button type="button" class="btn btn-default" title="statistika" onClick="$.address.value('/statistics');">
-	<i class="fa fa-bar-chart-o"></i>
-	<span>statistika</span>
-</button>
+<div class="btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle" title="statistika" data-toggle="dropdown" id="statistics_menu">
+		<i class="fa fa-bar-chart-o"></i>
+		<span>statistika</span>
+	</button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="statistics_menu">
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="$.address.value('/statistics');">tekstovi</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="$.address.value('/updates');">novosti</a></li>
+	</ul>
+</div>
 <button type="button" class="btn btn-default process_logout" title="odjava">
 	<i class="fa fa-sign-out"></i>
 	<span>odjava</span>

@@ -1,0 +1,70 @@
+<section class="content-header">
+  <h1 class="text-center">
+    <i class="fa fa-newspaper-o"></i>
+  </h1>
+  <h1 class="text-center">
+    novosti od poslednje posete
+  </h1>
+</section>
+<section class="content">
+	<div class="row">
+    	<div class="col-xs-12">
+			{{#pages.length}}
+			<ul class="pagination">
+				{{#pages}}
+			  		<li><a href="javascript:;" onClick="displayPage('recent-updates', {{index}});" class="page{{index}}">{{index}}</a></li>
+				{{/pages}}
+			</ul>
+			{{#pages}}
+			<table class="table table-striped clickable recent-updates hidden page{{index}}">
+				<thead>
+					<tr>
+						<th>autor</th>
+						<th>naslov</th>
+						<th>vrsta</th>
+						<th>datum objavljivanja</th>
+						<th>poslednja aktivnost</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#items}}
+						<tr onclick="$.address.value(
+								{{#isText}}'text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}'{{/isText}}
+								{{#isForumTopic}}'topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isForumTopic}}
+								{{#isConnection}}'connection/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isConnection}}
+								{{#isAnnouncement}}'announcement/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isAnnouncement}}
+								{{#isContest}}'contest/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isContest}}
+								{{#isEpisode}}'episode/{{#escapeUrl}}{{parentGroup}}/{{name}}{{/escapeUrl}}'{{/isEpisode}}
+								{{#isAuthor}}'author/{{#escapeUrl}}{{authorUsername}}{{/escapeUrl}}'{{/isAuthor}}
+								);">
+							<td>
+								{{authorUsername}}
+							</td>
+							<td>
+								{{#isAuthor}}{{text}}{{/isAuthor}}
+								{{^isAuthor}}{{name}}{{/isAuthor}}
+							</td>
+							<td>
+								{{#isText}}tekst{{/isText}}
+								{{#isForumTopic}}diskusija{{/isForumTopic}}
+								{{#isConnection}}link{{/isConnection}}
+								{{#isAnnouncement}}vest{{/isAnnouncement}}
+								{{#isContest}}konkurs{{/isContest}}
+								{{#isEpisode}}nastavak{{/isEpisode}}
+								{{#isAuthor}}autor{{/isAuthor}}
+							</td>
+							<td>
+								{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+							</td>
+							<td>
+								{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+							</td>
+						</tr>
+					{{/items}}
+				</tbody>
+			</table>
+			{{/pages}}
+			{{/pages.length}}
+		</div>
+	</div>
+</section>

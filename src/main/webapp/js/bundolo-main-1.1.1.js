@@ -91,6 +91,12 @@ function loadFromAddress() {
 		} else {
 			displayHome();
 		}
+	} else if ($.address.value() == "/updates") {
+		if (username != 'gost') {
+			displayUpdates();
+		} else {
+			displayHome();
+		}
 	} else if ($.address.value().indexOf("/list") == 0) {
 		displayList($.address.value().substring(6));
 	} else if ($.address.value().match("^/validate")) {
@@ -700,6 +706,65 @@ function displayStatistics() {
 	});
 }
 
+function displayUpdates() {
+	var contentElement = $(mainContentPath);
+	contentElement.html(spinner);
+	$.get(rootFolder+"templates/updates" + "-" + version + ".html", function(template) {
+		$.ajax({
+		    url: rootPath + restRoot + "/recent",
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    success: function(data) {
+		    	if (data) {
+			    	for (var i = 0; i < data.length; i++) {
+			    		switch(data[i].kind) {
+					    case 'text':
+					    	data[i].isText = true;
+					        break;
+					    case 'forum_topic':
+					    	data[i].isForumTopic = true;
+					        break;
+					    case 'connection_description':
+					    	data[i].isConnection = true;
+					        break;
+					    case 'news':
+					    	data[i].isAnnouncement = true;
+					        break;
+					    case 'contest_description':
+					    	data[i].isContest = true;
+					        break;
+					    case 'episode':
+					    	data[i].isEpisode = true;
+					        break;
+					    case 'user_description':
+					    	data[i].isAuthor = true;
+					        break;
+			    		}
+			    	}
+			    	var pages = [];
+    				var pageSize = 10;
+			    	for (var i = 0; i < data.length / pageSize; i++) {
+    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
+    					pages.push(page);
+    				}
+			    	var rendered = Mustache.render(template, {"pages" : pages, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
+				    displayContent(contentElement, rendered);
+				    displayPage('recent-updates', pages.length);
+		    	} else {
+		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
+		    	}
+			},
+			error: function(textStatus, errorThrown) {
+				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
+			}
+		});
+	});
+}
+
 function deleteSingleItem(id) {
 	$.ajax({
 	    url: rootPath + restRoot + "/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
@@ -996,8 +1061,9 @@ function displayRecent() {
 		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataComments) {
 			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
 				$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
-				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]), "escapeUrl": escapeUrl, "timestampDate": timestampDate
-				    	});
+					var isLoggedIn = username != "gost";
+				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]),
+				    	"escapeUrl": escapeUrl, "timestampDate": timestampDate, "isLoggedIn": isLoggedIn});
 				    $(".recent").html(rendered);
 				});
 			});
