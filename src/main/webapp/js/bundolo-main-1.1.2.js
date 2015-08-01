@@ -129,6 +129,8 @@ function displayContent(parentElement, html, contentId, contentType) {
 }
 
 function displaySingleItem(type, id) {
+	var contentElement = $(mainContentPath);
+	contentElement.html(spinner);
 	$.get(rootFolder+"templates/" + type + "-" + version + ".html", function(template) {
 		$.ajax({
 			  url: rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
@@ -144,7 +146,6 @@ function displaySingleItem(type, id) {
 			  },
 			  success: function(data) {
 				  if (data) {
-					    var contentElement = $(mainContentPath);
 					    var commentParentId = id;
 					    switch(type) {
 						    case 'text':
@@ -206,6 +207,7 @@ function displaySingleItem(type, id) {
 					    var rendered = Mustache.render(template, data);
 					    displayContent(contentElement, rendered, commentParentId, type);
 					    if (type == 'topic') {
+					    	contentElement.find('.posts-root').append(spinner);
 					    	$.get(rootFolder+"templates/posts" + "-" + version + ".html", function(templatePosts) {
 					    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(allPosts) {
 					    			if (allPosts) {
@@ -219,12 +221,13 @@ function displaySingleItem(type, id) {
 					    					pages.push(page);
 					    				}
 					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "escapeUrl": escapeUrl, "timestampDateTime": timestampDateTime});
-						    			contentElement.find('.posts-root').append(renderedPosts);
+						    			contentElement.find('.posts-root>.fa-spin').replaceWith(renderedPosts);
 						    			displayPage('forum-topic', pages.length);
 					    			}
 					    		});
 					    	});
 					    } else if (type == 'serial') {
+					    	contentElement.find('.episodes-root').append(spinner);
 					    	$.get(rootFolder+"templates/episodes" + "-" + version + ".html", function(templateEpisodes) {
 					    		$.getJSON(rootPath + restRoot + "/episodes", { "parentId": data.contentId }, function(episodes) {
 					    			var numberOfEpisodesLabel = '0 nastavaka';
@@ -251,11 +254,12 @@ function displaySingleItem(type, id) {
 					    			data.isLoggedIn = username != "gost";
 					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);
 					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "pages": pages, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
-					    			contentElement.find('.episodes-root').append(renderedEpisodes);
+					    			contentElement.find('.episodes-root>.fa-spin').replaceWith(renderedEpisodes);
 					    			displayPage('serial-episodes', pages.length);
 					    		});
 					    	});
 					    } else if (type == 'author') {
+					    	contentElement.find('.author-items-root').append(spinner);
 					    	$.get(rootFolder+"templates/author_statistics" + "-" + version + ".html", function(templateStatistics) {
 						    	$.ajax({
 								    url: rootPath + restRoot + "/statistics/" + data.username,
@@ -287,7 +291,7 @@ function displaySingleItem(type, id) {
 					    					pages.push(page);
 					    				}
 								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "totalItems" : data.length, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
-								    	contentElement.find('.author-items-root').append(renderedStatistics);
+								    	contentElement.find('.author-items-root>.fa-spin').replaceWith(renderedStatistics);
 								    	displayPage('author-items', pages.length);
 									},
 									error: function(textStatus, errorThrown) {
