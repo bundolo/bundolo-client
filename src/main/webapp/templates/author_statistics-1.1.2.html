@@ -21,11 +21,27 @@ ukupno prikazivanja: {{rating}}
 	</thead>
 	<tbody>
 		{{#items}}
-			<tr onclick="$.address.value('{{#isText}}text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}{{/isText}}{{#isEpisode}}episode/{{#escapeUrl}}{{parentGroup}}/{{name}}{{/escapeUrl}}{{/isEpisode}}');">
-				<td>{{name}}</td>
-				<td>{{#isText}}tekst{{/isText}}{{#isEpisode}}nastavak{{/isEpisode}}</td>
-				<td>{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
-				<td>{{#rating.0.value}}{{rating.0.value}}{{/rating.0.value}}{{^rating.0.value}}0{{/rating.0.value}}</td>
+			<tr>
+				<td>
+					<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+						{{name}}
+					</a>
+				</td>
+				<td>
+					<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+						{{#isText}}tekst{{/isText}}{{#isEpisode}}nastavak{{/isEpisode}}
+					</a>
+				</td>
+				<td>
+					<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+						{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+					</a>
+				</td>
+				<td>
+					<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+						{{#rating.0.value}}{{rating.0.value}}{{/rating.0.value}}{{^rating.0.value}}0{{/rating.0.value}}
+					</a>
+				</td>
 			</tr>
 		{{/items}}
 	</tbody>

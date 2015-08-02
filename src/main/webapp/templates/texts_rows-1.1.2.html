@@ -1,8 +1,24 @@
 {{#items}}
-	<tr id="text_{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}">
-		<td>{{{name}}}</td>
-		<td class="hidden-xs">{{authorUsername}}</td>
-		<td class="hidden-xs">{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
-		<td class="hidden-xs">{{#timestampDate}}{{lastActivity}}{{/timestampDate}}</td>
+	<tr>
+		<td>
+			<a href="/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}');return false;">
+				{{{name}}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}');return false;">
+				{{authorUsername}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}');return false;">
+				{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('/text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}');return false;">
+				{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+			</a>
+		</td>
 	</tr>
 {{/items}}

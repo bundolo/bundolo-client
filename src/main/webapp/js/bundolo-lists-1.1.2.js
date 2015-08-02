@@ -1,11 +1,4 @@
 $(document).ready(function() {
-	//clicks on entries in tables
-	$('body').on('click', 'table.infinite>tbody>tr', function(e) {
-		var elementId = $(this).attr('id');
-		var itemType = elementId.substr(0, elementId.indexOf('_'));
-		var itemId = elementId.substr(itemType.length + 1);
-		$.address.value(rootFolder+itemType+"/" + itemId);
-	});
 	//clicks on column headers
 	$('body').on('click', 'table.infinite>thead>tr>th', function(e) {
 		var elementId = $(this).attr('id');

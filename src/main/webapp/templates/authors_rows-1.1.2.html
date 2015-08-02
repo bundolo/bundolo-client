@@ -1,8 +1,24 @@
 {{#items}}
-	<tr id="author_{{username}}">
-		<td>{{{username}}}</td>
-		<td class="hidden-xs">{{#trimLong}}{{descriptionContent.text}}{{/trimLong}}</td>
-		<td class="hidden-xs">{{#timestampDate}}{{signupDate}}{{/timestampDate}}</td>
-		<td class="hidden-xs">{{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}</td>
+	<tr>
+		<td>
+			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+				{{{username}}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+				{{#trimLong}}{{descriptionContent.text}}{{/trimLong}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+				{{#timestampDate}}{{signupDate}}{{/timestampDate}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+				{{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}
+			</a>
+		</td>
 	</tr>
 {{/items}}

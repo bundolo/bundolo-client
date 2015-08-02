@@ -27,10 +27,10 @@
 	  <i class='fa fa-files-o'></i>
 	</h1>
 	<h1 class="text-center">
-	  <a href="javascript:;" onclick="$.address.value('{{#escapeUrl}}/serial/{{parentGroup}}{{/escapeUrl}}');">{{parentGroup}}</a>
+	  <a href="{{#escapeUrl}}/serial/{{parentGroup}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}/serial/{{parentGroup}}{{/escapeUrl}}');return false;">{{parentGroup}}</a>
 	</h1>
 	<h1 class="text-center">
-	  {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+	  {{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 	</h1>
 	<h1 class="text-center">
 	  {{{name}}}

@@ -170,19 +170,6 @@ body>div>div>.content table.infinite th.desc:after {
 	color: #000;
 }
 
-.comments-root h4,
-	margin: 10px 0 0 0;
-}
-
-.table.clickable>tbody>tr:hover {
-	cursor: pointer;
-}
-
-.table.clickable>tbody>tr:hover>td {
-	background-color: #ccc;
-	cursor: pointer;
-}
-
 .header_form>.btn-group>ul, .content-header>.btn-group>ul {
 	margin: 0;
 }

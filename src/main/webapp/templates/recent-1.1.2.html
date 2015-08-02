@@ -18,20 +18,20 @@
 <div class="row">
 	<div class="col-sm-4 item">
 		{{#entry.0}}
-			<h5><a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a> - <a href="javascript:;" onclick="$.address.value('text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">{{name}}</a></h5>
+			<h5><a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a> - <a href="/text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">{{name}}</a></h5>
 			{{#description.0.text}}<p>{{{description.0.text}}}</p>{{/description.0.text}}
 		{{/entry.0}}
 	</div>
 	<div class="col-sm-4 item">
 		{{#entry.1}}
-			<h5>- {{{text}}} ({{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
-			komentar na {{parentKind}} <a href="javascript:;" onclick="$.address.value('{{parentLinkUrl}}');">{{parentLinkText}}</a>
+			<h5>- {{{text}}} ({{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
+			komentar na {{parentKind}} <a href="/{{parentLinkUrl}}" onclick="$.address.value('{{parentLinkUrl}}');return false;">{{parentLinkText}}</a>
 		{{/entry.1}}
 	</div>
 	<div class="col-sm-4 item">
 		{{#entry.2}}
-			<h5><a href="javascript:;" onclick="$.address.value('topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');">{{name}}</a></h5>
-			{{#authorUsername}}pokretač: <a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}<br/>
+			<h5><a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">{{name}}</a></h5>
+			{{#authorUsername}}pokretač: <a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}<br/>
 		{{/entry.2}}
 	</div>
 </div>
@@ -39,7 +39,7 @@
 {{#isLoggedIn}}
 <div class="row">
 	<div class="col-xs-12">
-		<h4><a href="javascript:;" onclick="$.address.value('/updates');">sve novosti od vaše prethodne posete</a></h4>
+		<h4><a href="/updates" onclick="$.address.value('/updates');return false;">sve novosti od vaše prethodne posete</a></h4>
 	</div>
 </div>
 {{/isLoggedIn}}

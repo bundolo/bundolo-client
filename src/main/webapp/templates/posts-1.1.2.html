@@ -6,11 +6,11 @@
 </ul>
 {{#pages}}
 <table class="table table-striped forum-topic hidden page{{index}}">
-	<tbody>		
+	<tbody>
 			{{#posts}}
 				<tr>
 					<td>
-						{{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
+						{{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
 						{{#timestampDateTime}}{{creationDate}}{{/timestampDateTime}}
 					</td>
 					<td>{{{text}}}</td>

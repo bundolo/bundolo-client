@@ -16,11 +16,27 @@
 	</thead>
 	<tbody>
 		{{#episodes}}
-			<tr onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');">
-				<td>{{authorUsername}}</td>
-				<td>{{{name}}}</td>
-				<td>{{{description.0.text}}}</td>
-				<td>{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
+			<tr>
+				<td>
+					<a href="/episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');;return false;">
+						{{authorUsername}}
+					</a>
+				</td>
+				<td>
+					<a href="/episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');;return false;">
+						{{{name}}}
+					</a>
+				</td>
+				<td>
+					<a href="/episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');;return false;">
+						{{{description.0.text}}}
+					</a>
+				</td>
+				<td>
+					<a href="/episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}" onclick="$.address.value('episode/{{#escapeUrl}}{{serial.name}}/{{name}}{{/escapeUrl}}');;return false;">
+						{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+					</a>
+				</td>
 			</tr>
 		{{/episodes}}
 	</tbody>

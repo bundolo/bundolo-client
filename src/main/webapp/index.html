@@ -22,7 +22,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="/" class="logo">
+        <a href="/" class="logo" onclick="$.address.value('/');return false;">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>b</b></span>
           <!-- logo for regular state and mobile devices -->
@@ -46,16 +46,16 @@
       <aside class="main-sidebar">
         <section class="sidebar">
           <ul class="sidebar-menu">
-            <li><a href="javascript:;" onclick="$.address.value('list_texts');"><i class='fa fa-file-text-o'></i> <span>tekstovi</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('list_serials');"><i class='fa fa-book'></i> <span>serije</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('list_authors');"><i class='fa fa-user'></i> <span>autori</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('list_announcements');"><i class='fa fa-bullhorn'></i> <span>vesti</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('list_topics');"><i class='fa fa-comments-o'></i> <span>diskusije</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('list_contests');"><i class='fa fa-eye'></i> <span>konkursi</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('list_connections');"><i class='fa fa-link'></i> <span>linkovi</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('about');"><i class='fa fa-info'></i> <span>o bundolu</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('help');"><i class='fa fa-question'></i> <span>pomoć</span></a></li>
-            <li><a href="javascript:;" onclick="$.address.value('contact');"><i class='fa fa-envelope-o'></i> <span>kontakt</span></a></li>
+            <li><a href="/list_texts" onclick="$.address.value('list_texts');return false;"><i class='fa fa-file-text-o'></i> <span>tekstovi</span></a></li>
+            <li><a href="/list_serials" onclick="$.address.value('list_serials');return false;"><i class='fa fa-book'></i> <span>serije</span></a></li>
+            <li><a href="/list_authors" onclick="$.address.value('list_authors');return false;"><i class='fa fa-user'></i> <span>autori</span></a></li>
+            <li><a href="/list_announcements" onclick="$.address.value('list_announcements');return false;"><i class='fa fa-bullhorn'></i> <span>vesti</span></a></li>
+            <li><a href="/list_topics" onclick="$.address.value('list_topics');return false;"><i class='fa fa-comments-o'></i> <span>diskusije</span></a></li>
+            <li><a href="/list_contests" onclick="$.address.value('list_contests');return false;"><i class='fa fa-eye'></i> <span>konkursi</span></a></li>
+            <li><a href="/list_connections" onclick="$.address.value('list_connections');return false;"><i class='fa fa-link'></i> <span>linkovi</span></a></li>
+            <li><a href="/about" onclick="$.address.value('about');return false;"><i class='fa fa-info'></i> <span>o bundolu</span></a></li>
+            <li><a href="/help" onclick="$.address.value('help');return false;"><i class='fa fa-question'></i> <span>pomoć</span></a></li>
+            <li><a href="/contact" onclick="$.address.value('contact');return false;"><i class='fa fa-envelope-o'></i> <span>kontakt</span></a></li>
           </ul>
         </section>
       </aside>

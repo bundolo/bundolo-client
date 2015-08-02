@@ -156,14 +156,26 @@
 .skin-bundolo .main-footer a:hover {
   color: #999;
 }
-.skin-bundolo .content a, .skin-bundolo .content-header a, .skin-bundolo .header_form a {
+.skin-bundolo .content a, .skin-bundolo .content-header a, .skin-bundolo .header_form a[role="menuitem"] {
 	color: #444;
   	text-decoration: underline;
 }
-.skin-bundolo .content  a:hover, .skin-bundolo .content-header a:hover, .skin-bundolo .header_form a:hover {
+.skin-bundolo .content  a:hover, .skin-bundolo .content-header a:hover, .skin-bundolo .header_form a[role="menuitem"]:hover {
 	color: #000;
 }
-
+.skin-bundolo .content .table.clickable a {
+	text-decoration: none;
+	display:block;
+    height:100%;
+    width:100%;
+    padding: 8px;
+}
+.skin-bundolo .content .table.clickable td {
+	padding: 0;
+}
+.table.clickable>tbody>tr:hover>td {
+	background-color: #ccc;
+}
 .pagination a.active {
 	background-color: #eee;
 	border-color: #ddd;

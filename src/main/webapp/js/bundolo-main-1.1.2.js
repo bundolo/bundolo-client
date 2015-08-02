@@ -275,9 +275,11 @@ function displaySingleItem(type, id) {
 								    		switch(data[i].kind) {
 										    case 'text':
 										    	data[i].isText = true;
+										    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
 										        break;
 										    case 'episode':
 										    	data[i].isEpisode = true;
+										    	data[i].link = '/episode/' + data[i].parentGroup + '/' + data[i].name;
 										        break;
 								    		}
 								    		if (data[i].rating[0]) {
@@ -676,14 +678,17 @@ function displayStatistics() {
 					    case 'text':
 					    	data[i].isText = true;
 					    	data[i].isEditable = true;
+					    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
 					        break;
 					    case 'episode':
 					    	data[i].isEpisode = true;
 					    	data[i].isEditable = "pending" == data[i].contentStatus;
+					    	data[i].link = '/episode/' + data[i].parentGroup + '/' + data[i].name;
 					        break;
 					    case 'item_list_description':
 					    	data[i].isItemList = true;
 					    	data[i].isEditable = true;
+					    	data[i].link = '/item_list/' + data[i].name;
 					        break;
 			    		}
 			    		if (data[i].rating[0]) {
@@ -728,24 +733,31 @@ function displayUpdates() {
 			    		switch(data[i].kind) {
 					    case 'text':
 					    	data[i].isText = true;
+					    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
 					        break;
 					    case 'forum_topic':
 					    	data[i].isForumTopic = true;
+					    	data[i].link = '/topic/' + data[i].name;
 					        break;
 					    case 'connection_description':
 					    	data[i].isConnection = true;
+					    	data[i].link = '/connection/' + data[i].name;
 					        break;
 					    case 'news':
 					    	data[i].isAnnouncement = true;
+					    	data[i].link = '/announcement/' + data[i].name;
 					        break;
 					    case 'contest_description':
 					    	data[i].isContest = true;
+					    	data[i].link = '/contest/' + data[i].name;
 					        break;
 					    case 'episode':
 					    	data[i].isEpisode = true;
+					    	data[i].link = '/episode/' + data[i].parentGroup;
 					        break;
 					    case 'user_description':
 					    	data[i].isAuthor = true;
+					    	data[i].link = '/author/' + data[i].authorUsername;
 					        break;
 			    		}
 			    	}
@@ -953,12 +965,12 @@ function displayRandomComment() {
 		}
 	  var authorLink = "";
 	  if (comment.authorUsername && comment.authorUsername != "gost") {
-		  authorLink = '<a href="javascript:;" onclick="$.address.value(\'author/'+comment.authorUsername+'\');">'+comment.authorUsername+'</a>';
+		  authorLink = '<a href="/author/'+comment.authorUsername+'" onclick="$.address.value(\'author/'+comment.authorUsername+'\');return false;">'+comment.authorUsername+'</a>';
 	  } else {
 		  authorLink = "gost";
 	  }
 	  var mainContentText = $(".main>.jumbotron>.content>h2");
-	  mainContentText.html('- <a href="javascript:;" onclick="$.address.value(\''+parentLinkUrl+'\');">'+comment.text+'</a> ('+authorLink+')');
+	  mainContentText.html('- <a href="/'+parentLinkUrl+'" onclick="$.address.value(\''+parentLinkUrl+'\');return false;">'+comment.text+'</a> ('+authorLink+')');
 	});
 }
 
@@ -978,7 +990,7 @@ function displayHighlightedAnnouncement(id) {
 		  success: function(data) {
 			  if (data) {
 				  var mainContentText = $(".main>.jumbotron>.content>h2");
-				  mainContentText.html('- <a href="javascript:;" onclick="$.address.value(\'announcement/'+data.name.replace(/ /g, '~')+'\');">'+data.text+'</a>');
+				  mainContentText.html('- <a href="/announcement/'+data.name.replace(/ /g, '~')+'" onclick="$.address.value(\'announcement/'+data.name.replace(/ /g, '~')+'\');return false;">'+data.text+'</a>');
 			  }
 		  }
 	});
@@ -1044,11 +1056,11 @@ function displayLinksInAscii() {
 	    		for (var i = 0; i < anchors.length; i++) {
 	    			var tagAndReminder = "";
 	    			if (wordsArray[i].length > anchors[i].caption.length) {
-	    				tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);
+	    				tagAndReminder = "<a href='/"+anchors[i].link+"' onclick='$.address.value(\""+anchors[i].link+"\");return false;' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>" + wordsArray[i].substring(anchors[i].caption.length);
 		    		} else if (wordsArray[i].length < anchors[i].caption.length) {
-		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
+		    			tagAndReminder = "<a href='/"+anchors[i].link+"' onclick='$.address.value(\""+anchors[i].link+"\");return false;' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption.substring(0, wordsArray[i].length) + "</a>";
 		    		} else {
-		    			tagAndReminder = "<a href='javascript:;' onclick='$.address.value(\""+anchors[i].link+"\");' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
+		    			tagAndReminder = "<a href='/"+anchors[i].link+"' onclick='$.address.value(\""+anchors[i].link+"\");return false;' data-toggle='tooltip' title='"+anchors[i].title+"'>" + anchors[i].caption + "</a>";
 		    		}
 	    			asciiArtText = asciiArtText.replace(wordsArray[i], tagAndReminder);
 	    		}

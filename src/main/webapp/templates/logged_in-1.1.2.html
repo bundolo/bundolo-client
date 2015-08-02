@@ -3,10 +3,10 @@
 		{{username}}
 	</div>
 </div>
-<button type="button" class="btn btn-default" title="profil" onClick="$.address.value('/profile');">
+<a class="btn btn-default" href="/profile" title="profil" onClick="$.address.value('/profile');return false;">
 	<i class="fa fa-cog"></i>
 	<span>profil</span>
-</button>
+</a>
 <div class="btn-group">
 	<button type="button" class="btn btn-default dropdown-toggle" title="dodaj" data-toggle="dropdown" id="add_menu">
 		<i class="fa fa-plus"></i>
@@ -28,8 +28,8 @@
 		<span>statistika</span>
 	</button>
 	<ul class="dropdown-menu" role="menu" aria-labelledby="statistics_menu">
-	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="$.address.value('/statistics');">tekstovi</a></li>
-	  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onClick="$.address.value('/updates');">novosti</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics" onClick="$.address.value('/statistics');return false;">tekstovi</a></li>
+	  <li role="presentation"><a role="menuitem" tabindex="-1" href="/updates" onClick="$.address.value('/updates');return false;">novosti</a></li>
 	</ul>
 </div>
 <button type="button" class="btn btn-default process_logout" title="odjava">

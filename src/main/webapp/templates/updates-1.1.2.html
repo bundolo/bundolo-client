@@ -28,36 +28,40 @@
 				</thead>
 				<tbody>
 					{{#items}}
-						<tr onclick="$.address.value(
-								{{#isText}}'text/{{#escapeUrl}}{{authorUsername}}/{{name}}{{/escapeUrl}}'{{/isText}}
-								{{#isForumTopic}}'topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isForumTopic}}
-								{{#isConnection}}'connection/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isConnection}}
-								{{#isAnnouncement}}'announcement/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isAnnouncement}}
-								{{#isContest}}'contest/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isContest}}
-								{{#isEpisode}}'episode/{{#escapeUrl}}{{parentGroup}}/{{name}}{{/escapeUrl}}'{{/isEpisode}}
-								{{#isAuthor}}'author/{{#escapeUrl}}{{authorUsername}}{{/escapeUrl}}'{{/isAuthor}}
-								);">
+						<tr>
 							<td>
-								{{authorUsername}}
+								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+									{{authorUsername}}
+								</a>
 							</td>
 							<td>
-								{{#isAuthor}}{{text}}{{/isAuthor}}
-								{{^isAuthor}}{{name}}{{/isAuthor}}
+								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+									{{#isAuthor}}{{text}}{{/isAuthor}}
+									{{^isAuthor}}{{name}}{{/isAuthor}}
+								</a>
+
 							</td>
 							<td>
-								{{#isText}}tekst{{/isText}}
-								{{#isForumTopic}}diskusija{{/isForumTopic}}
-								{{#isConnection}}link{{/isConnection}}
-								{{#isAnnouncement}}vest{{/isAnnouncement}}
-								{{#isContest}}konkurs{{/isContest}}
-								{{#isEpisode}}nastavak{{/isEpisode}}
-								{{#isAuthor}}autor{{/isAuthor}}
+								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+									{{#isText}}tekst{{/isText}}
+									{{#isForumTopic}}diskusija{{/isForumTopic}}
+									{{#isConnection}}link{{/isConnection}}
+									{{#isAnnouncement}}vest{{/isAnnouncement}}
+									{{#isContest}}konkurs{{/isContest}}
+									{{#isEpisode}}nastavak{{/isEpisode}}
+									{{#isAuthor}}autor{{/isAuthor}}
+								</a>
+
 							</td>
 							<td>
-								{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+									{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+								</a>
 							</td>
 							<td>
-								{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+									{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+								</a>
 							</td>
 						</tr>
 					{{/items}}

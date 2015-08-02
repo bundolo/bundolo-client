@@ -1,8 +1,24 @@
 {{#items}}
-	<tr id="topic_{{#escapeUrl}}{{name}}{{/escapeUrl}}">
-		<td>{{{name}}}</td>
-		<td class="hidden-xs">{{authorUsername}}</td>
-		<td class="hidden-xs">{{#timestampDate}}{{creationDate}}{{/timestampDate}}</td>
-		<td class="hidden-xs">{{#timestampDate}}{{lastActivity}}{{/timestampDate}}</td>
+	<tr>
+		<td>
+			<a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">
+				{{{name}}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">
+				{{authorUsername}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">
+				{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+			</a>
+		</td>
+		<td class="hidden-xs">
+			<a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">
+				{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+			</a>
+		</td>
 	</tr>
 {{/items}}

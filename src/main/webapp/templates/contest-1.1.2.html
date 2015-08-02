@@ -33,7 +33,7 @@
 	<div class="row">
     	<div class="col-xs-12">
 			<p>{{{descriptionContent.text}}}</p>
-			dodao/la: {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+			dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 			<br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 			<br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
 			{{#editingEnabled}}

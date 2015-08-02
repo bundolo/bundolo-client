@@ -25,7 +25,7 @@
 	  <i class='fa fa-file-text-o'></i>
 	</h1>
 	<h1 class="text-center">
-	  {{#authorUsername}}<a href="javascript:;" onclick="$.address.value('author/{{authorUsername}}');">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+	  {{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 	</h1>
 	<h1 class="text-center">
 	  {{{name}}}
