@@ -115,6 +115,10 @@ $(document).ready(function() {
 	homeHtml = mainContent.html();
 	$.li18n.currentLocale = 'sr_RS';
 
+	$('body').on('click', '.send_message', function(e) {
+		sendMessage();
+	});
+
 	$('body').on('click', '.sidebar-menu>li>a', function(e) {
 		$(e.target).closest('li').addClass('active');
 	});
@@ -833,6 +837,7 @@ function sendMessage() {
 	  success: function(data) {
 		  if (data) {
 			  if (data == 'success') {
+				  loadFromAddress();
 			  } else {
 				  displayModal("notification", null, null, data);
 			  }
@@ -1074,12 +1079,12 @@ function displayLinksInAscii() {
 
 function displayRecent() {
 	$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
-		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataComments) {
+		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
 			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
 				$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
 					var isLoggedIn = username != "gost";
 				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]),
-				    	"escapeUrl": escapeUrl, "timestampDate": timestampDate, "isLoggedIn": isLoggedIn});
+				    	"escapeUrl": escapeUrl, "timestampDate": timestampDate, "isLoggedIn": isLoggedIn, "trimLong": trimLong});
 				    $(".recent").html(rendered);
 				});
 			});

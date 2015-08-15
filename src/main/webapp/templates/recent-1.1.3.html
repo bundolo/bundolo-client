@@ -19,12 +19,12 @@
 	<div class="col-sm-4 item">
 		{{#entry.0}}
 			<h5><a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a> - <a href="/text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">{{name}}</a></h5>
-			{{#description.0.text}}<p>{{{description.0.text}}}</p>{{/description.0.text}}
+			{{#description.0.text}}<p>{{#trimLong}}{{{description.0.text}}}{{/trimLong}}</p>{{/description.0.text}}
 		{{/entry.0}}
 	</div>
 	<div class="col-sm-4 item">
 		{{#entry.1}}
-			<h5>- {{{text}}} ({{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
+			<h5>- {{#trimLong}}{{{text}}}{{/trimLong}} ({{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
 			komentar na {{parentKind}} <a href="/{{parentLinkUrl}}" onclick="$.address.value('{{parentLinkUrl}}');return false;">{{parentLinkText}}</a>
 		{{/entry.1}}
 	</div>
