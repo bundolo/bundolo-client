@@ -35,7 +35,6 @@ body>div>div>.content table.infinite th:last-of-type {
 }
 
 body>div>div>.content table.infinite>tbody {
-	height: 262px;
 	overflow: auto;
 	display: block;
 }

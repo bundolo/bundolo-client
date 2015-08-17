@@ -64,6 +64,20 @@
     background-color: #1f1f1f;
   }
 }
+body>div>div>.content table.infinite>tbody {
+	height: 362px;
+}
+@media (max-height: 600px) {
+  body>div>div>.content table.infinite>tbody {
+  	height: 262px;
+  }
+}
+@media (max-height: 400px) {
+  body>div>div>.content table.infinite>tbody {
+  	height: 162px;
+  }
+}
+
 .skin-bundolo .main-header li.user-header {
   background-color: #222;
 }
@@ -168,7 +182,7 @@
 	display:block;
     height:100%;
     width:100%;
-    padding: 8px;
+    padding: 2px;
 }
 .skin-bundolo .content .table.clickable td {
 	padding: 0;
