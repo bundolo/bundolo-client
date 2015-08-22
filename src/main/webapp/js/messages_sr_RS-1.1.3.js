@@ -40,6 +40,8 @@ $.li18n.translations =
 	updates : 'novosti',
 	page : 'bundolo',
 	post : 'odgovor',
-	comment : 'komentar'
+	comment : 'komentar',
+	message : 'privatna poruka',
+	inquiry : 'pitanje'
 	}
 };
