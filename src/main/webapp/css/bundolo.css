@@ -134,13 +134,16 @@ body>div>div>.content table.infinite th.desc:after {
 	-webkit-transform: scale(1.2,1.2);
 }
 
-.comment-button, .root-comment-button, .collapse_children {
+.collapse_old {
+	padding-left: 20px;
+}
+.comment-button, .root-comment-button, .collapse_children, .collapse_old {
 	font-size: 10px;
 	color: #000;
 	cursor: pointer;
 	display: inline-block;
 }
-.comment-button>span, .root-comment-button>span, .collapse_children>span {
+.comment-button>span, .root-comment-button>span, .collapse_children>span, .collapse_old>span {
 	padding-left: 4px;
 }
 .panel.comment {
@@ -243,6 +246,15 @@ body {
 
 .row {
 	padding: 0 1px;
+}
+
+.comments-root .expand-content {
+	padding: 0 15px;
+	display: block;
+}
+
+.comment.old {
+	display: none;
 }
 
 /*spinner start*/

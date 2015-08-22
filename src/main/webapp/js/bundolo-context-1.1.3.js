@@ -2,21 +2,20 @@ var commentParentId;
 var rootParentId;
 var rootType;
 var itemLists;
+var oldCommentLimit = 1000 * 60 * 60 * 24 * 30; /*30 days*/
 $(document).ready(function() {
 	$('body').on('click', '.save_comment', function(e) {
-		if (!handlingForm) {
-			handlingForm = true;
-			saveComment();
-		}
+		saveComment();
 	});
 	$('body').on('click', '.root-comment-button', function(e) {
 		var parentId = $('.root-comment-button').attr('id').substr(8);
-		addComment(parentId);
+		var parentElement = $('.comments-root');
+		addComment(parentId, parentElement);
 	});
 	$('body').on('click', '.comment-button', function(e) {
 		var parentElement = $(e.target).closest('.comment');
 		var parentId = parentElement.find(">span").attr('id').substr(8);
-		addComment(parentId);
+		addComment(parentId, parentElement);
 	});
 	$('body').on('mouseenter', '.root-comment-button', function(e) {
 		var commentsRoot = $('.comments-root');
@@ -64,6 +63,18 @@ $(document).ready(function() {
 		$(e.target).parent().find(">.collapse_children>span").text("sakrij odgovore");
 		$(e.target).parent().find(">.collapse_children>i").removeClass("fa-caret-down");
 		$(e.target).parent().find(">.collapse_children>i").addClass("fa-caret-up");
+	});
+
+	$('body').on('click', '.collapse_old', function(e) {
+		var collapseOldIcon = $('.collapse_old>i');
+		collapseOldIcon.toggleClass("fa-caret-up fa-caret-down");
+		if (collapseOldIcon.hasClass("fa-caret-up")) {
+			$('.collapse_old>span').text("sakrij stare komentare");
+			$('.comment.old').css("display","inline-block");
+		} else {
+			$('.collapse_old>span').text("prikaži stare komentare");
+			$('.comment.old').css("display","none");
+		}
 	});
 });
 
@@ -136,13 +147,17 @@ function displayComments(parentId) {
 	commentsRootElement.html(spinner);
 	$.get(rootFolder+"templates/comments" + "-" + version + ".html", function(template) {
 		$.getJSON(rootPath + restRoot + "/parent_comments/" + parentId, function(data) {
-			sanitizeRecursive(data, true);
-			//console.log(JSON.stringify(data));
+			var hasOldComments = sanitizeRecursive(data, true);
 			var partials = {commentPanel: template};
 		    var rendered = Mustache.render(template, {"comments": data}, partials);
-		    var rootCommentButton = $('<h4>komentari<span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
-					<i class="fa fa-plus"></i><span class="hidden-xs">dodaj komentar</span>\
-				</span></h4>');
+		    var rootCommentButtonString = '<h4>komentari';
+		    if (hasOldComments) {
+		    	rootCommentButtonString += '<span class="collapse_old" title="prikaži stare komentare"><i class="fa fa-caret-down"></i><span class="hidden-xs">prikaži stare komentare</span></span>';
+		    }
+		    rootCommentButtonString += '<span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
+			<i class="fa fa-plus"></i><span class="hidden-xs">dodaj komentar</span>\
+			</span></h4>';
+		    var rootCommentButton = $(rootCommentButtonString);
 		    commentsRootElement.html(rootCommentButton);
 		    commentsRootElement.append(rendered);
 		});
@@ -150,6 +165,7 @@ function displayComments(parentId) {
 }
 
 function sanitizeRecursive(data, shouldCollapse) {
+	var hasOldComments = false;
 	if($.isArray(data) && data.length) {
 		for (index in data) {
 		  data[index].text = sanitizeRuntime(data[index].text);
@@ -159,7 +175,8 @@ function sanitizeRecursive(data, shouldCollapse) {
 			  data[index].authorText = 'gost';
 		  }
 		  data[index].collapse = shouldCollapse;
-		  //console.log(jQuery.type(data[index].collapse));
+		  data[index].old = $.now() - data[index].creationDate > oldCommentLimit;
+		  hasOldComments = data[index].old || hasOldComments;
 
 		  if(!$.isArray(data[index].comments)) {
 			  data[index].comments = [];
@@ -169,14 +186,30 @@ function sanitizeRecursive(data, shouldCollapse) {
 //		  } else {
 //			  data[index].hasChildren = true;
 //		  }
-		  sanitizeRecursive(data[index].comments, false);
+		  hasOldComments = sanitizeRecursive(data[index].comments, false) || hasOldComments;
 		}
 	}
+	return hasOldComments;
 }
 
-function addComment(parentId) {
+function addComment(parentId, parentElement) {
+	cancelComment();
 	commentParentId = parentId;
-	editSingleItem('comment');
+	$.get(rootFolder+"templates/edit_comment" + "-" + version + ".html", function(template) {
+		var rendered = Mustache.render(template, {});
+		parentElement.append(rendered);
+		$('.default-focus').focus();
+		if (username != 'gost') {
+			$("#edit_credentials>option[value='logged']").html(username);
+			$("#edit_credentials").val('logged');
+		} else {
+			$("#edit_credentials>option[value='logged']").remove();
+		}
+	});
+}
+
+function cancelComment() {
+	$('.comments-root .expand-content').remove();
 }
 
 function saveComment() {
