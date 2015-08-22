@@ -37,16 +37,16 @@
 			dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 			<br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 			<br/>broj prikazivanja: {{rating.0.value}}
-			<div class="item-footer">
-			<button type="button" class="btn btn-default" title="dodaj odgovor" onClick="addPost({{contentId}});">
-				<i class="fa fa-plus"></i>
-				<span>dodaj odgovor</span>
-			</button>
-			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12 posts-root">
 		</div>
+	</div>
+	<div class="item-footer">
+		<button type="button" class="btn btn-default" title="dodaj odgovor" onClick="addPost({{contentId}});">
+			<i class="fa fa-plus"></i>
+			<span>dodaj odgovor</span>
+		</button>
 	</div>
 </section>
