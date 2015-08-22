@@ -1,4 +1,4 @@
-$.li18n.translations = 
+$.li18n.translations =
 {sr_RS: {
 	saving_error : 'snimanje nije uspelo!',
 	exception : 'akcija nije uspela!',
@@ -15,6 +15,31 @@ $.li18n.translations =
 	validation_failed : 'validacija nije uspela!',
 	username_taken : 'korisničko ime je već zauzeto! ako ste ga vi koristili, umesto kreiranja novog naloga možete resetovati lozinku na starom.',
 	email_taken : 'adresa elektronske pošte je već u upotrebi! ako ste je vi koristili, možete resetovati lozinku na starom korisničkom nalogu.',
-	wrong_value : 'nedozvoljena vrednost!'
+	wrong_value : 'nedozvoljena vrednost!',
+	about : 'o bundolu',
+	announcement : 'vest',
+	announcements : 'vesti',
+	author : 'autor',
+	authors : 'autori',
+	connection : 'link',
+	connections : 'linkovi',
+	contact : 'kontakt',
+	contest : 'konkurs',
+	contests : 'konkursi',
+	episode : 'nastavak',
+	help : 'pomoć',
+	item_list : 'izbor',
+	profile : 'profil',
+	serial : 'serija',
+	serials : 'serije',
+	statistics : 'pregled objavljenog',
+	text : 'tekst',
+	texts : 'tekstovi',
+	topic : 'diskusija',
+	topics : 'diskusije',
+	updates : 'novosti',
+	page : 'bundolo',
+	post : 'odgovor',
+	comment : 'komentar'
 	}
 };

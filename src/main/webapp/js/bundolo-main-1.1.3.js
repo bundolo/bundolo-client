@@ -124,9 +124,22 @@ $(document).ready(function() {
 	});
 });
 
-function displayContent(parentElement, html, contentId, contentType) {
+function displayContent(parentElement, html, contentId, contentType, contentTitle) {
 	parentElement.html(html);
 	randomHeaderBackground();
+	if (contentType) {
+		if (contentType == "page") {
+			if (contentTitle) {
+				document.title = $.li18n.translate(contentTitle) + " - bundolo";
+			} else {
+				document.title = "bundolo";
+			}
+		} else {
+			document.title = $.li18n.translate(contentType) + " - "+contentTitle.replace(/~/g, ' ').replace(/\//g, ' - ') + " - bundolo";
+		}
+	} else if (contentTitle) {
+		document.title = $.li18n.translate(contentTitle) + " - bundolo";
+	}
 	if (contentId) {
 		addContextMenu(parentElement, contentId, contentType);
 	}
@@ -209,7 +222,7 @@ function displaySingleItem(type, id) {
 					    data.escapeUrl = escapeUrlExtended;
 					    data.timestampDate = timestampDate;
 					    var rendered = Mustache.render(template, data);
-					    displayContent(contentElement, rendered, commentParentId, type);
+					    displayContent(contentElement, rendered, commentParentId, type, id);
 					    if (type == 'topic') {
 					    	contentElement.find('.posts-root').append(spinner);
 					    	$.get(rootFolder+"templates/posts" + "-" + version + ".html", function(templatePosts) {
@@ -416,6 +429,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    	data.escapeUrl = escapeUrlExtended;
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
+		    	document.title = "izmena - " + $.li18n.translate(type) + " - bundolo";
 		    	randomHeaderBackground();
 		    	$('.default-focus').focus();
 		    	if (type == 'announcement' || type == 'episode' || type == 'text') {
@@ -450,6 +464,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
+    	document.title = "unos - " + $.li18n.translate(type) + " - bundolo";
     	randomHeaderBackground();
     	$('.default-focus').focus();
     	if (type == 'comment' || type == 'post') {
@@ -531,7 +546,7 @@ function displayAbout() {
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
-			    displayContent(contentElement, rendered, data.contentId, "page");
+			    displayContent(contentElement, rendered, data.contentId, "page", "about");
 			},
 			error: function(textStatus, errorThrown) {
 				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
@@ -554,7 +569,7 @@ function displayHelp() {
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
-			    displayContent(contentElement, rendered, data.contentId, "page");
+			    displayContent(contentElement, rendered, data.contentId, "page", "help");
 			},
 			error: function(textStatus, errorThrown) {
 				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
@@ -578,7 +593,7 @@ function displayContact() {
 		    success: function(data) {
 		    	//do not use html from db for now
 		    	var rendered = Mustache.render(template, {});
-			    displayContent(contentElement, rendered, data.contentId, "page");
+			    displayContent(contentElement, rendered, data.contentId, "page", "contact");
 			},
 			error: function(textStatus, errorThrown) {
 				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
@@ -615,7 +630,7 @@ function displayProfile() {
 		    		data.showPersonal = data.showPersonal ? 'da' : 'ne';
 		    		data.timestampDate = timestampDate;
 		    		var rendered = Mustache.render(template, data);
-				    displayContent(contentElement, rendered);
+				    displayContent(contentElement, rendered, null, null,"profile");
 		    	} else {
 		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
@@ -705,8 +720,8 @@ function displayStatistics() {
     					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
     					pages.push(page);
     				}
-			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
-				    displayContent(contentElement, rendered);
+			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate, "totalItems" : data.length});
+				    displayContent(contentElement, rendered, null, null, "statistics");
 				    displayPage('profile-items', pages.length);
 		    	} else {
 		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
@@ -772,7 +787,7 @@ function displayUpdates() {
     					pages.push(page);
     				}
 			    	var rendered = Mustache.render(template, {"pages" : pages, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
-				    displayContent(contentElement, rendered);
+				    displayContent(contentElement, rendered, null, null, "updates");
 				    displayPage('recent-updates', pages.length);
 		    	} else {
 		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");

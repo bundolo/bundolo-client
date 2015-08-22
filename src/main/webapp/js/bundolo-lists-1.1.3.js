@@ -44,7 +44,7 @@ function displayList(type, orderBy, filterBy, lastModified) {
 	$.get(rootPath + "/templates/"+type+"-" + version + ".html", function(template) {
 		var rendered = Mustache.render(template, {});
 		var mainContent = $(mainContentPath);
-		displayContent(mainContent, rendered);
+		displayContent(mainContent, rendered, null, null, type);
 		displayListItems(type, orderBy, filterBy, lastModified);
 	});
 }
