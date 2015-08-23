@@ -1,36 +1,29 @@
-<section class="content-header">
-	<h1 class="text-center">
-	  <i class='fa fa-comments'></i>
-	</h1>
-	<h1 class="text-center">
-	  unos odgovora na forumu
-	</h1>
-</section>
-<section class="content">
-	<div class="row">
-    	<div class="col-xs-12">
-			<form role="form">
-				<input type="hidden" id="edit_item_id" value="{{contentId}}">
-				<div class="form-group">
-				  <label for="edit_content">tekst</label>
-				  <textarea cols="45" rows="6" class="form-control default-focus" id="edit_content" placeholder="unesite tekst" validators="required"></textarea>
-				</div>
-				<div class="form-group">
-					<label for="edit_credentials">odgovor želim da dodam kao</label>
-					<select class="form-control" id="edit_credentials">
-						<option value="anonymous">gost</option>
-						<option value="logged">ulogovan</option>
-					</select>
-				</div>
-				<div class="form-group hidden">
-				  <label for="edit_honeypot">nemojte popunjavati ovo polje</label>
-				  <input type="text" class="form-control" id="edit_honeypot" placeholder="nemojte popunjavati ovo polje" validators="forbidden">
-				</div>
-			</form>
-		</div>
+<div class="expand-content">
+   	<div class="col-xs-12">
+   		<h4>
+	  		unos odgovora na forumu
+		</h4>
+		<form role="form">
+			<input type="hidden" id="edit_item_id" value="{{contentId}}">
+			<div class="form-group">
+			  <label for="edit_content">tekst</label>
+			  <textarea cols="45" rows="6" class="form-control default-focus" id="edit_content" placeholder="unesite tekst" validators="required"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="edit_credentials">odgovor želim da dodam kao</label>
+				<select class="form-control" id="edit_credentials">
+					<option value="anonymous">gost</option>
+					<option value="logged">ulogovan</option>
+				</select>
+			</div>
+			<div class="form-group hidden">
+			  <label for="edit_honeypot">nemojte popunjavati ovo polje</label>
+			  <input type="text" class="form-control" id="edit_honeypot" placeholder="nemojte popunjavati ovo polje" validators="forbidden">
+			</div>
+		</form>
 	</div>
-	<div class="item-footer">
-		<button type="button" class="btn btn-default" title="odustani" onClick="cancelEdit();">
+	<div class="col-xs-12 text-center">
+		<button type="button" class="btn btn-default" title="odustani" onClick="cancelPost();">
 			<i class="fa fa-times"></i>
 			<span>odustani</span>
 		</button>
@@ -39,4 +32,4 @@
 			<span>snimi</span>
 		</button>
 	</div>
-</section>
+</div>

@@ -2,22 +2,33 @@ var postParentId;
 
 $(document).ready(function() {
 	$('body').on('click', '.save_post', function(e) {
-		if (!handlingForm) {
-			handlingForm = true;
-			savePost();
-		}
+		savePost();
 	});
 	$('body').on('click', '.save_topic', function(e) {
-		if (!handlingForm) {
-			handlingForm = true;
-			saveTopic();
-		}
+		saveTopic();
 	});
 });
 
 function addPost(parentId) {
+	$('.content>.item-footer').hide();
 	postParentId = parentId;
-	editSingleItem('post');
+	var parentElement = $('.posts-root');
+	$.get(rootFolder+"templates/edit_post" + "-" + version + ".html", function(template) {
+		var rendered = Mustache.render(template, {});
+		parentElement.append(rendered);
+		$('.default-focus').focus();
+		if (username != 'gost') {
+			$("#edit_credentials>option[value='logged']").html(username);
+			$("#edit_credentials").val('logged');
+		} else {
+			$("#edit_credentials>option[value='logged']").remove();
+		}
+	});
+}
+
+function cancelPost() {
+	$('.posts-root .expand-content').remove();
+	$('.content>.item-footer').show();
 }
 
 function savePost() {

@@ -467,14 +467,6 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     	document.title = "unos - " + $.li18n.translate(type) + " - bundolo";
     	randomHeaderBackground();
     	$('.default-focus').focus();
-    	if (type == 'post') {
-    		if (username != 'gost') {
-    			$("#edit_credentials>option[value='logged']").html(username);
-    			$("#edit_credentials").val('logged');
-    		} else {
-    			$("#edit_credentials>option[value='logged']").remove();
-    		}
-    	}
 	}
 }
 
