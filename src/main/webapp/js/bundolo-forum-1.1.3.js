@@ -2,10 +2,16 @@ var postParentId;
 
 $(document).ready(function() {
 	$('body').on('click', '.save_post', function(e) {
-		savePost();
+		if (!handlingForm) {
+			handlingForm = true;
+			savePost();
+		}
 	});
 	$('body').on('click', '.save_topic', function(e) {
-		saveTopic();
+		if (!handlingForm) {
+			handlingForm = true;
+			saveTopic();
+		}
 	});
 });
 
@@ -28,6 +34,7 @@ function addPost(parentId) {
 
 function cancelPost() {
 	$('.posts-root .expand-content').remove();
+	handlingForm = false;
 	$('.content>.item-footer').show();
 }
 

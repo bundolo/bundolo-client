@@ -5,7 +5,10 @@ var itemLists;
 var oldCommentLimit = 1000 * 60 * 60 * 24 * 30; /*30 days*/
 $(document).ready(function() {
 	$('body').on('click', '.save_comment', function(e) {
-		saveComment();
+		if (!handlingForm) {
+			handlingForm = true;
+			saveComment();
+		}
 	});
 	$('body').on('click', '.root-comment-button', function(e) {
 		var parentId = $('.root-comment-button').attr('id').substr(8);
@@ -210,6 +213,7 @@ function addComment(parentId, parentElement) {
 
 function cancelComment() {
 	$('.comments-root .expand-content').remove();
+	handlingForm = false;
 }
 
 function saveComment() {

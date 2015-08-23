@@ -116,7 +116,10 @@ $(document).ready(function() {
 	$.li18n.currentLocale = 'sr_RS';
 
 	$('body').on('click', '.send_message', function(e) {
-		sendMessage();
+		if (!handlingForm) {
+			handlingForm = true;
+			sendMessage();
+		}
 	});
 
 	$('body').on('click', '.sidebar-menu>li>a', function(e) {
