@@ -106,6 +106,8 @@ function loadFromAddress() {
 		var slashPos = reminder.indexOf('/');
 		if (slashPos > 0) {
 			displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
+		} else {
+			displayHome();
 		}
 	}
 }
@@ -1091,11 +1093,18 @@ function displayRecent() {
 	$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
 		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
 			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
-				$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
-					var isLoggedIn = username != "gost";
-				    var rendered = Mustache.render(template, { "items": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]),
-				    	"escapeUrl": escapeUrl, "timestampDate": timestampDate, "isLoggedIn": isLoggedIn, "trimLong": trimLong});
-				    $(".recent").html(rendered);
+				$.getJSON(rootPath + restRoot + "/announcements", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataAnnouncements) {
+					$.getJSON(rootPath + restRoot + "/contests", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataContests) {
+						$.getJSON(rootPath + restRoot + "/connections", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataConnections) {
+							$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
+								var isLoggedIn = username != "gost";
+							    var rendered = Mustache.render(template, { "items1": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]),
+							    	"items2": rearrangeDataForTable([adjustData(dataAnnouncements, "announcements"), adjustData(dataContests, "contests"), adjustData(dataConnections, "connections")]),
+							    	"escapeUrl": escapeUrl, "timestampDate": timestampDate, "isLoggedIn": isLoggedIn, "trimLong": trimLong});
+							    $(".recent").html(rendered);
+							});
+						});
+					});
 				});
 			});
 		});

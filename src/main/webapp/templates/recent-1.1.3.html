@@ -3,7 +3,7 @@
 		<h4>poslednjih pet</h4>
 	</div>
 </div>
-<div class="row">
+<div class="row heading">
 	<div class="col-sm-4">
 		<h4><i class="fa fa-file-text-o"></i> tekstovi</h4>
 	</div>
@@ -14,28 +14,68 @@
 		<h4><i class="fa fa-comments-o"></i> diskusije</h4>
 	</div>
 </div>
-{{#items}}
+{{#items1}}
 <div class="row">
 	<div class="col-sm-4 item">
 		{{#entry.0}}
 			<h5><a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a> - <a href="/text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">{{name}}</a></h5>
-			{{#description.0.text}}<p>{{#trimLong}}{{{description.0.text}}}{{/trimLong}}</p>{{/description.0.text}}
 		{{/entry.0}}
 	</div>
 	<div class="col-sm-4 item">
 		{{#entry.1}}
-			<h5>- {{#trimLong}}{{{text}}}{{/trimLong}} ({{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
-			komentar na {{parentKind}} <a href="/{{parentLinkUrl}}" onclick="$.address.value('{{parentLinkUrl}}');return false;">{{parentLinkText}}</a>
+			<h5>- <a href="/{{parentLinkUrl}}" onclick="$.address.value('{{parentLinkUrl}}');return false;">{{#trimLong}}{{{text}}}{{/trimLong}}</a> ({{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
 		{{/entry.1}}
 	</div>
 	<div class="col-sm-4 item">
 		{{#entry.2}}
 			<h5><a href="/topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('topic/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">{{name}}</a></h5>
-			{{#authorUsername}}pokretač: <a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}<br/>
 		{{/entry.2}}
 	</div>
 </div>
-{{/items}}
+{{/items1}}
+
+<div class="row heading">
+	<div class="col-sm-4">
+		<h4><i class="fa fa-bullhorn"></i> vesti</h4>
+	</div>
+	<div class="col-sm-4">
+		<h4><i class="fa fa-eye"></i> konkursi</h4>
+	</div>
+	<div class="col-sm-4">
+		<h4><i class="fa fa-link"></i> linkovi</h4>
+	</div>
+</div>
+{{#items2}}
+<div class="row">
+	<div class="col-sm-4 item">
+		{{#entry.0}}
+			<h5>
+				<a href="/announcement/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('/announcement/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">
+					{{{name}}}
+				</a>
+			</h5>
+		{{/entry.0}}
+	</div>
+	<div class="col-sm-4 item">
+		{{#entry.1}}
+			<h5>
+				<a href="/contest/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}" onclick="$.address.value('/contest/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}');return false;">
+					{{{descriptionContent.name}}}
+				</a>
+			</h5>
+		{{/entry.1}}
+	</div>
+	<div class="col-sm-4 item">
+		{{#entry.2}}
+			<h5>
+				<a href="/connection/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}" onclick="$.address.value('/connection/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}');return false;">
+					{{{descriptionContent.name}}}
+				</a>
+			</h5>
+		{{/entry.2}}
+	</div>
+</div>
+{{/items2}}
 {{#isLoggedIn}}
 <div class="row">
 	<div class="col-xs-12">

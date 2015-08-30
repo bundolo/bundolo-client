@@ -257,6 +257,10 @@ body {
 	display: none;
 }
 
+.row.heading~.row.heading {
+    padding-top: 15px;
+}
+
 /*spinner start*/
 .fa-spin .fa-inverse {
 	opacity: 0;
