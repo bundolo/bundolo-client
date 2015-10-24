@@ -1,0 +1,94 @@
+<div class="row">
+	<div class="col-xs-12">
+		<h4>poslednjih pet</h4>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-4 texts">
+		<div class="box box-success">
+		  <div class="box-header with-border">
+		    <h3 class="box-title"><i class="fa fa-file-text-o"></i> tekstovi</h3>
+		    <div class="box-tools pull-right">
+		    </div>
+		  </div>
+		  <div class="box-body">
+		    <div class="overlay">
+			</div>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-4 comments">
+		<div class="box box-success">
+		  <div class="box-header with-border">
+		    <h3 class="box-title"><i class="fa fa-comment-o"></i> komentari</h3>
+		    <div class="box-tools pull-right">
+		    </div>
+		  </div>
+		  <div class="box-body">
+		    <div class="overlay">
+			</div>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-4 topics">
+		<div class="box box-success">
+		  <div class="box-header with-border">
+		    <h3 class="box-title"><i class="fa fa-comments-o"></i> diskusije</h3>
+		    <div class="box-tools pull-right">
+		    </div>
+		  </div>
+		  <div class="box-body">
+		    <div class="overlay">
+			</div>
+		  </div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-4 announcements">
+		<div class="box box-success">
+		  <div class="box-header with-border">
+		    <h3 class="box-title"><i class="fa fa-bullhorn"></i> vesti</h3>
+		    <div class="box-tools pull-right">
+		    </div>
+		  </div>
+		  <div class="box-body">
+		    <div class="overlay">
+			</div>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-4 contests">
+		<div class="box box-success">
+		  <div class="box-header with-border">
+		    <h3 class="box-title"><i class="fa fa-eye"></i> konkursi</h3>
+		    <div class="box-tools pull-right">
+		    </div>
+		  </div>
+		  <div class="box-body">
+		    <div class="overlay">
+			</div>
+		  </div>
+		</div>
+	</div>
+	<div class="col-sm-4 connections">
+		<div class="box box-success">
+		  <div class="box-header with-border">
+		    <h3 class="box-title"><i class="fa fa-link"></i> linkovi</h3>
+		    <div class="box-tools pull-right">
+		    </div>
+		  </div>
+		  <div class="box-body">
+		    <div class="overlay">
+			</div>
+		  </div>
+		</div>
+	</div>
+</div>
+{{#isLoggedIn}}
+<div class="row">
+	<div class="col-xs-12">
+		<h4><a href="/updates" onclick="$.address.value('/updates');return false;">sve novosti od vaše prethodne posete</a></h4>
+	</div>
+</div>
+{{/isLoggedIn}}

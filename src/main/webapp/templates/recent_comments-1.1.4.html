@@ -1,0 +1,3 @@
+{{#items}}
+	<h5>- <a href="/{{parentLinkUrl}}" onclick="$.address.value('{{parentLinkUrl}}');return false;">{{#trimLong}}{{{text}}}{{/trimLong}}</a> ({{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}})</h5>
+{{/items}}

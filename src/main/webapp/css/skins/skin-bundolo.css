@@ -195,3 +195,7 @@ body>div>div>.content table.infinite>tbody {
 	border-color: #ddd;
 	cursor: pointer;
 }
+
+.skin-bundolo .box.box-success {
+    border-top-color: #000;
+}

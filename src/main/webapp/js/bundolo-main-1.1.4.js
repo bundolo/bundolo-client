@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.1.3";
+var version = "1.1.4";
 var handlingForm = false;
 var mainContentPath = 'body>div.wrapper>div.content-wrapper';
 var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>div>form';
@@ -1091,22 +1091,51 @@ function displayLinksInAscii() {
 }
 
 function displayRecent() {
-	$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
-		$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
+	$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
+		var isLoggedIn = username != "gost";
+		var rendered = Mustache.render(template, {"isLoggedIn": isLoggedIn});
+		$(".recent").html(rendered);
+		$(".recent .overlay").html(spinner);
+
+		$.get(rootPath + "/templates/recent_texts" + "-" + version + ".html", function(templateTexts) {
+			$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
+				var renderedTexts = Mustache.render(templateTexts, { "items": dataTexts, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				$(".recent .texts .box-body").html(renderedTexts);
+			});
+		});
+
+		$.get(rootPath + "/templates/recent_comments" + "-" + version + ".html", function(templateComments) {
+			$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
+				var renderedComments = Mustache.render(templateComments, { "items": dataComments, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				$(".recent .comments .box-body").html(renderedComments);
+			});
+		});
+
+		$.get(rootPath + "/templates/recent_topics" + "-" + version + ".html", function(templateTopics) {
 			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
-				$.getJSON(rootPath + restRoot + "/announcements", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataAnnouncements) {
-					$.getJSON(rootPath + restRoot + "/contests", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataContests) {
-						$.getJSON(rootPath + restRoot + "/connections", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataConnections) {
-							$.get(rootPath + "/templates/recent" + "-" + version + ".html", function(template) {
-								var isLoggedIn = username != "gost";
-							    var rendered = Mustache.render(template, { "items1": rearrangeDataForTable([adjustData(dataTexts, "texts"), adjustData(dataComments, "comments"), adjustData(dataTopics, "topics")]),
-							    	"items2": rearrangeDataForTable([adjustData(dataAnnouncements, "announcements"), adjustData(dataContests, "contests"), adjustData(dataConnections, "connections")]),
-							    	"escapeUrl": escapeUrl, "timestampDate": timestampDate, "isLoggedIn": isLoggedIn, "trimLong": trimLong});
-							    $(".recent").html(rendered);
-							});
-						});
-					});
-				});
+				var renderedTopics = Mustache.render(templateTopics, { "items": dataTopics, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				$(".recent .topics .box-body").html(renderedTopics);
+			});
+		});
+
+		$.get(rootPath + "/templates/recent_announcements" + "-" + version + ".html", function(templateAnnouncements) {
+			$.getJSON(rootPath + restRoot + "/announcements", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataAnnouncements) {
+				var renderedAnnouncements = Mustache.render(templateAnnouncements, { "items": dataAnnouncements, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				$(".recent .announcements .box-body").html(renderedAnnouncements);
+			});
+		});
+
+		$.get(rootPath + "/templates/recent_contests" + "-" + version + ".html", function(templateContests) {
+			$.getJSON(rootPath + restRoot + "/contests", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataContests) {
+				var renderedContests = Mustache.render(templateContests, { "items": dataContests, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				$(".recent .contests .box-body").html(renderedContests);
+			});
+		});
+
+		$.get(rootPath + "/templates/recent_connections" + "-" + version + ".html", function(templateConnections) {
+			$.getJSON(rootPath + restRoot + "/connections", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataConnections) {
+				var renderedConnections = Mustache.render(templateConnections, { "items": dataConnections, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				$(".recent .connections .box-body").html(renderedConnections);
 			});
 		});
 	});

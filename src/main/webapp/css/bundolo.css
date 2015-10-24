@@ -180,14 +180,6 @@ body>div>div>.content table.infinite th.desc:after {
 	left: 0;
 }
 
-.recent>.row:first-of-type {
-	border-top: 1px solid #ddd;
-}
-.recent>.row+.row {
-	border-bottom: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-}
 .slider>.tabs-plain>.row:last-of-type {
 	border-bottom: 1px solid #ddd;
 }
@@ -259,6 +251,18 @@ body {
 
 .row.heading~.row.heading {
     padding-top: 15px;
+}
+
+.box .overlay > .fa-stack {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -15px;
+	margin-top: -15px;
+}
+
+.box-body {
+	padding: 0 10px;
 }
 
 /*spinner start*/

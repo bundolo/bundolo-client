@@ -1,0 +1,7 @@
+{{#items}}
+	<h5>
+		<a href="/connection/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}" onclick="$.address.value('/connection/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}');return false;">
+			{{{descriptionContent.name}}}
+		</a>
+	</h5>
+{{/items}}
