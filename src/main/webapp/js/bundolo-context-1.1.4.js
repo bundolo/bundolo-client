@@ -99,10 +99,12 @@ function addContextMenu(parentElement, parentId, parentType) {
 				if (itemLists && itemLists.length > 0) {
 					var itemListDropdownHtml = '<select class="item-list-select" title="izbor" id="item_lists_' + parentId + '">';
 					itemListDropdownHtml += '<option value="">dodaj u izbor</option>';
-					var itemListItems;
+					var itemListItems = null;
 					var itemInList;
 					for (index in data) {
-						itemListItems = $.parseJSON(data[index].query);
+						if (data[index].query) {
+							itemListItems = $.parseJSON(data[index].query);
+						}
 						itemInList = itemListItems && itemListItems.indexOf(parentId) >= 0;
 						itemListDropdownHtml += '<option value="'+index+'"'+(itemInList?' selected="selected"':'')+'>'+data[index].descriptionContent.name+'</option>';
 					}
@@ -302,7 +304,10 @@ function saveRating(ratingId, value) {
 function saveItemInList(parentId, newItemList, previousItemList) {
 	if (newItemList) {
 		var itemListToAddItem = itemLists[newItemList];
-		itemListItems = $.parseJSON(itemListToAddItem.query);
+		var itemListItems = null;
+		if (itemListToAddItem.query) {
+			itemListItems = $.parseJSON(itemListToAddItem.query);
+		}
 		if (!itemListItems) {
 			itemListItems =[];
 		}

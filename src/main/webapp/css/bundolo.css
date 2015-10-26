@@ -52,6 +52,10 @@ body>div>div>.content table.infinite th.desc:after {
 	content: "\f0d8";
 }
 
+body>div>div>.content table.infinite button {
+	padding: 1px 6px;
+}
+
 .main-header .logo, .username_bar {
 	font-size: 24px;
 }

@@ -63,6 +63,29 @@ var timestampDateTime = function () {
 	};
 };
 
+var translate = function () {
+	return function(val, render) {
+	    return $.li18n.translate(render(val));
+	};
+};
+
+function linkHref(item) {
+	var result = "";
+	switch(item.kind) {
+		case 'text':
+			result = '/text/' + item.authorUsername + '/' + item.name;
+	        break;
+	    case 'episode':
+	    	result = '/episode/' + item.parentGroup + '/' + item.name;
+	        break;
+	    case 'item_list_description':
+	    	result = '/item_list/' + '/' + item.name;
+	        break;
+	}
+	return result;
+};
+
+
 $.address.change(function(event) {
 	loadFromAddress();
 });
@@ -85,9 +108,9 @@ function loadFromAddress() {
 		}
 	} else if ($.address.value().indexOf("/item_list") == 0 && username == 'gost') {
 		displayHome();
-	} else if ($.address.value() == "/statistics") {
+	} else if ($.address.value() == "/user_items") {
 		if (username != 'gost') {
-			displayStatistics();
+			displayUserItems();
 		} else {
 			displayHome();
 		}
@@ -282,48 +305,7 @@ function displaySingleItem(type, id) {
 					    		});
 					    	});
 					    } else if (type == 'author') {
-					    	contentElement.find('.author-items-root').append(spinner);
-					    	$.get(rootFolder+"templates/author_statistics" + "-" + version + ".html", function(templateStatistics) {
-						    	$.ajax({
-								    url: rootPath + restRoot + "/statistics/" + data.username,
-								    type: 'GET',
-								    dataType: "json",
-								    contentType: "application/json; charset=utf-8",
-//								    beforeSend: function (xhr) {
-//								        xhr.setRequestHeader ("Authorization", token);
-//								    },
-								    success: function(data) {
-								    	var totalRating = 0;
-								    	for (var i = 0; i < data.length; i++) {
-								    		switch(data[i].kind) {
-										    case 'text':
-										    	data[i].isText = true;
-										    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
-										        break;
-										    case 'episode':
-										    	data[i].isEpisode = true;
-										    	data[i].link = '/episode/' + data[i].parentGroup + '/' + data[i].name;
-										        break;
-								    		}
-								    		if (data[i].rating[0]) {
-								    			totalRating += data[i].rating[0].value;
-								    		}
-								    	}
-								    	var pages = [];
-					    				var pageSize = 10;
-								    	for (var i = 0; i < data.length / pageSize; i++) {
-					    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
-					    					pages.push(page);
-					    				}
-								    	var renderedStatistics = Mustache.render(templateStatistics, {"pages" : pages, "rating" : totalRating, "totalItems" : data.length, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
-								    	contentElement.find('.author-items-root>.fa-spin').replaceWith(renderedStatistics);
-								    	displayPage('author-items', pages.length);
-									},
-									error: function(textStatus, errorThrown) {
-										//TODO
-									}
-								});
-					    	});
+					    	displayListItems("author_items", "date,desc", null, null, "/" + data.username);
 					    } else if (type == 'item_list') {
 					    	displayLinksInAscii();
 					    }
@@ -675,60 +657,13 @@ function displayNext(type, id, orderBy, fixBy, ascending) {
 	});
 }
 
-function displayStatistics() {
+function displayUserItems() {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
-	$.get(rootFolder+"templates/statistics" + "-" + version + ".html", function(template) {
-		$.ajax({
-		    url: rootPath + restRoot + "/statistics/" + username,
-		    type: 'GET',
-		    dataType: "json",
-		    contentType: "application/json; charset=utf-8",
-		    beforeSend: function (xhr) {
-		        xhr.setRequestHeader ("Authorization", token);
-		    },
-		    success: function(data) {
-		    	if (data) {
-			    	var totalRating = 0;
-			    	for (var i = 0; i < data.length; i++) {
-			    		switch(data[i].kind) {
-					    case 'text':
-					    	data[i].isText = true;
-					    	data[i].isEditable = true;
-					    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
-					        break;
-					    case 'episode':
-					    	data[i].isEpisode = true;
-					    	data[i].isEditable = "pending" == data[i].contentStatus;
-					    	data[i].link = '/episode/' + data[i].parentGroup + '/' + data[i].name;
-					        break;
-					    case 'item_list_description':
-					    	data[i].isItemList = true;
-					    	data[i].isEditable = true;
-					    	data[i].link = '/item_list/' + data[i].name;
-					        break;
-			    		}
-			    		if (data[i].rating[0]) {
-			    			totalRating += data[i].rating[0].value;
-			    		}
-			    	}
-			    	var pages = [];
-    				var pageSize = 10;
-			    	for (var i = 0; i < data.length / pageSize; i++) {
-    					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
-    					pages.push(page);
-    				}
-			    	var rendered = Mustache.render(template, {"pages" : pages, "rating" : totalRating, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate, "totalItems" : data.length});
-				    displayContent(contentElement, rendered, null, null, "statistics");
-				    displayPage('profile-items', pages.length);
-		    	} else {
-		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
-		    	}
-			},
-			error: function(textStatus, errorThrown) {
-				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
-			}
-		});
+	$.get(rootFolder+"templates/user_items" + "-" + version + ".html", function(template) {
+		var rendered = Mustache.render(template, {});
+		displayContent(contentElement, rendered, null, null, "user_items");
+		displayListItems("user_items", "date,desc", null, null, "/" + username);
 	});
 }
 
@@ -809,7 +744,7 @@ function deleteSingleItem(id) {
 	    },
 	    success: function(data) {
 	    	if (data) {
-	    		displayStatistics();
+	    		displayUserItems();
 	    		if (id.indexOf("text") == 0) {
 	    		}
 	    		$('#modal-notification').modal('hide');
@@ -1106,7 +1041,7 @@ function displayRecent() {
 
 		$.get(rootPath + "/templates/recent_comments" + "-" + version + ".html", function(templateComments) {
 			$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
-				var renderedComments = Mustache.render(templateComments, { "items": dataComments, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedComments = Mustache.render(templateComments, { "items": adjustData(dataComments, "comments"), "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .comments .box-body").html(renderedComments);
 			});
 		});

@@ -1,0 +1,36 @@
+{{#items}}
+	<tr>
+		<td>
+			<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+				{{name}}
+			</a>
+		</td>
+		<td>
+			<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+				{{#translate}}{{kind}}{{/translate}}
+			</a>
+		</td>
+		<td>
+			<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+				{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+			</a>
+		</td>
+		<td>
+			<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+				{{#rating.0.value}}{{rating.0.value}}{{/rating.0.value}}{{^rating.0.value}}0{{/rating.0.value}}
+			</a>
+		</td>
+		<td>
+			{{#isEditable}}
+			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem({{#isText}}'text','{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isText}}{{#isEpisode}}'episode','{{parentGroup}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isEpisode}}{{#isItemList}}'item_list','{{name}}'{{/isItemList}}, event);">
+				<i class="fa fa-pencil"></i>
+				<span>izmeni</span>
+			</button>
+			<button type="button" class="btn btn-default" title="obriši" onClick="displayModal('confirmation', {{#isText}}'text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isText}}{{#isEpisode}}'episode/{{parentGroup}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}'{{/isEpisode}}{{#isItemList}}'item_list/{{name}}'{{/isItemList}}, event);">
+				<i class="fa fa-minus"></i>
+				<span>obriši</span>
+			</button>
+			{{/isEditable}}
+		</td>
+	</tr>
+{{/items}}
