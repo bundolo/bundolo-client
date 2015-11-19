@@ -132,7 +132,6 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 				    		    		if (type == "author_items" || type == "user_items") {
 						    				for (var i = 0; i < additional_data.length; i++) {
 						    					additional_data[i].link = linkHref(additional_data[i]);
-						    					additional_data[i].link = linkHref(data[i]);
 												switch(additional_data[i].kind) {
 											    case 'text':
 											    	additional_data[i].isText = true;
