@@ -62,23 +62,33 @@ function savePost() {
 	        'Accept': 'application/json',
 	        'Content-Type': 'application/json'
 	    },
-	  success: function(data) {
-		  if (data) {
-			  if (data == 'success') {
-				  var reminder = $.address.value().substr(rootFolder.length);
-				  var slashPos = reminder.indexOf('/');
-				  if (slashPos > 0) {
-					  displaySingleItem('topic', reminder.substr(slashPos + 1));
-				  }
-			  } else {
-				  displayModal("notification", null, null, data);
-			  }
-		  } else {
-			  displayModal("notification", null, null, "saving_error");
-		  }
-      },
-      error: function(data) {
-    	  displayModal("notification", null, null, "saving_error");
+//	  success: function(data) {
+//		  if (data) {
+//			  if (data == 'success') {
+//				  var reminder = $.address.value().substr(rootFolder.length);
+//				  var slashPos = reminder.indexOf('/');
+//				  if (slashPos > 0) {
+//					  displaySingleItem('topic', reminder.substr(slashPos + 1));
+//				  }
+//			  } else {
+//				  displayModal("notification", null, null, data);
+//			  }
+//		  } else {
+//			  displayModal("notification", null, null, "saving_error");
+//		  }
+//      },
+//      error: function(data) {
+//    	  displayModal("notification", null, null, "saving_error");
+//      }
+      complete: function (xhr, ajaxOptions, thrownError) {
+    	  handlingForm = false;
+    	  if (xhr.status == 200) {
+    		  loadFromAddress();
+    	  } else if (xhr.status == 400) {
+    		  displayModal("notification", null, null, xhr.responseText);
+    	  } else {
+    		  displayModal("notification", null, null, "saving_error");
+    	  }
       }
 	});
 }
@@ -105,19 +115,29 @@ function saveTopic() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-		  success: function(data) {
-			  if (data) {
-				  if (data == 'success') {
-					  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
-				  } else {
-					  displayModal("notification", null, null, data);
-				  }
-			  } else {
-				  displayModal("notification", null, null, "saving_error");
-			  }
-	      },
-	      error: function(data) {
-	    	  displayModal("notification", null, null, "saving_error");
+//		  success: function(data) {
+//			  if (data) {
+//				  if (data == 'success') {
+//					  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
+//				  } else {
+//					  displayModal("notification", null, null, data);
+//				  }
+//			  } else {
+//				  displayModal("notification", null, null, "saving_error");
+//			  }
+//	      },
+//	      error: function(data) {
+//	    	  displayModal("notification", null, null, "saving_error");
+//	      }
+	      complete: function (xhr, ajaxOptions, thrownError) {
+	    	  handlingForm = false;
+	    	  if (xhr.status == 200) {
+	    		  $.address.value(rootFolder+xhr.responseText);
+	    	  } else if (xhr.status == 400) {
+	    		  displayModal("notification", null, null, xhr.responseText);
+	    	  } else {
+	    		  displayModal("notification", null, null, "saving_error");
+	    	  }
 	      }
 		});
 }

@@ -201,20 +201,31 @@ function register() {
 		        'Accept': 'application/json',
 		        'Content-Type': 'application/json'
 		    },
-		  success: function(data) {
-			  if (data) {
-				  if (data == 'success') {
-					  displayModal("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
-					  displayLogin();
-				  } else {
-					  displayModal("notification", null, null, data);
-				  }
-			  } else {
-				  displayModal("notification", null, null, "registracija nije uspela!");
-			  }
-	      },
-	      error: function(data) {
-	    	  displayModal("notification", null, null, "registracija nije uspela!");
+//		  success: function(data) {
+//			  if (data) {
+//				  if (data == 'success') {
+//					  displayModal("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
+//					  displayLogin();
+//				  } else {
+//					  displayModal("notification", null, null, data);
+//				  }
+//			  } else {
+//				  displayModal("notification", null, null, "registracija nije uspela!");
+//			  }
+//	      },
+//	      error: function(data) {
+//	    	  displayModal("notification", null, null, "registracija nije uspela!");
+//	      }
+	      complete: function (xhr, ajaxOptions, thrownError) {
+	    	  handlingForm = false;
+	    	  if (xhr.status == 200) {
+				  displayModal("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
+				  displayLogin();
+	    	  } else if (xhr.status == 400) {
+	    		  displayModal("notification", null, null, xhr.responseText);
+	    	  } else {
+	    		  displayModal("notification", null, null, "saving_error");
+	    	  }
 	      }
 		});
 }
@@ -276,24 +287,39 @@ function saveAuthor() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-		  success: function(data) {
-			  if (data) {
-				  if (data == 'success') {
-					  if (user.password) {
-						  logout();
-						  displayModal("notification", null, null, "morate se prijaviti sa novom lozinkom.");
-					  } else {
-						  displayProfile();
-					  }
+//		  success: function(data) {
+//			  if (data) {
+//				  if (data == 'success') {
+//					  if (user.password) {
+//						  logout();
+//						  displayModal("notification", null, null, "morate se prijaviti sa novom lozinkom.");
+//					  } else {
+//						  displayProfile();
+//					  }
+//				  } else {
+//					  displayModal("notification", null, null, data);
+//				  }
+//			  } else {
+//				  displayModal("notification", null, null, "saving_error");
+//			  }
+//	      },
+//	      error: function(data) {
+//	    	  displayModal("notification", null, null, "saving_error");
+//	      }
+	      complete: function (xhr, ajaxOptions, thrownError) {
+	    	  handlingForm = false;
+	    	  if (xhr.status == 200) {
+	    		  if (user.password) {
+					  logout();
+					  displayModal("notification", null, null, "morate se prijaviti sa novom lozinkom.");
 				  } else {
-					  displayModal("notification", null, null, data);
+					  displayProfile();
 				  }
-			  } else {
-				  displayModal("notification", null, null, "saving_error");
-			  }
-	      },
-	      error: function(data) {
-	    	  displayModal("notification", null, null, "saving_error");
+	    	  } else if (xhr.status == 400) {
+	    		  displayModal("notification", null, null, xhr.responseText);
+	    	  } else {
+	    		  displayModal("notification", null, null, "saving_error");
+	    	  }
 	      }
 		});
 }
@@ -340,19 +366,10 @@ function updateLastActivity() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-		  success: function(data) {
-			  if (data) {
-				  if (data == 'success') {
-					  //do nothing
-				  } else {
-					  displayModal("notification", null, null, data);
-				  }
-			  } else {
-				  displayModal("notification", null, null, "saving_error");
-			  }
-	      },
-	      error: function(data) {
-	    	  displayModal("notification", null, null, "saving_error");
+	      complete: function (xhr, ajaxOptions, thrownError) {
+	    	  if (xhr.status != 200) {
+	    		  displayModal("notification", null, null, "saving_error");
+	    	  }
 	      }
 	});
 }
