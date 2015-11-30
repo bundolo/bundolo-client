@@ -275,6 +275,7 @@ function saveAuthor() {
 	}
 	user.subscribed = $("#edit_subscribed").prop('checked');
 	$.ajax({
+		//TODO
 		  url: rootPath + restRoot + "/author/" + username,
 		  type: "PUT",
 		  data: JSON.stringify(user),

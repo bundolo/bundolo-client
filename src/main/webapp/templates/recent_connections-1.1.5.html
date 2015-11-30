@@ -1,6 +1,6 @@
 {{#items}}
 	<h5>
-		<a href="/connection/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}" onclick="$.address.value('/connection/{{#escapeUrl}}{{descriptionContent.name}}{{/escapeUrl}}');return false;">
+		<a href="/{{descriptionContent.slug}}" onclick="$.address.value('/{{descriptionContent.slug}}');return false;">
 			{{{descriptionContent.name}}}
 		</a>
 	</h5>

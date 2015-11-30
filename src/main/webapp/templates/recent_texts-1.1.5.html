@@ -1,3 +1,3 @@
 {{#items}}
-	<h5><a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a> - <a href="/text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}" onclick="$.address.value('text/{{authorUsername}}/{{#escapeUrl}}{{name}}{{/escapeUrl}}');return false;">{{name}}</a></h5>
+	<h5><a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a> - <a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">{{name}}</a></h5>
 {{/items}}

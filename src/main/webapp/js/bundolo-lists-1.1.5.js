@@ -70,6 +70,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 		}
 	}
 	//TODO
+	console.log("displayListItems: type: " + type + ", path: " + path);
 	var table = $('.sidebar #collapse_'+type+' table');
 	table.addClass('hide');
 	var itemCounter = 0;
@@ -89,7 +90,6 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 		    	if (data) {
 					if (type == "author_items" || type == "user_items") {
 						for (var i = 0; i < data.length; i++) {
-							data[i].link = linkHref(data[i]);
 							switch(data[i].kind) {
 						    case 'text':
 						    	data[i].isText = true;
@@ -108,7 +108,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 					}
 					var mainContent = $(mainContentPath);
 					var tableBody = mainContent.find("table.infinite>tbody");
-					var rendered_rows = Mustache.render(template_rows, {"items": data, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong, "translate": translate});
+					var rendered_rows = Mustache.render(template_rows, {"items": data, "timestampDate": timestampDate, "trimLong": trimLong, "translate": translate});
 					tableBody.html(rendered_rows);
 					var tableWidth = mainContent.find("table.infinite").width();
 					tableBody.width(tableWidth);
@@ -131,7 +131,6 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 				    		    	if (additional_data) {
 				    		    		if (type == "author_items" || type == "user_items") {
 						    				for (var i = 0; i < additional_data.length; i++) {
-						    					additional_data[i].link = linkHref(additional_data[i]);
 												switch(additional_data[i].kind) {
 											    case 'text':
 											    	additional_data[i].isText = true;
@@ -148,7 +147,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 									    		}
 						    				}
 						    			}
-						    			var rendered_rows = Mustache.render(template_rows, {"items": additional_data, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong, "translate": translate});
+						    			var rendered_rows = Mustache.render(template_rows, {"items": additional_data, "timestampDate": timestampDate, "trimLong": trimLong, "translate": translate});
 						    			tableBody.append(rendered_rows);
 				    		    	} else {
 				    		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");

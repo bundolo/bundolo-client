@@ -1,22 +1,22 @@
 {{#items}}
 	<tr>
 		<td>
-			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+			<a href="/{{descriptionContent.slug}}" onclick="$.address.value('/{{descriptionContent.slug}}');return false;">
 				{{{username}}}
 			</a>
 		</td>
 		<td class="hidden-xs">
-			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+			<a href="/{{descriptionContent.slug}}" onclick="$.address.value('/{{descriptionContent.slug}}');return false;">
 				{{#trimLong}}{{descriptionContent.text}}{{/trimLong}}
 			</a>
 		</td>
 		<td class="hidden-xs">
-			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+			<a href="/{{descriptionContent.slug}}" onclick="$.address.value('/{{descriptionContent.slug}}');return false;">
 				{{#timestampDate}}{{signupDate}}{{/timestampDate}}
 			</a>
 		</td>
 		<td class="hidden-xs">
-			<a href="/author/{{username}}" onclick="$.address.value('/author/{{username}}');return false;">
+			<a href="/{{descriptionContent.slug}}" onclick="$.address.value('/{{descriptionContent.slug}}');return false;">
 				{{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}
 			</a>
 		</td>

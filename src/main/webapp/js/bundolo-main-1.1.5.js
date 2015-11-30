@@ -23,17 +23,6 @@ var spinner = '<span class="fa-stack fa-2x fa-spin">\
 <i class="fa fa-stack-1x fa-inverse char7">o</i>\
 </span>';
 
-var escapeUrl = function () {
-	return function(val, render) {
-	    return render(val).replace(/ /g, '~');
-	};
-};
-var escapeUrlExtended = function () {
-	return function(val, render) {
-	    return render(val).replace(/ /g, '~').replace(/&#39;/g, "\\'");
-	};
-};
-
 var trimLong = function () {
 	return function(val, render) {
 		var trimmedText = render(val);
@@ -68,23 +57,6 @@ var translate = function () {
 	    return $.li18n.translate(render(val));
 	};
 };
-
-function linkHref(item) {
-	var result = "";
-	switch(item.kind) {
-		case 'text':
-			result = '/text/' + item.authorUsername + '/' + item.name;
-	        break;
-	    case 'episode':
-	    	result = '/episode/' + item.parentGroup + '/' + item.name;
-	        break;
-	    case 'item_list_description':
-	    	result = '/item_list/' + '/' + item.name;
-	        break;
-	}
-	return result;
-};
-
 
 $.address.change(function(event) {
 	loadFromAddress();
@@ -125,13 +97,7 @@ function loadFromAddress() {
 	} else if ($.address.value().match("^/validate")) {
 		validateEmail();
 	} else {
-		var reminder = $.address.value().substr(rootFolder.length);
-		var slashPos = reminder.indexOf('/');
-		if (slashPos > 0) {
-			displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
-		} else {
-			displayHome();
-		}
+		displaySingleItem($.address.value().substr(rootFolder.length));
 	}
 }
 
@@ -163,6 +129,7 @@ function displayContent(parentElement, html, contentId, contentType, contentTitl
 				document.title = "bundolo";
 			}
 		} else {
+			//TODO
 			document.title = $.li18n.translate(contentType) + " - "+contentTitle.replace(/~/g, ' ').replace(/\//g, ' - ') + " - bundolo";
 		}
 	} else if (contentTitle) {
@@ -174,12 +141,13 @@ function displayContent(parentElement, html, contentId, contentType, contentTitl
 	}
 }
 
-function displaySingleItem(type, id) {
+function displaySingleItem(slug) {
+	var type = slug.substr(0, slug.indexOf('/'));
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
 	$.get(rootFolder+"templates/" + type + "-" + version + ".html", function(template) {
 		$.ajax({
-			  url: rootPath + restRoot + "/" + type + "/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
+			  url: rootPath + restRoot + "/" + slug,
 			  type: "GET",
 			  dataType: "json",
 			  contentType: "application/json; charset=utf-8",
@@ -192,11 +160,13 @@ function displaySingleItem(type, id) {
 			  },
 			  success: function(data) {
 				  if (data) {
-					    var commentParentId = id;
+					    var commentParentId = slug;
+					    var pageTitle = "";
 					    switch(type) {
 						    case 'text':
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						    	pageTitle = data.name;
 						        break;
 						    case 'author':
 						    	commentParentId = data.descriptionContent.contentId;
@@ -213,45 +183,53 @@ function displaySingleItem(type, id) {
 						    			data.gender = 'x';
 						    			break;
 						    	}
+						    	pageTitle = data.username;
 						        break;
 						    case 'topic':
 						    	//topic comments are disabled to avoid confusion with posts
 						    	//consider enabling comments on forum, or forum groups
 						    	//commentParentId = data.contentId;
 						    	commentParentId = null;
+						    	pageTitle = data.name;
 						        break;
 						    case 'serial':
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						    	pageTitle = data.name;
 						        break;
 						    case 'announcement':
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						    	pageTitle = data.name;
 						        break;
 						    case 'contest':
 						    	commentParentId = data.descriptionContent.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						    	pageTitle = data.descriptionContent.name;
 						        break;
 						    case 'connection':
 						    	commentParentId = data.descriptionContent.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
+						    	pageTitle = data.descriptionContent.name;
 						        break;
 						    case 'episode':
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername) && (data.contentStatus == 'pending');
+						    	pageTitle = data.name;
 						        break;
 						    case 'item_list':
 						    	commentParentId = data.descriptionContent.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 						    	formatItemListItems(data.items);
+						    	pageTitle = data.descriptionContent.name;
 						        break;
 						    default:
-						        commentParentId = id;
+						        commentParentId = slug;
 					    }
-					    data.escapeUrl = escapeUrlExtended;
+					    //data.escapeUrl = escapeUrlExtended;
 					    data.timestampDate = timestampDate;
 					    var rendered = Mustache.render(template, data);
-					    displayContent(contentElement, rendered, commentParentId, type, id);
+					    displayContent(contentElement, rendered, commentParentId, type, pageTitle);
 					    if (type == 'topic') {
 					    	contentElement.find('.posts-root').append(spinner);
 					    	$.get(rootFolder+"templates/posts" + "-" + version + ".html", function(templatePosts) {
@@ -266,7 +244,7 @@ function displaySingleItem(type, id) {
 					    					var page = {"index" : i + 1, "posts" : allPosts.slice(i*pageSize, i*pageSize + pageSize)};
 					    					pages.push(page);
 					    				}
-					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "escapeUrl": escapeUrl, "timestampDateTime": timestampDateTime});
+					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "timestampDateTime": timestampDateTime});
 						    			contentElement.find('.posts-root>.fa-spin').replaceWith(renderedPosts);
 						    			displayPage('forum-topic', pages.length);
 					    			}
@@ -299,13 +277,13 @@ function displaySingleItem(type, id) {
 					    			}
 					    			data.isLoggedIn = username != "gost";
 					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);
-					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "pages": pages, "escapeUrl": escapeUrl, "timestampDate": timestampDate});
+					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "pages": pages, "timestampDate": timestampDate});
 					    			contentElement.find('.episodes-root>.fa-spin').replaceWith(renderedEpisodes);
 					    			displayPage('serial-episodes', pages.length);
 					    		});
 					    	});
 					    } else if (type == 'author') {
-					    	displayListItems("author_items", "date,desc", null, null, "/" + data.username);
+					    	displayListItems("author_items", "date,desc", null, null, "/" + data.descriptionContent.slug);
 					    } else if (type == 'item_list') {
 					    	displayLinksInAscii();
 					    }
@@ -381,6 +359,7 @@ function editSingleItem(type, id, event, notification) {
 				}
 			});
 		} else if (type == 'confirmation') {
+			//TODO
 			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id.replace(/ /g, '~').replace(/'/g, "\\'")+"');");
 		} else if (type == 'notification') {
 			editSingleItemHelper(type, null, contentElement, template, notification);
@@ -395,6 +374,7 @@ function editSingleItem(type, id, event, notification) {
 function editSingleItemHelper(type, id, contentElement, template, formData) {
 	if (id) {
 		$.ajax({
+			//TODO
 		    url: rootPath + restRoot + "/"+type+"/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
 		    type: 'GET',
 		    dataType: "json",
@@ -414,7 +394,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    		episodeParentName = data.parentGroup;
 		    	}
 		    	data.timestampDate = timestampDate;
-		    	data.escapeUrl = escapeUrlExtended;
+		    	//data.escapeUrl = escapeUrlExtended;
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
 		    	document.title = "izmena - " + $.li18n.translate(type) + " - bundolo";
@@ -449,7 +429,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     			data.recipientUsername = formData;
     		}
     	}
-		data.escapeUrl = escapeUrlExtended;
+		//data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
     	document.title = "unos - " + $.li18n.translate(type) + " - bundolo";
@@ -628,28 +608,28 @@ function displayNext(type, id, orderBy, fixBy, ascending) {
 			var nextItemUrl = "";
 			  switch(type) {
 			    case 'text':
-			    	nextItemUrl = rootFolder+"text/" + data.authorUsername + "/" + data.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.slug;
 			        break;
 			    case 'episode':
-			    	nextItemUrl = rootFolder+"episode/" + data.parentGroup.replace(/ /g, '~') + "/" + data.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.slug;
 			        break;
 			    case 'serial':
-			    	nextItemUrl = rootFolder+"serial/" + data.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.slug;
 			        break;
 			    case 'connection':
-			    	nextItemUrl = rootFolder+"connection/" + data.descriptionContent.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.descriptionContent.slug;
 			        break;
 			    case 'contest':
-			    	nextItemUrl = rootFolder+"contest/" + data.descriptionContent.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.descriptionContent.slug;
 			        break;
 			    case 'announcement':
-			    	nextItemUrl = rootFolder+"announcement/" + data.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.slug;
 			        break;
 			    case 'topic':
-			    	nextItemUrl = rootFolder+"topic/" + data.name.replace(/ /g, '~');
+			    	nextItemUrl = rootFolder+data.slug;
 			        break;
 			    case 'author':
-			    	nextItemUrl = rootFolder+"author/" + data.username;
+			    	nextItemUrl = rootFolder+data.descriptionContent.slug;
 			        break;
 				}
 				$.address.value(nextItemUrl);
@@ -657,6 +637,7 @@ function displayNext(type, id, orderBy, fixBy, ascending) {
 	});
 }
 
+//TODO send slug instead of username
 function displayUserItems() {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
@@ -667,6 +648,7 @@ function displayUserItems() {
 	});
 }
 
+//TODO
 function displayUpdates() {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
@@ -719,7 +701,7 @@ function displayUpdates() {
     					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
     					pages.push(page);
     				}
-			    	var rendered = Mustache.render(template, {"pages" : pages, "escapeUrl": escapeUrlExtended, "timestampDate": timestampDate});
+			    	var rendered = Mustache.render(template, {"pages" : pages, "timestampDate": timestampDate});
 				    displayContent(contentElement, rendered, null, null, "updates");
 				    displayPage('recent-updates', pages.length);
 		    	} else {
@@ -733,6 +715,7 @@ function displayUpdates() {
 	});
 }
 
+//TODO
 function deleteSingleItem(id) {
 	$.ajax({
 	    url: rootPath + restRoot + "/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
@@ -759,6 +742,7 @@ function deleteSingleItem(id) {
 	return false;
 }
 
+//TODO
 function sendMessage() {
 	if (!isFormValid($(mainFormPath))) {
 		return;
@@ -878,6 +862,7 @@ function isValidEmailAddress(emailAddress) {
     return pattern.test(emailAddress);
 }
 
+//TODO
 function displayRandomComment() {
 	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
 		var comment = data[0];
@@ -927,6 +912,7 @@ function displayRandomComment() {
 	});
 }
 
+//TODO
 function displayHighlightedAnnouncement(id) {
 	$.ajax({
 		  url: rootPath + restRoot + "/announcement/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
@@ -961,47 +947,39 @@ function displayLinksInAscii() {
 	    		});
 	    		var anchors = [];
 	    		for (var i = 0; i < data.length; i++) {
-	    			var link = "";
 	    			var title = "";
 	    			var caption = "";
 		    		switch(data[i].kind) {
 				    case 'text':
-				    	link = "text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 				    	title = "tekst:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].authorUsername + " - " + data[i].name;
 				        break;
 				    case 'forum_topic':
-				    	link = "topic/" + data[i].name.replace(/ /g, '~');
 				    	title = "diskusija:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'connection_description':
-				    	link = "connection/" + data[i].name.replace(/ /g, '~');
 				    	title = "link:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'news':
-				    	link = "announcement/" + data[i].name.replace(/ /g, '~');
 				    	title = "vest:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'contest_description':
-				    	link = "contest/" + data[i].name.replace(/ /g, '~');
 				    	title = "konkurs:\r\n" + data[i].name + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].name;
 				        break;
 				    case 'episode':
-				    	link = "episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].parentGroup + " - " + data[i].name;
 				        break;
 				    case 'user_description':
-				    	link = "author/" + data[i].authorUsername.replace(/ /g, '~');
 				    	title = "autor:\r\n"+data[i].authorUsername;
 				    	caption = data[i].authorUsername;
 				        break;
 		    		}
-		    		anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});
+		    		anchors.push({"caption" : caption, "link" : data[i].slug, "title" : title.replace(/'/g, "&apos;")});
 		    	}
 	    		anchors.sort(function(a, b){
 	    			return b.caption.length - a.caption.length;
@@ -1034,42 +1012,42 @@ function displayRecent() {
 
 		$.get(rootPath + "/templates/recent_texts" + "-" + version + ".html", function(templateTexts) {
 			$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
-				var renderedTexts = Mustache.render(templateTexts, { "items": dataTexts, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedTexts = Mustache.render(templateTexts, { "items": dataTexts, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .texts .box-body").html(renderedTexts);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_comments" + "-" + version + ".html", function(templateComments) {
 			$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
-				var renderedComments = Mustache.render(templateComments, { "items": adjustData(dataComments, "comments"), "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedComments = Mustache.render(templateComments, { "items": adjustData(dataComments, "comments"), "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .comments .box-body").html(renderedComments);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_topics" + "-" + version + ".html", function(templateTopics) {
 			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
-				var renderedTopics = Mustache.render(templateTopics, { "items": dataTopics, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedTopics = Mustache.render(templateTopics, { "items": dataTopics, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .topics .box-body").html(renderedTopics);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_announcements" + "-" + version + ".html", function(templateAnnouncements) {
 			$.getJSON(rootPath + restRoot + "/announcements", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataAnnouncements) {
-				var renderedAnnouncements = Mustache.render(templateAnnouncements, { "items": dataAnnouncements, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedAnnouncements = Mustache.render(templateAnnouncements, { "items": dataAnnouncements, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .announcements .box-body").html(renderedAnnouncements);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_contests" + "-" + version + ".html", function(templateContests) {
 			$.getJSON(rootPath + restRoot + "/contests", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataContests) {
-				var renderedContests = Mustache.render(templateContests, { "items": dataContests, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedContests = Mustache.render(templateContests, { "items": dataContests, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .contests .box-body").html(renderedContests);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_connections" + "-" + version + ".html", function(templateConnections) {
 			$.getJSON(rootPath + restRoot + "/connections", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataConnections) {
-				var renderedConnections = Mustache.render(templateConnections, { "items": dataConnections, "escapeUrl": escapeUrl, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedConnections = Mustache.render(templateConnections, { "items": dataConnections, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .connections .box-body").html(renderedConnections);
 			});
 		});
@@ -1081,51 +1059,36 @@ function formatItemListItems(data) {
 		for (var i = 0; i < data.length; i++) {
 			switch(data[i].kind) {
 		    case 'text':
-		    	data[i].link = "text/" + data[i].authorUsername.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].authorUsername + " - " + data[i].name;
 		        break;
 		    case 'forum_topic':
-		    	data[i].link = "topic/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'connection_description':
-		    	data[i].link = "connection/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'news':
-		    	data[i].link = "announcement/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'contest_description':
-		    	data[i].link = "contest/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'episode':
-		    	data[i].link = "episode/" + data[i].parentGroup.replace(/ /g, '~') + "/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].parentGroup + " - " + data[i].name;
 		        break;
 		    case 'user_description':
-		    	data[i].link = "author/" + data[i].authorUsername.replace(/ /g, '~');
 		    	data[i].caption = data[i].authorUsername;
 		        break;
 		    case 'page_description':
-		    	if (data[i].name.toLowerCase() != 'home') {
-		    		data[i].link = data[i].name.replace(/ /g, '~').toLowerCase();
-		    	} else {
-		    		data[i].link = "";
-		    	}
 		    	data[i].caption = data[i].text;
 		        break;
 		    case 'item_list_description':
-		    	data[i].link = "item_list/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'episode_group':
-		    	data[i].link = "serial/" + data[i].name.replace(/ /g, '~');
 		    	data[i].caption = data[i].name;
 		        break;
 			}
-			//anchors.push({"caption" : caption, "link" : link.replace(/'/g, "&apos;"), "title" : title.replace(/'/g, "&apos;")});
 		}
 	}
 }
@@ -1164,42 +1127,30 @@ function adjustData(data, type) {
 			    case 'text':
 			    	data[index].parentKind = 'tekst';
 			    	data[index].parentLinkText = data[index].parentContent.authorUsername + " - " + data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "text/" + data[index].parentContent.authorUsername + "/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'episode':
 			    	data[index].parentKind = 'nastavak';
 			    	data[index].parentLinkText = data[index].parentContent.authorUsername + " - " + data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "text/" + data[index].parentContent.authorUsername + "/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'episode_group':
 			    	data[index].parentKind = 'priču u nastavcima';
 			    	data[index].parentLinkText = data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "serial/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'connection_description':
 			    	data[index].parentKind = 'link';
 			    	data[index].parentLinkText = data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "connection/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'contest_description':
 			    	data[index].parentKind = 'konkurs';
 			    	data[index].parentLinkText = data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "contest/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'page_description':
 			    	data[index].parentKind = 'stranicu';
 			    	data[index].parentLinkText = data[index].parentContent.text;
-			    	data[index].parentLinkUrl = "";
-			    	var contentUrl = data[index].parentContent.name;
-			    	contentUrl = contentUrl.replace(/ /g, '~').toLowerCase();
-			    	if (contentUrl != 'home') {
-			    		data[index].parentLinkUrl += contentUrl;
-			    	}
 			        break;
 			    case 'news':
 			    	data[index].parentKind = 'vest';
 			    	data[index].parentLinkText = data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "announcement/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 			    case 'forum_group':
 			    	//forum group comments are not enabled
@@ -1208,12 +1159,10 @@ function adjustData(data, type) {
 			    case 'user_description':
 			    	data[index].parentKind = 'autora';
 			    	data[index].parentLinkText = data[index].parentContent.authorUsername;
-			    	data[index].parentLinkUrl = "author/" + data[index].parentContent.authorUsername;
 			        break;
 			    case 'item_list_description':
 			    	data[index].parentKind = 'izbor';
 			    	data[index].parentLinkText = data[index].parentContent.name;
-			    	data[index].parentLinkUrl = "item_list/" + data[index].parentContent.name.replace(/ /g, '~');
 			        break;
 	    		}
 			  data[index].text = sanitizeRuntime(data[index].text);
@@ -1267,6 +1216,7 @@ function displayModal(type, id, event, notification) {
 	$.get(rootFolder+"templates/"+type+"-" + version + ".html", function(template) {
 		var data = {};
 		if (type == 'confirmation') {
+			//TODO
 			data.modalAction = "deleteSingleItem('"+id.replace(/ /g, '~').replace(/'/g, "\\'")+"');";
 		} else if (type == 'notification') {
 			try {
@@ -1275,7 +1225,7 @@ function displayModal(type, id, event, notification) {
 				data.notification = notification;
 			}
 		}
-		data.escapeUrl = escapeUrlExtended;
+		//data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
     	modalElement.modal('show');
