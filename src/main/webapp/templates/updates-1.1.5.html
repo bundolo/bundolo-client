@@ -30,36 +30,30 @@
 					{{#items}}
 						<tr>
 							<td>
-								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+								<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
 									{{authorUsername}}
 								</a>
 							</td>
 							<td>
-								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+								<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
 									{{#isAuthor}}{{text}}{{/isAuthor}}
 									{{^isAuthor}}{{name}}{{/isAuthor}}
 								</a>
 
 							</td>
 							<td>
-								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
-									{{#isText}}tekst{{/isText}}
-									{{#isForumTopic}}diskusija{{/isForumTopic}}
-									{{#isConnection}}link{{/isConnection}}
-									{{#isAnnouncement}}vest{{/isAnnouncement}}
-									{{#isContest}}konkurs{{/isContest}}
-									{{#isEpisode}}nastavak{{/isEpisode}}
-									{{#isAuthor}}autor{{/isAuthor}}
+								<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+									{{#translate}}{{kind}}{{/translate}}
 								</a>
 
 							</td>
 							<td>
-								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+								<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
 									{{#timestampDate}}{{creationDate}}{{/timestampDate}}
 								</a>
 							</td>
 							<td>
-								<a href="{{#escapeUrl}}{{link}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}{{link}}{{/escapeUrl}}');return false;">
+								<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
 									{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
 								</a>
 							</td>

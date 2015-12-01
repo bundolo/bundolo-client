@@ -43,6 +43,9 @@ $.li18n.translations =
 	post : 'odgovor',
 	comment : 'komentar',
 	message : 'privatna poruka',
-	inquiry : 'pitanje'
+	inquiry : 'pitanje',
+	user_description : 'autor',
+	contest_description : 'konkurs',
+	connection_description : 'link'
 	}
 };

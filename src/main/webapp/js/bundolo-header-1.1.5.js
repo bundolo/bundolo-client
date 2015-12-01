@@ -1,12 +1,15 @@
 var token = "Basic " + btoa(" : ");
 var username = "gost";
+var slug = "";
 
 $(document).ready(function() {
 	var cookieToken = readCookie("token");
 	var cookieUsername = readCookie("username");
-	if (cookieToken && cookieUsername) {
+	var cookieSlug = readCookie("slug");
+	if (cookieToken && cookieUsername && cookieSlug) {
 		token = cookieToken;
 		username = cookieUsername;
+		slug = cookieSlug;
 		displayLoggedIn();
 	} else {
 		displayLogin();
@@ -115,33 +118,54 @@ function login() {
 	var loginPassword = $("#login_password").val();
 	var loginRememberMe = $('#login_remember').is(':checked');
 	$.ajax({
-	  url: rootPath + restRoot + "/auth/" + loginUsername,
+	  url: rootPath + restRoot + "/auth",
 	  type: "POST",
-	  data: "password="+loginPassword,
-	  success: function(data) {
-		  if (data) {
-			  if (data == 'success') {
-				  username = loginUsername;
-				  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
-				  if (loginRememberMe) {
-					  createCookie('token', token, 14);
-					  createCookie("username", username, 14);
-				  } else {
-					  createCookie('token', token);
-					  createCookie("username", username);
-				  }
-				  displayLoggedIn();
-				  loadFromAddress();
-			  } else {
-				  displayModal("notification", null, null, data);
-			  }
-		  } else {
-			  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
-		  }
-      },
-      error: function(data) {
-    	  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
-      }
+	  data: "username="+loginUsername+"&password="+loginPassword,
+//	  success: function(data) {
+//		  if (data) {
+//			  if (data == 'success') {
+//				  username = loginUsername;
+//				  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
+//				  if (loginRememberMe) {
+//					  createCookie('token', token, 14);
+//					  createCookie("username", username, 14);
+//				  } else {
+//					  createCookie('token', token);
+//					  createCookie("username", username);
+//				  }
+//				  displayLoggedIn();
+//				  loadFromAddress();
+//			  } else {
+//				  displayModal("notification", null, null, data);
+//			  }
+//		  } else {
+//			  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
+//		  }
+//      },
+//      error: function(data) {
+//    	  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
+//      }
+		complete: function (xhr, ajaxOptions, thrownError) {
+			handlingForm = false;
+			if (xhr.status == 200) {
+				username = loginUsername;
+				slug = xhr.responseText;
+				token = "Basic " + btoa(loginUsername + ":" + loginPassword);
+				if (loginRememberMe) {
+					createCookie('token', token, 14);
+					createCookie("username", username, 14);
+					createCookie("slug", slug, 14);
+				} else {
+					createCookie('token', token);
+					createCookie("username", username);
+					createCookie("slug", slug);
+				}
+				displayLoggedIn();
+				loadFromAddress();
+			} else {
+				displayModal("notification", null, null, "prijavljivanje nije uspelo!");
+			}
+		}
 	});
 }
 
@@ -277,7 +301,7 @@ function saveAuthor() {
 	$.ajax({
 		//TODO
 		  url: rootPath + restRoot + "/author/" + username,
-		  type: "PUT",
+		  type: "POST",
 		  data: JSON.stringify(user),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
@@ -354,9 +378,10 @@ function eraseCookie(name) {
 
 function updateLastActivity() {
 	var user = {};
+	user.username = username;
 	$.ajax({
-		  url: rootPath + restRoot + "/author/" + username,
-		  type: "PUT",
+		  url: rootPath + restRoot + "/author",
+		  type: "POST",
 		  data: JSON.stringify(user),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",

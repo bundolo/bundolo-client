@@ -637,14 +637,13 @@ function displayNext(type, id, orderBy, fixBy, ascending) {
 	});
 }
 
-//TODO send slug instead of username
 function displayUserItems() {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
 	$.get(rootFolder+"templates/user_items" + "-" + version + ".html", function(template) {
 		var rendered = Mustache.render(template, {});
 		displayContent(contentElement, rendered, null, null, "user_items");
-		displayListItems("user_items", "date,desc", null, null, "/" + username);
+		displayListItems("user_items", "date,desc", null, null, "/" + slug);
 	});
 }
 
@@ -663,45 +662,50 @@ function displayUpdates() {
 		    },
 		    success: function(data) {
 		    	if (data) {
-			    	for (var i = 0; i < data.length; i++) {
-			    		switch(data[i].kind) {
-					    case 'text':
-					    	data[i].isText = true;
-					    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
-					        break;
-					    case 'forum_topic':
-					    	data[i].isForumTopic = true;
-					    	data[i].link = '/topic/' + data[i].name;
-					        break;
-					    case 'connection_description':
-					    	data[i].isConnection = true;
-					    	data[i].link = '/connection/' + data[i].name;
-					        break;
-					    case 'news':
-					    	data[i].isAnnouncement = true;
-					    	data[i].link = '/announcement/' + data[i].name;
-					        break;
-					    case 'contest_description':
-					    	data[i].isContest = true;
-					    	data[i].link = '/contest/' + data[i].name;
-					        break;
-					    case 'episode':
-					    	data[i].isEpisode = true;
-					    	data[i].link = '/episode/' + data[i].parentGroup;
-					        break;
-					    case 'user_description':
-					    	data[i].isAuthor = true;
-					    	data[i].link = '/author/' + data[i].authorUsername;
-					        break;
-			    		}
-			    	}
+		    		for (var i = 0; i < data.length; i++) {
+		    			if (data[i].kind == 'user_description') {
+		    				data[i].isAuthor = true;
+		    			}
+		    		}
+//			    	for (var i = 0; i < data.length; i++) {
+//			    		switch(data[i].kind) {
+//					    case 'text':
+//					    	data[i].isText = true;
+//					    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
+//					        break;
+//					    case 'forum_topic':
+//					    	data[i].isForumTopic = true;
+//					    	data[i].link = '/topic/' + data[i].name;
+//					        break;
+//					    case 'connection_description':
+//					    	data[i].isConnection = true;
+//					    	data[i].link = '/connection/' + data[i].name;
+//					        break;
+//					    case 'news':
+//					    	data[i].isAnnouncement = true;
+//					    	data[i].link = '/announcement/' + data[i].name;
+//					        break;
+//					    case 'contest_description':
+//					    	data[i].isContest = true;
+//					    	data[i].link = '/contest/' + data[i].name;
+//					        break;
+//					    case 'episode':
+//					    	data[i].isEpisode = true;
+//					    	data[i].link = '/episode/' + data[i].parentGroup;
+//					        break;
+//					    case 'user_description':
+//					    	data[i].isAuthor = true;
+//					    	data[i].link = '/author/' + data[i].authorUsername;
+//					        break;
+//			    		}
+//			    	}
 			    	var pages = [];
     				var pageSize = 10;
 			    	for (var i = 0; i < data.length / pageSize; i++) {
     					var page = {"index" : i + 1, "items" : data.slice(i*pageSize, i*pageSize + pageSize)};
     					pages.push(page);
     				}
-			    	var rendered = Mustache.render(template, {"pages" : pages, "timestampDate": timestampDate});
+			    	var rendered = Mustache.render(template, {"pages" : pages, "timestampDate": timestampDate, "translate": translate});
 				    displayContent(contentElement, rendered, null, null, "updates");
 				    displayPage('recent-updates', pages.length);
 		    	} else {

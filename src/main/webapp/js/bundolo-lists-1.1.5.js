@@ -69,8 +69,6 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 			path = '';
 		}
 	}
-	//TODO
-	console.log("displayListItems: type: " + type + ", path: " + path);
 	var table = $('.sidebar #collapse_'+type+' table');
 	table.addClass('hide');
 	var itemCounter = 0;
@@ -92,15 +90,12 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 						for (var i = 0; i < data.length; i++) {
 							switch(data[i].kind) {
 						    case 'text':
-						    	data[i].isText = true;
 						    	data[i].isEditable = (type == "user_items");
 						        break;
 						    case 'episode':
-						    	data[i].isEpisode = true;
 						    	data[i].isEditable = (type == "user_items") && "pending" == data[i].contentStatus;
 						        break;
 						    case 'item_list_description':
-						    	data[i].isItemList = true;
 						    	data[i].isEditable = (type == "user_items");
 						        break;
 				    		}
@@ -133,15 +128,12 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 						    				for (var i = 0; i < additional_data.length; i++) {
 												switch(additional_data[i].kind) {
 											    case 'text':
-											    	additional_data[i].isText = true;
 											    	additional_data[i].isEditable = (type == "user_items");
 											        break;
 											    case 'episode':
-											    	additional_data[i].isEpisode = true;
 											    	additional_data[i].isEditable = (type == "user_items") && "pending" == additional_data[i].contentStatus;
 											        break;
 											    case 'item_list_description':
-											    	additional_data[i].isItemList = true;
 											    	additional_data[i].isEditable = (type == "user_items");
 											        break;
 									    		}
