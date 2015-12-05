@@ -175,7 +175,7 @@ function sanitizeRecursive(data, shouldCollapse) {
 		for (index in data) {
 		  data[index].text = sanitizeRuntime(data[index].text);
 		  if(data[index].authorUsername) {
-			  data[index].authorText = '<a href="/author/' + data[index].authorUsername + '" onclick="$.address.value(\'author/' + data[index].authorUsername + '\');return false;">' + data[index].authorUsername + '</a>';
+			  data[index].authorText = '<a href="/author/' + slugifyText(data[index].authorUsername) + '" onclick="$.address.value(\'/author/' + slugifyText(data[index].authorUsername) + '\');return false;">' + data[index].authorUsername + '</a>';
 		  } else {
 			  data[index].authorText = 'gost';
 		  }

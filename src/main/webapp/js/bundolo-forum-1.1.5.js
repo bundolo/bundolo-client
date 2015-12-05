@@ -62,24 +62,6 @@ function savePost() {
 	        'Accept': 'application/json',
 	        'Content-Type': 'application/json'
 	    },
-//	  success: function(data) {
-//		  if (data) {
-//			  if (data == 'success') {
-//				  var reminder = $.address.value().substr(rootFolder.length);
-//				  var slashPos = reminder.indexOf('/');
-//				  if (slashPos > 0) {
-//					  displaySingleItem('topic', reminder.substr(slashPos + 1));
-//				  }
-//			  } else {
-//				  displayModal("notification", null, null, data);
-//			  }
-//		  } else {
-//			  displayModal("notification", null, null, "saving_error");
-//		  }
-//      },
-//      error: function(data) {
-//    	  displayModal("notification", null, null, "saving_error");
-//      }
       complete: function (xhr, ajaxOptions, thrownError) {
     	  handlingForm = false;
     	  if (xhr.status == 200) {
@@ -99,12 +81,12 @@ function saveTopic() {
 	}
 	var topic = {};
 	topic.contentId = $("#edit_item_id").val();
-	var name = $("#edit_title").val();
+	topic.name = $("#edit_title").val();
 	topic.parentContent = {};
 	topic.parentContent.contentId = $("#edit_group").val();
 	$.ajax({
-		  url: rootPath + restRoot + "/topic/" + name,
-		  type: "PUT",
+		  url: rootPath + restRoot + "/topic",
+		  type: "POST",
 		  data: JSON.stringify(topic),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
@@ -115,20 +97,6 @@ function saveTopic() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-//		  success: function(data) {
-//			  if (data) {
-//				  if (data == 'success') {
-//					  $.address.value(rootFolder+"topic"+"/" + name.replace(/ /g, '~'));
-//				  } else {
-//					  displayModal("notification", null, null, data);
-//				  }
-//			  } else {
-//				  displayModal("notification", null, null, "saving_error");
-//			  }
-//	      },
-//	      error: function(data) {
-//	    	  displayModal("notification", null, null, "saving_error");
-//	      }
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {

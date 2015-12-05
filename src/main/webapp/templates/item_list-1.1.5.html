@@ -6,7 +6,7 @@
 	  {{descriptionContent.name}}
 	</h1>
 	<h1 class="text-center">
-	  {{#authorUsername}}izbor autora <a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}
+	  {{#authorUsername}}izbor autora <a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a>{{/authorUsername}}
 	</h1>
 </section>
 <section class="content">
@@ -14,15 +14,15 @@
     	<div class="col-xs-12">
 			<p>{{{descriptionContent.text}}}</p>
 			{{#items}}
-				<p><a href="/{{link}}" onclick="$.address.value('{{link}}');return false;">{{caption}}</a></p>
+				<p><a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">{{caption}}</a></p>
 			{{/items}}
 			{{#editingEnabled}}
 				<div class="item-footer">
-					<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('item_list', '{{descriptionContent.name}}');">
+					<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('item_list', '{{descriptionContent.slug}}');">
 						<i class="fa fa-pencil"></i>
 						<span>izmeni</span>
 					</button>
-					<button type="button" class="btn btn-default" title="obriši" onClick="displayModal('confirmation', 'item_list/{{descriptionContent.name}}');">
+					<button type="button" class="btn btn-default" title="obriši" onClick="displayModal('confirmation', '{{descriptionContent.slug}}');">
 						<i class="fa fa-minus"></i>
 						<span>obriši</span>
 					</button>

@@ -8,10 +8,10 @@
 <table class="table table-striped clickable serial-episodes hidden page{{index}}">
 	<thead>
 		<tr>
-			<th>autor</th>
 			<th>naslov</th>
-			<th>kratak opis</th>
-			<th>datum objavljivanja</th>
+			<th class="hidden-xs">autor</th>
+			<th class="hidden-xs">objavljivanje</th>
+			<th class="hidden-xs">aktivnost</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,22 +19,22 @@
 			<tr>
 				<td>
 					<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
-						{{authorUsername}}
-					</a>
-				</td>
-				<td>
-					<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
 						{{{name}}}
 					</a>
 				</td>
-				<td>
+				<td class="hidden-xs">
 					<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
-						{{{description.0.text}}}
+						{{authorUsername}}
 					</a>
 				</td>
-				<td>
+				<td class="hidden-xs">
 					<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
 						{{#timestampDate}}{{creationDate}}{{/timestampDate}}
+					</a>
+				</td>
+				<td class="hidden-xs">
+					<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+						{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
 					</a>
 				</td>
 			</tr>
@@ -46,13 +46,13 @@
 {{#serial.isLoggedIn}}
 	<div class="item-footer">
 		{{#serial.editingEnabled}}
-			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('serial', '{{serial.name}}');">
+			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('serial', '{{serial.slug}}');">
 				<i class="fa fa-pencil"></i>
 				<span>izmeni</span>
 			</button>
 		{{/serial.editingEnabled}}
 		{{#serial.addingEnabled}}
-			<button type="button" class="btn btn-default" title="dodaj nastavak" onClick="addEpisode({{serial.contentId}}, '{{serial.name}}');">
+			<button type="button" class="btn btn-default" title="dodaj nastavak" onClick="addEpisode({{serial.contentId}});">
 				<i class="fa fa-plus"></i>
 				<span>dodaj nastavak</span>
 			</button>

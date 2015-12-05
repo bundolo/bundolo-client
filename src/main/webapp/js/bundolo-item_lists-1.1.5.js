@@ -16,10 +16,10 @@ function saveItemList() {
 	itemList.query = $("#edit_item_query").val();
 	itemList.descriptionContent = {};
 	itemList.descriptionContent.text = $("#edit_description").val();
-	var name = $("#edit_title").val();
+	itemList.descriptionContent.name = $("#edit_title").val();
 	$.ajax({
-		  url: rootPath + restRoot + "/item_list/" + name,
-		  type: "PUT",
+		  url: rootPath + restRoot + "/item_list",
+		  type: "POST",
 		  data: JSON.stringify(itemList),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
@@ -30,31 +30,11 @@ function saveItemList() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-//		  success: function(data) {
-//			  if (data) {
-//				  if (data == 'success') {
-//					  var itemUrl = rootFolder+"item_list"+"/" + name.replace(/ /g, '~');
-//					  if (itemUrl == $.address.value()) {
-//						  displaySingleItem("item_list", name);
-//					  } else {
-//						  $.address.value(itemUrl);
-//					  }
-//				  } else {
-//					  displayModal("notification", null, null, data);
-//				  }
-//			  } else {
-//				  displayModal("notification", null, null, "saving_error");
-//			  }
-//	      },
-//	      error: function(data) {
-//	    	  displayModal("notification", null, null, "saving_error");
-//	      }
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {
 	    		  if (rootFolder+xhr.responseText == $.address.value()) {
-					  //TODO switch to slug
-					  displaySingleItem("item_list", name);
+	    			  loadFromAddress();
 				  } else {
 					  $.address.value(rootFolder+xhr.responseText);
 				  }
@@ -69,8 +49,8 @@ function saveItemList() {
 
 function saveItemListItems(itemList) {
 	$.ajax({
-	  url: rootPath + restRoot + "/item_list/" + itemList.descriptionContent.name,
-	  type: "PUT",
+	  url: rootPath + restRoot + "/item_list",
+	  type: "POST",
 	  data: JSON.stringify(itemList),
 	  dataType: "json",
 	  contentType: "application/json; charset=utf-8",
@@ -81,20 +61,6 @@ function saveItemListItems(itemList) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
 	  },
-//	  success: function(data) {
-//		  if (data) {
-//			  if (data == 'success') {
-//
-//			  } else {
-//				  displayModal("notification", null, null, data);
-//			  }
-//		  } else {
-//			  displayModal("notification", null, null, "saving_error");
-//		  }
-//      },
-//      error: function(data) {
-//    	  displayModal("notification", null, null, "saving_error");
-//      }
       complete: function (xhr, ajaxOptions, thrownError) {
     	  handlingForm = false;
     	  if (xhr.status == 200) {

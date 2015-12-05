@@ -45,7 +45,7 @@
 			<br/>
 			{{#editingEnabled}}
 			<div class="item-footer">
-			<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{username}}');">
+			<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{descriptionContent.slug}}');">
 				<i class="fa fa-pencil"></i>
 				<span>izmena podataka</span>
 			</button>
@@ -53,7 +53,7 @@
 			{{/editingEnabled}}
 			{{#messagingEnabled}}
 			<div class="item-footer">
-			<button type="button" class="btn btn-default" title="pošalji poruku" onClick="editSingleItem('message', '{{username}}');">
+			<button type="button" class="btn btn-default" title="pošalji poruku" onClick="editSingleItem('message', '{{descriptionContent.slug}}');">
 				<i class="fa fa-envelope-o"></i>
 				<span>pošalji poruku</span>
 			</button>
@@ -63,7 +63,7 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
-			<table id="list_author_items" class="table table-striped clickable infinite" data-path="/{{username}}">
+			<table id="list_author_items" class="table table-striped clickable infinite" data-path="/{{descriptionContent.slug}}">
 				<thead>
 					<tr>
 						<th id="author_items_column_title" class="">naslov</th>

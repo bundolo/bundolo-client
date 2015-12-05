@@ -3,14 +3,14 @@
     <i class='fa fa-envelope-o'></i>
   </h1>
   <h1 class="text-center">
-    slanje privatne poruke korisniku {{recipientUsername}}
+    slanje privatne poruke
   </h1>
 </section>
 <section class="content">
 	<div class="row">
     	<div class="col-xs-12">
 			<form role="form">
-				<input type="hidden" id="edit_recipient" value="{{recipientUsername}}">
+				<input type="hidden" id="edit_recipient" value="{{recipientSlug}}">
 				<div class="form-group">
 				  <label for="edit_title">naslov</label>
 				  <input type="text" class="form-control default-focus" id="edit_title" placeholder="unesite naslov" validators="required url_safe">

@@ -37,12 +37,12 @@
 			<p>{{{descriptionContent.text}}}</p>
 			{{#url}}<h4>adresa: <a href="{{url}}" target="_blank">{{url}}</a></h4>{{/url}}
 			{{#email}}<h4>e-pošta: <a href="mailto:{{email}}">{{email}}</a></h4>{{/email}}
-			dodao/la: {{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+			dodao/la: {{#authorUsername}}<a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('/author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 			<br/>{{#creationDate}}datum: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 			<br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
 			{{#editingEnabled}}
 			<div class="item-footer">
-			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('connection', '{{descriptionContent.name}}');">
+			<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('connection', '{{descriptionContent.slug}}');">
 				<i class="fa fa-pencil"></i>
 				<span>izmeni</span>
 			</button>

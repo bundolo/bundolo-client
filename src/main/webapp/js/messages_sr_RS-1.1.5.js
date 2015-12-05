@@ -15,6 +15,7 @@ $.li18n.translations =
 	validation_failed : 'validacija nije uspela!',
 	username_taken : 'korisničko ime je već zauzeto! ako ste ga vi koristili, umesto kreiranja novog naloga možete resetovati lozinku na starom.',
 	email_taken : 'adresa elektronske pošte je već u upotrebi! ako ste je vi koristili, možete resetovati lozinku na starom korisničkom nalogu.',
+	password_reset_success: 'nova lozinka vam je poslata! najbolje bi bilo da je posle prijavljivanja odmah izmenite u nešto što možete lako zapamtiti.',
 	wrong_value : 'nedozvoljena vrednost!',
 	about : 'o bundolu',
 	announcement : 'vest',
@@ -46,6 +47,8 @@ $.li18n.translations =
 	inquiry : 'pitanje',
 	user_description : 'autor',
 	contest_description : 'konkurs',
-	connection_description : 'link'
+	connection_description : 'link',
+	news : 'vest',
+	forum_topic : 'diskusija'
 	}
 };

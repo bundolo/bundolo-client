@@ -121,30 +121,6 @@ function login() {
 	  url: rootPath + restRoot + "/auth",
 	  type: "POST",
 	  data: "username="+loginUsername+"&password="+loginPassword,
-//	  success: function(data) {
-//		  if (data) {
-//			  if (data == 'success') {
-//				  username = loginUsername;
-//				  token = "Basic " + btoa(loginUsername + ":" + loginPassword);
-//				  if (loginRememberMe) {
-//					  createCookie('token', token, 14);
-//					  createCookie("username", username, 14);
-//				  } else {
-//					  createCookie('token', token);
-//					  createCookie("username", username);
-//				  }
-//				  displayLoggedIn();
-//				  loadFromAddress();
-//			  } else {
-//				  displayModal("notification", null, null, data);
-//			  }
-//		  } else {
-//			  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
-//		  }
-//      },
-//      error: function(data) {
-//    	  displayModal("notification", null, null, "prijavljivanje nije uspelo!");
-//      }
 		complete: function (xhr, ajaxOptions, thrownError) {
 			handlingForm = false;
 			if (xhr.status == 200) {
@@ -185,13 +161,14 @@ function passwordReset() {
 	var resetUsername = $("#reset_username").val();
 	var resetEmail = $("#reset_email").val();
 	$.ajax({
-	  url: rootPath + restRoot + "/password/" + resetUsername,
+	  url: rootPath + restRoot + "/password",
 	  type: "POST",
-	  data: "email="+resetEmail,
+	  data: "username="+resetUsername+"&email="+resetEmail,
 	  success: function(data) {
 		  if (data) {
 			  if (data == 'success') {
 				  displayLogin();
+				  displayModal("notification", null, null, 'password_reset_success');
 			  } else {
 				  displayModal("notification", null, null, data);
 			  }
@@ -209,15 +186,13 @@ function register() {
 	if (!isFormValid($('.navbar-form'))) {
 		return;
 	}
-	var registerUsername = $("#register_username").val();
-	var registerEmail = $("#register_email").val();
-	var registerPassword = $("#register_password").val();
 	var user = {};
-	user.email = registerEmail;
-	user.password = registerPassword;
+	user.email = $("#register_email").val();
+	user.password = $("#register_password").val();
+	user.username = $("#register_username").val();
 	$.ajax({
-		  url: rootPath + restRoot + "/author/" + registerUsername,
-		  type: "PUT",
+		  url: rootPath + restRoot + "/author",
+		  type: "POST",
 		  data: JSON.stringify(user),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
@@ -225,21 +200,6 @@ function register() {
 		        'Accept': 'application/json',
 		        'Content-Type': 'application/json'
 		    },
-//		  success: function(data) {
-//			  if (data) {
-//				  if (data == 'success') {
-//					  displayModal("notification", null, null, "hvala na registraciji. poruka za validaciju vaše adrese elektronske pošte je poslata. u njoj su uputstva za aktivaciju vašeg korisničkog naloga.");
-//					  displayLogin();
-//				  } else {
-//					  displayModal("notification", null, null, data);
-//				  }
-//			  } else {
-//				  displayModal("notification", null, null, "registracija nije uspela!");
-//			  }
-//	      },
-//	      error: function(data) {
-//	    	  displayModal("notification", null, null, "registracija nije uspela!");
-//	      }
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {
@@ -283,6 +243,7 @@ function saveAuthor() {
 		return;
 	}
 	var user = {};
+	user.username = username;
 	user.descriptionContent = {};
 	user.descriptionContent.text = $("#edit_description").val();
 	user.showPersonal = $("#edit_show_personal").prop('checked');
@@ -299,8 +260,7 @@ function saveAuthor() {
 	}
 	user.subscribed = $("#edit_subscribed").prop('checked');
 	$.ajax({
-		//TODO
-		  url: rootPath + restRoot + "/author/" + username,
+		  url: rootPath + restRoot + "/author",
 		  type: "POST",
 		  data: JSON.stringify(user),
 		  dataType: "json",
@@ -312,25 +272,6 @@ function saveAuthor() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-//		  success: function(data) {
-//			  if (data) {
-//				  if (data == 'success') {
-//					  if (user.password) {
-//						  logout();
-//						  displayModal("notification", null, null, "morate se prijaviti sa novom lozinkom.");
-//					  } else {
-//						  displayProfile();
-//					  }
-//				  } else {
-//					  displayModal("notification", null, null, data);
-//				  }
-//			  } else {
-//				  displayModal("notification", null, null, "saving_error");
-//			  }
-//	      },
-//	      error: function(data) {
-//	    	  displayModal("notification", null, null, "saving_error");
-//	      }
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {

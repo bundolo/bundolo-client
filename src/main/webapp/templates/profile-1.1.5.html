@@ -19,7 +19,7 @@
 			datum registracije: {{#timestampDate}}{{signupDate}}{{/timestampDate}}<br/>
 			poslednja prijava: {{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}<br/>
 			<div class="item-footer">
-				<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{username}}');">
+				<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{descriptionContent.slug}}');">
 					<i class="fa fa-pencil"></i>
 					<span>izmena podataka</span>
 				</button>

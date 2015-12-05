@@ -27,10 +27,10 @@
 	  <i class='fa fa-files-o'></i>
 	</h1>
 	<h1 class="text-center">
-	  <a href="{{#escapeUrl}}/serial/{{parentGroup}}{{/escapeUrl}}" onclick="$.address.value('{{#escapeUrl}}/serial/{{parentGroup}}{{/escapeUrl}}');return false;">{{parentGroup}}</a>
+	  <a href="/serial/{{slug}}" onclick="$.address.value('/serial/{{slug}}');return false;">{{parentGroup}}</a>
 	</h1>
 	<h1 class="text-center">
-	  {{#authorUsername}}<a href="/author/{{authorUsername}}" onclick="$.address.value('author/{{authorUsername}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
+	  {{#authorUsername}}<a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
 	</h1>
 	<h1 class="text-center">
 	  {{{name}}}
@@ -45,11 +45,11 @@
 			<br/>broj prikazivanja: {{rating.0.value}}
 			{{#editingEnabled}}
 			<div class="item-footer">
-				<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('episode','{{parentGroup}}/{{name}}');">
+				<button type="button" class="btn btn-default" title="izmeni" onClick="editSingleItem('episode','{{slug}}');">
 					<i class="fa fa-pencil"></i>
 					<span>izmeni</span>
 				</button>
-				<button type="button" class="btn btn-default" title="obriši" onClick="displayModal('confirmation', 'episode/{{parentGroup}}/{{name}}');">
+				<button type="button" class="btn btn-default" title="obriši" onClick="displayModal('confirmation', '{{slug}}');">
 					<i class="fa fa-minus"></i>
 					<span>obriši</span>
 				</button>

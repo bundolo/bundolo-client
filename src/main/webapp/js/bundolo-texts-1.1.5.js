@@ -18,10 +18,10 @@ function saveText() {
 	description.text = $("#edit_description").val();
 	text.description.push(description);
 	text.text = $("#edit_content").code();
-	var name = username + "/" + $("#edit_title").val();
+	text.name = $("#edit_title").val();
 	$.ajax({
-		  url: rootPath + restRoot + "/text/" + name,
-		  type: "PUT",
+		  url: rootPath + restRoot + "/text",
+		  type: "POST",
 		  data: JSON.stringify(text),
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
@@ -32,32 +32,11 @@ function saveText() {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 		  },
-//		  success: function(data) {
-//			  if (data) {
-//				  if (data == 'success') {
-//					  $('#edit_content').destroy();
-//					  var itemUrl = rootFolder+"text"+"/" + name.replace(/ /g, '~');
-//					  if (itemUrl == $.address.value()) {
-//						  displaySingleItem("text", name);
-//					  } else {
-//						  $.address.value(itemUrl);
-//					  }
-//				  } else {
-//					  displayModal("notification", null, null, data);
-//				  }
-//			  } else {
-//				  displayModal("notification", null, null, "saving_error");
-//			  }
-//	      },
-//	      error: function(data) {
-//	    	  displayModal("notification", null, null, "saving_error");
-//	      }
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {
 				  if (rootFolder+xhr.responseText == $.address.value()) {
-					  //TODO switch to slug
-					  displaySingleItem("text", name);
+					  loadFromAddress();
 				  } else {
 					  $.address.value(rootFolder+xhr.responseText);
 				  }

@@ -58,6 +58,12 @@ var translate = function () {
 	};
 };
 
+var slugify = function () {
+	return function(val, render) {
+		return slugifyText(render(val));
+	};
+};
+
 $.address.change(function(event) {
 	loadFromAddress();
 });
@@ -129,8 +135,7 @@ function displayContent(parentElement, html, contentId, contentType, contentTitl
 				document.title = "bundolo";
 			}
 		} else {
-			//TODO
-			document.title = $.li18n.translate(contentType) + " - "+contentTitle.replace(/~/g, ' ').replace(/\//g, ' - ') + " - bundolo";
+			document.title = $.li18n.translate(contentType) + " - "+contentTitle + " - bundolo";
 		}
 	} else if (contentTitle) {
 		document.title = $.li18n.translate(contentTitle) + " - bundolo";
@@ -226,8 +231,8 @@ function displaySingleItem(slug) {
 						    default:
 						        commentParentId = slug;
 					    }
-					    //data.escapeUrl = escapeUrlExtended;
 					    data.timestampDate = timestampDate;
+					    data.slugify = slugify;
 					    var rendered = Mustache.render(template, data);
 					    displayContent(contentElement, rendered, commentParentId, type, pageTitle);
 					    if (type == 'topic') {
@@ -244,7 +249,7 @@ function displaySingleItem(slug) {
 					    					var page = {"index" : i + 1, "posts" : allPosts.slice(i*pageSize, i*pageSize + pageSize)};
 					    					pages.push(page);
 					    				}
-					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "timestampDateTime": timestampDateTime});
+					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "timestampDateTime": timestampDateTime, "slugify" : slugify});
 						    			contentElement.find('.posts-root>.fa-spin').replaceWith(renderedPosts);
 						    			displayPage('forum-topic', pages.length);
 					    			}
@@ -309,7 +314,7 @@ function displaySingleItem(slug) {
 	});
 }
 
-function editSingleItem(type, id, event, notification) {
+function editSingleItem(type, slug, event, notification) {
 	handlingForm = false;
 	if (event) {
 		//this is used in content table when row has event handler and contains buttons which have their own
@@ -325,6 +330,9 @@ function editSingleItem(type, id, event, notification) {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
 //	modalElement.modal('show');
+	if (type.indexOf('_description') > 0) {
+		type = type.substring(0, type.indexOf('_description'));
+	}
 	$.get(rootFolder+"templates/edit_"+type+"-" + version + ".html", function(template) {
 		if (type == 'connection') {
 			$.ajax({
@@ -336,7 +344,7 @@ function editSingleItem(type, id, event, notification) {
 //			        xhr.setRequestHeader ("Authorization", token);
 //			    },
 			    success: function(data) {
-			    	editSingleItemHelper(type, id, contentElement, template, data);
+			    	editSingleItemHelper(type, slug, contentElement, template, data);
 				},
 				error: function(textStatus, errorThrown) {
 					//TODO
@@ -352,30 +360,28 @@ function editSingleItem(type, id, event, notification) {
 //			        xhr.setRequestHeader ("Authorization", token);
 //			    },
 			    success: function(data) {
-			    	editSingleItemHelper(type, id, contentElement, template, data);
+			    	editSingleItemHelper(type, slug, contentElement, template, data);
 				},
 				error: function(textStatus, errorThrown) {
 					//TODO
 				}
 			});
 		} else if (type == 'confirmation') {
-			//TODO
-			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+id.replace(/ /g, '~').replace(/'/g, "\\'")+"');");
+			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+slug+"');");
 		} else if (type == 'notification') {
 			editSingleItemHelper(type, null, contentElement, template, notification);
 		} else if (type == 'message') {
-			editSingleItemHelper(type, null, contentElement, template, id);
+			editSingleItemHelper(type, null, contentElement, template, slug);
 		} else {
-			editSingleItemHelper(type, id, contentElement, template);
+			editSingleItemHelper(type, slug, contentElement, template);
 		}
 	});
 }
 
-function editSingleItemHelper(type, id, contentElement, template, formData) {
-	if (id) {
+function editSingleItemHelper(type, slug, contentElement, template, formData) {
+	if (slug) {
 		$.ajax({
-			//TODO
-		    url: rootPath + restRoot + "/"+type+"/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
+		    url: rootPath + restRoot + "/" + slug,
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
@@ -390,11 +396,7 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
 		    			data.topicGroups = formData;
 		    		}
 		    	}
-		    	if (type == 'episode') {
-		    		episodeParentName = data.parentGroup;
-		    	}
 		    	data.timestampDate = timestampDate;
-		    	//data.escapeUrl = escapeUrlExtended;
 		    	var rendered = Mustache.render(template, data);
 		    	contentElement.html(rendered);
 		    	document.title = "izmena - " + $.li18n.translate(type) + " - bundolo";
@@ -426,10 +428,9 @@ function editSingleItemHelper(type, id, contentElement, template, formData) {
     				data.notification = formData;
     			}
     		} else if (type == 'message') {
-    			data.recipientUsername = formData;
+    			data.recipientSlug = formData;
     		}
     	}
-		//data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
     	document.title = "unos - " + $.li18n.translate(type) + " - bundolo";
@@ -567,7 +568,7 @@ function displayProfile() {
 	contentElement.html(spinner);
 	$.get(rootFolder+"templates/profile" + "-" + version + ".html", function(template) {
 		$.ajax({
-		    url: rootPath + restRoot + "/author/" + username,
+		    url: rootPath + restRoot + "/" + slug,
 		    type: 'GET',
 		    dataType: "json",
 		    contentType: "application/json; charset=utf-8",
@@ -590,7 +591,7 @@ function displayProfile() {
 		    		data.showPersonal = data.showPersonal ? 'da' : 'ne';
 		    		data.timestampDate = timestampDate;
 		    		var rendered = Mustache.render(template, data);
-				    displayContent(contentElement, rendered, null, null,"profile");
+				    displayContent(contentElement, rendered, null, null, "profile");
 		    	} else {
 		    		displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 		    	}
@@ -647,7 +648,6 @@ function displayUserItems() {
 	});
 }
 
-//TODO
 function displayUpdates() {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
@@ -667,38 +667,6 @@ function displayUpdates() {
 		    				data[i].isAuthor = true;
 		    			}
 		    		}
-//			    	for (var i = 0; i < data.length; i++) {
-//			    		switch(data[i].kind) {
-//					    case 'text':
-//					    	data[i].isText = true;
-//					    	data[i].link = '/text/' + data[i].authorUsername + '/' + data[i].name;
-//					        break;
-//					    case 'forum_topic':
-//					    	data[i].isForumTopic = true;
-//					    	data[i].link = '/topic/' + data[i].name;
-//					        break;
-//					    case 'connection_description':
-//					    	data[i].isConnection = true;
-//					    	data[i].link = '/connection/' + data[i].name;
-//					        break;
-//					    case 'news':
-//					    	data[i].isAnnouncement = true;
-//					    	data[i].link = '/announcement/' + data[i].name;
-//					        break;
-//					    case 'contest_description':
-//					    	data[i].isContest = true;
-//					    	data[i].link = '/contest/' + data[i].name;
-//					        break;
-//					    case 'episode':
-//					    	data[i].isEpisode = true;
-//					    	data[i].link = '/episode/' + data[i].parentGroup;
-//					        break;
-//					    case 'user_description':
-//					    	data[i].isAuthor = true;
-//					    	data[i].link = '/author/' + data[i].authorUsername;
-//					        break;
-//			    		}
-//			    	}
 			    	var pages = [];
     				var pageSize = 10;
 			    	for (var i = 0; i < data.length / pageSize; i++) {
@@ -719,10 +687,9 @@ function displayUpdates() {
 	});
 }
 
-//TODO
-function deleteSingleItem(id) {
+function deleteSingleItem(slug) {
 	$.ajax({
-	    url: rootPath + restRoot + "/" + id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
+	    url: rootPath + restRoot + "/" + slug,
 	    type: 'DELETE',
 	    dataType: "json",
 	    contentType: "application/json; charset=utf-8",
@@ -732,8 +699,6 @@ function deleteSingleItem(id) {
 	    success: function(data) {
 	    	if (data) {
 	    		displayUserItems();
-	    		if (id.indexOf("text") == 0) {
-	    		}
 	    		$('#modal-notification').modal('hide');
 	    	} else {
 	    		displayModal("notification", null, null, "sadržaj ne može biti obrisan!");
@@ -746,19 +711,18 @@ function deleteSingleItem(id) {
 	return false;
 }
 
-//TODO
 function sendMessage() {
 	if (!isFormValid($(mainFormPath))) {
 		return;
 	}
 	var messageTitle = $("#edit_title").val();
 	var messageText = $("#edit_content").val();
-	var recipientUsername = $("#edit_recipient").val();
+	var recipientSlug = $("#edit_recipient").val();
 	var message = {};
 	message.title = messageTitle;
 	message.text = messageText;
 	$.ajax({
-	  url: rootPath + restRoot + "/message/" + recipientUsername,
+	  url: rootPath + restRoot + "/message/" + recipientSlug,
 	  type: "POST",
 	  data: JSON.stringify(message),
 	  dataType: "json",
@@ -842,12 +806,13 @@ function isFormValid(formElement) {
 				}
 			}
 		}
-		if (validators.indexOf("url_safe") >= 0 && !/^[^~\\\/\[\]\{\}\(\);\:"'\|<>\?\+=`#$%\^&\*]+$/.test(value)) {
-			$(this).parent().addClass("has-error");
-			$(this).after("<div class='help-inline'>specijalni karakteri nisu dozvoljeni</div>");
-			result = false;
-			return true;
-		}
+		//url_safe validator is disabled since we use slugs
+//		if (validators.indexOf("url_safe") >= 0 && !/^[^~\\\/\[\]\{\}\(\);\:"'\|<>\?\+=`#$%\^&\*]+$/.test(value)) {
+//			$(this).parent().addClass("has-error");
+//			$(this).after("<div class='help-inline'>specijalni karakteri nisu dozvoljeni</div>");
+//			result = false;
+//			return true;
+//		}
 		if (validators.indexOf("username") >= 0 && !/^[A-Za-z0-9 _-]{3,25}$/.test(value)) {
 			$(this).parent().addClass("has-error");
 			$(this).after("<div class='help-inline'>dozvoljeni karakteri su A-Za-z0-9 _-</div>");
@@ -866,60 +831,23 @@ function isValidEmailAddress(emailAddress) {
     return pattern.test(emailAddress);
 }
 
-//TODO
 function displayRandomComment() {
 	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
 		var comment = data[0];
-		var parentLinkUrl = "";
-		switch(comment.parentContent.kind) {
-		    case 'text':
-		    	parentLinkUrl = "text/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
-		        break;
-		    case 'episode':
-		    	parentLinkUrl = "episode/" + comment.parentContent.authorUsername + "/" + comment.parentContent.name.replace(/ /g, '~');
-		        break;
-		    case 'episode_group':
-		    	parentLinkUrl = "serial/" + comment.parentContent.name.replace(/ /g, '~');
-		        break;
-		    case 'connection_description':
-		    	parentLinkUrl = "connection/" + comment.parentContent.name.replace(/ /g, '~');
-		        break;
-		    case 'contest_description':
-		    	parentLinkUrl = "contest/" + comment.parentContent.name.replace(/ /g, '~');
-		        break;
-		    case 'page_description':
-		    	var contentName = comment.parentContent.name;
-		    	parentLinkUrl = "";
-		    	contentName = contentName.replace(/ /g, '~').toLowerCase();
-		    	if (contentName != 'home') {
-		    		parentLinkUrl += contentName;
-		    	}
-		        break;
-		    case 'news':
-		    	parentLinkUrl = "announcement/" + comment.parentContent.name.replace(/ /g, '~');
-		        break;
-		    case 'forum_group':
-		    	//forum group comments are not enabled
-		        break;
-		    case 'user_description':
-		    	parentLinkUrl = "author/" + comment.parentContent.authorUsername;
-		        break;
-		}
 	  var authorLink = "";
 	  if (comment.authorUsername && comment.authorUsername != "gost") {
-		  authorLink = '<a href="/author/'+comment.authorUsername+'" onclick="$.address.value(\'author/'+comment.authorUsername+'\');return false;">'+comment.authorUsername+'</a>';
+		  authorLink = '<a href="/author/'+slugifyText(comment.authorUsername)+'" onclick="$.address.value(\'/author/'+slugifyText(comment.authorUsername)+'\');return false;">'+comment.authorUsername+'</a>';
 	  } else {
 		  authorLink = "gost";
 	  }
 	  var mainContentText = $(".main>.jumbotron>.content>h2");
-	  mainContentText.html('- <a href="/'+parentLinkUrl+'" onclick="$.address.value(\''+parentLinkUrl+'\');return false;">'+comment.text+'</a> ('+authorLink+')');
+	  mainContentText.html('- <a href="/'+comment.parentContent.slug+'" onclick="$.address.value(\'/'+comment.parentContent.slug+'\');return false;">'+comment.text+'</a> ('+authorLink+')');
 	});
 }
 
-//TODO
-function displayHighlightedAnnouncement(id) {
+function displayHighlightedAnnouncement(slug) {
 	$.ajax({
-		  url: rootPath + restRoot + "/announcement/"+id.replace(/~/g, ' ').replace(/\?/g, '%3F'),
+		  url: rootPath + restRoot + "/"+slug,
 		  type: "GET",
 		  dataType: "json",
 		  contentType: "application/json; charset=utf-8",
@@ -933,7 +861,7 @@ function displayHighlightedAnnouncement(id) {
 		  success: function(data) {
 			  if (data) {
 				  var mainContentText = $(".main>.jumbotron>.content>h2");
-				  mainContentText.html('- <a href="/announcement/'+data.name.replace(/ /g, '~')+'" onclick="$.address.value(\'announcement/'+data.name.replace(/ /g, '~')+'\');return false;">'+data.text+'</a>');
+				  mainContentText.html('- <a href="/'+data.slug+'" onclick="$.address.value(\'/'+data.slug+'\');return false;">'+data.text+'</a>');
 			  }
 		  }
 	});
@@ -1016,14 +944,14 @@ function displayRecent() {
 
 		$.get(rootPath + "/templates/recent_texts" + "-" + version + ".html", function(templateTexts) {
 			$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
-				var renderedTexts = Mustache.render(templateTexts, { "items": dataTexts, "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedTexts = Mustache.render(templateTexts, { "items": dataTexts, "timestampDate": timestampDate, "trimLong": trimLong, "slugify": slugify});
 				$(".recent .texts .box-body").html(renderedTexts);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_comments" + "-" + version + ".html", function(templateComments) {
 			$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
-				var renderedComments = Mustache.render(templateComments, { "items": adjustData(dataComments, "comments"), "timestampDate": timestampDate, "trimLong": trimLong});
+				var renderedComments = Mustache.render(templateComments, { "items": dataComments, "timestampDate": timestampDate, "trimLong": trimLong, "slugify": slugify});
 				$(".recent .comments .box-body").html(renderedComments);
 			});
 		});
@@ -1117,76 +1045,6 @@ function displayPage(pageKind, index) {
 	page.removeClass("hidden");
 }
 
-function adjustData(data, type) {
-	for (index in data) {
-		  //since mustache does not support accessing array index in template, we have to add it manually
-		  data[index].index = index;
-		  if (index == 0) {
-			  data[index].active_slide = true;
-		  }
-
-		  //there is no switch in mustache so we are setting variables
-		  if (type == 'comments') {
-			  switch(data[index].parentContent.kind) {
-			    case 'text':
-			    	data[index].parentKind = 'tekst';
-			    	data[index].parentLinkText = data[index].parentContent.authorUsername + " - " + data[index].parentContent.name;
-			        break;
-			    case 'episode':
-			    	data[index].parentKind = 'nastavak';
-			    	data[index].parentLinkText = data[index].parentContent.authorUsername + " - " + data[index].parentContent.name;
-			        break;
-			    case 'episode_group':
-			    	data[index].parentKind = 'priču u nastavcima';
-			    	data[index].parentLinkText = data[index].parentContent.name;
-			        break;
-			    case 'connection_description':
-			    	data[index].parentKind = 'link';
-			    	data[index].parentLinkText = data[index].parentContent.name;
-			        break;
-			    case 'contest_description':
-			    	data[index].parentKind = 'konkurs';
-			    	data[index].parentLinkText = data[index].parentContent.name;
-			        break;
-			    case 'page_description':
-			    	data[index].parentKind = 'stranicu';
-			    	data[index].parentLinkText = data[index].parentContent.text;
-			        break;
-			    case 'news':
-			    	data[index].parentKind = 'vest';
-			    	data[index].parentLinkText = data[index].parentContent.name;
-			        break;
-			    case 'forum_group':
-			    	//forum group comments are not enabled
-			    	data[index].parentKind = 'kategoriju na forumu';
-			        break;
-			    case 'user_description':
-			    	data[index].parentKind = 'autora';
-			    	data[index].parentLinkText = data[index].parentContent.authorUsername;
-			        break;
-			    case 'item_list_description':
-			    	data[index].parentKind = 'izbor';
-			    	data[index].parentLinkText = data[index].parentContent.name;
-			        break;
-	    		}
-			  data[index].text = sanitizeRuntime(data[index].text);
-		  } else if (type == 'authors') {
-			  switch(data[index].gender) {
-	    		case 'male':
-	    			data[index].gender = 'muški';
-	    			break;
-	    		case 'female':
-	    			data[index].gender = 'ženski';
-	    			break;
-	    		case 'other':
-	    			data[index].gender = 'x';
-	    			break;
-	    	}
-		  }
-	  }
-	return data;
-}
-
 //takes array of arrays and makes array of tuples
 function rearrangeDataForTable(data) {
 	var result = [];
@@ -1210,7 +1068,7 @@ function randomHeaderBackground() {
 	//http://localhost/images/bg52.png
 }
 
-function displayModal(type, id, event, notification) {
+function displayModal(type, slug, event, notification) {
 	if (event) {
 		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
@@ -1220,8 +1078,7 @@ function displayModal(type, id, event, notification) {
 	$.get(rootFolder+"templates/"+type+"-" + version + ".html", function(template) {
 		var data = {};
 		if (type == 'confirmation') {
-			//TODO
-			data.modalAction = "deleteSingleItem('"+id.replace(/ /g, '~').replace(/'/g, "\\'")+"');";
+			data.modalAction = "deleteSingleItem('"+slug+"');";
 		} else if (type == 'notification') {
 			try {
 				data.notification = $.li18n.translate(notification);
@@ -1229,9 +1086,16 @@ function displayModal(type, id, event, notification) {
 				data.notification = notification;
 			}
 		}
-		//data.escapeUrl = escapeUrlExtended;
 		var rendered = Mustache.render(template, data);
     	contentElement.html(rendered);
     	modalElement.modal('show');
 	});
+}
+
+function slugifyText(text) {
+	return text.toString().toLowerCase().trim()
+	.replace(/\s+/g, '-')           // Replace spaces with -
+	.replace(/&/g, '-and-')         // Replace & with 'and'
+	.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+	.replace(/\-\-+/g, '-');        // Replace multiple - with single -
 }
