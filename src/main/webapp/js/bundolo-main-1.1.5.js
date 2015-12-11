@@ -482,7 +482,7 @@ function displayHomeDefault() {
 	    	displayContent(contentElement, homeHtml, data.contentId, "page");
 			//do not use html from db for now
 	    	//displayRandomComment();
-	    	//displayHighlightedAnnouncement('Va%C5%A1e%20mejl%20adrese');
+	    	displayHighlightedAnnouncement('item_list/istaknute-vesti');
 	    	displayLinksInAscii();
 	    	displayRecent();
 		},
@@ -846,24 +846,12 @@ function displayRandomComment() {
 }
 
 function displayHighlightedAnnouncement(slug) {
-	$.ajax({
-		  url: rootPath + restRoot + "/"+slug,
-		  type: "GET",
-		  dataType: "json",
-		  contentType: "application/json; charset=utf-8",
-		  beforeSend: function (xhr) {
-			  xhr.setRequestHeader ("Authorization", token);
-		  },
-		  headers: {
-	          'Accept': 'application/json',
-	          'Content-Type': 'application/json'
-		  },
-		  success: function(data) {
-			  if (data) {
-				  var mainContentText = $(".main>.jumbotron>.content>h2");
-				  mainContentText.html('- <a href="/'+data.slug+'" onclick="$.address.value(\'/'+data.slug+'\');return false;">'+data.text+'</a>');
-			  }
-		  }
+	$.getJSON(rootPath + restRoot + "/item_list_items/" + slug, { "start": "0", "end": "0", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
+		if (data && data.length > 0) {
+			var announcement = data[0];
+			var highlightedAnnouncement = $(mainContentPath + " .highlighted_announcement");
+			highlightedAnnouncement.html(announcement.text);
+		}
 	});
 }
 
