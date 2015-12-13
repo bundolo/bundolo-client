@@ -320,16 +320,8 @@ function editSingleItem(type, slug, event, notification) {
 		//this is used in content table when row has event handler and contains buttons which have their own
 		event.stopPropagation();
 	}
-//	var modalElement;
-//	if ((type == 'notification') || (type == 'confirmation')) {
-//		modalElement= $('#modal-notification');
-//	} else {
-//		modalElement= $('#modal');
-//	}
-//	var contentElement = modalElement.find('.modal-content');
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
-//	modalElement.modal('show');
 	if (type.indexOf('_description') > 0) {
 		type = type.substring(0, type.indexOf('_description'));
 	}
@@ -340,9 +332,6 @@ function editSingleItem(type, slug, event, notification) {
 			    type: 'GET',
 			    dataType: "json",
 			    contentType: "application/json; charset=utf-8",
-//			    beforeSend: function (xhr) {
-//			        xhr.setRequestHeader ("Authorization", token);
-//			    },
 			    success: function(data) {
 			    	editSingleItemHelper(type, slug, contentElement, template, data);
 				},
@@ -356,15 +345,21 @@ function editSingleItem(type, slug, event, notification) {
 			    type: 'GET',
 			    dataType: "json",
 			    contentType: "application/json; charset=utf-8",
-//			    beforeSend: function (xhr) {
-//			        xhr.setRequestHeader ("Authorization", token);
-//			    },
 			    success: function(data) {
 			    	editSingleItemHelper(type, slug, contentElement, template, data);
 				},
 				error: function(textStatus, errorThrown) {
 					//TODO
 				}
+			});
+		} else if (type == 'item_list') {
+			$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "kind,general"}, function( generalItemLists ) {
+				$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "kind,elected"}, function( electedItemLists ) {
+					var data = {};
+					data.hasGeneral = generalItemLists && generalItemLists.length > 0;
+					data.hasElected = electedItemLists && electedItemLists.length > 0;
+					editSingleItemHelper(type, slug, contentElement, template, data);
+				});
 			});
 		} else if (type == 'confirmation') {
 			editSingleItemHelper(type, null, contentElement, template, "deleteSingleItem('"+slug+"');");
@@ -394,6 +389,10 @@ function editSingleItemHelper(type, slug, contentElement, template, formData) {
 		    			data.connectionGroups = formData;
 		    		} else if (type == 'topic') {
 		    			data.topicGroups = formData;
+		    		} else if (type == 'item_list') {
+		    			data.commonItemLists = formData;
+		    			data.isGeneral = data.kind == "general";
+		    			data.isElected = data.kind == "elected";
 		    		}
 		    	}
 		    	data.timestampDate = timestampDate;
@@ -419,6 +418,10 @@ function editSingleItemHelper(type, slug, contentElement, template, formData) {
     			data.connectionGroups = formData;
     		} else if (type == 'topic') {
     			data.topicGroups = formData;
+    		} else if (type == 'item_list') {
+    			data.commonItemLists = formData;
+    			data.isGeneral = data.kind == "general";
+    			data.isElected = data.kind == "elected";
     		} else if (type == 'confirmation') {
     			data.modalAction = formData;
     		} else if (type == 'notification') {
@@ -482,7 +485,7 @@ function displayHomeDefault() {
 	    	displayContent(contentElement, homeHtml, data.contentId, "page");
 			//do not use html from db for now
 	    	//displayRandomComment();
-	    	displayHighlightedAnnouncement('item_list/istaknute-vesti');
+	    	displayHighlightedAnnouncement();
 	    	displayLinksInAscii();
 	    	displayRecent();
 		},
@@ -832,7 +835,7 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function displayRandomComment() {
-	$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "0", "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
+	$.getJSON(rootPath + restRoot + "/comments", { "start": 0, "end": 0, "orderBy": "random,asc", "filterBy": "text,bundolo"}, function( data ) {
 		var comment = data[0];
 	  var authorLink = "";
 	  if (comment.authorUsername && comment.authorUsername != "gost") {
@@ -845,12 +848,19 @@ function displayRandomComment() {
 	});
 }
 
-function displayHighlightedAnnouncement(slug) {
-	$.getJSON(rootPath + restRoot + "/item_list_items/" + slug, { "start": "0", "end": "0", "orderBy": "date,desc", "filterBy": ""}, function( data ) {
-		if (data && data.length > 0) {
-			var announcement = data[0];
-			var highlightedAnnouncement = $(mainContentPath + " .highlighted_announcement");
-			highlightedAnnouncement.html(announcement.text);
+function displayHighlightedAnnouncement() {
+	$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "kind,general"}, function( generalItemLists ) {
+		if (generalItemLists && generalItemLists.length > 0) {
+			var itemList = generalItemLists[0];
+			if (itemList.query && itemList.query != "") {
+				$.getJSON(rootPath + restRoot + "/item_list_items/" + itemList.descriptionContent.slug, { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": ""}, function( data ) {
+					if (data && data.length > 0) {
+						var announcement = data[0];
+						var highlightedAnnouncement = $(mainContentPath + " .highlighted_announcement");
+						highlightedAnnouncement.html(announcement.text);
+					}
+				});
+			}
 		}
 	});
 }
@@ -931,42 +941,42 @@ function displayRecent() {
 		$(".recent .overlay").html(spinner);
 
 		$.get(rootPath + "/templates/recent_texts" + "-" + version + ".html", function(templateTexts) {
-			$.getJSON(rootPath + restRoot + "/texts", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
+			$.getJSON(rootPath + restRoot + "/texts", { "start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""}, function(dataTexts) {
 				var renderedTexts = Mustache.render(templateTexts, { "items": dataTexts, "timestampDate": timestampDate, "trimLong": trimLong, "slugify": slugify});
 				$(".recent .texts .box-body").html(renderedTexts);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_comments" + "-" + version + ".html", function(templateComments) {
-			$.getJSON(rootPath + restRoot + "/comments", { "start": "0", "end": "4", "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
+			$.getJSON(rootPath + restRoot + "/comments", { "start": 0, "end": 4, "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "}, function(dataComments) {
 				var renderedComments = Mustache.render(templateComments, { "items": dataComments, "timestampDate": timestampDate, "trimLong": trimLong, "slugify": slugify});
 				$(".recent .comments .box-body").html(renderedComments);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_topics" + "-" + version + ".html", function(templateTopics) {
-			$.getJSON(rootPath + restRoot + "/topics", { "start": "0", "end": "4", "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
+			$.getJSON(rootPath + restRoot + "/topics", { "start": 0, "end": 4, "orderBy": "activity,desc", "filterBy": ""}, function(dataTopics) {
 				var renderedTopics = Mustache.render(templateTopics, { "items": dataTopics, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .topics .box-body").html(renderedTopics);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_announcements" + "-" + version + ".html", function(templateAnnouncements) {
-			$.getJSON(rootPath + restRoot + "/announcements", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataAnnouncements) {
+			$.getJSON(rootPath + restRoot + "/announcements", { "start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""}, function(dataAnnouncements) {
 				var renderedAnnouncements = Mustache.render(templateAnnouncements, { "items": dataAnnouncements, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .announcements .box-body").html(renderedAnnouncements);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_contests" + "-" + version + ".html", function(templateContests) {
-			$.getJSON(rootPath + restRoot + "/contests", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataContests) {
+			$.getJSON(rootPath + restRoot + "/contests", { "start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""}, function(dataContests) {
 				var renderedContests = Mustache.render(templateContests, { "items": dataContests, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .contests .box-body").html(renderedContests);
 			});
 		});
 
 		$.get(rootPath + "/templates/recent_connections" + "-" + version + ".html", function(templateConnections) {
-			$.getJSON(rootPath + restRoot + "/connections", { "start": "0", "end": "4", "orderBy": "date,desc", "filterBy": ""}, function(dataConnections) {
+			$.getJSON(rootPath + restRoot + "/connections", { "start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""}, function(dataConnections) {
 				var renderedConnections = Mustache.render(templateConnections, { "items": dataConnections, "timestampDate": timestampDate, "trimLong": trimLong});
 				$(".recent .connections .box-body").html(renderedConnections);
 			});

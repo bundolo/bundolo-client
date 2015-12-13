@@ -20,6 +20,34 @@
 				  <label for="edit_description">kratak opis</label>
 				  <textarea cols="45" rows="6" class="form-control" id="edit_description" placeholder="unesite kratak opis">{{descriptionContent.text}}</textarea>
 				</div>
+				{{#isGeneral}}
+					<div class="form-group">
+					  <label for="edit_is_general">prikaži kao važan izbor</label>
+					  <input type="checkbox" id="edit_is_general" placeholder="prikaži kao važan izbor" checked>
+					</div>
+				{{/isGeneral}}
+				{{^isGeneral}}
+					{{^commonItemLists.hasGeneral}}
+						<div class="form-group">
+						  <label for="edit_is_general">prikaži kao važan izbor</label>
+						  <input type="checkbox" id="edit_is_general" placeholder="prikaži kao važan izbor">
+						</div>
+					{{/commonItemLists.hasGeneral}}
+				{{/isGeneral}}
+				{{#isElected}}
+					<div class="form-group">
+					  <label for="edit_is_elected">prikaži kao istaknut izbor</label>
+					  <input type="checkbox" id="edit_is_elected" placeholder="prikaži kao istaknut izbor" checked>
+					</div>
+				{{/isElected}}
+				{{^isElected}}
+					{{^commonItemLists.hasElected}}
+						<div class="form-group">
+						  <label for="edit_is_elected">prikaži kao istaknut izbor</label>
+						  <input type="checkbox" id="edit_is_elected" placeholder="prikaži kao istaknut izbor">
+						</div>
+					{{/commonItemLists.hasElected}}
+				{{/isElected}}
 			</form>
 		</div>
 	</div>

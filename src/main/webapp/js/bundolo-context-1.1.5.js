@@ -93,7 +93,7 @@ function addContextMenu(parentElement, parentId, parentType) {
 	var contextContainer = $(contextContainerHtml);
 	parentElement.find('.content').append(contextContainer);
 	if (username != 'gost') {
-		$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( data ) {
+		$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": -1, "orderBy": "date,desc", "filterBy": "author,"+username}, function( data ) {
 			if (data) {
 				itemLists = data;
 				if (itemLists && itemLists.length > 0) {

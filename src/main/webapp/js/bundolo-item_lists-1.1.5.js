@@ -17,6 +17,14 @@ function saveItemList() {
 	itemList.descriptionContent = {};
 	itemList.descriptionContent.text = $("#edit_description").val();
 	itemList.descriptionContent.name = $("#edit_title").val();
+	var isGeneralCheckbox = $("#edit_is_general");
+	if (isGeneralCheckbox && isGeneralCheckbox.length > 0) {
+		itemList.kind = isGeneralCheckbox.prop('checked')?"general":"personal";
+	}
+	var isElectedCheckbox = $("#edit_is_elected");
+	if (isElectedCheckbox && isElectedCheckbox.length > 0) {
+		itemList.kind = isElectedCheckbox.prop('checked')?"elected":"personal";
+	}
 	$.ajax({
 		  url: rootPath + restRoot + "/item_list",
 		  type: "POST",
