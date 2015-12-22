@@ -865,7 +865,8 @@ function displayHighlightedAnnouncement() {
 					if (data && data.length > 0) {
 						var announcement = data[0];
 						var highlightedAnnouncement = $(mainContentPath + " .highlighted_announcement");
-						highlightedAnnouncement.html("<h4>"+announcement.name+"</h4>" + announcement.text);
+						highlightedAnnouncement.html('<h4><a href="/'+announcement.slug+'" onclick="$.address.value(\'/'+announcement.slug+'\');return false;">'+announcement.name+'</a></h4>' + announcement.text);
+
 						highlightedAnnouncement.closest(".row").show();
 					}
 				});
