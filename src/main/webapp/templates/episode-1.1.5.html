@@ -27,7 +27,7 @@
 	  <i class='fa fa-files-o'></i>
 	</h1>
 	<h1 class="text-center">
-	  <a href="/serial/{{slug}}" onclick="$.address.value('/serial/{{slug}}');return false;">{{parentGroup}}</a>
+	  <a href="/serial/{{slug}}" onclick="$.address.value('/serial/{{slug}}');return false;">{{parent.name}}</a>
 	</h1>
 	<h1 class="text-center">
 	  {{#authorUsername}}<a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}
@@ -55,6 +55,7 @@
 				</button>
 			</div>
 			{{/editingEnabled}}
+			{{#isAuthor}}{{^editingEnabled}}<br/>nastavak se ne može menjati ili brisati ako je završen, ili ako to nije dozvoljeno na nivou cele serije.{{/editingEnabled}}{{/isAuthor}}
 		</div>
 	</div>
 </section>

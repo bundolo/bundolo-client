@@ -36,6 +36,7 @@
 			<br/>{{#creationDate}}dodato: {{#timestampDate}}{{creationDate}}{{/timestampDate}}{{/creationDate}}
 			<br/>poslednja aktivnost: {{#timestampDate}}{{lastActivity}}{{/timestampDate}}
 			<br/>broj prikazivanja: {{rating.0.value}}
+			{{#editingEnabled}}{{#isPending}}<br/>dozvoljeno je naknadno menjanje nastavaka{{/isPending}}{{/editingEnabled}}
 		</div>
 	</div>
 	<div class="row">

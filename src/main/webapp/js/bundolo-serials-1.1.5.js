@@ -30,7 +30,7 @@ function saveEpisode(title, content) {
 	episode.contentId = $("#edit_item_id").val();
 	episode.text = $("#edit_content").code();
 	episode.parentContent = {"contentId" : episodeParentId};
-	episode.contentStatus = $("#edit_finalized").prop('checked')?"active":"pending";
+	episode.contentStatus = $("#edit_active").prop('checked')?"active":"pending";
 	$.ajax({
 		  url: rootPath + restRoot + "/episode",
 		  type: "POST",
@@ -70,6 +70,7 @@ function saveSerial(title, description) {
 	serial.name =  $("#edit_title").val();
 	serial.contentId = $("#edit_item_id").val();
 	serial.text = $("#edit_description").val();
+	serial.contentStatus = $("#edit_pending").prop('checked')?"pending":"active";
 	$.ajax({
 		  url: rootPath + restRoot + "/serial",
 		  type: "POST",

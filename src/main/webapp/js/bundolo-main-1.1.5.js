@@ -201,6 +201,7 @@ function displaySingleItem(slug) {
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 						    	pageTitle = data.name;
+						    	data.isPending = "pending" == data.contentStatus;
 						        break;
 						    case 'announcement':
 						    	commentParentId = data.contentId;
@@ -219,7 +220,8 @@ function displaySingleItem(slug) {
 						        break;
 						    case 'episode':
 						    	commentParentId = data.contentId;
-						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername) && (data.contentStatus == 'pending');
+						    	data.isAuthor = (username != "gost") && (username == data.authorUsername);
+						    	data.editingEnabled = data.isAuthor && ((data.contentStatus == 'pending') || (data.parent.contentStatus == 'pending'));
 						    	pageTitle = data.name;
 						        break;
 						    case 'item_list':
@@ -272,7 +274,7 @@ function displaySingleItem(slug) {
 						    			} else {
 						    				numberOfEpisodesLabel = episodes.length + ' nastavaka';
 						    			}
-					    				data.addingEnabled = episodes[episodes.length - 1].contentStatus == 'active';
+					    				data.addingEnabled = ("pending" == data.contentStatus) || (episodes[episodes.length - 1].contentStatus == 'active');
 					    				for (var i = 0; i < episodes.length / pageSize; i++) {
 					    					var page = {"index" : i + 1, "episodes" : episodes.slice(i*pageSize, i*pageSize + pageSize)};
 					    					pages.push(page);
@@ -394,6 +396,12 @@ function editSingleItemHelper(type, slug, contentElement, template, formData) {
 		    			data.isGeneral = data.kind == "general";
 		    			data.isElected = data.kind == "elected";
 		    		}
+		    	}
+		    	if (type == 'episode') {
+		    		data.isPending = "pending" == data.contentStatus;
+		    		episodeParentId = data.parent.contentId;
+		    	} else if (type == 'serial') {
+		    		data.isPending = "pending" == data.contentStatus;
 		    	}
 		    	data.timestampDate = timestampDate;
 		    	var rendered = Mustache.render(template, data);
@@ -857,7 +865,8 @@ function displayHighlightedAnnouncement() {
 					if (data && data.length > 0) {
 						var announcement = data[0];
 						var highlightedAnnouncement = $(mainContentPath + " .highlighted_announcement");
-						highlightedAnnouncement.html(announcement.text);
+						highlightedAnnouncement.html("<h4>"+announcement.name+"</h4>" + announcement.text);
+						highlightedAnnouncement.closest(".row").show();
 					}
 				});
 			}
@@ -901,8 +910,8 @@ function displayLinksInAscii() {
 				    	caption = data[i].name;
 				        break;
 				    case 'episode':
-				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parentGroup + "\r\nautor:\r\n"+data[i].authorUsername;
-				    	caption = data[i].parentGroup + " - " + data[i].name;
+				    	title = "nastavak:\r\n" + data[i].name + "\r\nserija:\r\n"+data[i].parent.name + "\r\nautor:\r\n"+data[i].authorUsername;
+				    	caption = data[i].parent.name + " - " + data[i].name;
 				        break;
 				    case 'user_description':
 				    	title = "autor:\r\n"+data[i].authorUsername;
@@ -1004,7 +1013,7 @@ function formatItemListItems(data) {
 		    	data[i].caption = data[i].name;
 		        break;
 		    case 'episode':
-		    	data[i].caption = data[i].parentGroup + " - " + data[i].name;
+		    	data[i].caption = data[i].parent.name + " - " + data[i].name;
 		        break;
 		    case 'user_description':
 		    	data[i].caption = data[i].authorUsername;

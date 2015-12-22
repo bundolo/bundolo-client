@@ -9,7 +9,7 @@ $.li18n.translations =
 	title_taken : 'sadržaj sa tim naslovom već postoji!',
 	title_not_url_safe : 'naslov ne sme sadržati specijalne karaktere!',
 	serial_pending : 'serija je zaključana!',
-	episode_detached : 'epizoda mora pripadati seriji!',
+	episode_detached : 'nastavak mora pripadati seriji!',
 	username_not_url_safe : 'korisničko ime ne sme sadržati specijalne karaktere!',
 	login_failed : 'prijavljivanje nije uspelo!',
 	validation_failed : 'validacija nije uspela!',

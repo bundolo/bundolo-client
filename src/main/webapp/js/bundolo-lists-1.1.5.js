@@ -93,7 +93,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 						    	data[i].isEditable = (type == "user_items");
 						        break;
 						    case 'episode':
-						    	data[i].isEditable = (type == "user_items") && "pending" == data[i].contentStatus;
+						    	data[i].isEditable = (type == "user_items") && ("pending" == data[i].contentStatus || "pending" == data[i].parent.contentStatus);
 						        break;
 						    case 'item_list_description':
 						    	data[i].isEditable = (type == "user_items");
