@@ -70,6 +70,12 @@ $.address.change(function(event) {
 
 function loadFromAddress() {
 	$('.sidebar-menu>li').removeClass('active');
+	var escapedFragmentIndex = $.address.value().indexOf("_escaped_fragment_=");
+	if (escapedFragmentIndex >= 0) {
+		//if escaped fragment is present, we remove it from address, which will trigger $.address.change again
+		$.address.value($.address.value().substring(0, escapedFragmentIndex - 1));
+		return;
+	}
 	if ($.address.value() == rootFolder) {
 		displayHome();
 	} else if ($.address.value() == "/about") {
