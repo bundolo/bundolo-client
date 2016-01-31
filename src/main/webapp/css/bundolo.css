@@ -265,6 +265,10 @@ body {
 	margin-top: -15px;
 }
 
+#author_interactions_column_comments_delta, #author_interactions_column_rating_delta {
+	cursor: default;
+}
+
 .box-body {
 	padding: 0 10px;
 }

@@ -144,7 +144,11 @@ function addContextMenu(parentElement, parentId, parentType) {
 		});
 	}
 	rootParentId = parentId;
-	displayComments(parentId);
+	if (parentType != 'topic') {
+    	//topic comments are disabled to avoid confusion with posts
+    	//consider enabling comments on forum, or forum groups
+		displayComments(parentId);
+	}
 }
 
 function displayComments(parentId) {

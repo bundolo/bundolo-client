@@ -35,6 +35,7 @@ $.li18n.translations =
 	serial : 'serija',
 	serials : 'serije',
 	user_items : 'pregled objavljenog',
+	author_interactions : 'interakcije',
 	text : 'tekst',
 	texts : 'tekstovi',
 	topic : 'diskusija',

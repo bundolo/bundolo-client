@@ -1,0 +1,34 @@
+{{#items}}
+	<tr>
+		<td>
+			<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+				{{name}}
+			</a>
+		</td>
+		<td>
+			<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+				{{authorUsername}}
+			</a>
+		</td>
+		<td>
+			<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+				{{#translate}}{{kind}}{{/translate}}
+			</a>
+		</td>
+		<td>
+			<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+				{{#timestampDate}}{{lastActivity}}{{/timestampDate}}
+			</a>
+		</td>
+		<td>
+			<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+				{{#rating.1.value}}{{rating.1.value}}{{/rating.1.value}}{{^rating.1.value}}0{{/rating.1.value}}
+			</a>
+		</td>
+		<td>
+			<a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">
+				{{#rating.1.historical}}{{rating.1.historical}}{{/rating.1.historical}}{{^rating.1.historical}}0{{/rating.1.historical}}
+			</a>
+		</td>
+	</tr>
+{{/items}}

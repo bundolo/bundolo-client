@@ -104,6 +104,12 @@ function loadFromAddress() {
 		} else {
 			displayHome();
 		}
+	} else if ($.address.value() == "/author_interactions") {
+		if (username != 'gost') {
+			displayAuthorInteractions();
+		} else {
+			displayHome();
+		}
 	} else if ($.address.value().indexOf("/list") == 0) {
 		displayList($.address.value().substring(6));
 	} else if ($.address.value().match("^/validate")) {
@@ -197,10 +203,8 @@ function displaySingleItem(slug) {
 						    	pageTitle = data.username;
 						        break;
 						    case 'topic':
-						    	//topic comments are disabled to avoid confusion with posts
-						    	//consider enabling comments on forum, or forum groups
-						    	//commentParentId = data.contentId;
-						    	commentParentId = null;
+						    	commentParentId = data.contentId;
+						    	//commentParentId = null;
 						    	pageTitle = data.name;
 						        break;
 						    case 'serial':
@@ -659,7 +663,7 @@ function displayUserItems() {
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
 	$.get(rootFolder+"templates/user_items" + "-" + version + ".html", function(template) {
-		var rendered = Mustache.render(template, {});
+		var rendered = Mustache.render(template, {"slug" : slug});
 		displayContent(contentElement, rendered, null, null, "user_items");
 		displayListItems("user_items", "date,desc", null, null, "/" + slug);
 	});
@@ -701,6 +705,16 @@ function displayUpdates() {
 				displayModal("notification", null, null, "stranica trenutno nije dostupna!");
 			}
 		});
+	});
+}
+
+function displayAuthorInteractions() {
+	var contentElement = $(mainContentPath);
+	contentElement.html(spinner);
+	$.get(rootFolder+"templates/author_interactions" + "-" + version + ".html", function(template) {
+		var rendered = Mustache.render(template, {"slug" : slug});
+		displayContent(contentElement, rendered, null, null, "author_interactions");
+		displayListItems("author_interactions", "activity,desc", null, null, "/" + slug);
 	});
 }
 

@@ -2,7 +2,7 @@ $(document).ready(function() {
 	//clicks on column headers
 	$('body').on('click', 'table.infinite>thead>tr>th', function(e) {
 		var elementId = $(this).attr('id');
-		if (elementId) {
+		if (elementId && "author_interactions_column_comments_delta" != elementId && "author_interactions_column_rating_delta" != elementId) {
 			var itemType = elementId.substr(0, elementId.indexOf('_column'));
 			var columnName = elementId.substr(itemType.length + 8);
 			if (($(this).hasClass("asc")) || ($(this).hasClass("desc")))  {
@@ -63,7 +63,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 	}
 	filterBy = typeof filterBy !== 'undefined' ? filterBy : '';
 	if (typeof path === 'undefined') {
-		if (type == "user_items") {
+		if (type == "user_items" || type == "author_interactions") {
 			path = '/' + username;
 		} else {
 			path = '';
@@ -86,7 +86,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 		    data: { "start": itemCounter, "end": (itemCounter + itemInitial -1), "orderBy": orderBy, "filterBy": filterBy},
 		    success: function(data) {
 		    	if (data) {
-					if (type == "author_items" || type == "user_items") {
+					if (type == "author_items" || type == "user_items" || type == "author_interactions") {
 						for (var i = 0; i < data.length; i++) {
 							switch(data[i].kind) {
 						    case 'text':
@@ -97,6 +97,9 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 						        break;
 						    case 'item_list_description':
 						    	data[i].isEditable = (type == "user_items");
+						        break;
+						    case 'user_description':
+						    	data[i].name = data[i].authorUsername;
 						        break;
 				    		}
 						}
@@ -124,7 +127,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 				    		    data: { "start": itemCounter, "end": (itemCounter + itemAdditional -1), "orderBy": orderBy, "filterBy": filterBy},
 				    		    success: function(additional_data) {
 				    		    	if (additional_data) {
-				    		    		if (type == "author_items" || type == "user_items") {
+				    		    		if (type == "author_items" || type == "user_items" || type == "author_interactions") {
 						    				for (var i = 0; i < additional_data.length; i++) {
 												switch(additional_data[i].kind) {
 											    case 'text':
@@ -135,6 +138,9 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 											        break;
 											    case 'item_list_description':
 											    	additional_data[i].isEditable = (type == "user_items");
+											        break;
+											    case 'user_description':
+											    	data[i].name = data[i].authorUsername;
 											        break;
 									    		}
 						    				}
