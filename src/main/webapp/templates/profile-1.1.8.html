@@ -8,14 +8,30 @@
 </section>
 <section class="content">
 	<div class="row">
-    	<div class="col-xs-12">
-			korisničko ime: {{username}}<br/>
-			kratak opis: {{{descriptionContent.text}}}<br/>
-			prikaži lične podatke: {{showPersonal}}<br/>
-			ime: {{firstName}}<br/>
-			prezime: {{lastName}}<br/>
-			pol: {{gender}}<br/>
-			datum rođenja: {{#timestampDate}}{{birthDate}}{{/timestampDate}}<br/>
+		<div class="col-xs-2">
+			<img class="img-responsive" src="{{avatarUrl}}" />
+		</div>
+		<div class="col-xs-2">
+			korisničko ime:<br/>
+			kratak opis:<br/>
+			prikaži lične podatke:<br/>
+			ime:<br/>
+			prezime:<br/>
+			pol:<br/>
+			datum rođenja:<br/>
+		</div>
+		<div class="col-xs-8">
+			{{username}}<br/>
+			{{{descriptionContent.text}}}<br/>
+			{{showPersonal}}<br/>
+			{{firstName}}<br/>
+			{{lastName}}<br/>
+			{{gender}}<br/>
+			{{#timestampDate}}{{birthDate}}{{/timestampDate}}<br/><br/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
 			datum registracije: {{#timestampDate}}{{signupDate}}{{/timestampDate}}<br/>
 			poslednja prijava: {{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}<br/>
 			<div class="item-footer">

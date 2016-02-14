@@ -31,7 +31,10 @@
 </section>
 <section class="content">
 	<div class="row">
-    	<div class="col-xs-12">
+    	<div class="col-xs-2">
+			<img class="img-responsive" src="{{avatarUrl}}" />
+		</div>
+		<div class="col-xs-10">
 			{{#descriptionContent.text}}<p>{{{descriptionContent.text}}}</p>{{/descriptionContent.text}}
 			{{#showPersonal}}
 				{{#firstName}}ime: {{firstName}}<br/>{{/firstName}}
@@ -40,9 +43,14 @@
 				{{#birthDate}}datum rođenja: {{#timestampDate}}{{birthDate}}{{/timestampDate}}<br/>{{/birthDate}}
 				{{#email}}email: {{email}}<br/>{{/email}}
 			{{/showPersonal}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<br/>
 			{{#lastLoginDate}}poslednja prijava: {{#timestampDate}}{{lastLoginDate}}{{/timestampDate}}{{/lastLoginDate}}
 			<br/>broj prikazivanja: {{descriptionContent.rating.0.value}}
-			<br/>
+			<br/><br/>
 			{{#editingEnabled}}
 			<div class="item-footer">
 			<button type="button" class="btn btn-default" title="izmena podataka" onClick="editSingleItem('author', '{{descriptionContent.slug}}');">
@@ -59,6 +67,7 @@
 			</button>
 			</div>
 			{{/messagingEnabled}}
+			<br/>
 		</div>
 	</div>
 	<div class="row">

@@ -340,3 +340,7 @@ function updateLastActivity() {
 	      }
 	});
 }
+
+function getAvatarUrl(hash, size) {
+	return "http://cdn.libravatar.org/avatar/"+hash+"?s="+size+"&r=g&d=identicon";
+}

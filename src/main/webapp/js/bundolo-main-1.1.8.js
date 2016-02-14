@@ -201,7 +201,8 @@ function displaySingleItem(slug) {
 						    			break;
 						    	}
 						    	pageTitle = data.username;
-						        break;
+						    	data.avatarUrl = getAvatarUrl(data.avatarUrl, 120);
+						    	break;
 						    case 'topic':
 						    	commentParentId = data.contentId;
 						    	//commentParentId = null;
@@ -610,6 +611,7 @@ function displayProfile() {
 			    			break;
 			    	}
 		    		data.showPersonal = data.showPersonal ? 'da' : 'ne';
+		    		data.avatarUrl = getAvatarUrl(data.avatarUrl, 120);
 		    		data.timestampDate = timestampDate;
 		    		var rendered = Mustache.render(template, data);
 				    displayContent(contentElement, rendered, null, null, "profile");

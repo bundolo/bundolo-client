@@ -273,6 +273,10 @@ body {
 	padding: 0 10px;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 /*spinner start*/
 .fa-spin .fa-inverse {
 	opacity: 0;
