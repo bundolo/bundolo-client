@@ -116,6 +116,15 @@ body>div>div>.content table.infinite button {
 	cursor: pointer;
 }
 
+.comments-root img, .forum-topic img {
+	float: left;
+	padding: 0 4px;
+}
+
+.forum-topic img {
+	padding: 0 8px 0 0;
+}
+
 .context-root .rating-select {
 	position:absolute;
 	bottom: 6px;

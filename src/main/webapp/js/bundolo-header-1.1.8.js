@@ -342,5 +342,8 @@ function updateLastActivity() {
 }
 
 function getAvatarUrl(hash, size) {
-	return "http://cdn.libravatar.org/avatar/"+hash+"?s="+size+"&r=g&d=identicon";
+	if (!hash) {
+		hash = '532d5b1ca40d53c7261ec43324377b7b';
+	}
+	return "http://cdn.libravatar.org/avatar/"+hash+"?s="+size+"&d=identicon";
 }

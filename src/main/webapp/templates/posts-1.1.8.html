@@ -10,7 +10,7 @@
 			{{#posts}}
 				<tr>
 					<td>
-						{{#authorUsername}}<a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('/author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
+						<img src="{{avatarUrl}}" /> {{#authorUsername}}<a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('/author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a>{{/authorUsername}}{{^authorUsername}}gost{{/authorUsername}}<br/>
 						{{#timestampDateTime}}{{creationDate}}{{/timestampDateTime}}
 					</td>
 					<td>{{{text}}}</td>

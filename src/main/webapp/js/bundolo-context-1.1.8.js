@@ -183,6 +183,7 @@ function sanitizeRecursive(data, shouldCollapse) {
 		  } else {
 			  data[index].authorText = 'gost';
 		  }
+		  data[index].avatarUrl = getAvatarUrl(data[index].avatarUrl, 40);
 		  data[index].collapse = shouldCollapse;
 		  data[index].old = $.now() - data[index].creationDate > oldCommentLimit;
 		  hasOldComments = data[index].old || hasOldComments;

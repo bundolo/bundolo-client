@@ -201,7 +201,7 @@ function displaySingleItem(slug) {
 						    			break;
 						    	}
 						    	pageTitle = data.username;
-						    	data.avatarUrl = getAvatarUrl(data.avatarUrl, 120);
+						    	data.avatarUrl = getAvatarUrl(data.descriptionContent.avatarUrl, 120);
 						    	break;
 						    case 'topic':
 						    	commentParentId = data.contentId;
@@ -255,6 +255,7 @@ function displaySingleItem(slug) {
 					    			if (allPosts) {
 					    				for (var i = 0; i < allPosts.length; i++) {
 					    					allPosts[i].text = sanitizeRuntime(allPosts[i].text);
+					    					allPosts[i].avatarUrl = getAvatarUrl(allPosts[i].avatarUrl, 40);
 					    				}
 					    				var pages = [];
 					    				var pageSize = 10;
@@ -611,7 +612,7 @@ function displayProfile() {
 			    			break;
 			    	}
 		    		data.showPersonal = data.showPersonal ? 'da' : 'ne';
-		    		data.avatarUrl = getAvatarUrl(data.avatarUrl, 120);
+		    		data.avatarUrl = getAvatarUrl(data.descriptionContent.avatarUrl, 120);
 		    		data.timestampDate = timestampDate;
 		    		var rendered = Mustache.render(template, data);
 				    displayContent(contentElement, rendered, null, null, "profile");
