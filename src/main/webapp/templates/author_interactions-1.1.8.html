@@ -18,8 +18,8 @@
 						<th></th>
 					</tr>
 					<tr>
-						<td class=""><input type="search" placeholder=""></td>
-						<td class="hidden-xs"><input type="search" placeholder=""></td>
+						<td><input type="search" placeholder=""></td>
+						<td><input type="search" placeholder=""></td>
 						<td class="hidden-xs"><input type="search" placeholder=""></td>
 						<td class="hidden-xs"><input type="search" placeholder=""></td>
 						<td class="hidden-xs"></td>
@@ -30,6 +30,19 @@
 				<tbody>
 				</tbody>
 			</table>
+			<div class="item-footer">
+			<br/><br/>
+				<button type="button" class="btn btn-default" title="vrati brojače novih prikazivanja na nulu" onClick="resetHistoricalRatings('{{slug}}');">
+					<i class="fa fa-times"></i>
+					<span>vrati brojače novih prikazivanja na nulu</span>
+				</button>
+			</div>
 		</div>
 	</div>
+	<div class="row">
+    	<div class="col-xs-12">
+    		nova prikazivanja se broje od momenta kada ste poslednji put otvorili tekst, ili od kada ste vratili sve brojače na nulu.<br/>
+    		poništavanje novih prikazivanja ne utiče na brojanje ukupnih pregleda.
+    	</div>
+    </div>
 </section>

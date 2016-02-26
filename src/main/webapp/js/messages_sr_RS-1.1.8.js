@@ -50,6 +50,7 @@ $.li18n.translations =
 	contest_description : 'konkurs',
 	connection_description : 'link',
 	news : 'vest',
-	forum_topic : 'diskusija'
+	forum_topic : 'diskusija',
+	episode_group : 'serija'
 	}
 };

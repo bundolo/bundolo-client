@@ -9,10 +9,7 @@ body>div>div>.content table.infinite td, body>div>div>.content table.infinite th
 	padding: 4px;
 	border: 0;
 
-	-ms-word-break: break-all;
-    word-break: break-all;
-
-    /* Non standard for webkit */
+	-ms-word-break: break-word;
     word-break: break-word;
 
 	-webkit-hyphens: auto;
@@ -284,6 +281,10 @@ body {
 
 .text-justify {
   text-align: justify;
+}
+
+#author_interactions_column_comments_delta, #author_interactions_column_rating_delta {
+	width: 80px;
 }
 
 /*spinner start*/

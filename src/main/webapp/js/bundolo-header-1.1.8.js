@@ -258,7 +258,12 @@ function saveAuthor() {
 		//TODO check password, or send it instead of the one in the token
 		user.password = $("#edit_password").val();
 	}
-	user.subscribed = $("#edit_subscribed").prop('checked');
+	user.newsletterSubscription = $("#edit_newsletter_subscription").prop('checked');
+	//user.digestSubscription = $("#edit_digest_subscription").val();
+	user.digestSubscription = "none";
+
+	console.log("user.newsletterSubscription: " + user.newsletterSubscription);
+	console.log("user.digestSubscription: " + user.digestSubscription);
 	$.ajax({
 		  url: rootPath + restRoot + "/author",
 		  type: "POST",

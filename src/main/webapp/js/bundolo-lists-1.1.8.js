@@ -43,6 +43,21 @@ $(document).ready(function() {
 //			displayListItems(itemType, getOrderString(itemType), getFilterString(itemType));
 //	    }, 500));
 //	});
+
+	//resizing table requires width adjustment to align header with columns
+	$(window).resize(function(e){
+		var mainContent = $(mainContentPath);
+		if (mainContent.length) {
+			var tableElement = mainContent.find("table.infinite");
+			if (tableElement.length) {
+				var tableBody = tableElement.find("tbody");
+				tableBody.width(tableElement.width());
+				tableElement.find("thead>tr>th").each(function(index) {
+					tableBody.find('td').eq(index).width($(this).width());
+				});
+			}
+		}
+	});
 });
 
 function displayList(type, orderBy, filterBy, lastModified) {
@@ -55,6 +70,9 @@ function displayList(type, orderBy, filterBy, lastModified) {
 }
 
 function displayListItems(type, orderBy, filterBy, lastModified, path) {
+	var mainContent = $(mainContentPath);
+	var tableBody = mainContent.find("table.infinite>tbody");
+	tableBody.html(spinner);
 	if (typeof orderBy === 'undefined' || orderBy == '') {
 		orderBy = getOrderString(type);
 		var orderByArray = orderBy.split(",");
@@ -104,14 +122,13 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 				    		}
 						}
 					}
-					var mainContent = $(mainContentPath);
-					var tableBody = mainContent.find("table.infinite>tbody");
 					var rendered_rows = Mustache.render(template_rows, {"items": data, "timestampDate": timestampDate, "trimLong": trimLong, "translate": translate});
 					tableBody.html(rendered_rows);
 					var tableWidth = mainContent.find("table.infinite").width();
 					tableBody.width(tableWidth);
-					var columnWidth = mainContent.find("table.infinite>thead>tr>th").width();
-					tableBody.find('td').width(columnWidth);
+					$(mainContent.find("table.infinite>thead>tr>th")).each(function(index) {
+						tableBody.find('td').eq(index).width($(this).width());
+					});
 					tableBody.unbind('scroll');
 					tableBody.bind('scroll', function() {
 				    	if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
@@ -211,4 +228,31 @@ function getFilterString(type) {
 		result += 'group,' + categorySelect.val();
 	}
 	return result;
+}
+
+function resetHistoricalRatings() {
+	$.ajax({
+		url: rootPath + restRoot + "/reset_historical/" + slug,
+		type: "POST",
+		data: {},
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader ("Authorization", token);
+		},
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		complete: function (xhr, ajaxOptions, thrownError) {
+			handlingForm = false;
+			if (xhr.status == 200) {
+				loadFromAddress();
+			} else if (xhr.status == 400) {
+				displayModal("notification", null, null, xhr.responseText);
+			} else {
+				displayModal("notification", null, null, "saving_error");
+			}
+		}
+	});
 }
