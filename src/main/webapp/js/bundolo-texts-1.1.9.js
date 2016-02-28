@@ -35,6 +35,7 @@ function saveText() {
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {
+	    		  $('#edit_content').destroy();
 				  if (rootFolder+xhr.responseText == $.address.value()) {
 					  loadFromAddress();
 				  } else {

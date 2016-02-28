@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.1.8";
+var version = "1.1.9";
 var handlingForm = false;
 var mainContentPath = 'body>div.wrapper>div.content-wrapper';
 var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>div>form';
@@ -750,7 +750,7 @@ function sendMessage() {
 		return;
 	}
 	var messageTitle = $("#edit_title").val();
-	var messageText = $("#edit_content").val();
+	var messageText = $("#edit_content").code();
 	var recipientSlug = $("#edit_recipient").val();
 	var message = {};
 	message.title = messageTitle;
@@ -771,6 +771,7 @@ function sendMessage() {
 	  success: function(data) {
 		  if (data) {
 			  if (data == 'success') {
+				  $('#edit_content').destroy();
 				  loadFromAddress();
 			  } else {
 				  displayModal("notification", null, null, data);
