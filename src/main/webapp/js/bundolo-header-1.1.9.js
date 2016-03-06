@@ -259,11 +259,11 @@ function saveAuthor() {
 		user.password = $("#edit_password").val();
 	}
 	user.newsletterSubscription = $("#edit_newsletter_subscription").prop('checked');
-	//user.digestSubscription = $("#edit_digest_subscription").val();
-	user.digestSubscription = "none";
+	user.digestSubscription = $("#edit_digest_subscription").val();
+	//user.digestSubscription = "none";
 
-	console.log("user.newsletterSubscription: " + user.newsletterSubscription);
-	console.log("user.digestSubscription: " + user.digestSubscription);
+//	console.log("user.newsletterSubscription: " + user.newsletterSubscription);
+//	console.log("user.digestSubscription: " + user.digestSubscription);
 	$.ajax({
 		  url: rootPath + restRoot + "/author",
 		  type: "POST",
