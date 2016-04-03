@@ -258,12 +258,17 @@ function saveAuthor() {
 		//TODO check password, or send it instead of the one in the token
 		user.password = $("#edit_password").val();
 	}
-	user.newsletterSubscription = $("#edit_newsletter_subscription").prop('checked');
-	user.digestSubscription = $("#edit_digest_subscription").val();
-	//user.digestSubscription = "none";
-
-//	console.log("user.newsletterSubscription: " + user.newsletterSubscription);
-//	console.log("user.digestSubscription: " + user.digestSubscription);
+	user.newsletterSubscriptions = '[';
+	if ($("#edit_bulletin_subscription").prop('checked')) {
+		user.newsletterSubscriptions += '"bulletin"';
+	}
+	if ($("#edit_digest_subscription").val() != 'none') {
+		if (user.newsletterSubscriptions.length > 1) {
+			user.newsletterSubscriptions += ',';
+		}
+		user.newsletterSubscriptions += '"'+$("#edit_digest_subscription").val()+'"';
+	}
+	user.newsletterSubscriptions += ']';
 	$.ajax({
 		  url: rootPath + restRoot + "/author",
 		  type: "POST",

@@ -414,6 +414,9 @@ function editSingleItemHelper(type, slug, contentElement, template, formData) {
 		    		episodeParentId = data.parent.contentId;
 		    	} else if (type == 'serial') {
 		    		data.isPending = "pending" == data.contentStatus;
+		    	} else if (type == 'author') {
+		    		data.bulletinSubscription = data.newsletterSubscriptions.indexOf('bulletin') >= 0;
+		    		data.digestSubscription = data.newsletterSubscriptions.indexOf('daily')>=0?'daily':data.newsletterSubscriptions.indexOf('weekly')>=0?'weekly':data.newsletterSubscriptions.indexOf('monthly')>=0?'monthly':'none';
 		    	}
 		    	data.timestampDate = timestampDate;
 		    	var rendered = Mustache.render(template, data);
