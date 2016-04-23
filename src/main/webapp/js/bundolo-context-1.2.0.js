@@ -84,6 +84,7 @@ $(document).ready(function() {
 function addContextMenu(parentElement, parentId, parentType) {
 	var contextContainerHtml = '<div class="row">\
 		<div class="col-xs-12 context-root">\
+		<a href="https://www.facebook.com/sharer/sharer.php?u='+rootPath+$.address.value()+'" target="_blank" class="share-facebook" title="podeli na facebooku"><i class="fa fa-facebook-official"></i></a>\
 		</div>\
 		</div>\
 		<div class="row">\

@@ -152,7 +152,7 @@ function displayContent(parentElement, html, contentId, contentType, contentTitl
 	} else if (contentTitle) {
 		document.title = $.li18n.translate(contentTitle) + " - bundolo";
 	}
-	$('meta[property=og\\:url]').attr('content', url);
+	$('meta[property=og\\:url]').attr('content', rootPath+$.address.value());
 	$('meta[property=og\\:type]').attr('content', "website");
 	$('meta[property=og\\:title]').attr('content', document.title);
 	$('meta[property=og\\:description]').attr('content', "dibidus volšebna književna raskrsnica");

@@ -103,6 +103,7 @@ body>div>div>.content table.infinite button {
 
 .context-root {
 	position:relative;
+	padding-top: 8px;
 }
 .comments-root .comments-button {
 	position:absolute;
@@ -135,6 +136,14 @@ body>div>div>.content table.infinite button {
 	bottom: 6px;
 	right: 70px;
 	font-size: 10px;
+	color: #000;
+}
+
+.context-root .share-facebook {
+	position:absolute;
+	bottom: 2px;
+	right: 10px;
+	font-size: 18px;
 	color: #000;
 }
 
