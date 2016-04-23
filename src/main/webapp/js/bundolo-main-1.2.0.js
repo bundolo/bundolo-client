@@ -152,7 +152,13 @@ function displayContent(parentElement, html, contentId, contentType, contentTitl
 	} else if (contentTitle) {
 		document.title = $.li18n.translate(contentTitle) + " - bundolo";
 	}
+	$('meta[property=og\\:url]').attr('content', url);
+	$('meta[property=og\\:type]').attr('content', "website");
 	$('meta[property=og\\:title]').attr('content', document.title);
+	$('meta[property=og\\:description]').attr('content', "dibidus volšebna književna raskrsnica");
+	$('meta[property=og\\:image]').attr('content', "http://www.bundolo.org/images/index.jpg");
+	$('meta[property=og\\:image\\:width]').attr('content', "300");
+	$('meta[property=og\\:image\\:height]').attr('content', "412");
 	if (contentId) {
 		addContextMenu(parentElement, contentId, contentType);
 	}
@@ -183,7 +189,7 @@ function displaySingleItem(slug) {
 						    case 'text':
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
-						    	pageTitle = data.name;
+						    	pageTitle = data.authorUsername + " - " + data.name;
 						        break;
 						    case 'author':
 						    	commentParentId = data.descriptionContent.contentId;
