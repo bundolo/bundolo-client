@@ -139,23 +139,28 @@ $(document).ready(function() {
 function displayContent(parentElement, html, contentId, contentType, contentTitle) {
 	parentElement.html(html);
 	randomHeaderBackground();
+	var pageDescription = "bundolo dibidus volšebna književna raskrsnica";
 	if (contentType) {
 		if (contentType == "page") {
 			if (contentTitle) {
 				document.title = $.li18n.translate(contentTitle) + " - bundolo";
+				pageDescription = $.li18n.translate(contentTitle) + " " + pageDescription;
 			} else {
 				document.title = "bundolo";
 			}
 		} else {
 			document.title = $.li18n.translate(contentType) + " - "+contentTitle + " - bundolo";
+			pageDescription = $.li18n.translate(contentType) + " " + contentTitle + " " + pageDescription;
 		}
 	} else if (contentTitle) {
 		document.title = $.li18n.translate(contentTitle) + " - bundolo";
+		pageDescription = $.li18n.translate(contentTitle) + " " + pageDescription;
 	}
+	$('meta[name=description]').attr('content', pageDescription);
 	$('meta[property=og\\:url]').attr('content', rootPath+$.address.value());
 	$('meta[property=og\\:type]').attr('content', "website");
 	$('meta[property=og\\:title]').attr('content', document.title);
-	$('meta[property=og\\:description]').attr('content', "dibidus volšebna književna raskrsnica");
+	$('meta[property=og\\:description]').attr('content', pageDescription);
 	$('meta[property=og\\:image]').attr('content', "http://www.bundolo.org/images/index.jpg");
 	$('meta[property=og\\:image\\:width]').attr('content', "300");
 	$('meta[property=og\\:image\\:height]').attr('content', "412");
