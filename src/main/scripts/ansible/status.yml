@@ -1,0 +1,15 @@
+---
+- hosts: dev:prod
+  tasks:
+  - name: ensure apache is running (and enable it at boot)
+    service: name=apache2 state=started enabled=yes
+  - name: ensure postgresql is running (and enable it at boot)
+    service: name=postgresql state=running
+  - name: ensure tomcat is running (and enable it at boot) TODO add it as service and enable it at boot
+    shell: ps aux | grep [b]undolo-server
+    register: ps_result
+    changed_when: false
+    failed_when: "'bundolo-server' not in ps_result.stdout"
+  - name: ensure phntom.js script is running (and enable it at boot) TODO add it as service and enable it at boot
+    debug: msg="TODO"
+...

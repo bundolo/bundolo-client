@@ -1,0 +1,20 @@
+---
+- hosts: dev:prod
+  tasks:
+  - name: copy client files if they are different or new TODO
+    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
+    debug: msg="TODO"
+  - name: copy apache config files if they are different or new and restart TODO
+    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
+    debug: msg="TODO"
+  - name: copy node.js and phantom.js files if they are different or new and restart TODO
+    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
+    debug: msg="TODO"
+  - name: copy server files if they are different or new and restart TODO
+    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
+    debug: msg="TODO"
+  - name: update db if needed TODO
+    debug: msg="TODO"
+  - name: update mail server if needed TODO
+    debug: msg="TODO"
+...
