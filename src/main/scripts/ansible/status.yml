@@ -7,6 +7,6 @@
     service: name=postgresql state=started enabled=yes
   - name: ensure tomcat is running (and enable it at boot)
     service: name=bundolo-server state=started enabled=yes
-  - name: ensure phantom.js script is running (and enable it at boot) TODO add it as service and enable it at boot
-    debug: msg="TODO"
+  - name: ensure prerender script is running (and enable it at boot)
+    service: name=bundolo-prerender state=started enabled=yes
 ...
