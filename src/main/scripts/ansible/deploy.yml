@@ -1,22 +1,28 @@
 ---
 - hosts: dev:#prod
   tasks:
-  #- name: install apache2
-  #  apt: name=apache2 update_cache=yes state=latest
-  #- name: enabled mod_rewrite
-  #  apache2_module: name=rewrite state=present
+  - name: copy bundolo-server service init file if needed
+    copy: src=../bundolo-server dest=/etc/init.d mode=0755
+    notify:
+    - restart bundolo-server
+  - name: copy bundolo-prerender service init file if needed
+    copy: src=../bundolo-prerender dest=/etc/init.d mode=0755
+    notify:
+    - restart bundolo-prerender
   - name: copy client files if they are different or new
-    copy: src=../../webapp dest=/projects/bundolo/client/ mode=0644
+    copy: src=../../webapp/ dest=/projects/bundolo/client/ mode=0644
   - name: copy apache config files if they are different or new and restart
     copy: src=../000-default.conf dest=/etc/apache2/sites-available/000-default.conf mode=0644
     notify:
     - restart apache2
   - name: copy node.js and phantom.js files if they are different or new and restart TODO
-    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
-    debug: msg="TODO"
-  - name: copy server files if they are different or new and restart TODO
-    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
-    debug: msg="TODO"
+    copy: src=../prerender/ dest=/projects/bundolo/prerender/ mode=0644
+    notify:
+    - restart bundolo-prerender
+  - name: copy server files if they are different or new and restart
+    copy: src=../../../../../bundolo-server/build/libs/bundolo-server-1.2.0.jar dest=/projects/bundolo/server/bundolo-server-1.2.0.jar mode=0644
+    notify:
+    - restart bundolo-server
   - name: update db if needed TODO
     debug: msg="TODO"
   - name: update mail server if needed TODO
@@ -25,4 +31,8 @@
   handlers:
   - name: restart apache2
     service: name=apache2 state=restarted
+  - name: restart bundolo-server
+    service: name=bundolo-server state=restarted
+  - name: restart bundolo-prerender
+    service: name=bundolo-prerender state=restarted
 ...
