@@ -1,12 +1,16 @@
 ---
-- hosts: dev:prod
+- hosts: dev:#prod
   tasks:
-  - name: copy client files if they are different or new TODO
-    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
-    debug: msg="TODO"
-  - name: copy apache config files if they are different or new and restart TODO
-    #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
-    debug: msg="TODO"
+  #- name: install apache2
+  #  apt: name=apache2 update_cache=yes state=latest
+  #- name: enabled mod_rewrite
+  #  apache2_module: name=rewrite state=present
+  - name: copy client files if they are different or new
+    copy: src=../../webapp dest=/projects/bundolo/client/ mode=0644
+  - name: copy apache config files if they are different or new and restart
+    copy: src=../000-default.conf dest=/etc/apache2/sites-available/000-default.conf mode=0644
+    notify:
+    - restart apache2
   - name: copy node.js and phantom.js files if they are different or new and restart TODO
     #copy: src=/srv/myfiles/foo.conf dest=/etc/foo.conf owner=foo group=foo mode=0644
     debug: msg="TODO"
@@ -17,4 +21,8 @@
     debug: msg="TODO"
   - name: update mail server if needed TODO
     debug: msg="TODO"
+    
+  handlers:
+  - name: restart apache2
+    service: name=apache2 state=restarted
 ...

@@ -1,0 +1,18 @@
+---
+- hosts: dev:#prod
+  tasks:
+  - name: install apache2
+  #  apt: name=apache2 update_cache=yes state=latest
+    debug: msg="TODO"
+  - name: enabled mod_rewrite
+  #  apache2_module: name=rewrite state=present
+    debug: msg="TODO"
+  - name: install postgres
+    debug: msg="TODO"
+  - name: install server as service
+    debug: msg="TODO"
+  - name: install node.js
+    debug: msg="TODO"
+  - name: install phantom.js
+    debug: msg="TODO"
+...
