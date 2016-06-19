@@ -3,10 +3,7 @@ var app = express();
 
 var getContent = function(url, callback) {
   var content = '';
-  var server_path = '/var/www/prerender/phantom-server.js';
-  if (url.indexOf("http://localhost") == 0) {
-	  server_path = 'D:/projects/bundolo/git/bundolo-client/src/main/scripts/prerender/phantom-server.js';
-  }
+  var server_path = '/projects/bundolo/prerender/phantom-server.js';
   url = removeParam("_escaped_fragment_", url);
   //console.log('url: ' + url);
   var phantom = require('child_process').spawn('phantomjs', [server_path, url]);
