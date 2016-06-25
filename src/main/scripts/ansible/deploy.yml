@@ -1,5 +1,5 @@
 ---
-- hosts: dev:#prod
+- hosts: dev:prod
   tasks:
   - name: copy bundolo-server service init file if needed
     copy: src=../bundolo-server dest=/etc/init.d mode=0755
@@ -15,7 +15,7 @@
     copy: src=../000-default.conf dest=/etc/apache2/sites-available/000-default.conf mode=0644
     notify:
     - restart apache2
-  - name: copy node.js and phantom.js files if they are different or new and restart TODO
+  - name: copy node.js and phantom.js files if they are different or new and restart
     copy: src=../prerender/ dest=/projects/bundolo/prerender/ mode=0644
     notify:
     - restart bundolo-prerender
