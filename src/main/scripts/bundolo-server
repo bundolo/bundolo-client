@@ -15,7 +15,7 @@
 
 SERVICE_NAME=bundolo-server
 DAEMON=/usr/bin/java
-DAEMON_OPTS="-Denv=dev -jar bundolo-server-1.2.0.jar"
+DAEMON_OPTS="-Xmx256m -Denv=prod -Dserver.port=8090 -jar bundolo-server-1.2.0.jar"
 PIDFILE=/tmp/bundolo-server-pid
 DIRECTORY=/projects/bundolo/server
 
