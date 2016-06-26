@@ -2,7 +2,7 @@
 - hosts: dev:prod
   tasks:
   - name: copy bundolo-server service init file if needed
-    copy: src=../bundolo-server dest=/etc/init.d mode=0755
+    template: src=../bundolo-server.j2 dest=/etc/init.d/bundolo-server mode=0755
     notify:
     - restart bundolo-server
   - name: copy bundolo-prerender service init file if needed
@@ -20,9 +20,9 @@
     notify:
     - restart bundolo-prerender
   - name: copy server files if they are different or new and restart
-    copy: src=../../../../../bundolo-server/build/libs/bundolo-server-1.2.0.jar dest=/projects/bundolo/server/bundolo-server-1.2.0.jar mode=0644
+    copy: src=../../../../../bundolo-server/build/libs/bundolo-server-{{current_version}}.jar dest=/projects/bundolo/server/bundolo-server-{{current_version}}.jar mode=0644
     notify:
-    - restart bundolo-server
+    - create symlink to bundolo-server
   - name: update db if needed TODO
     debug: msg="TODO"
   - name: update mail server if needed TODO
@@ -31,6 +31,10 @@
   handlers:
   - name: restart apache2
     service: name=apache2 state=restarted
+  - name: create symlink to bundolo-server
+    file: src=/projects/bundolo/server/bundolo-server-{{current_version}}.jar dest=/projects/bundolo/server/bundolo-server.jar state=link
+    notify:
+    - restart bundolo-server
   - name: restart bundolo-server
     service: name=bundolo-server state=restarted
   - name: restart bundolo-prerender
