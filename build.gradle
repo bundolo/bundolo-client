@@ -1,0 +1,60 @@
+plugins {
+  id "com.eriwen.gradle.css" version "2.14.0"
+  id "com.eriwen.gradle.js" version "2.14.1"
+}
+
+//apply plugin: 'css'
+
+css.source {
+    dev {
+        css {
+            srcDir "src/main/webapp/css"
+            include "*.css"
+            exclude "*.min.css"
+        }
+    }
+}
+
+combineCss {
+    source = css.source.dev.css.files
+    dest = "${buildDir}/all.css"
+}
+
+minifyCss {
+    source = combineCss
+    dest = "${buildDir}/all-min.css"
+    yuicompressor { // Optional
+        lineBreakPos = -1
+    }
+}
+
+gzipCss {
+    source = minifyCss
+    dest = "${buildDir}/all.2.0.4.css"
+}
+
+javascript.source {
+    dev {
+        js {
+            srcDir "src/main/webapp/js"
+            include "*.js"
+            exclude "*.min.js"
+        }
+    }
+}
+
+combineJs {
+    encoding = "UTF-8"
+    source = javascript.source.dev.js.files
+    dest = file("${buildDir}/all.js")
+}
+
+minifyJs {
+    source = combineJs
+    dest = file("${buildDir}/all-min.js")
+}
+
+gzipJs {
+    source = minifyJs
+    dest = file("${buildDir}/all-min.js")
+}
