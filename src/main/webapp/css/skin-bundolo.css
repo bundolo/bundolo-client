@@ -93,6 +93,14 @@ body>div>div>.content table.infinite>tbody {
 .skin-bundolo .left-side {
   background-color: #222d32;
 }
+.main-header .logo,
+.skin-bundolo .main-sidebar,
+.skin-bundolo .left-side {
+  width: 150px;
+}
+.content-wrapper, .main-footer, .main-header .navbar {
+	margin-left: 150px;
+}
 .skin-bundolo .user-panel > .info,
 .skin-bundolo .user-panel > .info > a {
   color: #fff;

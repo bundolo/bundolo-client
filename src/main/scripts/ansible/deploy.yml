@@ -10,7 +10,7 @@
     notify:
     - restart bundolo-prerender
   - name: copy client files if they are different or new
-    copy: src=../../webapp/ dest=/projects/bundolo/client/ mode=0644
+    copy: src=../../../../build/ dest=/projects/bundolo/client/ mode=0644
   - name: copy apache config files if they are different or new and restart
     copy: src=../000-default.conf dest=/etc/apache2/sites-available/000-default.conf mode=0644
     notify:

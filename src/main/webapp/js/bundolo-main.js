@@ -12,16 +12,16 @@ var handlingForm = false;
 var mainContentPath = 'body>div.wrapper>div.content-wrapper';
 var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>div>form';
 
-var spinner = '<span class="fa-stack fa-2x fa-spin">\
-<i class="fa fa-circle fa-stack-2x"></i>\
-<i class="fa fa-stack-1x fa-inverse char1">b</i>\
-<i class="fa fa-stack-1x fa-inverse char2">u</i>\
-<i class="fa fa-stack-1x fa-inverse char3">n</i>\
-<i class="fa fa-stack-1x fa-inverse char4">d</i>\
-<i class="fa fa-stack-1x fa-inverse char5">o</i>\
-<i class="fa fa-stack-1x fa-inverse char6">l</i>\
-<i class="fa fa-stack-1x fa-inverse char7">o</i>\
-</span>';
+var spinner = '<span class="fa-stack fa-2x fa-spin">';
+spinner += '<i class="fa fa-circle fa-stack-2x"></i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char1">b</i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char2">u</i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char3">n</i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char4">d</i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char5">o</i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char6">l</i>';
+spinner += '<i class="fa fa-stack-1x fa-inverse char7">o</i>';
+spinner += '</span>';
 
 var trimLong = function () {
 	return function(val, render) {

@@ -3,58 +3,64 @@ plugins {
   id "com.eriwen.gradle.js" version "2.14.1"
 }
 
-//apply plugin: 'css'
-
-css.source {
-    dev {
-        css {
-            srcDir "src/main/webapp/css"
-            include "*.css"
-            exclude "*.min.css"
-        }
-    }
-}
+def cssDir = "src/main/webapp/css/"
+def cssSrc = ["summernote.css","adminlte.css","skin-bundolo.css","bundolo.css"]
 
 combineCss {
-    source = css.source.dev.css.files
-    dest = "${buildDir}/all.css"
+    source = cssSrc.collect {cssDir+it}
+    dest = "${buildDir}/css/bundolo-all.css"
 }
 
 minifyCss {
     source = combineCss
-    dest = "${buildDir}/all-min.css"
+    dest = "${buildDir}/css/bundolo.min.css"
     yuicompressor { // Optional
         lineBreakPos = -1
     }
 }
 
-gzipCss {
-    source = minifyCss
-    dest = "${buildDir}/all.2.0.4.css"
-}
+//gzipCss {
+//    source = minifyCss
+//    dest = "${buildDir}/css/bundolo.css.gz"
+//}
 
-javascript.source {
-    dev {
-        js {
-            srcDir "src/main/webapp/js"
-            include "*.js"
-            exclude "*.min.js"
-        }
-    }
-}
+def jsDir = "src/main/webapp/js/"
+def jsSrc = ["summernote-sr-RS.js","mustache.js","adminlte.js","messages_sr_RS.js","bundolo-main.js",
+				"bundolo-header.js","bundolo-context.js","bundolo-lists.js","bundolo-announcements.js",
+				"bundolo-texts.js","bundolo-serials.js","bundolo-forum.js","bundolo-connections.js",
+				"bundolo-contests.js","bundolo-item_lists.js"]
 
 combineJs {
     encoding = "UTF-8"
-    source = javascript.source.dev.js.files
-    dest = file("${buildDir}/all.js")
+    source = jsSrc.collect {jsDir+it}
+    dest = "${buildDir}/js/bundolo-all.js"
 }
 
 minifyJs {
     source = combineJs
-    dest = file("${buildDir}/all-min.js")
+    dest = file("${buildDir}/js/bundolo.min.js")
 }
 
-gzipJs {
-    source = minifyJs
-    dest = file("${buildDir}/all-min.js")
+//gzipJs {
+//    source = minifyJs
+//    dest = file("${buildDir}/js/bundolo.js.gz")
+//}
+
+task copyFiles(type: Copy) {
+    from 'src/main/webapp/'
+    into 'build'
+    exclude '**/*.css'
+    exclude '**/*.js'
 }
+
+task copyMinJsFiles(type: Copy) {
+    from 'src/main/webapp/js/'
+    into 'build/js/'
+	include '**/*.min.js'
+}
+
+task deleteCombinedFiles(type: Delete) {
+    delete "${buildDir}/css/bundolo-all.css","${buildDir}/js/bundolo-all.js"
+}
+
+defaultTasks 'minifyCss', 'minifyJs', 'copyFiles', 'copyMinJsFiles', 'deleteCombinedFiles'

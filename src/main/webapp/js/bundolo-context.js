@@ -82,15 +82,15 @@ $(document).ready(function() {
 });
 
 function addContextMenu(parentElement, parentId, parentType) {
-	var contextContainerHtml = '<div class="row">\
-		<div class="col-xs-12 context-root">\
-		<a href="https://www.facebook.com/sharer/sharer.php?u='+rootPath+$.address.value()+'" target="_blank" class="share-facebook" title="podeli na facebooku"><i class="fa fa-facebook-official"></i></a>\
-		</div>\
-		</div>\
-		<div class="row">\
-		<div class="col-xs-12 comments-root">\
-		</div>\
-		</div>';
+	var contextContainerHtml = '<div class="row">';
+	contextContainerHtml += '<div class="col-xs-12 context-root">';
+	contextContainerHtml += '<a href="https://www.facebook.com/sharer/sharer.php?u='+rootPath+$.address.value()+'" target="_blank" class="share-facebook" title="podeli na facebooku"><i class="fa fa-facebook-official"></i></a>';	
+	contextContainerHtml += '</div>';
+	contextContainerHtml += '</div>';
+	contextContainerHtml += '<div class="row">';
+	contextContainerHtml += '<div class="col-xs-12 comments-root">';
+	contextContainerHtml += '</div>';
+	contextContainerHtml += '</div>';
 	var contextContainer = $(contextContainerHtml);
 	parentElement.find('.content').append(contextContainer);
 	if (username != 'gost') {
@@ -127,15 +127,16 @@ function addContextMenu(parentElement, parentId, parentType) {
 		    },
 		    success: function(data) {
 		    	if (data) {
-		    		var ratingDropdown = $('<select class="rating-select" title="ocena" id="rating_' + data.ratingId + '">\
-		    				<option value="3"'+(data.value==3?' selected="selected"':'')+'>3</option>\
-		    				<option value="2"'+(data.value==2?' selected="selected"':'')+'>2</option>\
-		    				<option value="1"'+(data.value==1?' selected="selected"':'')+'>1</option>\
-		    				<option value="0"'+(data.value==0?' selected="selected"':'')+'>0</option>\
-		    				<option value="-1"'+(data.value==-1?' selected="selected"':'')+'>-1</option>\
-		    				<option value="-2"'+(data.value==-2?' selected="selected"':'')+'>-2</option>\
-		    				<option value="-3"'+(data.value==-3?' selected="selected"':'')+'>-3</option>\
-		    			</select>');
+		    		var ratingDropdownHtml = '<select class="rating-select" title="ocena" id="rating_' + data.ratingId + '">';
+		    		ratingDropdownHtml += '<option value="3"'+(data.value==3?' selected="selected"':'')+'>3</option>';
+		    		ratingDropdownHtml += '<option value="2"'+(data.value==2?' selected="selected"':'')+'>2</option>';
+		    		ratingDropdownHtml += '<option value="1"'+(data.value==1?' selected="selected"':'')+'>1</option>';
+		    		ratingDropdownHtml += '<option value="0"'+(data.value==0?' selected="selected"':'')+'>0</option>';
+		    		ratingDropdownHtml += '<option value="-1"'+(data.value==-1?' selected="selected"':'')+'>-1</option>';
+		    		ratingDropdownHtml += '<option value="-2"'+(data.value==-2?' selected="selected"':'')+'>-2</option>';
+		    		ratingDropdownHtml += '<option value="-3"'+(data.value==-3?' selected="selected"':'')+'>-3</option>';
+		    		ratingDropdownHtml += '</select>';
+		    		var ratingDropdown = $(ratingDropdownHtml);
 		    		parentElement.find('.context-root').append(ratingDropdown);
 		    	}
 			},
@@ -164,9 +165,9 @@ function displayComments(parentId) {
 		    if (hasOldComments) {
 		    	rootCommentButtonString += '<span class="collapse_old" title="prikaži stare komentare"><i class="fa fa-caret-down"></i><span class="hidden-xs">prikaži stare komentare</span></span>';
 		    }
-		    rootCommentButtonString += '<span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">\
-			<i class="fa fa-plus"></i><span class="hidden-xs">dodaj komentar</span>\
-			</span></h4>';
+		    rootCommentButtonString += '<span title="dodaj komentar" class="pull-right root-comment-button" id="comment_'+parentId+'">';
+		    rootCommentButtonString += '<i class="fa fa-plus"></i><span class="hidden-xs">dodaj komentar</span>';
+		    rootCommentButtonString += '</span></h4>';
 		    var rootCommentButton = $(rootCommentButtonString);
 		    commentsRootElement.html(rootCommentButton);
 		    commentsRootElement.append(rendered);

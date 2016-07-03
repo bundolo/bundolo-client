@@ -296,10 +296,6 @@ body {
 	width: 80px;
 }
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: 'Open Sans',sans-serif;
-}
-
 /*spinner start*/
 .fa-spin .fa-inverse {
 	opacity: 0;
