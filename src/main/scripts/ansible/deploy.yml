@@ -1,5 +1,5 @@
 ---
-- hosts: dev:prod
+- hosts: dev:qa:prod
   tasks:
   - name: copy bundolo-server service init file if needed
     template: src=../bundolo-server.j2 dest=/etc/init.d/bundolo-server mode=0755
@@ -10,17 +10,17 @@
     notify:
     - restart bundolo-prerender
   - name: copy client files if they are different or new
-    copy: src=../../../../build/ dest=/projects/bundolo/client/ mode=0644
+    copy: src=../../../../build/ dest=/home/ubuntu/projects/bundolo/client/ mode=0644
   - name: copy apache config files if they are different or new and restart
     copy: src=../000-default.conf dest=/etc/apache2/sites-available/000-default.conf mode=0644
     notify:
     - restart apache2
   - name: copy node.js and phantom.js files if they are different or new and restart
-    copy: src=../prerender/ dest=/projects/bundolo/prerender/ mode=0644
+    copy: src=../prerender/ dest=/home/ubuntu/projects/bundolo/prerender/ mode=0644
     notify:
     - restart bundolo-prerender
   - name: copy server files if they are different or new and restart
-    copy: src=../../../../../bundolo-server/build/libs/bundolo-server-{{current_version}}.jar dest=/projects/bundolo/server/bundolo-server-{{current_version}}.jar mode=0644
+    copy: src=../../../../../bundolo-server/build/libs/bundolo-server-{{current_version}}.jar dest=/home/ubuntu/projects/bundolo/server/bundolo-server-{{current_version}}.jar mode=0644
     notify:
     - create symlink to bundolo-server
   - name: update db if needed TODO
@@ -32,7 +32,7 @@
   - name: restart apache2
     service: name=apache2 state=restarted
   - name: create symlink to bundolo-server
-    file: src=/projects/bundolo/server/bundolo-server-{{current_version}}.jar dest=/projects/bundolo/server/bundolo-server.jar state=link
+    file: src=/home/ubuntu/projects/bundolo/server/bundolo-server-{{current_version}}.jar dest=/home/ubuntu/projects/bundolo/server/bundolo-server.jar state=link
     notify:
     - restart bundolo-server
   - name: restart bundolo-server

@@ -17,7 +17,7 @@ SERVICE_NAME=bundolo-prerender
 DAEMON=/usr/bin/nodejs
 DAEMON_OPTS="web.js"
 PIDFILE=/tmp/bundolo-prerender-pid
-DIRECTORY=/projects/bundolo/prerender
+DIRECTORY=/home/ubuntu/projects/bundolo/prerender
 
 if [ ! -x $DAEMON ]; then
   echo "ERROR: Can't execute $DAEMON."

@@ -1,6 +1,9 @@
 #/etc/ansible/hosts
 [dev]
-localhost	ansible_connection=ssh        ansible_user=bup	ansible_become=true	ansible_become_pass=**********
+localhost       ansible_connection=ssh        ansible_user=bup       ansible_become=true     ansible_become_pass=l0gibosus
+
+[qa]
+virtual_ubuntu  ansible_host=localhost  ansible_connection=ssh  ansible_user=ubuntu ansible_port=3022   ansible_become=true     ansible_become_pass=l0gibosus
 
 [prod]
-bundolo.org	ansible_connection=ssh        ansible_user=ubuntu	ansible_ssh_private_key_file=/home/bup/.ssh/amazon_key_pair.pem	ansible_become=true
+bundolo.org     ansible_connection=ssh        ansible_user=ubuntu       ansible_ssh_private_key_file=/home/bup/.ssh/amazon_key_pair.pem ansible_become=true

@@ -17,7 +17,7 @@ SERVICE_NAME=bundolo-server
 DAEMON=/usr/bin/java
 DAEMON_OPTS="-Xmx256m -Denv={{group_names[0]}} -Dserver.port=8090 -jar bundolo-server.jar"
 PIDFILE=/tmp/bundolo-server-pid
-DIRECTORY=/projects/bundolo/server
+DIRECTORY=/home/ubuntu/projects/bundolo/server
 
 if [ ! -x $DAEMON ]; then
   echo "ERROR: Can't execute $DAEMON."
