@@ -156,13 +156,13 @@ body>div>div>.content table.infinite button {
 .collapse_old {
 	padding-left: 20px;
 }
-.comment-button, .root-comment-button, .collapse_children, .collapse_old {
+.comment-button, .root-comment-button, .collapse_children, .collapse_old, .load_more {
 	font-size: 10px;
 	color: #000;
 	cursor: pointer;
 	display: inline-block;
 }
-.comment-button>span, .root-comment-button>span, .collapse_children>span, .collapse_old>span {
+.comment-button>span, .root-comment-button>span, .collapse_children>span, .collapse_old>span, .load_more>span {
 	padding-left: 4px;
 }
 .panel.comment {

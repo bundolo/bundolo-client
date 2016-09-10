@@ -28,7 +28,7 @@ def jsDir = "src/main/webapp/js/"
 def jsSrc = ["summernote-sr-RS.js","mustache.js","adminlte.js","messages_sr_RS.js","bundolo-main.js",
 				"bundolo-header.js","bundolo-context.js","bundolo-lists.js","bundolo-announcements.js",
 				"bundolo-texts.js","bundolo-serials.js","bundolo-forum.js","bundolo-connections.js",
-				"bundolo-contests.js","bundolo-item_lists.js"]
+				"bundolo-contests.js","bundolo-item_lists.js","bundolo-recent.js"]
 
 combineJs {
     encoding = "UTF-8"
