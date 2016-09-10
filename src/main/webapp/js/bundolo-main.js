@@ -278,7 +278,7 @@ function displaySingleItem(slug) {
 					    					pages.push(page);
 					    				}
 					    				var renderedPosts = Mustache.render(templatePosts, {"pages": pages, "timestampDateTime": timestampDateTime, "slugify" : slugify});
-						    			contentElement.find('.posts-root>.fa-spin').replaceWith(renderedPosts);
+						    			contentElement.find('.posts-root>.spinner').replaceWith(renderedPosts);
 						    			displayPage('forum-topic', pages.length);
 					    			}
 					    		});
@@ -311,7 +311,7 @@ function displaySingleItem(slug) {
 					    			data.isLoggedIn = username != "gost";
 					    			contentElement.find('h3').eq(1).html(numberOfEpisodesLabel);
 					    			var renderedEpisodes = Mustache.render(templateEpisodes, {"serial": data, "pages": pages, "timestampDate": timestampDate});
-					    			contentElement.find('.episodes-root>.fa-spin').replaceWith(renderedEpisodes);
+					    			contentElement.find('.episodes-root>.spinner').replaceWith(renderedEpisodes);
 					    			displayPage('serial-episodes', pages.length);
 					    		});
 					    	});
