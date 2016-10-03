@@ -164,6 +164,7 @@ function displaySingleItem(slug) {
 	var type = slug.substr(0, slug.indexOf('/'));
 	var contentElement = $(mainContentPath);
 	contentElement.html(spinner);
+	$(".main-footer>.row").html("");
 	$.get(rootFolder+"templates/" + type + "-" + version + ".html", function(template) {
 		$.ajax({
 			  url: rootPath + restRoot + "/" + slug,
@@ -186,6 +187,10 @@ function displaySingleItem(slug) {
 						    	commentParentId = data.contentId;
 						    	data.editingEnabled = (username != "gost") && (username == data.authorUsername);
 						    	pageTitle = data.authorUsername + " - " + data.name;
+						    	displayFooterLinks([{"previous": {"type": 'text', "id": data.contentId, "orderBy": 'date', "fixBy": 'author', "ascending": false}, "description": "od istog autora", "next": {"type": 'text', "id": data.contentId, "orderBy": 'date', "fixBy": 'author', "ascending": true}},
+							                        {"previous": {"type": 'text', "id": data.contentId, "orderBy": 'title', "fixBy": '', "ascending": false}, "description": "po naslovu", "next": {"type": 'text', "id": data.contentId, "orderBy": 'title', "fixBy": '', "ascending": true}},
+							                        {"previous": {"type": 'text', "id": data.contentId, "orderBy": 'date', "fixBy": '', "ascending": false}, "description": "po datumu", "next": {"type": 'text', "id": data.contentId, "orderBy": 'date', "fixBy": '', "ascending": true}},
+							                        {"previous": {"type": 'text', "id": data.contentId, "orderBy": 'activity', "fixBy": '', "ascending": false}, "description": "po poslednjoj aktivnosti", "next": {"type": 'text', "id": data.contentId, "orderBy": 'activity', "fixBy": '', "ascending": true}}]);
 						        break;
 						    case 'author':
 						    	commentParentId = data.descriptionContent.contentId;
@@ -907,7 +912,7 @@ function displayHighlightedAnnouncement() {
 function displayLinksInAscii() {
 	var asciiArt = $(".content pre");
 	if (asciiArt.length) {
-		$.getJSON(rootPath + restRoot + "/recent", { "limit": "20" }, function(data) {
+		$.getJSON(rootPath + restRoot + "/recent", { "limit": "105" }, function(data) {
 			if (data) {
 	    		var asciiArtText = asciiArt.html();
 	    		var wordsArray = asciiArtText.match(/\S+/ig);
@@ -1084,4 +1089,42 @@ function slugifyText(text) {
 	.replace(/&/g, '-and-')         // Replace & with 'and'
 	.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
 	.replace(/\-\-+/g, '-');        // Replace multiple - with single -
+}
+
+function displayFooterLinks(footerLinks) {
+	if (footerLinks) {
+		var contentElement = $(".main-footer>.row");
+		contentElement.html(spinner);
+		var deferreds = [];
+		var footerLinksResolved = [];
+		$.each(footerLinks, function(i, item) {
+			footerLinksResolved.push({"previous": {}, "description": item.description, "next": {}});
+			//making array of calls and rendering html when all are done
+			//done is not called if getJSON receives null. always gets called as soon as any deferred receives null.
+			//we make sure that done is produced in each deferred by calling it on always.
+			var defferedPrevious = $.Deferred();
+			var ajaxPrevious = $.getJSON(rootPath + restRoot + "/next", { "type": item.previous.type, "id": item.previous.id, "orderBy": item.previous.orderBy, "fixBy": item.previous.fixBy, "ascending": item.previous.ascending}, function( data ) {
+				if (data) {
+					footerLinksResolved[i].previous = data;
+				}
+			});
+			ajaxPrevious.always(defferedPrevious.resolve);
+			deferreds.push(defferedPrevious);
+
+			var defferedNext = $.Deferred();
+			var ajaxNext = $.getJSON(rootPath + restRoot + "/next", { "type": item.next.type, "id": item.next.id, "orderBy": item.next.orderBy, "fixBy": item.next.fixBy, "ascending": item.next.ascending}, function( data ) {
+				if (data) {
+					footerLinksResolved[i].next = data;
+				}
+			});
+			ajaxNext.always(defferedNext.resolve);
+			deferreds.push(defferedNext);
+		});
+		$.get(rootFolder+"templates/next" + "-" + version + ".html", function(template) {
+			$.when.apply(null, deferreds).done(function() {
+				var rendered = Mustache.render(template, {"items": footerLinksResolved, "trimLong": trimLong});
+	    		contentElement.html(rendered);
+			});
+        });
+	}
 }

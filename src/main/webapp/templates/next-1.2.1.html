@@ -1,0 +1,19 @@
+<div>
+	<div class="previous">
+		{{#items}}
+			<a href="/{{previous.slug}}" onclick="$.address.value('/{{previous.slug}}');return false;">{{previous.name}}</a><br/>
+		{{/items}}
+	</div>
+	<div class="left"><i class="fa fa-chevron-left"></i></div>
+	<div class="description">
+		{{#items}}
+			{{description}}<br/>
+		{{/items}}
+	</div>
+	<div class="right"><i class="fa fa-chevron-right"></i></div>
+	<div class="next">
+		{{#items}}
+			<a href="/{{next.slug}}" onclick="$.address.value('/{{next.slug}}');return false;">{{next.name}}</a><br/>
+		{{/items}}
+	</div>
+</div>

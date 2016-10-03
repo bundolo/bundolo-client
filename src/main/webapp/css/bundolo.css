@@ -123,6 +123,36 @@ body>div>div>.content table.infinite button {
 	padding: 0 8px 0 0;
 }
 
+.context-root .recommend {
+	position:absolute;
+	bottom: 6px;
+	right: 70px;
+	margin: 0;
+}
+.context-root .recommend input {
+	font-size: 12px;
+	color: #000;
+	height: 16px;
+	padding-left: 6px;
+	padding-right: 16px;
+}
+.context-root .recommend i {
+	font-size: 12px;
+	height: 16px;
+	width: 16px;
+	line-height: 16px;
+}
+
+.context-root .recommend li {
+	line-height: 16px;
+}
+.context-root .recommend a {
+	font-size: 12px;
+	line-height: 16px;
+	padding: 0 4px;
+	text-decoration: none;
+}
+
 .context-root .rating-select {
 	position:absolute;
 	bottom: 6px;
@@ -134,7 +164,7 @@ body>div>div>.content table.infinite button {
 .context-root .item-list-select {
 	position:absolute;
 	bottom: 6px;
-	right: 70px;
+	right: 230px;
 	font-size: 10px;
 	color: #000;
 }
@@ -299,192 +329,32 @@ body {
 .spinner {
 	margin: 12px;
 }
-/*spinner start*/
-.fa-spin .fa-inverse {
-	opacity: 0;
-	font-weight: bolder;
-	font-size: 36px;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	-webkit-animation: 2s linear 0s infinite;
-	animation: 2s linear 0s infinite;
-}
-.fa-spin .char1 {
-	animation-name: char_opacity1;
-	-webkit-animation-name: char_opacity1;
-}
 
-.fa-spin .char2 {
-	animation-name: char_opacity2;
-	-webkit-animation-name: char_opacity2;
+.main-footer>.row>div {
+	padding-bottom: 8px;
+	display: table;
+    margin: 0 auto;
+    width: 100%;
 }
-
-.fa-spin .char3 {
-	animation-name: char_opacity3;
-	-webkit-animation-name: char_opacity3;
+.main-footer>.row>div>div {
+	float: left;
 }
-
-.fa-spin .char4 {
-	animation-name: char_opacity4;
-	-webkit-animation-name: char_opacity4;
+.main-footer .fa {
+	font-size: 80px;
 }
-
-.fa-spin .char5 {
-	animation-name: char_opacity5;
-	-webkit-animation-name: char_opacity5;
+.main-footer .left, .main-footer .right {
+	width: 5%;
 }
-
-.fa-spin .char6 {
-	animation-name: char_opacity6;
-	-webkit-animation-name: char_opacity6;
+.main-footer .previous, .main-footer .next {
+	width: 37%;
+	white-space: nowrap;
+	overflow: hidden;
 }
-
-.fa-spin .char7 {
-	animation-name: char_opacity7;
-	-webkit-animation-name: char_opacity7;
+.main-footer .previous {
+	text-align: right;
 }
-
-.fa-spin .char8 {
-	animation-name: char_opacity8;
-	-webkit-animation-name: char_opacity8;
+.main-footer .description {
+	padding: 0 8px;
+	text-align: center;
+	width: 16%;
 }
-
-@-webkit-keyframes char_opacity1 {
-	0% {opacity: 1;}
-	12% {opacity: 1;}
-	13% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity1 {
-	0% {opacity: 1;}
-	12% {opacity: 1;}
-	13% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity2 {
-	0% {opacity: 0;}
-	12% {opacity: 0;}
-	13% {opacity: 1;}
-	24% {opacity: 1;}
-	25% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity2 {
-	0% {opacity: 0;}
-	12% {opacity: 0;}
-	13% {opacity: 1;}
-	24% {opacity: 1;}
-	25% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity3 {
-	0% {opacity: 0;}
-	24% {opacity: 0;}
-	25% {opacity: 1;}
-	36% {opacity: 1;}
-	37% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity3 {
-	0% {opacity: 0;}
-	24% {opacity: 0;}
-	25% {opacity: 1;}
-	36% {opacity: 1;}
-	37% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity4 {
-	0% {opacity: 0;}
-	36% {opacity: 0;}
-	37% {opacity: 1;}
-	48% {opacity: 1;}
-	49% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity4 {
-	0% {opacity: 0;}
-	36% {opacity: 0;}
-	37% {opacity: 1;}
-	48% {opacity: 1;}
-	49% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity5 {
-	0% {opacity: 0;}
-	48% {opacity: 0;}
-	49% {opacity: 1;}
-	60% {opacity: 1;}
-	61% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity5 {
-	0% {opacity: 0;}
-	48% {opacity: 0;}
-	49% {opacity: 1;}
-	60% {opacity: 1;}
-	61% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity6 {
-	0% {opacity: 0;}
-	60% {opacity: 0;}
-	61% {opacity: 1;}
-	72% {opacity: 1;}
-	73% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity6 {
-	0% {opacity: 0;}
-	60% {opacity: 0;}
-	61% {opacity: 1;}
-	72% {opacity: 1;}
-	73% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity7 {
-	0% {opacity: 0;}
-	72% {opacity: 0;}
-	73% {opacity: 1;}
-	84% {opacity: 1;}
-	85% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity7 {
-	0% {opacity: 0;}
-	72% {opacity: 0;}
-	73% {opacity: 1;}
-	84% {opacity: 1;}
-	85% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@-webkit-keyframes char_opacity8 {
-	0% {opacity: 0;}
-	84% {opacity: 0;}
-	85% {opacity: 1;}
-	96% {opacity: 1;}
-	97% {opacity: 0;}
-	100% {opacity: 0;}
-}
-
-@keyframes char_opacity8 {
-	0% {opacity: 0;}
-	84% {opacity: 0;}
-	85% {opacity: 1;}
-	96% {opacity: 1;}
-	97% {opacity: 0;}
-	100% {opacity: 0;}
-}
-/*spinner end*/

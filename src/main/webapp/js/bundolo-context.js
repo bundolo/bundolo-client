@@ -79,12 +79,16 @@ $(document).ready(function() {
 			$('.comment.old').css("display","none");
 		}
 	});
+
+	$('body').on('input', '#recommend', function(e) {
+		loadOfferedAuthors();
+	});
 });
 
 function addContextMenu(parentElement, parentId, parentType) {
 	var contextContainerHtml = '<div class="row">';
 	contextContainerHtml += '<div class="col-xs-12 context-root">';
-	contextContainerHtml += '<a href="https://www.facebook.com/sharer/sharer.php?u='+rootPath+$.address.value()+'" target="_blank" class="share-facebook" title="podeli na facebooku"><i class="fa fa-facebook-official"></i></a>';	
+	contextContainerHtml += '<a href="https://www.facebook.com/sharer/sharer.php?u='+rootPath+$.address.value()+'" target="_blank" class="share-facebook" title="podeli na facebooku"><i class="fa fa-facebook-official"></i></a>';
 	contextContainerHtml += '</div>';
 	contextContainerHtml += '</div>';
 	contextContainerHtml += '<div class="row">';
@@ -116,6 +120,17 @@ function addContextMenu(parentElement, parentId, parentType) {
 				}
 			}
 		});
+
+		var recommendation = '<div class="form-group has-feedback recommend" title="preporuči">';
+		recommendation += '<label class="sr-only" for="recommend">preporuči</label>';
+		recommendation += '<input type="text" class="form-control dropdown-toggle" data-toggle="dropdown" id="recommend" placeholder="preporuči" validators="required username">';
+		recommendation += '<i class="fa fa-user form-control-feedback"></i>';
+		recommendation += '<ul class="dropdown-menu" role="menu" aria-labelledby="recommend">';
+		recommendation += '</ul>';
+		recommendation += '</div>';
+
+		parentElement.find('.context-root').append(recommendation);
+		loadOfferedAuthors();
 
 		$.ajax({
 		    url: rootPath + restRoot + "/rating/" + parentId,
@@ -273,7 +288,6 @@ function saveComment() {
 	});
 }
 
-
 function saveRating(ratingId, value) {
 	var rating = {};
 	rating.value = value;
@@ -348,5 +362,64 @@ function refreshItemListDefault() {
 	} else {
 		itemListDefault.text("kreirajte novi izbor da biste mogli dodavati u njega");
 	}
+}
 
+function loadOfferedAuthors() {
+	window.clearTimeout($(this).data("timeout"));
+    $(this).data("timeout", setTimeout(function () {
+    	var filterBy =  $("#recommend").val();
+    	if (filterBy && filterBy.length > 0) {
+    		filterBy = 'author,' + filterBy;
+    	} else {
+    		filterBy = '';
+    	}
+		$.ajax({
+		    url: rootPath + restRoot + "/authors",
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    data: { "start": 0, "end": 4, "orderBy": 'author,asc', "filterBy": filterBy},
+		    success: function(data) {
+		    	if (data) {
+		    		var offeredAuthors = '';
+		    		for (var i = 0; i < data.length; i++) {
+		    			offeredAuthors += '<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" onclick="recommendItem(\''+data[i].username+'\', \''+data[i].descriptionContent.slug+'\');">' + data[i].username + '</a></li>';
+		    		}
+		    		$('.recommend .dropdown-menu').html(offeredAuthors);
+		    	} else {
+		    		$('.recommend .dropdown-menu').html('');
+		    	}
+			},
+			error: function(textStatus, errorThrown) {
+				$('.recommend .dropdown-menu').html('');
+			}
+		});
+    }, 500));
+}
+
+function recommendItem(recipientUsername, recipientSlug) {
+	var parentId = $('.root-comment-button').attr('id').substr(8);
+	$("#recommend").val(recipientUsername);
+	$.ajax({
+	  url: rootPath + restRoot + "/recommend/" + recipientSlug,
+	  type: "POST",
+	  data: "contentId="+parentId,
+	  beforeSend: function (xhr) {
+		  xhr.setRequestHeader ("Authorization", token);
+	  },
+	  success: function(data) {
+		  if (data) {
+			  if (data == 'success') {
+				  //
+			  } else {
+				  displayModal("notification", null, null, data);
+			  }
+		  } else {
+			  displayModal("notification", null, null, "slanje preporuke nije uspelo!");
+		  }
+      },
+      error: function(data) {
+    	  displayModal("notification", null, null, "slanje preporuke nije uspelo!");
+      }
+	});
 }

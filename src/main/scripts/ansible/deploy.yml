@@ -27,7 +27,7 @@
     debug: msg="TODO"
   - name: update mail server if needed TODO
     debug: msg="TODO"
-    
+
   handlers:
   - name: restart apache2
     service: name=apache2 state=restarted
