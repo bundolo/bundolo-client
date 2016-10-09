@@ -107,6 +107,7 @@ function displayLoggedIn() {
 		$(".header_form").html(rendered);
 		handlingForm = false;
 		updateLastActivity();
+		checkTextAdding();
 	});
 }
 
@@ -356,4 +357,25 @@ function getAvatarUrl(hash, size) {
 		hash = '532d5b1ca40d53c7261ec43324377b7b';
 	}
 	return "http://cdn.libravatar.org/avatar/"+hash+"?s="+size+"&d=identicon";
+}
+
+function checkTextAdding() {
+	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="/help" class="bg-danger" title="morate imati bar pet postavljenih komentara od prethodnog teksta">tekst</a>');
+	$.getJSON(rootPath + restRoot + "/texts", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( dataLastText ) {
+		if (dataLastText) {
+			if (dataLastText.length==1) {
+				$.getJSON(rootPath + restRoot + "/comments", { "start": 4, "end": 4, "orderBy": "date,desc", "filterBy": "author,"+username}, function( dataFifthComment ) {
+					if (dataFifthComment && dataFifthComment.length==1) {
+						if (dataFifthComment[0].creationDate > dataLastText[0].creationDate) {
+							$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem(\'text\');">tekst</a>');
+						}
+					}
+				});
+			} else {
+				//no texts, enable adding
+				console.log("no text: ");
+				$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem(\'text\');">tekst</a>');
+			}
+		}
+	});
 }

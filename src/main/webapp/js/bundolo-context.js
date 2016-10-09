@@ -297,6 +297,7 @@ function saveComment() {
 //						  displaySingleItem(reminder.substr(0, slashPos), reminder.substr(slashPos + 1));
 //					  }
 //				  }
+				  checkTextAdding();
 			  } else {
 				  displayModal("notification", null, null, data);
 			  }

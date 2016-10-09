@@ -746,6 +746,9 @@ function deleteSingleItem(slug) {
 	    	if (data) {
 	    		displayUserItems();
 	    		$('#modal-notification').modal('hide');
+	    		if (slug.indexOf("text/") == 0) {
+	    			checkTextAdding();
+	    		}
 	    	} else {
 	    		displayModal("notification", null, null, "sadržaj ne može biti obrisan!");
 	    	}

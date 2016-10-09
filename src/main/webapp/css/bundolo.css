@@ -358,3 +358,7 @@ body {
 	text-align: center;
 	width: 16%;
 }
+
+.content mark {
+    background-color: #f2dede;
+}

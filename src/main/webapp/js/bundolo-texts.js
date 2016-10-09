@@ -40,6 +40,7 @@ function saveText() {
 					  loadFromAddress();
 				  } else {
 					  $.address.value(rootFolder+xhr.responseText);
+					  checkTextAdding();
 				  }
 	    	  } else if (xhr.status == 400) {
 	    		  displayModal("notification", null, null, xhr.responseText);
