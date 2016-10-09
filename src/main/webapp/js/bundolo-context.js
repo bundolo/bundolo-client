@@ -83,6 +83,14 @@ $(document).ready(function() {
 	$('body').on('input', '#recommend', function(e) {
 		loadOfferedAuthors();
 	});
+
+	$('body').on('click', '#recommend', function(e) {
+		//populate author dropdown only when selected, empty and not filtered already
+		var filterBy =  $("#recommend").val();
+		if ($('.recommend .dropdown-menu').html() == '' && (!filterBy || filterBy=='')) {
+			loadOfferedAuthors();
+		}
+	});
 });
 
 function addContextMenu(parentElement, parentId, parentType) {
@@ -98,26 +106,40 @@ function addContextMenu(parentElement, parentId, parentType) {
 	var contextContainer = $(contextContainerHtml);
 	parentElement.find('.content').append(contextContainer);
 	if (username != 'gost') {
-		$.getJSON(rootPath + restRoot + "/item_lists", { "start": 0, "end": -1, "orderBy": "date,desc", "filterBy": "author,"+username}, function( data ) {
-			if (data) {
-				itemLists = data;
+		$.ajax({
+		    url: rootPath + restRoot + "/item_lists/",
+		    type: 'GET',
+		    dataType: "json",
+		    contentType: "application/json; charset=utf-8",
+		    beforeSend: function (xhr) {
+		        xhr.setRequestHeader ("Authorization", token);
+		    },
+		    data: { "start": 0, "end": -1, "orderBy": "date,desc", "filterBy": "author,"+username},
+		    success: function(data) {
+		    	itemLists = data;
 				if (itemLists && itemLists.length > 0) {
 					var itemListDropdownHtml = '<select class="item-list-select" title="izbor" id="item_lists_' + parentId + '">';
 					itemListDropdownHtml += '<option value="">dodaj u izbor</option>';
 					var itemListItems = null;
 					var itemInList;
 					for (index in data) {
-						if (data[index].query) {
-							itemListItems = $.parseJSON(data[index].query);
+						//console.log(JSON.stringify(data[index]));
+						if ("named" != data[index].kind) {
+							if (data[index].query) {
+								itemListItems = $.parseJSON(data[index].query);
+							}
+							itemInList = itemListItems && itemListItems.indexOf(parentId) >= 0;
+							itemListDropdownHtml += '<option value="'+index+'"'+(itemInList?' selected="selected"':'')+'>'+data[index].descriptionContent.name+'</option>';
 						}
-						itemInList = itemListItems && itemListItems.indexOf(parentId) >= 0;
-						itemListDropdownHtml += '<option value="'+index+'"'+(itemInList?' selected="selected"':'')+'>'+data[index].descriptionContent.name+'</option>';
 					}
 					itemListDropdownHtml += '</select>';
 					var itemListDropdown = $(itemListDropdownHtml);
 					parentElement.find('.context-root').append(itemListDropdown);
 					refreshItemListDefault();
 				}
+			},
+			error: function(textStatus, errorThrown) {
+				//TODO
 			}
 		});
 
@@ -130,7 +152,7 @@ function addContextMenu(parentElement, parentId, parentType) {
 		recommendation += '</div>';
 
 		parentElement.find('.context-root').append(recommendation);
-		loadOfferedAuthors();
+		//loadOfferedAuthors();
 
 		$.ajax({
 		    url: rootPath + restRoot + "/rating/" + parentId,

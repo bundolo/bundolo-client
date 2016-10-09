@@ -7,7 +7,7 @@ var rootPath = arr[0] + "//" + arr[2];
 var restRoot = "/rest";
 var rootFolder = "/";
 var homeHtml = "";
-var version = "1.2.1";
+var version = "1.2.3";
 var handlingForm = false;
 var mainContentPath = 'body>div.wrapper>div.content-wrapper';
 var mainFormPath = 'body>div.wrapper>div.content-wrapper>.content>div>div>form';
@@ -311,10 +311,11 @@ function displaySingleItem(slug) {
 					    } else if (type == 'author') {
 					    	displayListItems("author_items", "date,desc", null, null, "/" + data.descriptionContent.slug);
 					    } else if (type == 'item_list') {
-					    	displayLinksInAscii();
+					    	//displayLinksInAscii();
 					    }
 				  } else {
 					  if ($.address.value() == rootFolder && type == 'item_list') {
+						  //do we need this?
 						  displayHomeDefault();
 					  } else {
 						  displayModal("notification", null, null, "sadržaj nije pronađen.");
@@ -323,6 +324,7 @@ function displaySingleItem(slug) {
 		      },
 		      error: function(data) {
 		    	  if ($.address.value() == rootFolder && type == 'item_list') {
+					  //do we need this?
 		    		  displayHomeDefault();
 				  } else {
 					  displayModal("notification", null, null, "sadržaj nije pronađen.");
@@ -900,7 +902,6 @@ function displayHighlightedAnnouncement() {
 						var announcement = data[0];
 						var highlightedAnnouncement = $(mainContentPath + " .highlighted_announcement");
 						highlightedAnnouncement.html('<h4><a href="/'+announcement.slug+'" onclick="$.address.value(\'/'+announcement.slug+'\');return false;">'+announcement.name+'</a></h4>' + announcement.text);
-
 						highlightedAnnouncement.closest(".row").show();
 					}
 				});
