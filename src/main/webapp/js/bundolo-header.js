@@ -360,7 +360,7 @@ function getAvatarUrl(hash, size) {
 }
 
 function checkTextAdding() {
-	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="/help" class="bg-danger" title="morate imati bar pet postavljenih komentara od prethodnog teksta">tekst</a>');
+	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" class="bg-danger" onClick="displayModal(\'notification\', null, null, \'text_adding_check\');" title="morate imati bar pet postavljenih komentara od prethodnog teksta">tekst</a>');
 	$.getJSON(rootPath + restRoot + "/texts", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( dataLastText ) {
 		if (dataLastText) {
 			if (dataLastText.length==1) {
