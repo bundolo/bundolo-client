@@ -373,7 +373,6 @@ function checkTextAdding() {
 				});
 			} else {
 				//no texts, enable adding
-				console.log("no text: ");
 				$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem(\'text\');">tekst</a>');
 			}
 		}
