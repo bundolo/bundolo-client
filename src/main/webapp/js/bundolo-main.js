@@ -81,8 +81,9 @@ function loadFromAddress() {
 		} else {
 			displayHome();
 		}
-	} else if ($.address.value().indexOf("/item_list") == 0 && username == 'gost') {
-		displayHome();
+//	} else if ($.address.value().indexOf("/item_list") == 0 && username == 'gost') {
+		//we want to be able to display named item list to guests. consider impact on other item lists
+//		displayHome();
 	} else if ($.address.value() == "/user_items") {
 		if (username != 'gost') {
 			displayUserItems();
