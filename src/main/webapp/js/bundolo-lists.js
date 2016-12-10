@@ -60,12 +60,18 @@ $(document).ready(function() {
 	});
 });
 
-function displayList(type, orderBy, filterBy, lastModified) {
+function displayList(type, orderBy, filterBy, lastModified, path, adjustHeaders) {
 	$.get(rootPath + "/templates/"+type+"-" + version + ".html", function(template) {
 		var rendered = Mustache.render(template, {});
 		var mainContent = $(mainContentPath);
 		displayContent(mainContent, rendered, null, null, type);
-		displayListItems(type, orderBy, filterBy, lastModified);
+		if (adjustHeaders) {
+			//if passed orderBy in url, we need to adjust column headers to reflect it
+			var orderByArray = orderBy.split(",");
+			$('table.infinite>thead>tr>th').removeClass("asc desc");
+			$('table.infinite>thead>tr>#'+type+'_column_'+orderByArray[0]).addClass(orderByArray[1]);
+		}
+		displayListItems(type, orderBy, filterBy, lastModified, path);
 	});
 }
 
@@ -80,7 +86,7 @@ function displayListItems(type, orderBy, filterBy, lastModified, path) {
 		$('table.infinite>thead>tr>#'+type+'_column_'+orderByArray[0]).addClass(orderByArray[1]);
 	}
 	filterBy = typeof filterBy !== 'undefined' ? filterBy : '';
-	if (typeof path === 'undefined') {
+	if (typeof path === 'undefined' || path == null) {
 		if (type == "user_items" || type == "author_interactions") {
 			path = '/' + username;
 		} else {

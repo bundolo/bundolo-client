@@ -103,7 +103,7 @@ function loadFromAddress() {
 			displayHome();
 		}
 	} else if ($.address.value().indexOf("/list") == 0) {
-		displayList($.address.value().substring(6));
+		displayList($.address.path().substring(6), $.address.parameter('orderBy'), null, null, null, $.address.parameter('orderBy'));
 	} else if ($.address.value().match("^/validate")) {
 		validateEmail();
 	} else {
