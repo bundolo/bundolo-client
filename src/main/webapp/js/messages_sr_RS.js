@@ -52,6 +52,6 @@ $.li18n.translations =
 	news : 'vest',
 	forum_topic : 'diskusija',
 	episode_group : 'serija',
-	text_adding_check : 'Da bi se poboljšala komunikacija među autorima, uvedeno je ograničenje za unos tekstova: morate imati bar pet postavljenih komentara od prethodnog teksta, da biste mogli uneti novi.'
+	text_adding_check : 'Da bi se poboljšala komunikacija među autorima, uvedeno je ograničenje za unos tekstova: morate dodati bar pet komentara, odgovora na forumu, vesti, konkursa ili linkova od postavljanja prethodnog teksta, da biste mogli uneti novi.'
 	}
 };

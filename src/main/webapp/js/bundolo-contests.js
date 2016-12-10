@@ -37,6 +37,7 @@ function saveContest() {
 				  if (rootFolder+xhr.responseText == $.address.value()) {
 					  loadFromAddress();
 				  } else {
+					  checkTextAdding();
 					  $.address.value(rootFolder+xhr.responseText);
 				  }
 	    	  } else if (xhr.status == 400) {

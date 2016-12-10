@@ -360,21 +360,22 @@ function getAvatarUrl(hash, size) {
 }
 
 function checkTextAdding() {
-	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" class="bg-danger" onClick="displayModal(\'notification\', null, null, \'text_adding_check\');" title="morate imati bar pet postavljenih komentara od prethodnog teksta">tekst</a>');
-	$.getJSON(rootPath + restRoot + "/texts", { "start": 0, "end": 0, "orderBy": "date,desc", "filterBy": "author,"+username}, function( dataLastText ) {
-		if (dataLastText) {
-			if (dataLastText.length==1) {
-				$.getJSON(rootPath + restRoot + "/comments", { "start": 4, "end": 4, "orderBy": "date,desc", "filterBy": "author,"+username}, function( dataFifthComment ) {
-					if (dataFifthComment && dataFifthComment.length==1) {
-						if (dataFifthComment[0].creationDate > dataLastText[0].creationDate) {
-							$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem(\'text\');">tekst</a>');
-						}
-					}
-				});
-			} else {
-				//no texts, enable adding
-				$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem(\'text\');">tekst</a>');
-			}
+	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" class="bg-danger" onClick="displayModal(\'notification\', null, null, \'text_adding_check\');" title="morate dodati bar pet komentara, odgovora na forumu, vesti, konkursa ili linkova od postavljanja prethodnog teksta">tekst</a>');
+	$.ajax({
+	    url: rootPath + restRoot + "/verify/text",
+	    type: 'GET',
+	    dataType: "json",
+	    contentType: "application/json; charset=utf-8",
+	    beforeSend: function (xhr) {
+	        xhr.setRequestHeader ("Authorization", token);
+	    },
+	    success: function(data) {
+	    	if (data) {
+	    		$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" onClick="editSingleItem(\'text\');">tekst</a>');
+	    	}
+		},
+		error: function(textStatus, errorThrown) {
+			//TODO
 		}
 	});
 }

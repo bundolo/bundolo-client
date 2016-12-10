@@ -65,6 +65,7 @@ function savePost() {
       complete: function (xhr, ajaxOptions, thrownError) {
     	  handlingForm = false;
     	  if (xhr.status == 200) {
+    		  checkTextAdding();
     		  loadFromAddress();
     	  } else if (xhr.status == 400) {
     		  displayModal("notification", null, null, xhr.responseText);
@@ -100,6 +101,7 @@ function saveTopic() {
 	      complete: function (xhr, ajaxOptions, thrownError) {
 	    	  handlingForm = false;
 	    	  if (xhr.status == 200) {
+	    		  checkTextAdding();
 	    		  $.address.value(rootFolder+xhr.responseText);
 	    	  } else if (xhr.status == 400) {
 	    		  displayModal("notification", null, null, xhr.responseText);
