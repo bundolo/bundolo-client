@@ -259,7 +259,7 @@ function displaySingleItem(slug) {
 					    if (type == 'topic') {
 					    	contentElement.find('.posts-root').append(spinner);
 					    	$.get(rootFolder+"templates/posts" + "-" + version + ".html", function(templatePosts) {
-					    		$.getJSON(rootPath + restRoot + "/posts", { "parentId": data.contentId, "start": 0}, function(allPosts) {
+					    		$.getJSON(rootPath + restRoot + "/posts", {"start": 0, "end": -1, "orderBy": "date,asc", "filterBy": "topic," + data.slug}, function(allPosts) {
 					    			if (allPosts) {
 					    				for (var i = 0; i < allPosts.length; i++) {
 					    					allPosts[i].text = sanitizeRuntime(allPosts[i].text);

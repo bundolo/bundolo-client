@@ -1,5 +1,5 @@
 {{#items}}
-	<h5><a href="/author/{{#slugify}}{{authorUsername}}{{/slugify}}" onclick="$.address.value('author/{{#slugify}}{{authorUsername}}{{/slugify}}');return false;">{{authorUsername}}</a> - <a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">{{name}}</a></h5>
+	<h5><a href="/{{slug}}" onclick="$.address.value('/{{slug}}');return false;">{{authorUsername}} - {{name}}</a></h5>
 {{/items}}
 <div class="load_more pull-right"><i class="fa fa-caret-down"></i><span class="hidden-xs">još pet</span>
 	<div class="overlay">

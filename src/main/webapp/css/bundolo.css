@@ -364,3 +364,11 @@ body {
 .content mark {
     background-color: #f2dede;
 }
+
+.recent .box-title a {
+	text-decoration: none ;
+}
+
+.recent .box-title a span {
+	text-decoration: underline;
+}

@@ -2,7 +2,6 @@ var recentItemsDefinition = {};
 
 $(document).ready(function() {
 	$('body').on('click', '.recent .load_more', function(e) {
-		console.log("gombo: " + recentItemsDefinition.texts.end);
 		var itemType = $(this).closest(".col-sm-4").attr('class').split(' ')[1];
 		$(".recent ." + itemType + " .load_more .overlay").html(spinner);
 		loadRecentItems(itemType);
@@ -18,14 +17,14 @@ function displayRecent() {
 
 		recentItemsDefinition.texts = {"start": 0, "end": 4, "orderBy": "date,desc", "filterBy": "distinct, "};
 		recentItemsDefinition.comments = {"start": 0, "end": 4, "orderBy": "ancestorActivity,desc", "filterBy": "ancestorActivity, "};
-		recentItemsDefinition.topics = {"start": 0, "end": 4, "orderBy": "activity,desc", "filterBy": ""};
+		recentItemsDefinition.posts = {"start": 0, "end": 4, "orderBy": "date,desc", "filterBy": "parentActivity, "};
 		recentItemsDefinition.announcements = {"start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""};
 		recentItemsDefinition.contests = {"start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""};
 		recentItemsDefinition.connections = {"start": 0, "end": 4, "orderBy": "date,desc", "filterBy": ""};
 
 		loadRecentItems("texts");
 		loadRecentItems("comments");
-		loadRecentItems("topics");
+		loadRecentItems("posts");
 		loadRecentItems("announcements");
 		loadRecentItems("contests");
 		loadRecentItems("connections");
