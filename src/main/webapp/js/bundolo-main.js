@@ -829,7 +829,7 @@ function isFormValid(formElement) {
 		}
 		if (validators.indexOf("email") >= 0 && value && !isValidEmailAddress(value)) {
 			$(this).parent().addClass("has-error");
-			$(this).after("<div class='help-inline'>mora imati format adrese elektronske pošte</div>");
+			$(this).after("<div class='help-inline'>mora biti email</div>");
 			result = false;
 			return true;
 		}

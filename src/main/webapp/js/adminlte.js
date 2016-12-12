@@ -256,7 +256,7 @@ function _init() {
         e.preventDefault();
 
         //Enable sidebar push menu
-        if ($(window).width() > (screenSizes.sm - 1)) {
+        if ($(window).width() > (screenSizes.xs - 1)) {
           if ($("body").hasClass('sidebar-collapse')) {
             $("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
           } else {
@@ -275,7 +275,7 @@ function _init() {
 
       $(".content-wrapper").click(function () {
         //Enable hide menu when clicking on the content-wrapper on small screens
-        if ($(window).width() <= (screenSizes.sm - 1) && $("body").hasClass("sidebar-open")) {
+        if ($(window).width() <= (screenSizes.xs - 1) && $("body").hasClass("sidebar-open")) {
           $("body").removeClass('sidebar-open');
         }
       });
@@ -289,7 +289,7 @@ function _init() {
     },
     expandOnHover: function () {
       var _this = this;
-      var screenWidth = $.AdminLTE.options.screenSizes.sm - 1;
+      var screenWidth = $.AdminLTE.options.screenSizes.xs - 1;
       //Expand sidebar on hover
       $('.main-sidebar').hover(function () {
         if ($('body').hasClass('sidebar-mini')

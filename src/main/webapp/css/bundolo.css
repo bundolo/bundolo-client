@@ -279,12 +279,19 @@ body {
 	background-color: #fff;
 }
 
+.content .pre-container {
+	text-align: center;
+}
+
 .content pre {
+	display: inline-block;
 	font: 20px/10px monospace;
-	float: right;
-	margin-right: 10px;
+	float: none;
+	margin: 0 auto;
 	background-color: #fff;
 	border: none;
+	padding: 0;
+	text-align: left;
 }
 
 .row {
@@ -371,4 +378,13 @@ body {
 
 .recent .box-title a span {
 	text-decoration: underline;
+}
+
+.navbar-custom-menu .form-group input {
+	padding: 6px 12px;
+	width: 170px;
+}
+
+.navbar-form .form-group {
+	display: inline-block;
 }
