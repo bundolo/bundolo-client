@@ -360,7 +360,7 @@ function getAvatarUrl(hash, size) {
 }
 
 function checkTextAdding() {
-	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" class="bg-danger" onClick="displayModal(\'notification\', null, null, \'text_adding_check\');" title="morate dodati bar pet komentara, odgovora na forumu, vesti, konkursa ili linkova od postavljanja prethodnog teksta">tekst</a>');
+	$("#text_adding").html('<a role="menuitem" tabindex="-1" href="javascript:;" class="bg-danger" onClick="displayModal(\'notification\', null, null, \'text_adding_check\');" title="morate dodati bar tri komentara, odgovora na forumu, vesti, konkursa ili linkova od postavljanja prethodnog teksta">tekst</a>');
 	$.ajax({
 	    url: rootPath + restRoot + "/verify/text",
 	    type: 'GET',
