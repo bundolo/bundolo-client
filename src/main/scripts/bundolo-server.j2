@@ -15,7 +15,7 @@
 
 SERVICE_NAME=bundolo-server
 DAEMON=/usr/bin/java
-DAEMON_OPTS="-Xmx256m -Denv={{group_names[0]}} -Dserver.port=8090 -jar bundolo-server.jar"
+DAEMON_OPTS="-Xmx256m -Denv={{group_names[0]}} -Dserver.port=8090 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.local.only=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar bundolo-server.jar"
 PIDFILE=/tmp/bundolo-server-pid
 DIRECTORY=/home/ubuntu/projects/bundolo/server
 
