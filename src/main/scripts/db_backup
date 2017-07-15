@@ -1,0 +1,8 @@
+#!/bin/bash
+#creates a backup with a timestamp and keeps the latest 14 backups. going to be ran using cron job
+ls -t /tmp/bundolo_db_*.dump | sed -e '1,5d' | xargs -d '\n' rm
+now=$(date +\%Y-\%m-\%d_\%H-\%M-\%S)
+echo "Done at $now"
+export PGPASSWORD=l0Gibosu
+pg_dump bundolo -Fc --username=postgres > "/tmp/bundolo_db_$now.dump"
+
