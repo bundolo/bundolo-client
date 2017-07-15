@@ -253,6 +253,10 @@ function addComment(parentId, parentElement) {
 			$("#edit_credentials").val('logged');
 		} else {
 			$("#edit_credentials>option[value='logged']").remove();
+			$(".save_comment").addClass("disabled");
+            var formHeading = parentElement.find(".expand-content>div>h4");
+            formHeading.text("anonimne komentare možete unositi samo ulogovani");
+            formHeading.addClass("alert alert-danger");
 		}
 	});
 }
