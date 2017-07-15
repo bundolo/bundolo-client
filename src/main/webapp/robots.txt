@@ -1,9 +1,9 @@
 User-agent: *
 Crawl-delay: 30
-Disallow: /css/
-Disallow: /fonts/
-Disallow: /images/
-Disallow: /js/
-Disallow: /templates/
+#Disallow: /css/
+#Disallow: /fonts/
+#Disallow: /images/
+#Disallow: /js/
+#Disallow: /templates/
 Disallow: /*.php
 Disallow: /*~
